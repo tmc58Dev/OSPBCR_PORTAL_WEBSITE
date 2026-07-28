@@ -42,7 +42,16 @@ const mortalityValueLabelPlugin = {
 };
 
 function formatMortalityCount(value) {
-    return new Intl.NumberFormat("en-IN").format(Number(value) || 0);
+    return new Intl.NumberFormat(window.i18n?.getLanguage() || "en-IN").format(Number(value) || 0);
+}
+
+function translateMortality(key, replacements = {}) {
+    if (window.i18n) return window.i18n.t(key, replacements);
+
+    return Object.entries(replacements).reduce(
+        (value, [name, replacement]) => value.replaceAll(`{{${name}}}`, replacement),
+        key
+    );
 }
 
 function setMortalityStatus(message, isError = false) {
@@ -81,13 +90,17 @@ function getMortalityEndpoint(sex, district) {
 }
 
 function getMortalitySexLabel(sex) {
-    if (sex === "1") return "Male";
-    if (sex === "2") return "Female";
-    return "All patients";
+    if (sex === "1") return translateMortality("Male");
+    if (sex === "2") return translateMortality("Female");
+    return translateMortality("All patients");
 }
 
 function getMortalityDistrictLabel(district) {
-    return district ? `${district} district` : "all districts";
+    return district
+        ? translateMortality("{{district}} district", {
+            district: translateMortality(district)
+        })
+        : translateMortality("all districts");
 }
 
 function renderCancerSiteMortality(values, sex, district) {
@@ -116,7 +129,13 @@ function renderCancerSiteMortality(values, sex, district) {
 
     canvas.setAttribute(
         "aria-label",
-        `Horizontal bar chart of the top five cancer-site mortality counts for ${getMortalitySexLabel(sex)} in ${getMortalityDistrictLabel(district)} in 2025`
+        translateMortality(
+            "Horizontal bar chart of the top five cancer-site mortality counts for {{sex}} in {{district}} in 2025",
+            {
+                sex: getMortalitySexLabel(sex),
+                district: getMortalityDistrictLabel(district)
+            }
+        )
     );
 
     mortalityChart = new Chart(canvas, {
@@ -124,7 +143,7 @@ function renderCancerSiteMortality(values, sex, district) {
         data: {
             labels: values.map(item => `${item.icd10}  ${item.cancerSite}`),
             datasets: [{
-                label: "Death records",
+                label: translateMortality("Unique cancer deaths"),
                 data: values.map(item => Number(item.count || 0)),
                 backgroundColor: values.map((_, index) => mortalityPalette[index % mortalityPalette.length]),
                 borderWidth: 0,
@@ -160,7 +179,7 @@ function renderCancerSiteMortality(values, sex, district) {
                     padding: 12,
                     callbacks: {
                         label(context) {
-                            return ` Deaths: ${formatMortalityCount(context.raw)}`;
+                            return ` ${translateMortality("Unique deaths")}: ${formatMortalityCount(context.raw)}`;
                         }
                     }
                 }
@@ -170,7 +189,7 @@ function renderCancerSiteMortality(values, sex, district) {
                     beginAtZero: true,
                     title: {
                         display: true,
-                        text: "Number of death records"
+                        text: translateMortality("Unique REGNO count")
                     },
                     ticks: {
                         precision: 0,
@@ -201,7 +220,15 @@ function renderCancerSiteMortality(values, sex, district) {
     });
 
     setMortalityStatus(
-        `${getMortalityDistrictLabel(district)} · ${getMortalitySexLabel(sex)}: ${formatMortalityCount(totalDeaths)} deaths in the top ${formatMortalityCount(values.length)} ICD-10 site groups.`
+        translateMortality(
+            "{{district}} · {{sex}}: {{count}} unique deaths in the top {{siteCount}} ICD-10 site groups.",
+            {
+                district: getMortalityDistrictLabel(district),
+                sex: getMortalitySexLabel(sex),
+                count: formatMortalityCount(totalDeaths),
+                siteCount: formatMortalityCount(values.length)
+            }
+        )
     );
 }
 
@@ -228,7 +255,10 @@ async function initializeCancerSiteMortality(
     }
 
     setMortalityStatus(
-        `Loading ${getMortalitySexLabel(sex).toLowerCase()} mortality data for ${getMortalityDistrictLabel(district)}...`
+        translateMortality("Loading {{sex}} mortality data for {{district}}...", {
+            sex: getMortalitySexLabel(sex),
+            district: getMortalityDistrictLabel(district)
+        })
     );
 
     try {
@@ -250,8 +280,13 @@ async function initializeCancerSiteMortality(
         }
 
         if (!Array.isArray(values) || values.length === 0) {
-            const message =
-                `No valid ${getMortalitySexLabel(sex).toLowerCase()} mortality records were found for ${getMortalityDistrictLabel(district)} in 2025.`;
+            const message = translateMortality(
+                "No valid {{sex}} mortality records were found for {{district}} in 2025.",
+                {
+                    sex: getMortalitySexLabel(sex),
+                    district: getMortalityDistrictLabel(district)
+                }
+            );
 
             setMortalityStatus(message);
             showMortalityEmptyState(message);
@@ -265,8 +300,9 @@ async function initializeCancerSiteMortality(
         }
 
         console.error("Unable to load cancer-site mortality data.", error);
-        setMortalityStatus("Cancer-site mortality data could not be loaded.", true);
-        showMortalityEmptyState("Cancer-site mortality data could not be loaded.");
+        const message = translateMortality("Cancer-site mortality data could not be loaded.");
+        setMortalityStatus(message, true);
+        showMortalityEmptyState(message);
     }
 }
 
@@ -288,6 +324,10 @@ document.addEventListener("districtchange", event => {
     const district = event.detail?.district || "";
 
     initializeCancerSiteMortality(selectedMortalitySex, district);
+});
+
+document.addEventListener("languagechange", () => {
+    initializeCancerSiteMortality();
 });
 
 initializeCancerSiteMortality();

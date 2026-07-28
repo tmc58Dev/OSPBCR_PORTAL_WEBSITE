@@ -9,6 +9,7 @@
         or: { htmlLang: "or", label: "ଓଡ଼ିଆ" }
     };
     const catalogs = new Map();
+    const catalogIndexes = new Map();
     const originalText = new WeakMap();
     const originalAttributes = new WeakMap();
     let currentLanguage = getSavedLanguage();
@@ -44,14 +45,84 @@
         return String(value || "").replace(/\s+/g, " ").trim();
     }
 
+    function escapeRegularExpression(value) {
+        return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    }
+
+    function compileTemplate(template) {
+        const names = [];
+        const parts = String(template).split(/({{[^{}]+}})/g);
+        const pattern = parts.map((part) => {
+            const match = part.match(/^{{([^{}]+)}}$/);
+
+            if (!match) return escapeRegularExpression(part);
+            names.push(match[1]);
+            return "(.+?)";
+        }).join("");
+
+        return {
+            names,
+            expression: new RegExp(`^${pattern}$`)
+        };
+    }
+
+    function applyTemplate(template, names, captures, resolveCapture = value => value) {
+        let value = template;
+
+        names.forEach((name, index) => {
+            value = value.replaceAll(`{{${name}}}`, resolveCapture(captures[index]));
+        });
+
+        return value;
+    }
+
+    function indexCatalog(language, catalog) {
+        const reverseExact = new Map();
+        const forwardTemplates = [];
+        const reverseTemplates = [];
+
+        Object.entries(catalog).forEach(([key, value]) => {
+            if (value !== key && !reverseExact.has(value)) {
+                reverseExact.set(value, key);
+            }
+
+            if (key.includes("{{")) {
+                const compiledKey = compileTemplate(key);
+                forwardTemplates.push({ key, value, ...compiledKey });
+            }
+
+            if (value.includes("{{")) {
+                const compiledValue = compileTemplate(value);
+                reverseTemplates.push({
+                    key,
+                    names: compiledValue.names,
+                    expression: compiledValue.expression
+                });
+            }
+        });
+
+        catalogIndexes.set(language, {
+            reverseExact,
+            forwardTemplates,
+            reverseTemplates
+        });
+    }
+
     async function loadCatalog(language) {
         if (catalogs.has(language)) return catalogs.get(language);
 
         try {
-            const response = await fetch(`${scriptBasePath}${language}.json`);
+            const [response, overridesResponse] = await Promise.all([
+                fetch(`${scriptBasePath}${language}.json`),
+                fetch(`${scriptBasePath}${language}.overrides.json`)
+            ]);
+
             if (!response.ok) throw new Error(`HTTP ${response.status}`);
-            const catalog = await response.json();
+            const baseCatalog = await response.json();
+            const overrides = overridesResponse.ok ? await overridesResponse.json() : {};
+            const catalog = { ...baseCatalog, ...overrides };
             catalogs.set(language, catalog);
+            indexCatalog(language, catalog);
             return catalog;
         } catch (error) {
             console.error(`Unable to load ${language} translations:`, error);
@@ -64,7 +135,24 @@
     function translate(source, replacements = {}) {
         const key = normalize(source);
         const catalog = catalogs.get(currentLanguage) || {};
-        let value = currentLanguage === "en" ? key : (catalog[key] || key);
+        const indexes = catalogIndexes.get(currentLanguage);
+        let value = currentLanguage === "en" ? key : catalog[key];
+
+        if (value === undefined && currentLanguage !== "en" && indexes) {
+            const template = indexes.forwardTemplates.find((entry) => entry.expression.test(key));
+
+            if (template) {
+                const captures = key.match(template.expression).slice(1);
+                value = applyTemplate(
+                    template.value,
+                    template.names,
+                    captures,
+                    capture => translate(capture)
+                );
+            }
+        }
+
+        if (value === undefined) value = key;
 
         Object.entries(replacements).forEach(([name, replacement]) => {
             value = value.replaceAll(`{{${name}}}`, replacement);
@@ -73,10 +161,32 @@
         return value;
     }
 
+    function resolveOriginal(source) {
+        const value = normalize(source);
+        const indexes = catalogIndexes.get(currentLanguage);
+
+        if (currentLanguage === "en" || !indexes) return value;
+        if (indexes.reverseExact.has(value)) return indexes.reverseExact.get(value);
+
+        for (const template of indexes.reverseTemplates) {
+            const match = value.match(template.expression);
+            if (!match) continue;
+
+            return applyTemplate(
+                template.key,
+                template.names,
+                match.slice(1),
+                capture => indexes.reverseExact.get(normalize(capture)) || normalize(capture)
+            );
+        }
+
+        return value;
+    }
+
     function translateTextNode(node) {
         if (!normalize(node.nodeValue)) return;
         if (node.parentElement?.closest("[data-i18n-skip]")) return;
-        if (!originalText.has(node)) originalText.set(node, normalize(node.nodeValue));
+        if (!originalText.has(node)) originalText.set(node, resolveOriginal(node.nodeValue));
 
         const source = originalText.get(node);
         const translated = translate(source);
@@ -99,7 +209,7 @@
 
         attributes.forEach((attribute) => {
             if (!element.hasAttribute(attribute)) return;
-            if (!(attribute in stored)) stored[attribute] = normalize(element.getAttribute(attribute));
+            if (!(attribute in stored)) stored[attribute] = resolveOriginal(element.getAttribute(attribute));
             const nextValue = translate(stored[attribute]);
             if (element.getAttribute(attribute) !== nextValue) {
                 element.setAttribute(attribute, nextValue);

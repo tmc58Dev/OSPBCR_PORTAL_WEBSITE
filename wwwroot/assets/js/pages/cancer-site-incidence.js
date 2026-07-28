@@ -42,7 +42,16 @@ const incidenceValueLabelPlugin = {
 };
 
 function formatIncidenceCount(value) {
-    return new Intl.NumberFormat("en-IN").format(Number(value) || 0);
+    return new Intl.NumberFormat(window.i18n?.getLanguage() || "en-IN").format(Number(value) || 0);
+}
+
+function translateIncidence(key, replacements = {}) {
+    if (window.i18n) return window.i18n.t(key, replacements);
+
+    return Object.entries(replacements).reduce(
+        (value, [name, replacement]) => value.replaceAll(`{{${name}}}`, replacement),
+        key
+    );
 }
 
 function setIncidenceStatus(message, isError = false) {
@@ -81,13 +90,17 @@ function getIncidenceEndpoint(sex, district) {
 }
 
 function getSexLabel(sex) {
-    if (sex === "1") return "Male";
-    if (sex === "2") return "Female";
-    return "All patients";
+    if (sex === "1") return translateIncidence("Male");
+    if (sex === "2") return translateIncidence("Female");
+    return translateIncidence("All patients");
 }
 
 function getIncidenceDistrictLabel(district) {
-    return district ? `${district} district` : "all districts";
+    return district
+        ? translateIncidence("{{district}} district", {
+            district: translateIncidence(district)
+        })
+        : translateIncidence("all districts");
 }
 
 function renderCancerSiteIncidence(values, sex, district) {
@@ -116,7 +129,13 @@ function renderCancerSiteIncidence(values, sex, district) {
 
     canvas.setAttribute(
         "aria-label",
-        `Horizontal bar chart of the top five cancer-site incidence counts for ${getSexLabel(sex)} in ${getIncidenceDistrictLabel(district)} in 2025`
+        translateIncidence(
+            "Horizontal bar chart of the top five cancer-site incidence counts for {{sex}} in {{district}} in 2025",
+            {
+                sex: getSexLabel(sex),
+                district: getIncidenceDistrictLabel(district)
+            }
+        )
     );
 
     incidenceChart = new Chart(canvas, {
@@ -124,7 +143,7 @@ function renderCancerSiteIncidence(values, sex, district) {
         data: {
             labels: values.map(item => `${item.icd10}  ${item.cancerSite}`),
             datasets: [{
-                label: "Unique cancer cases",
+                label: translateIncidence("Unique cancer cases"),
                 data: values.map(item => Number(item.count || 0)),
                 backgroundColor: values.map((_, index) => incidencePalette[index % incidencePalette.length]),
                 borderWidth: 0,
@@ -160,7 +179,7 @@ function renderCancerSiteIncidence(values, sex, district) {
                     padding: 12,
                     callbacks: {
                         label(context) {
-                            return ` Count: ${formatIncidenceCount(context.raw)}`;
+                            return ` ${translateIncidence("Count")}: ${formatIncidenceCount(context.raw)}`;
                         }
                     }
                 }
@@ -170,7 +189,7 @@ function renderCancerSiteIncidence(values, sex, district) {
                     beginAtZero: true,
                     title: {
                         display: true,
-                        text: "Unique REGNO count"
+                        text: translateIncidence("Unique REGNO count")
                     },
                     ticks: {
                         precision: 0,
@@ -201,7 +220,15 @@ function renderCancerSiteIncidence(values, sex, district) {
     });
 
     setIncidenceStatus(
-        `${getIncidenceDistrictLabel(district)} · ${getSexLabel(sex)}: ${formatIncidenceCount(totalCases)} unique cases in the top ${formatIncidenceCount(values.length)} ICD-10 site groups.`
+        translateIncidence(
+            "{{district}} · {{sex}}: {{count}} unique cases in the top {{siteCount}} ICD-10 site groups.",
+            {
+                district: getIncidenceDistrictLabel(district),
+                sex: getSexLabel(sex),
+                count: formatIncidenceCount(totalCases),
+                siteCount: formatIncidenceCount(values.length)
+            }
+        )
     );
 }
 
@@ -228,7 +255,10 @@ async function initializeCancerSiteIncidence(
     }
 
     setIncidenceStatus(
-        `Loading ${getSexLabel(sex).toLowerCase()} data for ${getIncidenceDistrictLabel(district)}...`
+        translateIncidence("Loading {{sex}} data for {{district}}...", {
+            sex: getSexLabel(sex),
+            district: getIncidenceDistrictLabel(district)
+        })
     );
 
     try {
@@ -250,8 +280,13 @@ async function initializeCancerSiteIncidence(
         }
 
         if (!Array.isArray(values) || values.length === 0) {
-            const message =
-                `No valid ${getSexLabel(sex).toLowerCase()} records were found for ${getIncidenceDistrictLabel(district)} in 2025.`;
+            const message = translateIncidence(
+                "No valid {{sex}} records were found for {{district}} in 2025.",
+                {
+                    sex: getSexLabel(sex),
+                    district: getIncidenceDistrictLabel(district)
+                }
+            );
 
             setIncidenceStatus(message);
             showIncidenceEmptyState(message);
@@ -265,8 +300,9 @@ async function initializeCancerSiteIncidence(
         }
 
         console.error("Unable to load cancer-site incidence data.", error);
-        setIncidenceStatus("Cancer-site incidence data could not be loaded.", true);
-        showIncidenceEmptyState("Cancer-site incidence data could not be loaded.");
+        const message = translateIncidence("Cancer-site incidence data could not be loaded.");
+        setIncidenceStatus(message, true);
+        showIncidenceEmptyState(message);
     }
 }
 
@@ -288,6 +324,10 @@ document.addEventListener("districtchange", event => {
     const district = event.detail?.district || "";
 
     initializeCancerSiteIncidence(selectedIncidenceSex, district);
+});
+
+document.addEventListener("languagechange", () => {
+    initializeCancerSiteIncidence();
 });
 
 initializeCancerSiteIncidence();

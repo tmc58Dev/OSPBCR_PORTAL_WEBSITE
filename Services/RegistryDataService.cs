@@ -306,6 +306,7 @@ public sealed class RegistryDataService(
             WITH NormalizedTumours AS
             (
                 SELECT
+                    LTRIM(RTRIM(tumour.REGNO)) AS RegNo,
                     UPPER(
                         LEFT(
                             REPLACE(
@@ -316,19 +317,17 @@ public sealed class RegistryDataService(
                         AS Icd10
                 FROM dbo.TumourTable tumour
                 INNER JOIN dbo.PatientTable patient
-                    ON patient.REGNO = tumour.PATIENTIDTUMOURTABLE
+                    ON LTRIM(RTRIM(patient.REGNO)) =
+                       LTRIM(RTRIM(tumour.REGNO))
                 INNER JOIN dbo.DistrictList district
                     ON LTRIM(RTRIM(CONVERT(nvarchar(100), district.DistrictId))) =
                        LTRIM(RTRIM(CONVERT(nvarchar(100), patient.District)))
-                WHERE COALESCE(
+                WHERE YEAR(
                     TRY_CONVERT(
-                        int,
-                        NULLIF(LTRIM(RTRIM(patient.YearDateOfDeath)), '')),
-                    YEAR(
-                        TRY_CONVERT(
-                            date,
-                            NULLIF(LTRIM(RTRIM(patient.DateOfDeath)), '')))) = @Year
+                        date,
+                        NULLIF(LTRIM(RTRIM(patient.DateOfDeath)), ''))) = @Year
                   AND LOWER(LTRIM(RTRIM(tumour.RECS))) = 'true'
+                  AND NULLIF(LTRIM(RTRIM(tumour.REGNO)), '') IS NOT NULL
                   AND (@Sex IS NULL OR patient.Sex = @Sex)
                   AND (@District IS NULL OR LTRIM(RTRIM(district.DistrictName)) = @District)
             ),
@@ -343,7 +342,7 @@ public sealed class RegistryDataService(
             SELECT TOP (5)
                 tumour.Icd10,
                 lookup.CancerSite,
-                COUNT_BIG(*) AS DeathCount
+                COUNT_BIG(DISTINCT tumour.RegNo) AS DeathCount
             FROM NormalizedTumours tumour
             INNER JOIN IcdLookup lookup
                 ON lookup.Icd10 = tumour.Icd10
