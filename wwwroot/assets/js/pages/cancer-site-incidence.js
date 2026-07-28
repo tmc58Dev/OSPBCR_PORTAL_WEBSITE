@@ -1,0 +1,293 @@
+const incidenceYear = 2025;
+let incidenceChart = null;
+let incidenceRequestId = 0;
+let selectedIncidenceSex = "";
+let selectedIncidenceDistrict = window.selectedMapDistrict || "";
+
+const incidencePalette = [
+    "#005b96",
+    "#087f8c",
+    "#2f855a",
+    "#d69e2e",
+    "#c05640",
+    "#5b6f9e"
+];
+
+const incidenceValueLabelPlugin = {
+    id: "incidenceValueLabels",
+    afterDatasetsDraw(chart) {
+        const { ctx, chartArea } = chart;
+        const meta = chart.getDatasetMeta(0);
+        const values = chart.data.datasets[0].data;
+
+        ctx.save();
+        ctx.fillStyle = "#0f172a";
+        ctx.strokeStyle = "rgba(255, 255, 255, 0.9)";
+        ctx.lineWidth = 4;
+        ctx.font = "800 14px Arial, sans-serif";
+        ctx.textBaseline = "middle";
+
+        meta.data.forEach((bar, index) => {
+            const value = formatIncidenceCount(values[index]);
+            const position = bar.tooltipPosition();
+            const labelX = Math.min(position.x + 10, chartArea.right - 6);
+
+            ctx.textAlign = labelX >= chartArea.right - 6 ? "right" : "left";
+            ctx.strokeText(value, labelX, position.y);
+            ctx.fillText(value, labelX, position.y);
+        });
+
+        ctx.restore();
+    }
+};
+
+function formatIncidenceCount(value) {
+    return new Intl.NumberFormat("en-IN").format(Number(value) || 0);
+}
+
+function setIncidenceStatus(message, isError = false) {
+    const status = document.getElementById("incidenceStatus");
+
+    if (!status) return;
+
+    status.textContent = message;
+    status.classList.toggle("is-error", isError);
+}
+
+function showIncidenceEmptyState(message) {
+    const chartRegion = document.getElementById("incidenceChartRegion");
+    const emptyState = document.getElementById("incidenceEmptyState");
+
+    if (chartRegion) chartRegion.hidden = true;
+
+    if (emptyState) {
+        emptyState.textContent = message;
+        emptyState.hidden = false;
+    }
+}
+
+function getIncidenceEndpoint(sex, district) {
+    const parameters = new URLSearchParams({ year: String(incidenceYear) });
+
+    if (sex) {
+        parameters.set("sex", sex);
+    }
+
+    if (district) {
+        parameters.set("district", district);
+    }
+
+    return `/api/registry/cancer-site-incidence?${parameters.toString()}`;
+}
+
+function getSexLabel(sex) {
+    if (sex === "1") return "Male";
+    if (sex === "2") return "Female";
+    return "All patients";
+}
+
+function getIncidenceDistrictLabel(district) {
+    return district ? `${district} district` : "all districts";
+}
+
+function renderCancerSiteIncidence(values, sex, district) {
+    const canvas = document.getElementById("cancerSiteIncidenceChart");
+    const totalElement = document.getElementById("incidenceTotal");
+    const siteCountElement = document.getElementById("incidenceSiteCount");
+
+    if (!canvas || typeof Chart === "undefined") {
+        throw new Error("The chart library could not be loaded.");
+    }
+
+    const totalCases = values.reduce((sum, item) => sum + Number(item.count || 0), 0);
+    const chartHeight = Math.max(400, values.length * 64);
+    const canvasContainer = canvas.closest(".incidence-chart-canvas");
+
+    if (canvasContainer) {
+        canvasContainer.style.height = `${chartHeight}px`;
+    }
+
+    if (totalElement) totalElement.textContent = formatIncidenceCount(totalCases);
+    if (siteCountElement) siteCountElement.textContent = formatIncidenceCount(values.length);
+
+    if (incidenceChart) {
+        incidenceChart.destroy();
+    }
+
+    canvas.setAttribute(
+        "aria-label",
+        `Horizontal bar chart of the top five cancer-site incidence counts for ${getSexLabel(sex)} in ${getIncidenceDistrictLabel(district)} in 2025`
+    );
+
+    incidenceChart = new Chart(canvas, {
+        type: "bar",
+        data: {
+            labels: values.map(item => `${item.icd10}  ${item.cancerSite}`),
+            datasets: [{
+                label: "Unique cancer cases",
+                data: values.map(item => Number(item.count || 0)),
+                backgroundColor: values.map((_, index) => incidencePalette[index % incidencePalette.length]),
+                borderWidth: 0,
+                borderRadius: 3,
+                barThickness: 22
+            }]
+        },
+        options: {
+            indexAxis: "y",
+            responsive: true,
+            maintainAspectRatio: false,
+            animation: {
+                duration: 650
+            },
+            layout: {
+                padding: {
+                    right: 72
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    titleFont: {
+                        size: 15,
+                        weight: "700"
+                    },
+                    bodyFont: {
+                        size: 15,
+                        weight: "600"
+                    },
+                    padding: 12,
+                    callbacks: {
+                        label(context) {
+                            return ` Count: ${formatIncidenceCount(context.raw)}`;
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: "Unique REGNO count"
+                    },
+                    ticks: {
+                        precision: 0,
+                        callback(value) {
+                            return formatIncidenceCount(value);
+                        }
+                    },
+                    grid: {
+                        color: "rgba(15, 23, 42, 0.08)"
+                    }
+                },
+                y: {
+                    ticks: {
+                        autoSkip: false,
+                        color: "#1f2937",
+                        font: {
+                            size: 12,
+                            weight: "600"
+                        }
+                    },
+                    grid: {
+                        display: false
+                    }
+                }
+            }
+        },
+        plugins: [incidenceValueLabelPlugin]
+    });
+
+    setIncidenceStatus(
+        `${getIncidenceDistrictLabel(district)} · ${getSexLabel(sex)}: ${formatIncidenceCount(totalCases)} unique cases in the top ${formatIncidenceCount(values.length)} ICD-10 site groups.`
+    );
+}
+
+async function initializeCancerSiteIncidence(
+    sex = selectedIncidenceSex,
+    district = selectedIncidenceDistrict) {
+    selectedIncidenceSex = sex;
+    selectedIncidenceDistrict = district;
+
+    const requestId = ++incidenceRequestId;
+    const chartRegion = document.getElementById("incidenceChartRegion");
+    const emptyState = document.getElementById("incidenceEmptyState");
+    const totalElement = document.getElementById("incidenceTotal");
+    const siteCountElement = document.getElementById("incidenceSiteCount");
+
+    if (chartRegion) chartRegion.hidden = false;
+    if (emptyState) emptyState.hidden = true;
+    if (totalElement) totalElement.textContent = "--";
+    if (siteCountElement) siteCountElement.textContent = "--";
+
+    if (incidenceChart) {
+        incidenceChart.destroy();
+        incidenceChart = null;
+    }
+
+    setIncidenceStatus(
+        `Loading ${getSexLabel(sex).toLowerCase()} data for ${getIncidenceDistrictLabel(district)}...`
+    );
+
+    try {
+        const response = await fetch(getIncidenceEndpoint(sex, district), {
+            cache: "no-store",
+            headers: {
+                Accept: "application/json"
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`The incidence endpoint returned HTTP ${response.status}.`);
+        }
+
+        const values = await response.json();
+
+        if (requestId !== incidenceRequestId) {
+            return;
+        }
+
+        if (!Array.isArray(values) || values.length === 0) {
+            const message =
+                `No valid ${getSexLabel(sex).toLowerCase()} records were found for ${getIncidenceDistrictLabel(district)} in 2025.`;
+
+            setIncidenceStatus(message);
+            showIncidenceEmptyState(message);
+            return;
+        }
+
+        renderCancerSiteIncidence(values, sex, district);
+    } catch (error) {
+        if (requestId !== incidenceRequestId) {
+            return;
+        }
+
+        console.error("Unable to load cancer-site incidence data.", error);
+        setIncidenceStatus("Cancer-site incidence data could not be loaded.", true);
+        showIncidenceEmptyState("Cancer-site incidence data could not be loaded.");
+    }
+}
+
+document.querySelectorAll("[data-incidence-sex]").forEach(button => {
+    button.addEventListener("click", () => {
+        const selectedSex = button.dataset.incidenceSex || "";
+
+        document.querySelectorAll("[data-incidence-sex]").forEach(filterButton => {
+            const isActive = filterButton === button;
+            filterButton.classList.toggle("active", isActive);
+            filterButton.setAttribute("aria-pressed", String(isActive));
+        });
+
+        initializeCancerSiteIncidence(selectedSex);
+    });
+});
+
+document.addEventListener("districtchange", event => {
+    const district = event.detail?.district || "";
+
+    initializeCancerSiteIncidence(selectedIncidenceSex, district);
+});
+
+initializeCancerSiteIncidence();

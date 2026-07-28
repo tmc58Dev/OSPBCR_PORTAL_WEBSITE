@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewData["Title"] | OSPBCR Content Management</title>
+    <link rel="stylesheet" href="~/assets/css/cms.css" asp-append-version="true" />
+</head>
+<body class="cms-body">
+    <header class="cms-header">
+        <a class="cms-brand" href="~/home.html" aria-label="OSPBCR public home">
+            <span class="cms-brand-mark" aria-hidden="true">OS</span>
+            <span><strong>OSPBCR</strong><small>Content Management</small></span>
+        </a>
+        @if (User.Identity?.IsAuthenticated == true)
+        {
+            <nav class="cms-nav" aria-label="Content management">
+                <a asp-controller="Admin" asp-action="Dashboard">Dashboard</a>
+                <a asp-controller="Admin" asp-action="News">News Cards</a>
+                <a asp-controller="Admin" asp-action="Training">Training PDFs</a>
+                @if (User.IsInRole(CmsRoles.Admin))
+                {
+                    <a asp-controller="Admin" asp-action="Users">Users</a>
+                }
+            </nav>
+            <div class="cms-user">
+                <span><strong>@User.Identity.Name</strong><small>@(User.IsInRole(CmsRoles.Admin) ? "Admin" : "User")</small></span>
+                <form asp-controller="Account" asp-action="Logout" method="post">
+                    <button class="cms-link-button" type="submit">Sign out</button>
+                </form>
+            </div>
+        }
+    </header>
+    <main class="cms-main">
+        @if (TempData["Success"] is string success)
+        {
+            <div class="cms-alert cms-alert-success" role="status">@success</div>
+        }
+        @if (TempData["Error"] is string error)
+        {
+            <div class="cms-alert cms-alert-error" role="alert">@error</div>
+        }
+        @RenderBody()
+    </main>
+    <footer class="cms-footer">
+        <span>Odisha State Population-Based Cancer Registry</span>
+        <a href="~/home.html">Return to public website</a>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

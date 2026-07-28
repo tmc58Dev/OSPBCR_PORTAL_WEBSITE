@@ -1,0 +1,44 @@
+@model UserFormViewModel
+@{
+    Layout = "_CmsLayout";
+    var editing = Model.Id > 0;
+    ViewData["Title"] = editing ? "Edit user" : "Create user";
+}
+<header class="cms-page-header">
+    <div>
+        <span class="cms-eyebrow">Admin only</span>
+        <h1>@(editing ? "Edit user" : "Create a user")</h1>
+        <p>@(editing ? "Update the account role, status, username, or password." : "Assign a unique username and a secure password.")</p>
+    </div>
+</header>
+<form asp-action="@(editing ? "EditUser" : "CreateUser")" method="post" class="cms-card cms-form cms-form-narrow">
+    <input asp-for="Id" type="hidden" />
+    <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+    <div class="form-field">
+        <label asp-for="Username"></label>
+        <input asp-for="Username" autocomplete="off" />
+        <span asp-validation-for="Username"></span>
+    </div>
+    <div class="form-field">
+        <label asp-for="Password">@(editing ? "New password (optional)" : "Password")</label>
+        <input asp-for="Password" autocomplete="new-password" />
+        <small>@(editing ? "Leave blank to keep the current password." : "Use at least 8 characters.")</small>
+        <span asp-validation-for="Password"></span>
+    </div>
+    <div class="form-field">
+        <label asp-for="Role"></label>
+        <select asp-for="Role">
+            <option value="@CmsRoles.User">User — content management</option>
+            <option value="@CmsRoles.Admin">Admin — content and user management</option>
+        </select>
+        <span asp-validation-for="Role"></span>
+    </div>
+    <label class="check-field">
+        <input asp-for="IsActive" />
+        <span>Account is active</span>
+    </label>
+    <div class="form-actions">
+        <a class="cms-button cms-button-secondary" asp-action="Users">Cancel</a>
+        <button class="cms-button cms-button-primary" type="submit">@(editing ? "Save user" : "Create user")</button>
+    </div>
+</form>

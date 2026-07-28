@@ -1,0 +1,46 @@
+@model DistrictTrainingFormViewModel
+@{
+    Layout = "_CmsLayout";
+    var editing = Model.Id.HasValue;
+    ViewData["Title"] = editing ? "Update Training PDF" : "Add Training PDF";
+    var districts = (IReadOnlyList<string>)ViewBag.Districts;
+}
+<header class="cms-page-header">
+    <div>
+        <span class="cms-eyebrow">District resource</span>
+        <h1>@(editing ? "Update District Training PDF" : "Add District Training PDF")</h1>
+        <p>PDF documents may be up to 25 MB. Preview images must be valid WebP files up to 5 MB.</p>
+    </div>
+</header>
+<form asp-action="@(editing ? "EditTraining" : "CreateTraining")" method="post" enctype="multipart/form-data" class="cms-card cms-form cms-form-narrow">
+    <input asp-for="Id" type="hidden" />
+    <input asp-for="ExistingPdfPath" type="hidden" />
+    <input asp-for="ExistingPreviewPath" type="hidden" />
+    <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+    <div class="form-field">
+        <label asp-for="District"></label>
+        <select asp-for="District">
+            <option value="">Select a district</option>
+            @foreach (var district in districts) { <option value="@district">@district</option> }
+        </select>
+        <span asp-validation-for="District"></span>
+    </div>
+    <div class="form-field"><label asp-for="Title">Training Title</label><input asp-for="Title" /><span asp-validation-for="Title"></span></div>
+    <div class="form-field"><label asp-for="Description"></label><textarea asp-for="Description" rows="5"></textarea><span asp-validation-for="Description"></span></div>
+    <div class="form-field">
+        <label asp-for="PdfFile">PDF File @(editing ? "(leave blank to keep current)" : "")</label>
+        <input asp-for="PdfFile" type="file" accept=".pdf,application/pdf" />
+        <span asp-validation-for="PdfFile"></span>
+        @if (editing) { <a class="current-file" href="@Model.ExistingPdfPath" target="_blank" rel="noopener">View current PDF</a> }
+    </div>
+    <div class="form-field">
+        <label asp-for="PreviewImage">Preview Image (.webp) @(editing ? "(leave blank to keep current)" : "")</label>
+        <input asp-for="PreviewImage" type="file" accept=".webp,image/webp" />
+        <span asp-validation-for="PreviewImage"></span>
+        @if (editing) { <img class="form-preview" src="@Model.ExistingPreviewPath" alt="Current PDF preview" /> }
+    </div>
+    <div class="form-actions">
+        <a class="cms-button cms-button-secondary" asp-action="Training">Cancel</a>
+        <button class="cms-button cms-button-primary" type="submit">@(editing ? "Save changes" : "Add Training PDF")</button>
+    </div>
+</form>

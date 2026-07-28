@@ -1,0 +1,55 @@
+@model IReadOnlyList<NewsCard>
+@{
+    Layout = "_CmsLayout";
+    ViewData["Title"] = "News Cards";
+}
+<header class="cms-page-header cms-page-header-actions">
+    <div>
+        <span class="cms-eyebrow">Public home page</span>
+        <h1>News Cards</h1>
+        <p>Create a new multilingual card or update any existing card.</p>
+    </div>
+    <a class="cms-button cms-button-primary" asp-action="CreateNews">Create News Card</a>
+</header>
+@if (Model.Count == 0)
+{
+    <section class="cms-empty">
+        <h2>No News Cards yet</h2>
+        <p>Create the first English, Hindi, and Odia update for the home-page slider.</p>
+        <a class="cms-button cms-button-primary" asp-action="CreateNews">Create News Card</a>
+    </section>
+}
+else
+{
+    <div class="cms-content-grid">
+    @foreach (var card in Model)
+    {
+        var english = card.Translations.GetValueOrDefault("en");
+        var primaryImagePath = card.ImagePaths.FirstOrDefault() ?? english?.ImagePath;
+        <article class="cms-content-card">
+            @if (!string.IsNullOrWhiteSpace(primaryImagePath))
+            {
+                <img src="@primaryImagePath" alt="" />
+            }
+            <div class="cms-content-card-body">
+                <div class="cms-card-meta">
+                    <span class="cms-status @(card.Status == "Published" ? "is-published" : "is-draft")">@card.Status</span>
+                    <span>@english?.PublishDate.ToString("dd/MM/yyyy")</span>
+                </div>
+                <h2>@(english?.Title ?? "Untitled card")</h2>
+                <p>@(english?.TextNote ?? "")</p>
+                <small>@card.ImagePaths.Count shared photo(s) · Updated by @card.UpdatedByName on @card.UpdatedAt.ToLocalTime().ToString("dd MMM yyyy, HH:mm")</small>
+                <div class="content-inline-actions">
+                    <a class="cms-button cms-button-secondary" asp-action="EditNews" asp-route-id="@card.Id">Update card</a>
+                    <form asp-action="DeleteNews" asp-route-id="@card.Id" method="post" data-confirm="Delete this multilingual News Card and its uploaded images?">
+                        <button class="cms-button cms-button-danger" type="submit">Delete</button>
+                    </form>
+                </div>
+            </div>
+        </article>
+    }
+    </div>
+}
+@section Scripts {
+    <script>document.querySelectorAll("[data-confirm]").forEach(form => form.addEventListener("submit", event => { if (!confirm(form.dataset.confirm)) event.preventDefault(); }));</script>
+}

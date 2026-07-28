@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>OSPBCR | Interactive Map</title>
+
+    <!-- Bootstrap -->
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <!-- Leaflet -->
+
+    <link rel="stylesheet"
+          href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+    <!-- Website CSS -->
+
+    <link rel="stylesheet"
+          href="assets/css/main.css?v=20260726-nav-actions">
+
+    <link rel="stylesheet"
+          href="assets/css/pages/map.css?v=20260727-selected-district-label-v2">
+
+    <link rel="stylesheet"
+          href="assets/css/design-system.css">
+
+</head>
+
+<body class="map-page">
+
+    <!-- NAVBAR -->
+
+    <div id="navbar-container"></div>
+
+    <main>
+
+        <!-- MAP DASHBOARD -->
+
+        <section class="section map-dashboard-section">
+
+            <div class="container-custom">
+
+                <div class="dashboard-grid">
+
+                    <!-- MAP AREA -->
+
+                    <div class="map-container fade-up">
+
+                        <div id="map"></div>
+
+                    </div>
+
+                    <!-- INFORMATION PANEL -->
+
+                    <div
+                        class="info-panel fade-up"
+                        id="infoPanel">
+
+                        <div class="info-panel-header">
+                            <span>PBCR Odisha</span>
+                            <h2>District Cancer Statistics</h2>
+                        </div>
+
+                        <div class="info-panel-filter">
+                            <label for="districtStatisticsFilter">Select District</label>
+                            <select id="districtStatisticsFilter"
+                                    aria-label="Select district for cancer statistics">
+                                <option>Loading districts...</option>
+                            </select>
+                        </div>
+
+                        <div class="info-stats-grid">
+                            <div class="info-stat">
+                                <strong>District Name</strong>
+                                <span>Select a district</span>
+                            </div>
+
+                            <div class="info-stat">
+                                <strong>Population as of 2025</strong>
+                                <span>--</span>
+                            </div>
+
+                            <div class="info-stat">
+                                <strong>Cancer Cases</strong>
+                                <span>--</span>
+                            </div>
+
+                            <div class="info-stat">
+                                <strong>Incident Cancer Cases</strong>
+                                <span>--</span>
+                            </div>
+
+                            <div class="info-stat">
+                                <strong>Mortality Cancer Cases</strong>
+                                <span>--</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- CANCER-SITE INCIDENCE -->
+
+        <section class="section cancer-incidence-section" aria-labelledby="cancerIncidenceTitle">
+
+            <div class="container-custom">
+
+                <div class="section-heading fade-up">
+                    <span class="section-kicker">YEAR 2025</span>
+                    <h2 id="cancerIncidenceTitle">Incidence of Cancer Sites</h2>
+                    <p>
+                        Top five cancer-site groups by unique REGNO, using the first two digits
+                        after C in ICD-10 and the corresponding ICD10Group description.
+                    </p>
+                </div>
+
+                <div class="incidence-toolbar fade-up">
+                    <span>Filter by sex</span>
+                    <div class="incidence-sex-filter" role="group" aria-label="Filter cancer incidence by sex">
+                        <button type="button" class="active" data-incidence-sex="" aria-pressed="true">All</button>
+                        <button type="button" data-incidence-sex="1" aria-pressed="false">Male</button>
+                        <button type="button" data-incidence-sex="2" aria-pressed="false">Female</button>
+                    </div>
+                </div>
+
+                <article class="incidence-chart-panel fade-up">
+
+                    <header class="incidence-chart-header">
+                        <div>
+                            <span>Unique cases in top five</span>
+                            <strong id="incidenceTotal">--</strong>
+                        </div>
+                        <div>
+                            <span>ICD-10 site groups</span>
+                            <strong id="incidenceSiteCount">--</strong>
+                        </div>
+                        <p id="incidenceStatus" role="status" aria-live="polite">
+                            Loading cancer-site incidence data...
+                        </p>
+                    </header>
+
+                    <div class="incidence-chart-scroll" id="incidenceChartRegion">
+                        <div class="incidence-chart-canvas">
+                            <canvas
+                                id="cancerSiteIncidenceChart"
+                                role="img"
+                                aria-label="Horizontal bar chart of cancer-site incidence counts for 2025">
+                            </canvas>
+                        </div>
+                    </div>
+
+                    <div class="incidence-empty-state" id="incidenceEmptyState" hidden>
+                        No valid cancer-site records were found for 2025.
+                    </div>
+
+                    <p class="chart-data-source">
+                        <span>Data Source: Setu Odisha TumourTable, PatientTable, and ICD10Group.</span>
+                    </p>
+
+                </article>
+
+            </div>
+
+        </section>
+
+        <!-- CANCER-SITE MORTALITY -->
+
+        <section class="section cancer-mortality-section" aria-labelledby="cancerMortalityTitle">
+
+            <div class="container-custom">
+
+                <div class="section-heading fade-up">
+                    <span class="section-kicker">YEAR 2025</span>
+                    <h2 id="cancerMortalityTitle">Mortality of Cancer Sites</h2>
+                    <p>
+                        Top five death records grouped by ICD-10 cancer-site code using
+                        DateofDeath from PatientTable and matched to the corresponding cancer-site description.
+                    </p>
+                </div>
+
+                <div class="incidence-toolbar fade-up">
+                    <span>Filter by sex</span>
+                    <div class="incidence-sex-filter" role="group" aria-label="Filter cancer mortality by sex">
+                        <button type="button" class="active" data-mortality-sex="" aria-pressed="true">All</button>
+                        <button type="button" data-mortality-sex="1" aria-pressed="false">Male</button>
+                        <button type="button" data-mortality-sex="2" aria-pressed="false">Female</button>
+                    </div>
+                </div>
+
+                <article class="incidence-chart-panel fade-up">
+
+                    <header class="incidence-chart-header">
+                        <div>
+                            <span>Deaths in top five</span>
+                            <strong id="mortalityTotal">--</strong>
+                        </div>
+                        <div>
+                            <span>ICD-10 site groups</span>
+                            <strong id="mortalitySiteCount">--</strong>
+                        </div>
+                        <p id="mortalityStatus" role="status" aria-live="polite">
+                            Loading cancer-site mortality data...
+                        </p>
+                    </header>
+
+                    <div class="incidence-chart-scroll" id="mortalityChartRegion">
+                        <div class="incidence-chart-canvas">
+                            <canvas
+                                id="cancerSiteMortalityChart"
+                                role="img"
+                                aria-label="Horizontal bar chart of cancer-site mortality counts for 2025">
+                            </canvas>
+                        </div>
+                    </div>
+
+                    <div class="incidence-empty-state" id="mortalityEmptyState" hidden>
+                        No valid cancer-site mortality records were found for 2025.
+                    </div>
+
+                    <p class="chart-data-source">
+                        <span>Data Source: Setu Odisha TumourTable, PatientTable DateofDeath, and ICD10Group.</span>
+                    </p>
+
+                </article>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+
+    <div id="footer-container"></div>
+
+    <!-- GSAP -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <!-- CHARTS -->
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+
+    <!-- LEAFLET -->
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <!-- WEBSITE JS -->
+
+ 
+
+    <!-- MAP JS -->
+
+    <script src="assets/js/core/i18n.js"></script>
+    <script src="assets/js/core/loader.js?v=20260723-dashboard-nav"></script>
+
+    <script src="assets/js/core/animations.js"></script>
+    <script src="assets/js/core/count-up.js"></script>
+
+    <script src="assets/js/pages/district-data.js?v=20260727-district-sync-fix"></script>
+
+    <script src="assets/js/pages/map.js?v=20260727-district-sync-fix"></script>
+    <script src="assets/js/pages/cancer-site-incidence.js?v=20260727-unique-regno"></script>
+    <script src="assets/js/pages/cancer-site-mortality.js?v=20260727-district-sync-fix"></script>
+</body>
+
+</html>

@@ -1,0 +1,35 @@
+/* Main Styles */
+
+@import url('./global/variable.css');
+@import url('./global/reset.css');
+@import url('./global/typography.css');
+@import url('./global/utilities.css');
+@import url('./global/animation.css');
+
+@import url('./components/navbar.css?v=20260726-nav-actions');
+@import url('./components/footer.css');
+
+:root {
+
+    /* WHO-IARC Inspired Institutional Palette */
+
+    --primary: #005B96;
+    --primary-dark: #004a79;
+    --secondary: #0077B6;
+    --accent: #00A6A6;
+    --soft-accent: #E0F7F7;
+    --white: #FFFFFF;
+    --light-bg: #F8FAFC;
+    --card-bg: #FFFFFF;
+    --text: #1E293B;
+    --text-body: #475569;
+    --text-muted: #94A3B8;
+    --border: #E2E8F0;
+
+    /* Shadows */
+
+    --shadow-sm: 0 6px 18px rgba(15, 23, 42, 0.06);
+    --shadow-md: 0 14px 32px rgba(15, 23, 42, 0.10);
+    --shadow-lg: 0 22px 48px rgba(15, 23, 42, 0.14);
+
+}

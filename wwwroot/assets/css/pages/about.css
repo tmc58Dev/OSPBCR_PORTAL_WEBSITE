@@ -1,0 +1,1399 @@
+.about-hero {
+
+    min-height: 60vh;
+
+    display: flex;
+    align-items: center;
+
+    background:
+    linear-gradient(
+        rgba(7, 34, 54, 0.78),
+        rgba(7, 34, 54, 0.78)
+    );
+
+    background-position: center;
+
+    background-repeat: no-repeat;
+
+    background-size: cover;
+
+    color: var(--white);
+
+}
+
+.hero-content {
+
+    max-width: 900px;
+
+}
+
+.hero-tag {
+
+    display: inline-block;
+
+    padding: 10px 18px;
+
+    margin-bottom: 25px;
+
+    background: rgba(255,255,255,0.15);
+
+    border: 1px solid rgba(255,255,255,0.25);
+
+    color: var(--white);
+
+}
+
+.hero-content h1 {
+
+    margin-bottom: 25px;
+
+    color: var(--white);
+
+}
+
+.hero-content p {
+
+    max-width: 800px;
+
+    color: rgba(255,255,255,0.95);
+
+}
+
+.overview-grid {
+
+    display: grid;
+
+    grid-template-columns: 2fr 1fr;
+
+    gap: 50px;
+
+    align-items: center;
+
+}
+
+.overview-card {
+
+    position: relative;
+
+    min-height: 280px;
+
+    overflow: hidden;
+
+    padding: 0;
+
+    background: var(--card-bg);
+
+    border: 1px solid var(--border);
+
+    border-radius: 22px;
+
+    box-shadow: var(--shadow-sm);
+
+    transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+
+}
+
+.overview-card:hover {
+
+    transform: translateY(-6px);
+
+    box-shadow: var(--shadow-md);
+
+}
+
+.overview-face {
+
+    position: absolute;
+
+    inset: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 28px;
+
+    transition:
+    height 0.5s ease,
+    opacity 0.35s ease,
+    transform 0.5s ease,
+    border-radius 0.5s ease;
+
+}
+
+.overview-front {
+
+    top: auto;
+
+    height: 100%;
+
+    flex-direction: column;
+
+    text-align: center;
+
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+
+    color: #ffffff;
+
+    border-radius: 22px;
+
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.35);
+
+}
+
+.overview-front span {
+
+    display: block;
+
+    letter-spacing: 0.03em;
+
+    text-shadow: 0 2px 8px rgba(0,0,0,0.18);
+
+}
+
+.overview-back {
+
+    align-items: flex-start;
+
+    justify-content: flex-end;
+
+    background: linear-gradient(135deg, #ffffff 0%, #edf5fb 100%);
+
+    color: var(--text);
+
+    opacity: 0;
+
+    transform: translateY(16px);
+
+}
+
+.overview-card-content {
+
+    width: 100%;
+
+}
+
+.overview-card-content h3 {
+
+    margin-bottom: 25px;
+
+}
+
+.overview-card ul {
+
+    list-style: disc;
+
+    padding-left: 20px;
+
+    margin-bottom: 0;
+
+}
+
+.overview-card li {
+
+    margin-bottom: 12px;
+
+}
+
+.overview-card li:last-child {
+
+    margin-bottom: 0;
+
+}
+
+.overview-card:hover .overview-front {
+
+    height: 58px;
+
+    border-radius: 22px 22px 16px 16px;
+
+}
+
+.overview-card:hover .overview-front span {
+
+    font-size: 1rem;
+
+}
+
+.overview-card:hover .overview-back {
+
+    opacity: 1;
+
+    transform: translateY(0);
+
+}
+
+.objectives-section {
+
+    background: var(--light-bg);
+
+}
+
+.objectives-grid {
+
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 30px;
+
+}
+
+.objective-card {
+
+    padding: 40px;
+
+    background-color: var(--card-bg);
+
+    border: 1px solid var(--border);
+
+    transition: 0.3s;
+
+}
+
+.objective-card:hover {
+
+    border-color: var(--primary);
+
+    box-shadow: var(--shadow-md);
+
+    transform: translateY(-5px);
+
+}
+
+.objective-card h3 {
+
+    margin-bottom: 25px;
+
+    color: var(--accent);
+
+}
+
+.workflow-container {
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 25px;
+
+}
+
+.workflow-box {
+
+    width: 220px;
+
+    height: 120px;
+
+    border: 2px solid var(--primary);
+
+    background-color: var(--card-bg);
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+
+    line-height: 1.6;
+
+    transition: 0.3s;
+
+}
+
+.workflow-box:hover {
+
+    background: var(--primary);
+
+    color: var(--white);
+
+}
+
+.workflow-arrow {
+
+    font-size: clamp(2rem, 0.8vw + 1.7rem, 2.4rem);
+
+    color: var(--accent);
+
+}
+
+.workflow-card-grid {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    justify-content: center;
+
+    align-items: stretch;
+
+    gap: 24px;
+
+}
+
+.workflow-card {
+
+    flex: 1 1 220px;
+
+    position: relative;
+
+    overflow: hidden;
+
+    padding: 28px;
+
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(242, 247, 252, 0.92));
+
+    border: 1px solid rgba(0, 91, 150, 0.12);
+
+    border-radius: 24px;
+
+    box-shadow: var(--shadow-sm);
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease,
+        border-color 0.3s ease;
+
+}
+
+.workflow-card::before,
+.workflow-card::after {
+
+    content: "";
+
+    position: absolute;
+
+    inset: auto;
+
+    pointer-events: none;
+
+    z-index: 0;
+
+}
+
+.workflow-card > * {
+
+    position: relative;
+
+    z-index: 1;
+
+}
+
+.workflow-card:hover {
+
+    border-color: rgba(0, 91, 150, 0.22);
+
+    box-shadow: 0 26px 52px rgba(0, 39, 64, 0.22);
+
+    transform: translateY(-12px) scale(1.03);
+
+}
+
+.workflow-card-collection::before {
+
+    top: -48px;
+
+    right: -42px;
+
+    width: 168px;
+
+    height: 168px;
+
+    border-radius: 28px;
+
+    background:
+        repeating-linear-gradient(
+            135deg,
+            rgba(67, 151, 255, 0.18) 0 14px,
+            rgba(67, 151, 255, 0.03) 14px 28px
+        );
+
+    animation: workflowFloatCollection 6.2s ease-in-out infinite;
+
+}
+
+.workflow-card-collection::after {
+
+    left: -40px;
+
+    bottom: -46px;
+
+    width: 164px;
+
+    height: 164px;
+
+    border-radius: 50%;
+
+    background: radial-gradient(circle, rgba(0, 91, 150, 0.2) 0%, rgba(0, 91, 150, 0) 72%);
+
+    animation: workflowPulseCollection 5.6s ease-in-out infinite;
+
+}
+
+.workflow-card-validation::before {
+
+    top: 6px;
+
+    right: -26px;
+
+    width: 210px;
+
+    height: 210px;
+
+    border-radius: 50%;
+
+    background:
+        conic-gradient(
+            from 0deg,
+            rgba(62, 180, 137, 0.04),
+            rgba(62, 180, 137, 0.26),
+            rgba(62, 180, 137, 0.04)
+        );
+
+    animation: workflowRotateValidation 7.5s linear infinite;
+
+}
+
+.workflow-card-validation::after {
+
+    left: 10px;
+
+    bottom: 10px;
+
+    width: 118px;
+
+    height: 118px;
+
+    border: 2px dashed rgba(62, 180, 137, 0.34);
+
+    border-radius: 22px;
+
+    animation: workflowTiltValidation 4.8s ease-in-out infinite;
+
+}
+
+.workflow-card-analysis::before {
+
+    left: -14px;
+
+    right: -14px;
+
+    bottom: 14px;
+
+    height: 108px;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(240, 168, 0, 0) 0%,
+            rgba(240, 168, 0, 0.14) 100%
+        );
+
+    clip-path: polygon(0% 100%, 0% 70%, 18% 58%, 34% 76%, 52% 36%, 70% 56%, 86% 22%, 100% 44%, 100% 100%);
+
+    animation: workflowRiseAnalysis 5.2s ease-in-out infinite;
+
+}
+
+.workflow-card-analysis::after {
+
+    right: 8px;
+
+    top: 8px;
+
+    width: 128px;
+
+    height: 128px;
+
+    border-radius: 50%;
+
+    background: radial-gradient(circle, rgba(240, 168, 0, 0.2) 0%, rgba(240, 168, 0, 0) 74%);
+
+    animation: workflowGlowAnalysis 4.2s ease-in-out infinite;
+
+}
+
+.workflow-card-reporting::before {
+
+    top: -36px;
+
+    right: 18px;
+
+    width: 16px;
+
+    height: 250px;
+
+    border-radius: 999px;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(220, 74, 88, 0) 0%,
+            rgba(220, 74, 88, 0.3) 50%,
+            rgba(220, 74, 88, 0) 100%
+        );
+
+    animation: workflowSweepReporting 3.8s ease-in-out infinite;
+
+}
+
+.workflow-card-reporting::after {
+
+    left: -28px;
+
+    top: 24px;
+
+    width: 188px;
+
+    height: 188px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(circle, rgba(220, 74, 88, 0.18) 0%, rgba(220, 74, 88, 0.04) 45%, rgba(220, 74, 88, 0) 74%);
+
+    animation: workflowBroadcastReporting 4.8s ease-out infinite;
+
+}
+
+.workflow-card-header {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 16px;
+
+    margin-bottom: 18px;
+
+}
+
+.workflow-step-number {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    width: 48px;
+
+    height: 48px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+
+    color: var(--white);
+
+    font-size: 1rem;
+
+    font-weight: 700;
+
+    letter-spacing: 0.04em;
+
+    box-shadow: 0 10px 24px rgba(0, 91, 150, 0.22);
+
+}
+
+.workflow-card h3 {
+
+    margin-bottom: 0;
+
+    color: #0b3550;
+
+    text-transform: capitalize;
+
+    line-height: 1.3;
+
+}
+
+.workflow-points {
+
+    list-style: none;
+
+    padding: 0;
+
+    margin: 0;
+
+    display: grid;
+
+    gap: 12px;
+
+}
+
+.workflow-points li {
+
+    position: relative;
+
+    padding-left: 18px;
+
+    line-height: 1.65;
+
+    color: #14384f;
+
+    font-weight: 500;
+
+}
+
+.workflow-points li::before {
+
+    content: "*";
+
+    position: absolute;
+
+    left: 0;
+
+    top: 0;
+
+    color: var(--accent);
+
+    font-weight: 700;
+
+}
+
+.workflow-sequence-arrow {
+
+    display: flex;
+
+    flex: 0 0 48px;
+
+    align-items: center;
+
+    justify-content: center;
+
+    color: var(--accent);
+
+    font-size: clamp(2rem, 1.8vw, 2.6rem);
+
+    font-weight: 700;
+
+    transform: translateY(-12px);
+
+}
+
+@keyframes workflowFloatCollection {
+
+    0%,
+    100% {
+        transform: translate3d(0, 0, 0) rotate(0deg);
+    }
+
+    50% {
+        transform: translate3d(-18px, 18px, 0) rotate(-10deg) scale(1.08);
+    }
+
+}
+
+@keyframes workflowPulseCollection {
+
+    0%,
+    100% {
+        transform: scale(0.86);
+        opacity: 0.5;
+    }
+
+    50% {
+        transform: scale(1.18);
+        opacity: 1;
+    }
+
+}
+
+@keyframes workflowRotateValidation {
+
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+
+}
+
+@keyframes workflowTiltValidation {
+
+    0%,
+    100% {
+        transform: rotate(0deg) translateY(0) scale(0.96);
+    }
+
+    50% {
+        transform: rotate(14deg) translateY(-10px) scale(1.08);
+    }
+
+}
+
+@keyframes workflowRiseAnalysis {
+
+    0%,
+    100% {
+        transform: translateY(18px) scaleY(0.88);
+        opacity: 0.42;
+    }
+
+    50% {
+        transform: translateY(-4px) scaleY(1.14);
+        opacity: 1;
+    }
+
+}
+
+@keyframes workflowGlowAnalysis {
+
+    0%,
+    100% {
+        transform: scale(0.82);
+        opacity: 0.42;
+    }
+
+    50% {
+        transform: scale(1.24);
+        opacity: 1;
+    }
+
+}
+
+@keyframes workflowSweepReporting {
+
+    0%,
+    100% {
+        transform: translateY(-18px) scaleY(0.92);
+        opacity: 0.22;
+    }
+
+    50% {
+        transform: translateY(24px) scaleY(1.12);
+        opacity: 1;
+    }
+
+}
+
+@keyframes workflowBroadcastReporting {
+
+    0% {
+        transform: scale(0.58);
+        opacity: 0.24;
+    }
+
+    60% {
+        transform: scale(1.12);
+        opacity: 0.92;
+    }
+
+    100% {
+        transform: scale(1.34);
+        opacity: 0;
+    }
+
+}
+
+.collaboration-section {
+
+    background: var(--light-bg);
+
+}
+
+.collaboration-section .section-heading p {
+
+    margin-left: auto;
+
+    margin-right: auto;
+
+    text-align: center;
+
+}
+
+.collaboration-grid {
+
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 30px;
+
+}
+
+.collaboration-card {
+
+    position: relative;
+
+    display: block;
+
+    min-height: 340px;
+
+    padding: 40px;
+
+    text-align: left;
+
+    background: var(--card-bg);
+
+    border: 1px solid var(--border);
+
+    border-radius: 22px;
+
+    box-shadow: var(--shadow-sm);
+
+    overflow: hidden;
+
+    isolation: isolate;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease,
+        border-color 0.3s ease;
+
+}
+
+.collaboration-card--tmc {
+
+    --card-bg-image: url("../../IMAGES_PDF_PPT_EXCEL/logos/tmc-Photoroom.png");
+
+}
+
+.collaboration-card--niser {
+
+    --card-bg-image: url("../../IMAGES_PDF_PPT_EXCEL/logos/NISER Logo.png");
+
+    --card-bg-size: 68%;
+
+    --card-bg-size-hover: 76%;
+
+}
+
+.collaboration-card--odisha {
+
+    --card-bg-image: url("../../IMAGES_PDF_PPT_EXCEL/logos/odisha govt-Photoroom.png");
+
+}
+
+.collaboration-card::before {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background-image:
+        linear-gradient(145deg, rgba(0, 39, 64, 0.56), rgba(0, 91, 150, 0.38)),
+        var(--card-bg-image);
+
+    background-position: center, center;
+
+    background-repeat: no-repeat, no-repeat;
+
+    background-size: cover, var(--card-bg-size, 82%);
+
+    transform: scale(1.08);
+
+    opacity: 0.92;
+
+    transition:
+        transform 0.35s ease,
+        opacity 0.35s ease,
+        background-size 0.35s ease;
+
+    z-index: -2;
+
+}
+
+.collaboration-card::after {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        linear-gradient(180deg, rgba(248, 252, 255, 0.08) 0%, rgba(0, 39, 64, 0.20) 100%);
+
+    z-index: -1;
+
+}
+
+.collaboration-card-content {
+
+    position: relative;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: flex-end;
+
+    height: 100%;
+
+    gap: 14px;
+
+    color: #ffffff;
+
+}
+
+.collaboration-card:hover {
+
+    border: 1px solid rgba(0, 91, 150, 0.22);
+
+    box-shadow: var(--shadow-md);
+
+    transform: translateY(-6px);
+
+}
+
+.collaboration-card:hover::before,
+.collaboration-card:focus-visible::before {
+
+    transform: scale(1.03);
+
+    opacity: 1;
+
+    background-size: cover, var(--card-bg-size-hover, 90%);
+
+}
+
+.collaboration-card:focus-visible {
+
+    outline: 3px solid rgba(223, 240, 255, 0.85);
+
+    outline-offset: 4px;
+
+}
+
+.collaboration-card h3 {
+
+    max-width: 14ch;
+
+    margin-bottom: 0;
+
+    color: #ffffff;
+
+}
+
+.tmc-title {
+
+    white-space: nowrap;
+
+    max-width: none;
+
+}
+
+.collaboration-card p {
+
+    max-width: 38ch;
+
+    margin-bottom: 0;
+
+    color: rgba(255, 255, 255, 0.96);
+
+}
+
+.collaboration-slogan {
+
+    line-height: 1.6;
+
+    letter-spacing: 0.01em;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ======================================
+GALLERY SECTION
+====================================== */
+
+.gallery-section {
+
+    position: relative;
+
+    overflow: hidden;
+
+    background:
+        radial-gradient(circle at top, rgba(0, 91, 150, 0.16), transparent 42%),
+        linear-gradient(180deg, #edf5fb 0%, #f7fbff 100%);
+
+}
+
+.gallery-section .section-heading p {
+
+    margin-left: auto;
+
+    margin-right: auto;
+
+    text-align: center;
+
+}
+
+.gallery-carousel-shell {
+
+    position: relative;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    padding: 30px 0 10px;
+
+}
+
+.gallery-carousel-shell::before {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    width: min(88%, 1100px);
+
+    margin: auto;
+
+    background:
+        linear-gradient(rgba(8, 36, 58, 0.44), rgba(8, 36, 58, 0.44)),
+        url("../../IMAGES_PDF_PPT_EXCEL/ABOUT US PAGE/GALLERY/aboutpage6.webp") center/cover no-repeat;
+
+    border-radius: 34px;
+
+    filter: blur(32px);
+
+    opacity: 0.72;
+
+    transform: scale(1.05);
+
+    z-index: 0;
+
+}
+
+.gallery-carousel-card {
+
+    position: relative;
+
+    z-index: 1;
+
+    display: grid;
+
+    grid-template-columns: auto minmax(0, 1fr) auto;
+
+    align-items: center;
+
+    width: min(100%, 1225px);
+
+    padding: 36px;
+
+    gap: 18px;
+
+    background: rgba(255, 255, 255, 0.74);
+
+    border: 1px solid rgba(255, 255, 255, 0.55);
+
+    border-radius: 30px;
+
+    box-shadow: 0 24px 60px rgba(0, 39, 64, 0.18);
+
+    backdrop-filter: blur(22px);
+
+    -webkit-backdrop-filter: blur(22px);
+
+    transition:
+        transform 0.35s ease,
+        box-shadow 0.35s ease;
+
+}
+
+.gallery-carousel-card:hover {
+
+    transform: translateY(-8px);
+
+    box-shadow: 0 30px 72px rgba(0, 39, 64, 0.24);
+
+}
+
+.gallery-carousel-card {
+
+    margin-left: auto;
+
+    margin-right: auto;
+
+    justify-self: center;
+
+}
+
+.gallery-carousel-window {
+
+    overflow: hidden;
+
+    border-radius: 24px;
+
+}
+
+.gallery-carousel-track {
+
+    display: flex;
+
+    transition: transform 0.45s ease;
+
+}
+
+.gallery-slide {
+
+    flex: 0 0 50%;
+
+    padding: 0 10px;
+
+}
+
+.gallery-slide img {
+
+    width: 100%;
+
+    aspect-ratio: 16 / 10;
+
+    object-fit: cover;
+
+    display: block;
+
+    border-radius: 24px;
+
+    box-shadow: 0 18px 40px rgba(0, 39, 64, 0.14);
+
+    transition:
+        transform 0.35s ease,
+        box-shadow 0.35s ease,
+        filter 0.35s ease;
+
+}
+
+.gallery-carousel-card:hover .gallery-slide img {
+
+    filter: saturate(1.03);
+
+}
+
+.gallery-slide img:hover {
+
+    transform: translateY(-6px) scale(1.02);
+
+    box-shadow: 0 22px 48px rgba(0, 39, 64, 0.2);
+
+}
+
+.gallery-nav {
+
+    width: 56px;
+
+    height: 56px;
+
+    border: 0;
+
+    border-radius: 50%;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+
+    color: var(--white);
+
+    font-size: 2rem;
+
+    line-height: 1;
+
+    box-shadow: 0 14px 28px rgba(0, 91, 150, 0.24);
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        filter 0.25s ease;
+
+}
+
+.gallery-nav:hover {
+
+    transform: scale(1.08);
+
+    box-shadow: 0 18px 34px rgba(0, 91, 150, 0.3);
+
+    filter: brightness(1.05);
+
+}
+
+.gallery-nav:focus-visible {
+
+    outline: 3px solid rgba(0, 91, 150, 0.18);
+
+    outline-offset: 4px;
+
+}
+
+/* ======================================
+RESPONSIVE
+====================================== */
+
+@media (max-width: 1200px) {
+
+    .collaboration-grid {
+
+        grid-template-columns: repeat(2, 1fr);
+
+    }
+
+}
+
+@media (max-width: 768px) {
+
+    .overview-grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+    .objectives-grid {
+
+        grid-template-columns: 1fr;
+    }
+
+    .workflow-container {
+
+        flex-direction: column;
+    }
+
+    .workflow-card {
+
+        flex-basis: 100%;
+
+    }
+
+    .collaboration-grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+    .workflow-sequence-arrow {
+
+        transform: rotate(90deg);
+
+        margin: -6px 0;
+
+    }
+
+    .gallery-carousel-card {
+
+        grid-template-columns: 1fr;
+
+        width: min(100%, 720px);
+
+        padding: 22px;
+
+    }
+
+    .gallery-carousel-window {
+
+        order: 1;
+
+    }
+
+    .gallery-nav {
+
+        width: 52px;
+
+        height: 52px;
+
+    }
+
+    .gallery-nav-prev {
+
+        justify-self: start;
+
+    }
+
+    .gallery-nav-next {
+
+        justify-self: end;
+
+    }
+
+}
+
+@media (max-width: 576px) {
+
+    .collaboration-card {
+
+        min-height: 300px;
+
+        padding: 32px 24px;
+
+    }
+
+    .gallery-carousel-shell::before {
+
+        width: 96%;
+
+    }
+
+    .gallery-carousel-card {
+
+        padding: 18px;
+
+        gap: 14px;
+
+    }
+
+    .workflow-card {
+
+        padding: 22px;
+
+    }
+
+    .workflow-step-number {
+
+        width: 42px;
+
+        height: 42px;
+
+    }
+
+    .gallery-slide {
+
+        padding: 0 6px;
+
+    }
+
+}

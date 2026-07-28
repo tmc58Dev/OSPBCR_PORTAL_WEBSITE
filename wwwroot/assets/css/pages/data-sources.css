@@ -1,0 +1,452 @@
+.sources-hero {
+
+    min-height: 55vh;
+
+    display: flex;
+
+    align-items: center;
+
+    position: relative;
+
+    overflow: hidden;
+
+    background:
+    linear-gradient(
+        rgba(7, 34, 54, 0.78),
+        rgba(7, 34, 54, 0.78)
+    );
+
+    background-position: center;
+
+    background-repeat: no-repeat;
+
+    background-size: cover;
+
+    color: var(--white);
+
+}
+
+.sources-hero::before {
+
+    content: "";
+
+    position: absolute;
+
+    z-index: 0;
+
+    inset: 0;
+
+    width: 100%;
+
+    min-width: 0;
+
+    background:
+    linear-gradient(
+        90deg,
+        rgba(0, 63, 107, 0.72),
+        rgba(0, 91, 150, 0.46)
+    ),
+    url("../../IMAGES_PDF_PPT_EXCEL/hero/Cancer Registry.webp");
+
+    background-position: center center;
+
+    background-repeat: no-repeat;
+
+    background-size: cover;
+
+}
+
+.sources-hero .hero-content {
+
+    max-width: 900px;
+
+}
+
+.sources-hero .hero-tag {
+
+    display: inline-block;
+
+    padding: 10px 18px;
+
+    margin-bottom: 25px;
+
+    background: rgba(255,255,255,0.15);
+
+    border: 1px solid rgba(255,255,255,0.25);
+
+    color: var(--white);
+
+}
+
+.sources-hero h1 {
+
+    color: var(--white);
+
+}
+
+.sources-hero p {
+
+    color: rgba(255,255,255,0.95);
+
+}
+
+.sources-gallery-section {
+
+    background:
+    linear-gradient(180deg, #F8FAFC 0%, #FFFFFF 48%, #F1F7FB 100%);
+
+}
+
+.source-logo-grid {
+
+    display: grid;
+
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+
+    gap: 28px;
+
+}
+
+.source-logo-card {
+
+    position: relative;
+
+    min-height: 310px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 28px 24px 24px;
+
+    overflow: hidden;
+
+    border: 1px solid rgba(226, 232, 240, 0.9);
+
+    border-radius: 8px;
+
+    background:
+    linear-gradient(180deg, rgba(255,255,255,0.94), rgba(255,255,255,1));
+
+    box-shadow: var(--shadow-sm);
+
+    text-align: center;
+
+    transition:
+    transform 0.28s ease,
+    box-shadow 0.28s ease,
+    border-color 0.28s ease;
+
+}
+
+.source-logo-card::before {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 0 0 auto 0;
+
+    height: 7px;
+
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+
+    transform: scaleX(0.28);
+
+    transform-origin: left;
+
+    transition: transform 0.28s ease;
+
+}
+
+.source-logo-card:hover {
+
+    transform: translateY(-10px) scale(1.025);
+
+    border-color: rgba(0, 166, 166, 0.35);
+
+    box-shadow: 0 24px 52px rgba(15, 23, 42, 0.14);
+
+}
+
+.source-logo-card:hover::before {
+
+    transform: scaleX(1);
+
+}
+
+.source-logo-frame {
+
+    width: 100%;
+
+    min-height: 150px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    margin-bottom: 24px;
+
+    padding: 18px;
+
+    border-radius: 8px;
+
+    background:
+    linear-gradient(135deg, #FFFFFF 0%, #F4FAFC 100%);
+
+    border: 1px solid rgba(226, 232, 240, 0.82);
+
+}
+
+.source-logo-frame img {
+
+    max-width: 100%;
+
+    max-height: 112px;
+
+    object-fit: contain;
+
+    transition: transform 0.28s ease;
+
+}
+
+.source-logo-placeholder {
+
+    width: min(100%, 240px);
+
+    min-height: 96px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 6px;
+
+    padding: 18px 20px;
+
+    border: 1px solid rgba(0, 166, 166, 0.18);
+
+    border-radius: 18px;
+
+    background: linear-gradient(135deg, rgba(0, 166, 166, 0.14), rgba(7, 34, 54, 0.08));
+
+    color: var(--primary-dark);
+
+    text-align: center;
+
+}
+
+.source-logo-placeholder span {
+
+    font-size: 1.2rem;
+
+    font-weight: 800;
+
+    letter-spacing: 0.08em;
+
+    line-height: 1.1;
+
+}
+
+.source-logo-placeholder small {
+
+    font-size: 0.84rem;
+
+    font-weight: 700;
+
+    letter-spacing: 0.12em;
+
+    text-transform: uppercase;
+
+    opacity: 0.8;
+
+}
+
+.source-logo-card:hover .source-logo-frame img {
+
+    transform: scale(1.06);
+
+}
+
+.source-logo-card h3 {
+
+    min-height: 58px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    margin: 0 0 12px;
+
+    color: var(--text);
+
+    font-size: 1.04rem;
+
+    line-height: 1.35;
+
+}
+
+.source-logo-card p {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    min-width: 104px;
+
+    margin: 0;
+
+    padding: 8px 14px;
+
+    border-radius: 999px;
+
+    background: var(--soft-accent);
+
+    color: var(--primary-dark);
+
+    font-size: 0.84rem;
+
+    font-weight: 700;
+
+}
+
+.source-card-actions {
+
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 12px;
+
+    flex-wrap: nowrap;
+
+}
+
+.source-card-actions p,
+.source-visit-link {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    min-width: 104px;
+
+    padding: 8px 16px;
+
+    border: 1px solid var(--primary);
+
+    border-radius: 999px;
+
+    background: transparent;
+
+    color: var(--primary);
+
+    font-size: 0.84rem;
+
+    font-weight: 700;
+
+    line-height: 1;
+
+    text-align: center;
+
+    text-decoration: none;
+
+    transition:
+    background-color 0.28s ease,
+    color 0.28s ease,
+    border-color 0.28s ease,
+    transform 0.28s ease;
+
+}
+
+.source-card-actions p {
+
+    margin: 0;
+
+}
+
+.source-visit-link:hover,
+.source-visit-link:focus-visible {
+
+    background: var(--primary);
+
+    border-color: var(--primary);
+
+    color: var(--white);
+
+    transform: translateY(-2px);
+
+}
+
+@media (max-width: 640px) {
+
+    .source-card-actions {
+
+        flex-wrap: wrap;
+
+    }
+
+    .source-card-actions p,
+    .source-visit-link {
+
+        min-width: 118px;
+
+    }
+
+}
+
+@media (max-width: 991px) {
+
+    .source-logo-grid {
+
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    }
+
+}
+
+@media (max-width: 640px) {
+
+    .source-logo-grid {
+
+        grid-template-columns: 1fr;
+
+        gap: 20px;
+
+    }
+
+    .source-logo-card {
+
+        min-height: 278px;
+
+        padding: 24px 18px 22px;
+
+    }
+
+    .source-logo-frame {
+
+        min-height: 132px;
+
+    }
+
+}

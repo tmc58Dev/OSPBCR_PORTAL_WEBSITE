@@ -1,0 +1,784 @@
+{
+  "districts": [
+    {
+      "name": "Angul",
+      "slug": "angul",
+      "photo": "assets/IMAGES_PDF_PPT_EXCEL/TRAININGS PAGE/DISTRICT/DISTRICT PHOTOS/ANGUL CLN02850.webp",
+      "participants": [
+        {
+          "district": "Angul",
+          "name": "Dr Manoj Kumar Tripathy",
+          "designation": "DPHO"
+        },
+        {
+          "district": "Angul",
+          "name": "Dr Abhinash Russel Pati",
+          "designation": "I/C Registry"
+        },
+        {
+          "district": "Angul",
+          "name": "Ajit Kumar Tripathy",
+          "designation": "AM NCD"
+        },
+        {
+          "district": "Angul",
+          "name": "Prsanjit Parida",
+          "designation": "Data Manager IDSP"
+        }
+      ]
+    },
+    {
+      "name": "Balangir",
+      "slug": "balangir",
+      "photo": "assets/IMAGES_PDF_PPT_EXCEL/TRAININGS PAGE/DISTRICT/DISTRICT PHOTOS/BALANGIR CLN02884.webp",
+      "participants": [
+        {
+          "district": "Balangir",
+          "name": "Dr Jadumani Nayak",
+          "designation": "DPHO"
+        },
+        {
+          "district": "Balangir",
+          "name": "Mr Himansu Sekhar Barik",
+          "designation": "AM NCD"
+        },
+        {
+          "district": "Balangir",
+          "name": "Mr Ramakanta Rath",
+          "designation": "Data Manager IDSP"
+        }
+      ]
+    },
+    {
+      "name": "Balasore",
+      "slug": "balasore",
+      "photo": "assets/IMAGES_PDF_PPT_EXCEL/TRAININGS PAGE/DISTRICT/DISTRICT PHOTOS/balasore CLN01762.webp",
+      "participants": [
+        {
+          "district": "Balasore",
+          "name": "Dr Mehul Verma",
+          "designation": "MO"
+        },
+        {
+          "district": "Balasore",
+          "name": "Dr Priya Kumar Ghos",
+          "designation": "MO I/C DCCC"
+        },
+        {
+          "district": "Balasore",
+          "name": "Mr Dola Gobinda Behera",
+          "designation": "Data Manager IDSP"
+        },
+        {
+          "district": "Balasore",
+          "name": "Ms Mousumi Samal",
+          "designation": "AM NCD"
+        }
+      ]
+    },
+    {
+      "name": "Bargarh",
+      "slug": "bargarh",
+      "photo": "assets/IMAGES_PDF_PPT_EXCEL/TRAININGS PAGE/DISTRICT/DISTRICT PHOTOS/bargarh CLN01766.webp",
+      "participants": [
+        {
+          "district": "Bargarh",
+          "name": "Dr Biswajit Joshi",
+          "designation": "DPHO"
+        },
+        {
+          "district": "Bargarh",
+          "name": "Dr Rajesh Kumar Patra",
+          "designation": "MO I/C DCCU"
+        },
+        {
+          "district": "Bargarh",
+          "name": "Mrs Swagatika Behera",
+          "designation": "AM NCD"
+        },
+        {
+          "district": "Bargarh",
+          "name": "Mr Ajit Kumar Meher",
+          "designation": "Data Manager IDSP"
+        }
+      ]
+    },
+    {
+      "name": "Bhadrak",
+      "slug": "bhadrak",
+      "photo": "assets/IMAGES_PDF_PPT_EXCEL/TRAININGS PAGE/DISTRICT/DISTRICT PHOTOS/bhadrak CLN01771.webp",
+      "participants": [
+        {
+          "district": "Bhadrak",
+          "name": "Dr Lalita Soren",
+          "designation": "ADPHO"
+        },
+        {
+          "district": "Bhadrak",
+          "name": "Mr Deepak Ku. Rout",
+          "designation": "AM NCD"
+        },
+        {
+          "district": "Bhadrak",
+          "name": "Mr Himansu Bhusan Sahoo",
+          "designation": "Data Manager IDSP"
+        }
+      ]
+    },
+    {
+      "name": "Boudh",
+      "slug": "boudh",
+      "photo": "assets/IMAGES_PDF_PPT_EXCEL/TRAININGS PAGE/DISTRICT/DISTRICT PHOTOS/BOUDH CLN02853.webp",
+      "participants": [
+        {
+          "district": "Boudh",
+          "name": "Dr Santosh Kumar Tripathy",
+          "designation": "DPHO"
+        },
+        {
+          "district": "Boudh",
+          "name": "Dr Kishor Ch Pattanaik",
+          "designation": "MO I/C DCCC"
+        },
+        {
+          "district": "Boudh",
+          "name": "Mr Sitesh Kumar Tripathy",
+          "designation": "AM NCD"
+        },
+        {
+          "district": "Boudh",
+          "name": "Mr Sarthak S Ranasingh",
+          "designation": "Data Manager IDSP"
+        }
+      ]
+    },
+    {
+      "name": "Cuttack",
+      "slug": "cuttack",
+      "photo": "assets/IMAGES_PDF_PPT_EXCEL/TRAININGS PAGE/DISTRICT/DISTRICT PHOTOS/cuttack CLN01775.webp",
+      "participants": [
+        {
+          "district": "Cuttack",
+          "name": "Dr Sugyan Mohanty",
+          "designation": "MO I/C DCCC"
+        },
+        {
+          "district": "Cuttack",
+          "name": "Mrs Rima Sadhangi",
+          "designation": "Data Manager IDSP"
+        },
+        {
+          "district": "Cuttack",
+          "name": "Mrs Sudesna Senapati",
+          "designation": "AM NCD"
+        }
+      ]
+    },
+    {
+      "name": "Deogarh",
+      "slug": "deogarh",
+      "photo": "assets/IMAGES_PDF_PPT_EXCEL/TRAININGS PAGE/DISTRICT/DISTRICT PHOTOS/deogarh CLN01778.webp",
+      "participants": [
+        {
+          "district": "Deogarh",
+          "name": "Dr Bansidhar Patra",
+          "designation": "ADPHO (DC)"
+        },
+        {
+          "district": "Deogarh",
+          "name": "Sri Amiya Kumar Sahoo",
+          "designation": "AM NCD"
+        },
+        {
+          "district": "Deogarh",
+          "name": "Dr Siddarth Shankar Mohanty",
+          "designation": "MO I/C DCCC"
+        },
+        {
+          "district": "Deogarh",
+          "name": "Sri Tapas Kumar Samal",
+          "designation": "Data Manager IDSP"
+        }
+      ]
+    },
+    {
+      "name": "Dhenkanal",
+      "slug": "dhenkanal",
+      "photo": "assets/IMAGES_PDF_PPT_EXCEL/TRAININGS PAGE/DISTRICT/DISTRICT PHOTOS/DHENKANAL CLN02879.webp",
+      "participants": [
+        {
+          "district": "Dhenkanal",
+          "name": "Dr Sapan Kumar Mohanty",
+          "designation": "DPHO"
+        },
+        {
+          "district": "Dhenkanal",
+          "name": "Dr R K Sethy",
+          "designation": "MO I/C DCCC"
+        },
+        {
+          "district": "Dhenkanal",
+          "name": "Prajna Priyadarshini Mohanty",
+          "designation": "AM NCD"
+        },
+        {
+          "district": "Dhenkanal",
+          "name": "Durgadutta Satapathy",
+          "designation": "Data Manager IDSP"
+        }
+      ]
+    },
+    {
+      "name": "Gajapati",
+      "slug": "gajapati",
+      "photo": "assets/IMAGES_PDF_PPT_EXCEL/TRAININGS PAGE/DISTRICT/DISTRICT PHOTOS/gajapati CLN01812.webp",
+      "participants": [
+        {
+          "district": "Gajapati",
+          "name": "Dr. Pradeep Ku. Mohapatra",
+          "designation": "DPHO"
+        },
+        {
+          "district": "Gajapati",
+          "name": "Dr. Ananda Samantray",
+          "designation": "MO I/C DCCC"
+        },
+        {
+          "district": "Gajapati",
+          "name": "Mr. Suryakanta Mishra",
+          "designation": "AM NCD"
+        },
+        {
+          "district": "Gajapati",
+          "name": "Mr. Tushar kanta Pattanaik",
+          "designation": "Data Manager IDSP"
+        }
+      ]
+    },
+    {
+      "name": "Ganjam",
+      "slug": "ganjam",
+      "photo": "assets/IMAGES_PDF_PPT_EXCEL/TRAININGS PAGE/DISTRICT/DISTRICT PHOTOS/ganjam CLN01794.webp",
+      "participants": [
+        {
+          "district": "Ganjam",
+          "name": "Dr Balunkeswar Sarangi",
+          "designation": "DPHO"
+        },
+        {
+          "district": "Ganjam",
+          "name": "Dr S Sitesh",
+          "designation": "MO I/C DCCC"
+        },
+        {
+          "district": "Ganjam",
+          "name": "Ms Banibandana Jena",
+          "designation": "AM NCD"
+        },
+        {
+          "district": "Ganjam",
+          "name": "Ms Tanushree Sahu",
+          "designation": "Data Manager IDSP"
+        }
+      ]
+    },
+    {
+      "name": "Jagatsinghpur",
+      "slug": "jagatsinghpur",
+      "photo": "assets/IMAGES_PDF_PPT_EXCEL/TRAININGS PAGE/DISTRICT/DISTRICT PHOTOS/jagatsinghpur CLN01781.webp",
+      "participants": [
+        {
+          "district": "Jagatsinghpur",
+          "name": "Dr Deba Prasad Panda",
+          "designation": "MO I/C DCCC"
+        },
+        {
+          "district": "Jagatsinghpur",
+          "name": "Mrs Sujata Kabi",
+          "designation": "AM NCD"
+        },
+        {
+          "district": "Jagatsinghpur",
+          "name": "Mr Pravas Kumar Behera",
+          "designation": "Data Manager IDSP"
+        }
+      ]
+    },
+    {
+      "name": "Jajpur",
+      "slug": "jajpur",
+      "photo": "assets/IMAGES_PDF_PPT_EXCEL/TRAININGS PAGE/DISTRICT/DISTRICT PHOTOS/JAJPUR CLN02865.webp",
+      "participants": [
+        {
+          "district": "Jajpur",
+          "name": "Dr Ramesh Chandra Mallick",
+          "designation": "DPHO"
+        },
+        {
+          "district": "Jajpur",
+          "name": "Dr Prafulla Chandra Dixit",
+          "designation": "MO,DCCC"
+        },
+        {
+          "district": "Jajpur",
+          "name": "Mrs Sasmita Rout",
+          "designation": "AM NCD"
+        },
+        {
+          "district": "Jajpur",
+          "name": "Mr Suvendu Kumar Bhoi",
+          "designation": "Data Manager IDSP"
+        }
+      ]
+    },
+    {
+      "name": "Jharsuguda",
+      "slug": "jharsuguda",
+      "photo": "assets/IMAGES_PDF_PPT_EXCEL/TRAININGS PAGE/DISTRICT/DISTRICT PHOTOS/jharsuguda CLN01787.webp",
+      "participants": [
+        {
+          "district": "Jharsuguda",
+          "name": "Dr S K Panda",
+          "designation": "DPHO"
+        },
+        {
+          "district": "Jharsuguda",
+          "name": "Dr PC Dalei",
+          "designation": "MO I/C DCCC"
+        },
+        {
+          "district": "Jharsuguda",
+          "name": "Smt Gatanjali Meher",
+          "designation": "AM NCD"
+        },
+        {
+          "district": "Jharsuguda",
+          "name": "Sri R Patel",
+          "designation": "Data Manager IDSP"
+        }
+      ]
+    },
+    {
+      "name": "Kalahandi",
+      "slug": "kalahandi",
+      "photo": "assets/IMAGES_PDF_PPT_EXCEL/TRAININGS PAGE/DISTRICT/DISTRICT PHOTOS/KALAHANDI CLN02863.webp",
+      "participants": [
+        {
+          "district": "Kalahandi",
+          "name": "Dr Rakesh Kumar Sahu",
+          "designation": "DPHO"
+        },
+        {
+          "district": "Kalahandi",
+          "name": "Dr Dinabandhu Sahu",
+          "designation": "MO I/C DCCC"
+        },
+        {
+          "district": "Kalahandi",
+          "name": "Smt Sanjukta Rani Bagh",
+          "designation": "AM NCD"
+        },
+        {
+          "district": "Kalahandi",
+          "name": "Mr Saumya Ranjan Naik",
+          "designation": "Data Manager IDSP"
+        }
+      ]
+    },
+    {
+      "name": "Kandhamal",
+      "slug": "kandhamal",
+      "photo": "assets/IMAGES_PDF_PPT_EXCEL/TRAININGS PAGE/DISTRICT/DISTRICT PHOTOS/KANDHAMAL CLN02872.webp",
+      "participants": [
+        {
+          "district": "Kandhamal",
+          "name": "Dr Kalyani Mishra",
+          "designation": "DPHO"
+        },
+        {
+          "district": "Kandhamal",
+          "name": "Dr Arabinda Das",
+          "designation": "MO I/C DCCC"
+        },
+        {
+          "district": "Kandhamal",
+          "name": "Spandan bhanjdeo",
+          "designation": "Epidemiologist & I/C DM-IDSP"
+        },
+        {
+          "district": "Kandhamal",
+          "name": "Ashok Kumar Sahoo",
+          "designation": "AM NCD"
+        }
+      ]
+    },
+    {
+      "name": "Kendrapada",
+      "slug": "kendrapada",
+      "photo": "assets/IMAGES_PDF_PPT_EXCEL/TRAININGS PAGE/DISTRICT/DISTRICT PHOTOS/kendrapada CLN01786.webp",
+      "participants": [
+        {
+          "district": "Kendrapada",
+          "name": "Dr Gouranga Chandra Giri",
+          "designation": "DPHO"
+        },
+        {
+          "district": "Kendrapada",
+          "name": "Dr Shrikant Kumar Swain",
+          "designation": "I/C Registry"
+        },
+        {
+          "district": "Kendrapada",
+          "name": "Sri Shyam Sundar Biswal",
+          "designation": "AM NCD"
+        },
+        {
+          "district": "Kendrapada",
+          "name": "Sri Jyoti Ranjan Rout",
+          "designation": "Data Manager IDSP"
+        }
+      ]
+    },
+    {
+      "name": "Keonjhar",
+      "slug": "keonjhar",
+      "photo": "assets/IMAGES_PDF_PPT_EXCEL/TRAININGS PAGE/DISTRICT/DISTRICT PHOTOS/KEONJHAR CLN02867.webp",
+      "participants": [
+        {
+          "district": "Keonjhar",
+          "name": "Dr Purusottam Mohanta",
+          "designation": "DPHO"
+        },
+        {
+          "district": "Keonjhar",
+          "name": "Dr Satabdhi Upadhaya",
+          "designation": "LTRMO"
+        },
+        {
+          "district": "Keonjhar",
+          "name": "Santosh kumar Pattnayak",
+          "designation": "AM NCD"
+        },
+        {
+          "district": "Keonjhar",
+          "name": "Shyam Sundar Behera",
+          "designation": "Data Manager IDSP"
+        }
+      ]
+    },
+    {
+      "name": "Khordha",
+      "slug": "khordha",
+      "photo": "assets/IMAGES_PDF_PPT_EXCEL/TRAININGS PAGE/DISTRICT/DISTRICT PHOTOS/khordha CLN01792.webp",
+      "participants": [
+        {
+          "district": "Khordha",
+          "name": "Dr Shyama Prasanna Mitra",
+          "designation": "I/C Registry"
+        },
+        {
+          "district": "Khordha",
+          "name": "Dr Nandita Gupta",
+          "designation": "ADPHO"
+        },
+        {
+          "district": "Khordha",
+          "name": "Sri Durga Prasad Das",
+          "designation": "Data Manager IDSP"
+        },
+        {
+          "district": "Khordha",
+          "name": "Dr Sushant Kumar Biswal",
+          "designation": "AM NCD"
+        }
+      ]
+    },
+    {
+      "name": "Koraput",
+      "slug": "koraput",
+      "photo": "assets/IMAGES_PDF_PPT_EXCEL/TRAININGS PAGE/DISTRICT/DISTRICT PHOTOS/KORAPUT CLN02876.webp",
+      "participants": [
+        {
+          "district": "Koraput",
+          "name": "Dr Debadutta mallick",
+          "designation": "DPHO"
+        },
+        {
+          "district": "Koraput",
+          "name": "Dr Shatabdi Mishra",
+          "designation": "MO, DCCC"
+        },
+        {
+          "district": "Koraput",
+          "name": "Mr Chandra pratap Lodhi",
+          "designation": "AM NCD"
+        },
+        {
+          "district": "Koraput",
+          "name": "Mr Jitendra Ku Dash",
+          "designation": "Data Manager IDSP"
+        }
+      ]
+    },
+    {
+      "name": "Malkangiri",
+      "slug": "malkangiri",
+      "photo": "assets/IMAGES_PDF_PPT_EXCEL/TRAININGS PAGE/DISTRICT/DISTRICT PHOTOS/MALKANGIRI CLN02858.webp",
+      "participants": [
+        {
+          "district": "Malkangiri",
+          "name": "Dr M M ABID Hussain",
+          "designation": "DPHO"
+        },
+        {
+          "district": "Malkangiri",
+          "name": "Dr Narayan Patra",
+          "designation": "MO I/C DCCC"
+        },
+        {
+          "district": "Malkangiri",
+          "name": "Bijaya Krushna Panda",
+          "designation": "Data Manager IDSP"
+        },
+        {
+          "district": "Malkangiri",
+          "name": "Shiba sundar Panigrahi",
+          "designation": "AM NCD"
+        }
+      ]
+    },
+    {
+      "name": "Mayurbhanj",
+      "slug": "mayurbhanj",
+      "photo": "assets/IMAGES_PDF_PPT_EXCEL/TRAININGS PAGE/DISTRICT/DISTRICT PHOTOS/mayurbhanj CLN01800.webp",
+      "participants": [
+        {
+          "district": "Mayurbhanj",
+          "name": "Dr Sovash Naik",
+          "designation": "DPHO"
+        },
+        {
+          "district": "Mayurbhanj",
+          "name": "Sri Nihar Ranjan Prusty",
+          "designation": "AM NCD"
+        },
+        {
+          "district": "Mayurbhanj",
+          "name": "Sri Sabyasachi Swami",
+          "designation": "Data Manager IDSP"
+        }
+      ]
+    },
+    {
+      "name": "Nabarangpur",
+      "slug": "nabarangpur",
+      "photo": "assets/IMAGES_PDF_PPT_EXCEL/TRAININGS PAGE/DISTRICT/DISTRICT PHOTOS/NABARANGPUR CLN02870.webp",
+      "participants": [
+        {
+          "district": "Nabarangpur",
+          "name": "Dr Malaya Ku Tripathy",
+          "designation": "DPHO"
+        },
+        {
+          "district": "Nabarangpur",
+          "name": "Sri Tarun Kumar Sahu",
+          "designation": "AM NCD"
+        },
+        {
+          "district": "Nabarangpur",
+          "name": "Sri Tusar Kanta Ranasingh",
+          "designation": "Data Manager IDSP"
+        }
+      ]
+    },
+    {
+      "name": "Nayagarh",
+      "slug": "nayagarh",
+      "photo": "assets/IMAGES_PDF_PPT_EXCEL/TRAININGS PAGE/DISTRICT/DISTRICT PHOTOS/nayagarh CLN01809.webp",
+      "participants": [
+        {
+          "district": "Nayagarh",
+          "name": "Dr Pradeep Kumar Kar",
+          "designation": "DPHO"
+        },
+        {
+          "district": "Nayagarh",
+          "name": "Dr Priya Kumar Ghos",
+          "designation": "MO I/C DCCC"
+        },
+        {
+          "district": "Nayagarh",
+          "name": "Mr Dola Gobinda Behera",
+          "designation": "Data Manager IDSP"
+        },
+        {
+          "district": "Nayagarh",
+          "name": "Ms Mousumi Samal",
+          "designation": "AM NCD"
+        }
+      ]
+    },
+    {
+      "name": "Nuapada",
+      "slug": "nuapada",
+      "photo": "assets/IMAGES_PDF_PPT_EXCEL/TRAININGS PAGE/DISTRICT/DISTRICT PHOTOS/NUAPADA CLN02860.webp",
+      "participants": [
+        {
+          "district": "Nuapada",
+          "name": "Dr Dwarikanath Satpathy",
+          "designation": "DPHO"
+        },
+        {
+          "district": "Nuapada",
+          "name": "Jaya Prakash Sahu",
+          "designation": "MO I/C DCCC"
+        },
+        {
+          "district": "Nuapada",
+          "name": "Mr Sarat Chandra Naik",
+          "designation": "AM NCD"
+        },
+        {
+          "district": "Nuapada",
+          "name": "Mr Pratap Kumar Behera",
+          "designation": "Data Manager IDSP"
+        }
+      ]
+    },
+    {
+      "name": "Puri",
+      "slug": "puri",
+      "photo": "assets/IMAGES_PDF_PPT_EXCEL/TRAININGS PAGE/DISTRICT/DISTRICT PHOTOS/puri CLN01808.webp",
+      "participants": [
+        {
+          "district": "Puri",
+          "name": "Dr Jasaswee Das",
+          "designation": "MO I/C DCCU"
+        },
+        {
+          "district": "Puri",
+          "name": "Dr Narayan Prasad Nanda",
+          "designation": "ADPHO (DC)"
+        },
+        {
+          "district": "Puri",
+          "name": "Deepak Mahapatra",
+          "designation": "Data Manager IDSP"
+        },
+        {
+          "district": "Puri",
+          "name": "Anita Dash",
+          "designation": "AM NCD"
+        }
+      ]
+    },
+    {
+      "name": "Rayagada",
+      "slug": "rayagada",
+      "photo": "assets/IMAGES_PDF_PPT_EXCEL/TRAININGS PAGE/DISTRICT/DISTRICT PHOTOS/RAYAGADA CLN02886.webp",
+      "participants": [
+        {
+          "district": "Rayagada",
+          "name": "Dr Ruma Mohapatra",
+          "designation": "DPHO"
+        },
+        {
+          "district": "Rayagada",
+          "name": "Dr Lohit Anwesh Sahu",
+          "designation": "MO I/C DCCU"
+        },
+        {
+          "district": "Rayagada",
+          "name": "Mr Satesh Kumar Tripathy",
+          "designation": "AM NCD"
+        },
+        {
+          "district": "Rayagada",
+          "name": "Mr Rabi Narayan Sahu",
+          "designation": "Data Manager IDSP"
+        }
+      ]
+    },
+    {
+      "name": "Sambalpur",
+      "slug": "sambalpur",
+      "photo": "assets/IMAGES_PDF_PPT_EXCEL/TRAININGS PAGE/DISTRICT/DISTRICT PHOTOS/sambalpur CLN01803.webp",
+      "participants": [
+        {
+          "district": "Sambalpur",
+          "name": "Dr Ashok Das",
+          "designation": "DPHO"
+        },
+        {
+          "district": "Sambalpur",
+          "name": "Dr Lalit Kumar Pradhan",
+          "designation": "MO I/C DCCC"
+        },
+        {
+          "district": "Sambalpur",
+          "name": "Sri Sudharanjan Rath",
+          "designation": "AM NCD"
+        },
+        {
+          "district": "Sambalpur",
+          "name": "Sri Sanat Kumar Behera",
+          "designation": "Data Manager IDSP"
+        }
+      ]
+    },
+    {
+      "name": "Subarnapur",
+      "slug": "subarnapur",
+      "photo": "assets/IMAGES_PDF_PPT_EXCEL/TRAININGS PAGE/DISTRICT/DISTRICT PHOTOS/SUBARNAPUR CLN02882.webp",
+      "participants": [
+        {
+          "district": "Subarnapur",
+          "name": "Dr Purusottam Mohanta",
+          "designation": "DPHO"
+        },
+        {
+          "district": "Subarnapur",
+          "name": "Dr Satabdhi Upadhaya",
+          "designation": "LTRMO"
+        },
+        {
+          "district": "Subarnapur",
+          "name": "Santosh kumar Pattnayak",
+          "designation": "AM NCD"
+        },
+        {
+          "district": "Subarnapur",
+          "name": "Shyam Sundar Behera",
+          "designation": "Data Manager IDSP"
+        }
+      ]
+    },
+    {
+      "name": "Sundargarh",
+      "slug": "sundargarh",
+      "photo": "assets/IMAGES_PDF_PPT_EXCEL/TRAININGS PAGE/DISTRICT/DISTRICT PHOTOS/sundargarh CLN01797.webp",
+      "participants": [
+        {
+          "district": "Sundargarh",
+          "name": "Dr Sibashis Maharana",
+          "designation": "DPHO"
+        },
+        {
+          "district": "Sundargarh",
+          "name": "Dr Sagar Dalei",
+          "designation": "MO I/C DCCC"
+        },
+        {
+          "district": "Sundargarh",
+          "name": "Sri Swapnajit Mohanty",
+          "designation": "AM NCD"
+        },
+        {
+          "district": "Sundargarh",
+          "name": "Sri Sanjay Patel",
+          "designation": "Data Manager IDSP"
+        }
+      ]
+    }
+  ]
+}

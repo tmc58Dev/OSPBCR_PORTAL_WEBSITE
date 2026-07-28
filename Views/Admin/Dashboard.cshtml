@@ -1,0 +1,43 @@
+@model DashboardViewModel
+@{
+    Layout = "_CmsLayout";
+    ViewData["Title"] = "Dashboard";
+}
+
+<header class="cms-page-header">
+    <div>
+        <span class="cms-eyebrow">Content workspace</span>
+        <h1>Dashboard</h1>
+        <p>Choose a management area. Published changes appear automatically on the public website.</p>
+    </div>
+</header>
+
+<section class="dashboard-actions" aria-label="Management areas">
+    <a class="dashboard-action-card" asp-action="CreateNews">
+        <span class="dashboard-icon" aria-hidden="true">N</span>
+        <div>
+            <span class="cms-eyebrow">Multilingual publishing</span>
+            <h2>New News Card</h2>
+            <p>Create content in English, Hindi, and Odia, or update an existing card.</p>
+        </div>
+        <span class="dashboard-arrow" aria-hidden="true">→</span>
+    </a>
+    <a class="dashboard-action-card" asp-action="Training">
+        <span class="dashboard-icon" aria-hidden="true">PDF</span>
+        <div>
+            <span class="cms-eyebrow">District resources</span>
+            <h2>District Training PDF</h2>
+            <p>Add, update, or remove district reports and their WebP preview images.</p>
+        </div>
+        <span class="dashboard-arrow" aria-hidden="true">→</span>
+    </a>
+</section>
+
+<section class="cms-stats" aria-label="Content totals">
+    @if (User.IsInRole(CmsRoles.Admin))
+    {
+        <a asp-action="Users"><strong>@Model.UserCount</strong><span>Authorized users</span></a>
+    }
+    <a asp-action="News"><strong>@Model.NewsCount</strong><span>News Cards</span></a>
+    <a asp-action="Training"><strong>@Model.TrainingPdfCount</strong><span>Training PDFs</span></a>
+</section>

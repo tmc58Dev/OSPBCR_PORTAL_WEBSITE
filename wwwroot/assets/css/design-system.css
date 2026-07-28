@@ -1,0 +1,499 @@
+/* Premium clinical design layer shared by every page. */
+:root {
+    --primary: #005B96;
+    --primary-dark: #003F6B;
+    --secondary: #0077B6;
+    --accent: #00A6A6;
+    --primary-gradient: linear-gradient(135deg, #003F6B 0%, #005B96 45%, #0A84C6 100%);
+    --hover-gradient: linear-gradient(135deg, #005B96 0%, #0077B6 50%, #00A6A6 100%);
+    --light-bg: #EDF8FF; 
+    --alternate-bg: #FAF8FF;
+    --card-bg: rgba(255, 255, 255, 0.98);
+    --white: #FAF9F6;
+    --text: #111827;
+    --text-body: #1F2937;
+    --text-muted: #475569;
+    --number-text: #0F172A;
+    --border: #E5E7EB;
+    --shadow-sm: 0 2px 6px rgba(15, 23, 42, 0.04), 0 10px 28px rgba(0, 63, 107, 0.06);
+    --shadow-md: 0 8px 18px rgba(15, 23, 42, 0.07), 0 22px 48px rgba(0, 91, 150, 0.11);
+    --shadow-lg: 0 14px 30px rgba(15, 23, 42, 0.09), 0 30px 70px rgba(0, 91, 150, 0.14);
+    --glow: 0 0 0 1px rgba(10, 132, 198, 0.12), 0 22px 54px rgba(0, 119, 182, 0.14);
+    --radius-sm: 12px;
+    --radius-md: 18px;
+    --radius-lg: 28px;
+    --transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: var(--navbar-offset, 104px);
+    background: var(--light-bg);
+}
+
+body {
+    color: var(--text-body);
+    padding-top: var(--navbar-offset, 104px);
+    background:
+        radial-gradient(circle at 8% 4%, rgba(10, 132, 198, 0.055), transparent 24rem),
+        var(--light-bg);
+}
+
+main { overflow: clip; }
+
+h1, h2, h3, h4, h5, h6 { color: var(--text); }
+p, li, td, label, input, select, textarea { color: var(--text-body); }
+
+::selection { background: rgba(0, 166, 166, 0.2); color: var(--text); }
+
+:focus-visible {
+    outline: 3px solid rgba(10, 132, 198, 0.3);
+    outline-offset: 3px;
+}
+
+.section {
+    position: relative;
+    padding: clamp(76px, 8vw, 124px) 0;
+}
+
+main > .section:nth-of-type(odd),
+.mission-section,
+.collaboration-section,
+.gallery-section,
+.objectives-section,
+.stats-section { background: var(--alternate-bg); }
+
+.section-heading { margin-bottom: clamp(42px, 5vw, 72px); }
+.section-heading h2 { margin-bottom: 16px; color: var(--text); }
+.section-heading h2::after {
+    content: "";
+    display: block;
+    width: 58px;
+    height: 4px;
+    margin: 18px auto 0;
+    border-radius: 999px;
+    background: var(--hover-gradient);
+}
+.section-heading:not(.text-center) h2::after { margin-left: 0; }
+.section-heading p { max-width: 760px; color: var(--text-muted); }
+
+/* Navigation and footer use translucent pearl surfaces. */
+.navbar-custom {
+    min-height: 104px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: #ffffff;
+    border-color: rgba(229, 231, 235, 0.95);
+    box-shadow: 0 1px 0 rgba(255,255,255,0.9), 0 10px 22px rgba(15, 23, 42, 0.06);
+    backdrop-filter: blur(14px) saturate(120%);
+    width: 100%;
+    z-index: 1200;
+    will-change: transform, box-shadow, backdrop-filter;
+}
+.navbar-custom.navbar-scrolled {
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.10), 0 18px 44px rgba(0, 63, 107, 0.10);
+    backdrop-filter: blur(18px) saturate(150%);
+}
+.navbar-custom .container-custom {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+}
+.nav-wrapper { min-height: 104px; align-items: center; gap: 0; }
+.nav-menu {
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 12px;
+    height: 104px;
+    padding: 0 24px;
+    background: linear-gradient(90deg, #2C6F9B 0%, #005B96 42%, #003F6B 100%);
+}
+.nav-menu li,
+.nav-menu a {
+    white-space: nowrap;
+}
+.nav-menu a {
+    color: rgba(255, 255, 255, 0.96);
+    font-size: var(--font-size-nav);
+    font-weight: 600;
+    line-height: 1;
+}
+.nav-menu a:hover, .nav-menu a.active {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.10);
+    box-shadow: 0 10px 22px rgba(0, 37, 64, 0.12);
+}
+.nav-menu a.setu-pop-link,
+.nav-menu a.setu-pop-link:hover,
+.nav-menu a.setu-pop-link:focus-visible {
+    color: #ffffff;
+    min-height: 42px;
+    padding: 0 14px;
+    border: 1px solid rgba(255, 255, 255, 0.42);
+    background: linear-gradient(90deg, #ff4d6d, #ffb703, #00b4d8, #7b2ff7, #ff4d6d);
+    background-size: 320% 100%;
+    box-shadow: 0 8px 18px rgba(0, 37, 64, 0.18), 0 0 18px rgba(255, 183, 3, 0.28);
+    animation: setuBounce 0.55s ease-in-out infinite, setuRainbow 3.2s linear infinite;
+}
+
+.nav-menu a.setu-pop-link::after {
+    display: none;
+}
+
+.nav-menu a.setu-pop-link:hover,
+.nav-menu a.setu-pop-link:focus-visible {
+    box-shadow: 0 10px 22px rgba(0, 37, 64, 0.22), 0 0 22px rgba(0, 180, 216, 0.34);
+}
+.language-control {
+    margin-left: auto;
+}
+.logo-group:hover { transform: translateY(-2px); }
+.logo-text { color: var(--text); }
+.nav-left {
+    height: 104px;
+    padding: 0 28px 0 0;
+    background: #ffffff;
+    border-right: 1px solid rgba(229, 231, 235, 0.95);
+    box-shadow: 10px 0 24px rgba(15, 23, 42, 0.04);
+}
+.navbar-logo {
+    height: 76px;
+    filter: none;
+}
+.nav-menu a.active { background: rgba(255, 255, 255, 0.16); }
+.nav-menu a::after { height: 3px; border-radius: 99px; background: rgba(255, 255, 255, 0.92); }
+
+@keyframes setuBounce {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-6px);
+    }
+}
+
+@keyframes setuRainbow {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    100% {
+        background-position: 320% 50%;
+    }
+}
+
+.footer {
+    padding: 72px 0 38px;
+    background:
+        linear-gradient(135deg, rgba(243,246,250,0.96), rgba(250,249,246,0.98)),
+        var(--light-bg);
+    border-top: 1px solid var(--border);
+}
+.footer-content h3 { color: var(--text); }
+.footer-content p, .footer-bottom p { color: var(--text-muted); }
+
+/* Internal page heroes use a shared Cancer Registry image layer. */
+.about-hero, .participants-hero, .status-hero, .sources-hero, .dashboard-hero,
+.team-hero, .training-hero, .training-materials-hero, .map-hero {
+    position: relative;
+    min-height: min(540px, 58vh);
+    isolation: isolate;
+    overflow: hidden;
+    color: var(--white);
+    background:
+        linear-gradient(
+            90deg,
+            rgba(0, 63, 107, 0.96) 0%,
+            rgba(0, 91, 150, 0.9) 38%,
+            rgba(0, 119, 182, 0.54) 64%,
+            rgba(237, 248, 255, 0.88) 100%
+        );
+    border-bottom: 1px solid var(--border);
+}
+.about-hero::before, .participants-hero::before, .status-hero::before, .dashboard-hero::before,
+.sources-hero::before, .team-hero::before, .training-hero::before,
+.training-materials-hero::before {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    background:
+        linear-gradient(
+            90deg,
+            rgba(0, 63, 107, 0.72),
+            rgba(0, 91, 150, 0.46)
+        ),
+        url("../IMAGES_PDF_PPT_EXCEL/hero/Cancer Registry.webp") center center / cover no-repeat;
+    opacity: 0.88;
+}
+.about-hero::after, .participants-hero::after, .status-hero::after, .dashboard-hero::after,
+.sources-hero::after, .team-hero::after, .training-hero::after,
+.training-materials-hero::after, .map-hero::after {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    background:
+        linear-gradient(
+            90deg,
+            rgba(0, 63, 107, 0.24) 0%,
+            rgba(0, 91, 150, 0.12) 46%,
+            rgba(250, 249, 246, 0.2) 100%
+        );
+}
+.about-hero .container-custom, .participants-hero .container-custom, .status-hero .container-custom, .dashboard-hero .container-custom,
+.sources-hero .container-custom, .team-hero .container-custom, .training-hero .container-custom,
+.training-materials-hero .container-custom, .map-hero .container-custom {
+    position: relative;
+    z-index: 2;
+}
+.about-hero h1, .participants-hero h1, .status-hero h1, .sources-hero h1, .dashboard-hero h1,
+.team-hero h1, .training-hero h1, .training-materials-hero h1, .map-hero h1 { color: var(--white); }
+.about-hero p, .participants-hero p, .status-hero p, .sources-hero p, .dashboard-hero p,
+.team-hero p, .training-hero p, .training-materials-hero p, .map-hero p { color: rgba(255,255,255,0.92); }
+.about-hero .hero-tag, .participants-hero .hero-tag, .status-hero .hero-tag,
+.sources-hero .hero-tag, .dashboard-hero .hero-tag, .team-hero .hero-tag, .training-hero .hero-tag,
+.training-materials-hero .hero-tag, .map-hero .hero-tag,
+.hero-tag {
+    padding: 9px 15px;
+    color: var(--white);
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 999px;
+    box-shadow: var(--shadow-sm);
+    backdrop-filter: blur(10px);
+}
+
+.about-hero .hero-content, .participants-hero .hero-content, .status-hero .hero-content, .dashboard-hero .hero-content,
+.sources-hero .hero-content, .team-hero .hero-content, .training-hero .hero-content,
+.training-materials-hero .hero-content, .map-hero .hero-content {
+    max-width: min(760px, 58%);
+    margin-right: auto;
+}
+
+/* Home hero keeps the photography but places dark copy on a pearl glass panel. */
+.hero-section { min-height: calc(100vh - 92px); padding: 110px 0; background: var(--alternate-bg); }
+.hero-background::after {
+    background: linear-gradient(90deg, rgba(250,249,246,0.82) 0%, rgba(250,249,246,0.50) 48%, rgba(243,246,250,0.16) 100%);
+}
+.hero-background-slide img { filter: brightness(1.01) contrast(1.02) saturate(0.92); }
+.hero-section .hero-content {
+    width: min(760px, calc(100% - 40px));
+    margin-left: max(20px, calc((100vw - min(var(--container-width), 92vw)) / 2));
+    padding: clamp(34px, 5vw, 62px);
+    border: 1px solid rgba(255,255,255,0.84);
+    border-radius: var(--radius-lg);
+    background: rgba(250,249,246,0.87);
+    box-shadow: var(--shadow-lg);
+    backdrop-filter: blur(16px) saturate(130%);
+}
+.hero-text h1 { color: var(--text); line-height: 1.02; }
+.hero-text p { color: var(--text-body); }
+
+/* Buttons */
+.btn-primary-custom, .btn-outline-custom, .download-btn, .view-btn,
+.source-controls button, .pagination-container button {
+    border-radius: 12px;
+    font-weight: 700;
+    transition: var(--transition);
+}
+.btn-primary-custom, .download-btn, .view-btn, .source-controls button,
+.pagination-container button {
+    color: #fff;
+    background: var(--primary-gradient);
+    box-shadow: 0 8px 22px rgba(0,91,150,0.18);
+}
+.btn-primary-custom:hover, .download-btn:hover, .view-btn:hover,
+.source-controls button:hover, .pagination-container button:hover {
+    color: #fff;
+    background: var(--hover-gradient);
+    transform: translateY(-3px);
+    box-shadow: 0 14px 30px rgba(0,119,182,0.24);
+}
+.btn-outline-custom { color: var(--primary); background: rgba(255,255,255,0.86); border: 1px solid rgba(0,91,150,0.28); }
+.btn-outline-custom:hover { color: var(--text); background: var(--alternate-bg); transform: translateY(-3px); box-shadow: var(--shadow-md); }
+
+/* Cards and panels */
+.mission-card, .stat-card, .collaboration-card, .overview-card, .objective-card,
+.workflow-box, .partner-card, .gallery-item, .district-card, .team-card,
+.participant-card, .map-container, .info-panel, .table-wrapper {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--card-bg);
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+}
+.mission-card:hover, .stat-card:hover, .collaboration-card:hover, .overview-card:hover,
+.objective-card:hover, .workflow-box:hover, .partner-card:hover, .gallery-item:hover,
+.district-card:hover, .team-card:hover, .participant-card:hover,
+.map-container:hover, .info-panel:hover {
+    transform: translateY(-7px);
+    border-color: rgba(10,132,198,0.26);
+    box-shadow: var(--glow);
+}
+.mission-card, .overview-card, .objective-card, .stat-card { position: relative; overflow: hidden; }
+.mission-card::after, .overview-card::after, .objective-card::before, .stat-card::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto;
+    height: 5px;
+    background: var(--primary-gradient);
+}
+.mission-front, .overview-front {
+    inset: 8px;
+    height: calc(100% - 16px);
+    color: var(--text);
+    background: linear-gradient(145deg, rgba(255,255,255,0.98), rgba(243,246,250,0.96));
+    border-radius: 14px;
+    box-shadow: none;
+}
+.mission-front::before, .overview-front::before {
+    content: "";
+    width: 48px;
+    height: 5px;
+    margin-bottom: 20px;
+    border-radius: 99px;
+    background: var(--primary-gradient);
+}
+.mission-front span { color: var(--text); text-shadow: none; }
+.mission-back, .overview-back { background: var(--card-bg); color: var(--text); }
+.mission-card:hover .mission-front, .overview-card:hover .overview-front { height: 62px; }
+.stat-card { padding: 44px 30px; }
+.stat-card h2, .objective-card h3 { color: var(--number-text); font-weight: 800; }
+.stat-card p { color: var(--text-muted); margin: 12px 0 0; }
+
+/* Forms and tables */
+.filters-container, .source-controls, .dashboard-controls, .search-wrapper {
+    padding: 18px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: rgba(255,255,255,0.76);
+    box-shadow: var(--shadow-sm);
+}
+.filters-container input, .filters-container select, .source-controls input,
+.source-controls select, .dashboard-controls input, .dashboard-controls select,
+.search-wrapper input {
+    border: 1px solid var(--border);
+    border-radius: 11px;
+    background: rgba(250,249,246,0.9);
+    color: var(--text-body);
+}
+.search-wrapper input { border-width: 1px; }
+.filters-container input:focus, .filters-container select:focus,
+.source-controls input:focus, .source-controls select:focus,
+.dashboard-controls input:focus, .dashboard-controls select:focus,
+.search-wrapper input:focus {
+    border-color: #0A84C6;
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(10,132,198,0.11), var(--shadow-sm);
+}
+.table-wrapper { overflow: hidden; }
+.sources-table thead, .status-table thead { color: var(--text); background: linear-gradient(135deg, #E8F2F8, #DCECF5); }
+.sources-table th, .status-table th { color: var(--number-text); border-color: var(--border); }
+.sources-table td, .status-table td { color: var(--text-body); border-color: var(--border); }
+.sources-table tbody tr:nth-child(even), .status-table tbody tr:nth-child(even) { background: rgba(243,246,250,0.62); }
+.sources-table tbody tr:hover, .status-table tbody tr:hover { background: rgba(10,132,198,0.08); }
+.progress-container { overflow: hidden; height: 24px; border-radius: 999px; background: #E7EEF4; }
+.progress-bar { background: var(--primary-gradient); }
+.progress-text { color: var(--number-text); text-shadow: 0 1px 2px rgba(255,255,255,0.8); }
+
+.team-image, .participant-image, #map { border-radius: 14px; }
+.team-content, .participant-card { color: var(--text-body); }
+.team-designation, .participant-designation, #infoPanel h2, #infoPanel strong,
+.district-card h3, .partner-card h3 { color: var(--primary); }
+.team-department, .participant-district { color: var(--text-muted); }
+.info-panel, .map-container { padding: 24px; }
+.district-label { border-radius: 9px; color: var(--text) !important; }
+
+@media (max-width: 991px) {
+    .about-hero::before, .participants-hero::before, .status-hero::before, .dashboard-hero::before,
+    .sources-hero::before, .team-hero::before, .training-hero::before,
+    .training-materials-hero::before {
+        opacity: 0.38;
+        background-size: cover;
+        background-position: center center;
+    }
+    .about-hero, .participants-hero, .status-hero, .sources-hero, .dashboard-hero,
+    .team-hero, .training-hero, .training-materials-hero, .map-hero {
+        background:
+            linear-gradient(
+                90deg,
+                rgba(0, 63, 107, 0.98) 0%,
+                rgba(0, 91, 150, 0.94) 48%,
+                rgba(0, 119, 182, 0.62) 76%,
+                rgba(237, 248, 255, 0.86) 100%
+            );
+    }
+    .about-hero .hero-content, .participants-hero .hero-content, .status-hero .hero-content, .dashboard-hero .hero-content,
+    .sources-hero .hero-content, .team-hero .hero-content, .training-hero .hero-content,
+    .training-materials-hero .hero-content, .map-hero .hero-content {
+        max-width: min(720px, 68%);
+    }
+    .hero-section .hero-content { margin: 0 auto; }
+    .filters-container { grid-template-columns: 1fr 1fr; }
+    .team-grid, .participants-grid, .district-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    body { padding-top: var(--navbar-offset, 176px); }
+    .navbar-custom { min-height: auto; padding: 12px 0 0; }
+    .nav-wrapper { min-height: auto; flex-direction: column; align-items: stretch; gap: 12px; }
+    .nav-left { justify-content: center; padding-right: 18px; box-shadow: none; }
+    .nav-menu {
+        width: 100%;
+        gap: 24px;
+        padding: 10px 2px 14px;
+        overflow-x: auto;
+        scrollbar-width: none;
+    }
+    .nav-menu::-webkit-scrollbar { display: none; }
+    .nav-menu li, .nav-menu a { flex: 0 0 auto; white-space: nowrap; }
+}
+
+@media (max-width: 767px) {
+    body { padding-top: var(--navbar-offset, 170px); }
+    .section { padding: 68px 0; }
+    .navbar-logo { height: 52px; }
+    .hero-section { min-height: 720px; padding: 70px 0; }
+    .hero-section .hero-content { width: calc(100% - 32px); padding: 30px 24px; }
+    .about-hero, .participants-hero, .status-hero, .sources-hero, .dashboard-hero,
+    .team-hero, .training-hero, .training-materials-hero, .map-hero {
+        min-height: 440px;
+        background:
+            linear-gradient(
+                90deg,
+                rgba(0, 63, 107, 0.99) 0%,
+                rgba(0, 91, 150, 0.96) 58%,
+                rgba(0, 119, 182, 0.68) 100%
+            );
+    }
+    .about-hero::before, .participants-hero::before, .status-hero::before, .dashboard-hero::before,
+    .sources-hero::before, .team-hero::before, .training-hero::before,
+    .training-materials-hero::before {
+        opacity: 0.22;
+        background-position: center center;
+    }
+    .about-hero .hero-content, .participants-hero .hero-content, .status-hero .hero-content, .dashboard-hero .hero-content,
+    .sources-hero .hero-content, .team-hero .hero-content, .training-hero .hero-content,
+    .training-materials-hero .hero-content, .map-hero .hero-content {
+        max-width: 72%;
+    }
+    .hero-controls { top: auto; bottom: 18px; justify-content: center; gap: 12px; }
+    .hero-control { width: 46px; height: 46px; }
+    .filters-container, .source-controls, .dashboard-controls { grid-template-columns: 1fr; flex-direction: column; }
+    .source-controls input, .dashboard-controls input { width: 100%; }
+    .source-controls button { min-height: 54px; }
+    .table-wrapper { border-radius: 14px; }
+    .team-grid, .participants-grid, .district-grid { grid-template-columns: 1fr; }
+    .team-image { height: min(420px, 110vw); }
+    #map { height: 480px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; }
+}

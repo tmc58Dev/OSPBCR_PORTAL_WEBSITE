@@ -1,0 +1,43 @@
+@model IReadOnlyList<CmsUser>
+@{
+    Layout = "_CmsLayout";
+    ViewData["Title"] = "Users";
+}
+<header class="cms-page-header cms-page-header-actions">
+    <div>
+        <span class="cms-eyebrow">Admin only</span>
+        <h1>User management</h1>
+        <p>Create accounts, assign roles, reset credentials, or deactivate access.</p>
+    </div>
+    <a class="cms-button cms-button-primary" asp-action="CreateUser">Create user</a>
+</header>
+<div class="cms-table-card">
+    <div class="cms-table-scroll">
+        <table class="cms-table">
+            <thead><tr><th>Username</th><th>Role</th><th>Status</th><th>Updated</th><th class="align-right">Actions</th></tr></thead>
+            <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td><strong>@user.Username</strong></td>
+                    <td><span class="cms-badge">@user.Role</span></td>
+                    <td><span class="cms-status @(user.IsActive ? "is-published" : "is-draft")">@(user.IsActive ? "Active" : "Inactive")</span></td>
+                    <td>@user.UpdatedAt.ToLocalTime().ToString("dd MMM yyyy, HH:mm")</td>
+                    <td class="table-actions">
+                        <a class="cms-button cms-button-secondary cms-button-small" asp-action="EditUser" asp-route-id="@user.Id">Edit</a>
+                        @if (!user.Username.Equals("admin", StringComparison.OrdinalIgnoreCase) && user.Id.ToString() != User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value)
+                        {
+                            <form asp-action="DeleteUser" asp-route-id="@user.Id" method="post" data-confirm="Delete user '@user.Username'? This cannot be undone.">
+                                <button class="cms-button cms-button-danger cms-button-small" type="submit">Delete</button>
+                            </form>
+                        }
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>
+@section Scripts {
+    <script>document.querySelectorAll("[data-confirm]").forEach(form => form.addEventListener("submit", event => { if (!confirm(form.dataset.confirm)) event.preventDefault(); }));</script>
+}

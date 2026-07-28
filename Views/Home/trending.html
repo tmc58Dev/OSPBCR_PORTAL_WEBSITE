@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Latest multilingual news and updates from the Odisha State Population-Based Cancer Registry.">
+    <title>OSPBCR | Trending</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/main.css?v=20260726-nav-actions">
+    <link rel="stylesheet" href="assets/css/design-system.css">
+    <link rel="stylesheet" href="assets/css/pages/trending.css?v=20260727-gallery-controls">
+</head>
+
+<body>
+    <div id="navbar-container"></div>
+
+    <main>
+        <section class="about-hero trending-hero">
+            <div class="container-custom">
+                <div class="hero-content trending-hero-copy fade-up">
+                    <span class="hero-tag trending-eyebrow">TRENDING NEWS</span>
+                    <h1>Latest News and Registry Updates</h1>
+                    <p>
+                        Stay informed with the latest announcements, registry milestones, public health
+                        initiatives, and cancer surveillance updates from OSPBCR.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section trending-section" aria-labelledby="trending-heading">
+            <div class="container-custom">
+                <div class="trending-toolbar">
+                    <div>
+                        <span class="trending-kicker">Latest updates</span>
+                        <h2 id="trending-heading">News and announcements</h2>
+                    </div>
+
+                    <div class="trending-filters">
+                        <div class="trending-language-filter" role="group" aria-label="Filter News Cards by language">
+                            <button type="button" data-trending-language="en" data-i18n-skip>English</button>
+                            <button type="button" data-trending-language="hi" data-i18n-skip>हिन्दी</button>
+                            <button type="button" data-trending-language="or" data-i18n-skip>ଓଡ଼ିଆ</button>
+                        </div>
+
+                        <div class="trending-date-filter" role="group" aria-labelledby="trending-date-filter-label">
+                            <span id="trending-date-filter-label">Sort by date</span>
+                            <div class="trending-date-filter-options">
+                                <button type="button" data-trending-date-order="asc" data-i18n-skip>
+                                    Ascending
+                                    <span aria-hidden="true">↑</span>
+                                </button>
+                                <button type="button" data-trending-date-order="desc" data-i18n-skip>
+                                    Descending
+                                    <span aria-hidden="true">↓</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="trending-status" data-trending-status role="status" aria-live="polite">
+                    Loading published News Cards…
+                </div>
+                <div class="trending-list" data-trending-list data-i18n-skip aria-live="polite"></div>
+            </div>
+        </section>
+    </main>
+
+    <dialog class="trending-preview-dialog" data-trending-preview aria-labelledby="trending-preview-heading">
+        <div class="trending-preview-shell">
+            <header class="trending-preview-header">
+                <div>
+                    <span class="trending-kicker">Complete News Card</span>
+                    <h2 id="trending-preview-heading">News Card Preview</h2>
+                </div>
+                <button type="button" class="trending-preview-close" data-trending-preview-close
+                        aria-label="Close News Card preview">&times;</button>
+            </header>
+            <div data-trending-preview-content></div>
+        </div>
+    </dialog>
+
+    <div id="footer-container"></div>
+
+    <script src="assets/js/core/i18n.js"></script>
+    <script src="assets/js/core/loader.js?v=20260725-trending"></script>
+    <script src="assets/js/pages/trending.js?v=20260727-gallery-controls"></script>
+</body>
+
+</html>

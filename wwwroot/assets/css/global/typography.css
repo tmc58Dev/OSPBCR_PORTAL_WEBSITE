@@ -1,0 +1,368 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Noto+Sans+Oriya:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap');
+
+:root {
+    --font-family-base: 'Manrope', 'Noto Sans Devanagari', 'Noto Sans Oriya', sans-serif;
+    --font-family-display: 'Source Serif 4', 'Noto Sans Devanagari', 'Noto Sans Oriya', Georgia, serif;
+    --font-family-devanagari: 'Noto Sans Devanagari', 'Manrope', sans-serif;
+    --font-family-odia: 'Noto Sans Oriya', 'Manrope', sans-serif;
+    --font-size-body: 16px;
+    --line-height-body: 1.65;
+    --font-size-h1: clamp(2.25rem, 2.4vw + 1.1rem, 40px);
+    --font-size-h2: clamp(1.75rem, 1vw + 1.35rem, 32px);
+    --font-size-h3: clamp(1.25rem, 0.7vw + 1rem, 24px);
+    --font-size-h4: clamp(1.25rem, 0.45vw + 1rem, 22px);
+    --font-size-nav: 16px;
+    --font-size-label: 14px;
+    --font-size-meta: 13px;
+    --font-weight-body: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+    --letter-spacing-tight: -0.035em;
+    --letter-spacing-heading: -0.02em;
+    --letter-spacing-label: 0.04em;
+    --line-height-heading: 1.15;
+    --line-height-tight: 1.25;
+}
+
+html {
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    font-family: var(--font-family-base);
+    font-size: var(--font-size-body);
+    font-weight: var(--font-weight-body);
+    color: var(--text-body);
+    background: var(--light-bg);
+    line-height: var(--line-height-body);
+    letter-spacing: 0;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+html[data-language="hi"] body {
+    font-family: var(--font-family-devanagari);
+}
+
+html[data-language="or"] body {
+    font-family: var(--font-family-odia);
+}
+
+html[data-language="hi"] h1,
+html[data-language="hi"] h2,
+html[data-language="hi"] h3,
+html[data-language="hi"] h4,
+html[data-language="hi"] h5,
+html[data-language="hi"] h6,
+html[data-language="or"] h1,
+html[data-language="or"] h2,
+html[data-language="or"] h3,
+html[data-language="or"] h4,
+html[data-language="or"] h5,
+html[data-language="or"] h6 {
+    font-family: inherit;
+    letter-spacing: 0;
+}
+
+html[data-language="hi"] *,
+html[data-language="or"] * {
+    letter-spacing: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin: 0 0 0.75em;
+    font-family: var(--font-family-display);
+    color: var(--text);
+}
+
+h1 {
+    font-size: var(--font-size-h1);
+    font-weight: var(--font-weight-bold);
+    line-height: 1.05;
+    letter-spacing: var(--letter-spacing-tight);
+}
+
+h2 {
+    font-size: var(--font-size-h2);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-heading);
+    letter-spacing: var(--letter-spacing-heading);
+}
+
+h3 {
+    font-size: var(--font-size-h3);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-tight);
+    letter-spacing: -0.01em;
+}
+
+h4,
+.card-heading-sm {
+    font-size: var(--font-size-h4);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-tight);
+    letter-spacing: -0.01em;
+}
+
+.section-heading h2,
+.section-title,
+section > .container-custom > .section-heading h2 {
+    font-size: var(--font-size-h2);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-heading);
+    letter-spacing: var(--letter-spacing-heading);
+}
+
+.card-title,
+.card-heading,
+.overview-card h3,
+.mission-content h3,
+.mission-front span,
+.participant-name,
+.team-name,
+.district-card h3,
+.collaboration-card h3,
+.partner-card h3,
+.footer-content h3,
+#infoPanel h2 {
+    font-size: var(--font-size-h3);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-tight);
+    letter-spacing: -0.01em;
+}
+
+p,
+li,
+dd,
+td,
+input,
+select,
+textarea,
+button {
+    font-family: var(--font-family-base);
+    font-size: var(--font-size-body);
+    font-weight: var(--font-weight-body);
+    line-height: var(--line-height-body);
+    color: inherit;
+}
+
+p,
+ul,
+ol {
+    margin: 0 0 1rem;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+strong,
+b,
+th,
+.font-semibold {
+    font-weight: var(--font-weight-semibold);
+}
+
+small,
+.meta-text,
+.footer-bottom p,
+.participant-district,
+.team-department,
+.progress-text,
+.district-label,
+.collaboration-slogan,
+.sources-table td small,
+.status-table td small {
+    font-size: var(--font-size-meta);
+    line-height: 1.5;
+    font-weight: var(--font-weight-body);
+}
+
+.hero-tag,
+.status-table th,
+.sources-table th,
+.label-text,
+label,
+.section-label,
+thead th,
+.table-label {
+    font-size: var(--font-size-label);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+}
+
+.about-hero h1,
+.participants-hero h1,
+.status-hero h1,
+.dashboard-hero h1,
+.sources-hero h1,
+.team-hero h1,
+.training-hero h1,
+.map-hero h1 {
+    max-width: 18ch;
+}
+
+.section-heading p,
+.hero-content p,
+.overview-text p,
+.mission-content p,
+.collaboration-card p,
+.partner-card p,
+.participant-card p,
+.team-card p,
+.district-card p,
+#infoPanel p,
+.footer-content p,
+.status-table td,
+.sources-table td {
+    color: var(--text-body);
+    font-weight: var(--font-weight-body);
+}
+
+.navbar-custom,
+.navbar-custom a,
+.nav-menu a,
+.logo-text {
+    font-family: var(--font-family-base);
+}
+
+.nav-menu a,
+.pagination-container button,
+.source-controls button,
+.download-btn,
+.view-btn,
+.btn-primary-custom,
+.btn-outline-custom,
+.navbar-logo {
+    font-size: var(--font-size-nav);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.4;
+}
+
+.logo,
+.logo-text,
+.footer-content h3 {
+    font-size: clamp(1.05rem, 0.35vw + 1rem, 1.25rem);
+    font-weight: var(--font-weight-semibold);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+}
+
+.source-controls button,
+.download-btn,
+.view-btn {
+    font-weight: var(--font-weight-medium);
+}
+
+.participant-designation,
+.team-designation {
+    font-size: var(--font-size-label);
+    line-height: 1.55;
+    font-weight: var(--font-weight-body);
+}
+
+.hero-control,
+.sources-table td,
+.status-table td,
+input,
+select,
+textarea,
+button {
+    font-size: var(--font-size-body);
+}
+
+.workflow-box {
+    font-size: var(--font-size-h4);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-tight);
+    letter-spacing: -0.01em;
+}
+
+.stat-card h2,
+.objective-card h3,
+.workflow-arrow,
+.timeline-arrow,
+.progress-text,
+.district-label,
+.number-stat,
+[data-stat],
+.numeric {
+    font-variant-numeric: tabular-nums;
+}
+
+.stat-card h2,
+.objective-card h3,
+.workflow-arrow,
+.timeline-arrow,
+.progress-text,
+.number-stat,
+[data-stat],
+.numeric {
+    font-weight: var(--font-weight-bold);
+}
+
+.stat-card h2 {
+    font-size: clamp(2rem, 1.25vw + 1.5rem, 2.6rem);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--accent);
+}
+
+.objective-card h3 {
+    font-size: clamp(2rem, 1vw + 1.5rem, 2.5rem);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--accent);
+}
+
+.status-table th,
+.sources-table th {
+    font-weight: var(--font-weight-semibold);
+}
+
+.status-table th,
+.sources-table th,
+.status-table td,
+.sources-table td,
+.district-label,
+.progress-text,
+[data-stat],
+.numeric {
+    font-variant-numeric: tabular-nums;
+}
+
+::placeholder {
+    font-family: var(--font-family-base);
+    font-size: var(--font-size-body);
+    font-weight: var(--font-weight-body);
+    color: var(--text-muted);
+}
+
+@media (max-width: 767px) {
+    h1 {
+        line-height: 1.06;
+    }
+
+    h2 {
+        line-height: 1.18;
+    }
+
+    .nav-menu a,
+    .btn-primary-custom,
+    .btn-outline-custom,
+    .source-controls button,
+    .download-btn,
+    .view-btn,
+    .pagination-container button {
+        font-size: 15px;
+    }
+}

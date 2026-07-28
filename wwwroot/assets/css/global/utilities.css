@@ -1,0 +1,33 @@
+.container-custom{
+    width:90%;
+    max-width:1600px;
+    margin:auto;
+}
+
+.section{
+    padding:100px 0;
+}
+
+.text-center{
+    text-align:center;
+}
+
+.d-flex{
+    display:flex;
+}
+
+.align-center{
+    align-items:center;
+}
+
+.justify-between{
+    justify-content:space-between;
+}
+
+.grid{
+    display:grid;
+}
+
+.shadow{
+    box-shadow:var(--shadow-md);
+}

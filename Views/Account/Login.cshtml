@@ -1,0 +1,40 @@
+@model LoginViewModel
+@{
+    Layout = "_CmsLayout";
+    ViewData["Title"] = "Sign in";
+}
+
+<section class="login-shell">
+    <div class="login-intro">
+        <span class="cms-eyebrow">Secure content administration</span>
+        <h1>Manage public health updates with confidence.</h1>
+        <p>Create multilingual News Cards, maintain district training resources, and keep the public website current.</p>
+        <div class="login-security-note">
+            <span aria-hidden="true">✓</span>
+            <p>Access is restricted to authorized OSPBCR administrators and content users.</p>
+        </div>
+    </div>
+    <div class="cms-card login-card">
+        <div>
+            <span class="cms-eyebrow">Welcome back</span>
+            <h2>Sign in to the CMS</h2>
+            <p>Enter your assigned username and password.</p>
+        </div>
+        <form asp-action="Login" method="post" class="cms-form">
+            <input asp-for="ReturnUrl" type="hidden" />
+            <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+            <div class="form-field">
+                <label asp-for="Username"></label>
+                <input asp-for="Username" autocomplete="username" autofocus />
+                <span asp-validation-for="Username"></span>
+            </div>
+            <div class="form-field">
+                <label asp-for="Password"></label>
+                <input asp-for="Password" autocomplete="current-password" />
+                <span asp-validation-for="Password"></span>
+            </div>
+            <button class="cms-button cms-button-primary cms-button-wide" type="submit">Sign in securely</button>
+        </form>
+        <a class="cms-back-link" href="~/home.html">← Back to the OSPBCR website</a>
+    </div>
+</section>

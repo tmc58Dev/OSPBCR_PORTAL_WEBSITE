@@ -1,0 +1,1457 @@
+.training-hero .hero-content {
+
+    transform: translateY(8rem);
+
+}
+
+.training-hero .hero-tag {
+
+    margin-bottom: 0;
+
+}
+
+.training-hero h1 {
+
+    margin-top: 1.5rem;
+
+}
+
+.district-training-section {
+
+    background:
+        radial-gradient(circle at top left, rgba(0, 119, 182, 0.08), transparent 26rem),
+        linear-gradient(180deg, #f6fbff 0%, #eef6fb 100%);
+
+}
+
+.district-pdf-section {
+
+    background:
+        radial-gradient(circle at 88% 12%, rgba(0, 166, 166, 0.08), transparent 24rem),
+        linear-gradient(180deg, #eef6fb 0%, #f7fbff 100%);
+
+}
+
+.district-training-shell {
+
+    position: relative;
+
+    padding: clamp(28px, 4vw, 42px);
+
+    overflow: hidden;
+
+    border: 3px solid rgba(15, 23, 42, 0.92);
+
+    border-radius: 28px;
+
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(244, 250, 255, 0.98));
+
+    box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, 0.34),
+        0 16px 34px rgba(15, 23, 42, 0.08),
+        0 28px 60px rgba(0, 91, 150, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+
+    transition:
+        transform 0.28s ease,
+        border-color 0.28s ease,
+        box-shadow 0.28s ease;
+
+}
+
+.district-training-shell::before {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 0 0 auto 0;
+
+    height: 8px;
+
+    background: linear-gradient(90deg, #0077b6, #00a6a6, #66c7e8);
+
+    transform: scaleX(0.32);
+
+    transform-origin: left;
+
+    transition: transform 0.28s ease;
+
+    z-index: 1;
+
+}
+
+.district-training-shell::after {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 8px 0 auto 0;
+
+    height: 150px;
+
+    background:
+        linear-gradient(135deg, rgba(0, 119, 182, 0.12), rgba(0, 166, 166, 0.08), transparent 72%);
+
+    opacity: 0.78;
+
+    pointer-events: none;
+
+}
+
+.district-training-shell:hover {
+
+    transform: translateY(-10px) scale(1.01);
+
+    border-color: rgba(15, 23, 42, 1);
+
+    box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, 0.38),
+        0 24px 52px rgba(15, 23, 42, 0.14),
+        0 34px 72px rgba(0, 91, 150, 0.12);
+
+}
+
+.district-training-shell:hover::before {
+
+    transform: scaleX(1);
+
+}
+
+.district-training-shell > * {
+
+    position: relative;
+
+    z-index: 2;
+
+}
+
+.district-training-heading {
+
+    margin-bottom: 34px;
+
+    padding-bottom: 24px;
+
+    border-bottom: 1px solid rgba(0, 119, 182, 0.12);
+
+    text-align: center;
+
+}
+
+.district-training-heading h2 {
+
+    font-weight: 800;
+
+}
+
+.district-training-heading p {
+
+    margin-left: auto;
+
+    margin-right: auto;
+
+}
+
+.district-training-preview {
+
+    display: flex;
+
+    align-items: end;
+
+    justify-content: space-between;
+
+    gap: 24px;
+
+    margin-bottom: 14px;
+
+    padding: 22px 24px;
+
+    border: 2px solid rgba(15, 23, 42, 0.9);
+
+    border-radius: 24px;
+
+    background:
+        linear-gradient(135deg, rgba(222, 241, 252, 0.96), rgba(242, 249, 255, 0.95));
+
+    box-shadow: 0 16px 34px rgba(15, 23, 42, 0.08);
+
+}
+
+.district-training-preview-copy h3 {
+
+    margin-bottom: 10px;
+
+    color: var(--text);
+
+    font-weight: 800;
+
+}
+
+.district-training-preview-copy p {
+
+    margin: 0;
+
+    color: #0f172a;
+
+    font-weight: 600;
+
+    line-height: 1.68;
+
+}
+
+.district-training-toggle {
+
+    flex-shrink: 0;
+
+    min-width: 170px;
+
+}
+
+.district-training-expandable {
+
+    position: relative;
+
+    overflow: hidden;
+
+    max-height: 340px;
+
+    opacity: 0.92;
+
+    transition:
+        max-height 0.45s ease,
+        opacity 0.3s ease;
+
+}
+
+.district-training-expandable::after {
+
+    content: "";
+
+    position: absolute;
+
+    inset: auto 0 0 0;
+
+    height: 120px;
+
+    background: linear-gradient(180deg, rgba(246, 251, 255, 0), rgba(246, 251, 255, 0.98));
+
+    pointer-events: none;
+
+    transition: opacity 0.3s ease;
+
+}
+
+.district-training-shell-collapsible.is-expanded .district-training-expandable {
+
+    max-height: var(--district-expanded-height, 9000px);
+
+    opacity: 1;
+
+}
+
+.district-training-shell-collapsible.is-expanded .district-training-expandable::after {
+
+    opacity: 0;
+
+}
+
+.summary-shell {
+
+    display: grid;
+
+    grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+
+    align-items: start;
+
+    gap: 28px;
+
+    margin-bottom: 42px;
+
+}
+
+.summary-copy,
+.summary-table-card,
+.district-explorer,
+.private-training-card,
+.district-detail-card {
+
+    border: 2px solid rgba(15, 23, 42, 0.9);
+
+    border-radius: 28px;
+
+    background: rgba(255, 255, 255, 0.82);
+
+    box-shadow: var(--shadow-sm);
+
+    transition:
+        border-color 0.28s ease,
+        box-shadow 0.28s ease,
+        transform 0.28s ease;
+
+}
+
+.summary-copy:hover,
+.summary-table-card:hover,
+.district-explorer:hover,
+.private-training-card:hover,
+.district-detail-card:hover {
+
+    border-color: rgba(15, 23, 42, 1);
+
+    box-shadow: 0 18px 42px rgba(15, 23, 42, 0.14);
+
+}
+
+.summary-copy {
+
+    background:
+        linear-gradient(180deg, rgba(232, 244, 252, 0.92), rgba(244, 250, 255, 0.92));
+
+}
+
+.summary-table-card {
+
+    background:
+        linear-gradient(180deg, rgba(238, 248, 255, 0.94), rgba(250, 253, 255, 0.92));
+
+}
+
+.summary-copy,
+.summary-table-card,
+.district-explorer,
+.private-training-card {
+
+    padding: 32px;
+
+}
+
+.section-kicker {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    padding: 8px 14px;
+
+    margin-bottom: 16px;
+
+    border-radius: 999px;
+
+    background: rgba(0, 119, 182, 0.09);
+
+    color: var(--primary);
+
+    font-size: 0.8rem;
+
+    font-weight: 700;
+
+    letter-spacing: 0.12em;
+
+    text-transform: uppercase;
+
+}
+
+.summary-copy h3,
+.district-explorer h3,
+.private-training-card h3 {
+
+    margin-bottom: 14px;
+
+    color: var(--text);
+    text-align: center;
+    font-weight: 800;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 6px;
+
+}
+
+.summary-table-title {
+
+    margin-bottom: 18px;
+
+    color: var(--text);
+    text-align: center;
+    font-weight: 800;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 6px;
+
+}
+
+.summary-copy p,
+.district-explorer p,
+.private-training-card p {
+
+    margin-bottom: 0;
+
+    color: var(--text-muted);
+
+    line-height: 1.72;
+
+}
+
+.summary-copy p {
+
+    color: #111827;
+    font-weight: 600;
+
+}
+
+.training-report-actions {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 14px;
+
+    margin-top: 22px;
+    align-items: center;
+
+}
+
+.training-report-note {
+
+    width: 100%;
+
+    margin: 0 0 2px;
+
+    color: var(--text);
+
+    font-weight: 700;
+
+    line-height: 1.55;
+
+}
+
+.training-report-btn {
+
+    min-width: 168px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 15px 21px;
+
+    font-size: 0.95rem;
+
+    letter-spacing: 0.01em;
+
+    border-radius: 16px;
+
+    box-shadow: 0 12px 24px rgba(0, 91, 150, 0.14);
+
+}
+
+.training-report-actions .view-btn {
+
+    border: 1px solid rgba(0, 91, 150, 0.18);
+
+}
+
+.training-report-actions .download-btn {
+
+    background: linear-gradient(135deg, #0077b6 0%, #005b96 52%, #004a79 100%);
+
+}
+
+.training-report-actions .view-btn:hover,
+.training-report-actions .download-btn:hover {
+
+    transform: translateY(-3px);
+
+}
+
+@media (max-width: 576px) {
+
+    .training-report-actions {
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+    }
+
+    .training-report-btn {
+
+        width: 100%;
+
+    }
+
+}
+
+.summary-table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+    table-layout: fixed;
+    border: 1px solid #c8d7e3;
+
+}
+
+.summary-table thead th,
+.summary-table tfoot th {
+
+    background: linear-gradient(135deg, #e8f2f8, #dcecf5);
+
+    color: var(--number-text);
+
+}
+
+.summary-table th,
+.summary-table td {
+
+    padding: 14px 16px;
+
+    border: 1px solid #c8d7e3;
+
+    text-align: left;
+
+    vertical-align: top;
+    font-weight: 700;
+    word-break: break-word;
+
+}
+
+.summary-table td:last-child,
+.summary-table th:last-child {
+
+    text-align: right;
+
+    white-space: nowrap;
+
+}
+
+.summary-table thead th {
+
+    border-color: #b7cad8;
+
+}
+
+.summary-table tbody tr:nth-child(even) td {
+
+    background: rgba(248, 251, 254, 0.82);
+
+}
+
+.institution-table th:first-child,
+.institution-table td:first-child {
+
+    width: 82px;
+    text-align: center;
+
+}
+
+.institution-table th:last-child,
+.institution-table td:last-child {
+
+    width: 132px;
+    text-align: center;
+
+}
+
+.summary-table-group td {
+
+    background: linear-gradient(135deg, #dcecf5, #cfe5f1);
+    color: #005b96;
+    font-weight: 900;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+
+}
+
+.training-gallery-card {
+
+    margin-bottom: 40px;
+    background:
+        linear-gradient(180deg, rgba(230, 242, 250, 0.82), rgba(245, 251, 255, 0.78));
+    border: 2px solid rgba(15, 23, 42, 0.9);
+
+}
+
+.gallery-section-heading {
+
+    margin-bottom: 18px;
+
+    text-align: center;
+
+}
+
+.gallery-section-heading h3 {
+
+    margin-bottom: 0;
+
+    color: var(--text);
+
+    font-weight: 900;
+
+    text-decoration: underline;
+
+    text-decoration-thickness: 3px;
+
+    text-underline-offset: 6px;
+
+}
+
+.gallery-carousel-shell {
+
+    position: relative;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    padding: 18px 0 8px;
+
+}
+
+.district-explorer {
+
+    margin-top: 6px;
+    background:
+        linear-gradient(180deg, rgba(234, 246, 255, 0.92), rgba(247, 252, 255, 0.9));
+
+}
+
+.district-pdf-showcase {
+
+    margin-top: 38px;
+    padding: 32px;
+    border: 2px solid rgba(15, 23, 42, 0.9);
+    border-radius: 28px;
+    background:
+        linear-gradient(180deg, rgba(233, 245, 255, 0.96), rgba(248, 252, 255, 0.94));
+    box-shadow: var(--shadow-sm);
+    transition:
+        border-color 0.28s ease,
+        box-shadow 0.28s ease,
+        transform 0.28s ease;
+
+}
+
+.district-pdf-section .district-pdf-showcase {
+
+    margin-top: 0;
+
+}
+
+.district-pdf-showcase:hover {
+
+    border-color: rgba(15, 23, 42, 1);
+    box-shadow: 0 18px 42px rgba(15, 23, 42, 0.14);
+
+}
+
+.gallery-carousel-shell::before {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    width: min(88%, 1120px);
+
+    margin: auto;
+
+    background:
+        linear-gradient(rgba(8, 36, 58, 0.38), rgba(8, 36, 58, 0.38)),
+        url("../../IMAGES_PDF_PPT_EXCEL/TRAININGS PAGE/DISTRICT/SLIDER_SHOW_DISTRICT_PHOTOS/slide_4_image_10.webp") center/cover no-repeat;
+
+    border-radius: 34px;
+
+    filter: blur(30px);
+
+    opacity: 0.7;
+
+    transform: scale(1.03);
+
+    z-index: 0;
+
+}
+
+.gallery-carousel-card {
+
+    position: relative;
+
+    z-index: 1;
+
+    display: grid;
+
+    grid-template-columns: auto minmax(0, 1fr) auto;
+
+    align-items: center;
+
+    width: min(100%, 1225px);
+
+    padding: 36px;
+
+    gap: 18px;
+
+    background: rgba(255, 255, 255, 0.78);
+
+    border: 2px solid rgba(15, 23, 42, 0.9);
+
+    border-radius: 30px;
+
+    box-shadow: 0 24px 60px rgba(0, 39, 64, 0.18);
+
+    backdrop-filter: blur(22px);
+
+}
+
+.gallery-carousel-card:hover {
+
+    border-color: rgba(15, 23, 42, 1);
+
+    box-shadow: 0 28px 66px rgba(0, 39, 64, 0.22);
+
+}
+
+.gallery-carousel-window {
+
+    overflow: hidden;
+
+    border-radius: 24px;
+
+}
+
+.gallery-carousel-track {
+
+    display: flex;
+
+    transition: transform 0.45s ease;
+
+}
+
+.gallery-slide {
+
+    flex: 0 0 50%;
+
+    padding: 0 10px;
+
+}
+
+.gallery-slide img {
+
+    width: 100%;
+
+    aspect-ratio: 16 / 10;
+
+    object-fit: cover;
+
+    display: block;
+
+    border-radius: 24px;
+
+    box-shadow: 0 18px 40px rgba(0, 39, 64, 0.14);
+
+}
+
+.gallery-nav {
+
+    width: 56px;
+
+    height: 56px;
+
+    border: 0;
+
+    border-radius: 50%;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+
+    color: var(--white);
+
+    font-size: 2rem;
+
+    line-height: 1;
+
+    box-shadow: 0 14px 28px rgba(0, 91, 150, 0.24);
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        filter 0.25s ease;
+
+}
+
+.gallery-nav:hover {
+
+    transform: scale(1.08);
+
+    box-shadow: 0 18px 34px rgba(0, 91, 150, 0.3);
+
+    filter: brightness(1.05);
+
+}
+
+.district-explorer-header {
+
+    display: flex;
+
+    align-items: end;
+
+    justify-content: space-between;
+
+    gap: 24px;
+
+    margin-bottom: 28px;
+
+}
+
+.district-explorer-header > div:first-child {
+
+    text-align: center;
+    margin: 0 auto;
+
+}
+
+.district-filter-panel {
+
+    min-width: min(100%, 320px);
+
+    display: grid;
+
+    gap: 10px;
+
+}
+
+.district-filter-panel label {
+
+    font-weight: 700;
+
+    color: #0f172a;
+
+}
+
+.district-filter-panel select {
+
+    min-height: 54px;
+
+    padding: 0 52px 0 16px;
+
+    border: 1.5px solid rgba(15, 23, 42, 0.28);
+
+    border-radius: 14px;
+
+    background: rgba(250, 249, 246, 0.95);
+
+    color: #0f172a;
+
+    font-weight: 700;
+
+    appearance: none;
+
+    -webkit-appearance: none;
+
+    -moz-appearance: none;
+
+    background-image:
+        linear-gradient(45deg, transparent 50%, #0f172a 50%),
+        linear-gradient(135deg, #0f172a 50%, transparent 50%);
+
+    background-position:
+        calc(100% - 24px) 24px,
+        calc(100% - 16px) 24px;
+
+    background-size: 9px 9px, 9px 9px;
+
+    background-repeat: no-repeat;
+
+}
+
+.district-detail-card {
+
+    display: grid;
+
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+
+    overflow: hidden;
+    background:
+        linear-gradient(180deg, rgba(241, 249, 255, 0.94), rgba(252, 254, 255, 0.92));
+
+}
+
+.district-photo-panel {
+
+    min-height: 100%;
+
+    background: linear-gradient(180deg, rgba(187, 222, 242, 0.36), rgba(213, 236, 248, 0.5));
+
+    padding: 20px 20px 0;
+
+}
+
+.district-photo-panel img {
+
+    width: 100%;
+
+    height: calc(100% - 76px);
+
+    min-height: 420px;
+
+    display: block;
+
+    object-fit: cover;
+
+    border-radius: 22px;
+
+}
+
+.district-photo-meta {
+
+    padding: 14px 18px;
+
+    border-radius: 18px;
+
+    background: linear-gradient(135deg, rgba(225, 241, 251, 0.76), rgba(242, 249, 255, 0.58));
+
+    border: 1px solid rgba(0, 119, 182, 0.24);
+
+    color: #0b4f78;
+
+    backdrop-filter: blur(12px);
+
+    text-align: center;
+
+    margin-bottom: 18px;
+
+}
+
+.district-photo-meta h4,
+.district-photo-meta p {
+
+    margin: 0;
+
+    color: inherit;
+
+}
+
+.district-photo-meta h4 {
+
+    color: #005b96;
+
+    font-weight: 800;
+
+    letter-spacing: 0.04em;
+
+    text-transform: uppercase;
+
+}
+
+.district-table-panel {
+
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background:
+        linear-gradient(180deg, rgba(247, 252, 255, 0.96), rgba(236, 247, 255, 0.9));
+
+}
+
+.district-table-panel h4 {
+
+    margin-bottom: 16px;
+    text-align: center;
+    font-weight: 800;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 6px;
+
+}
+
+.district-explorer-header > div:first-child p {
+
+    text-align: center;
+    font-weight: 700;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 6px;
+    color: var(--text);
+
+}
+
+.district-participants-table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+    table-layout: fixed;
+    border: 2px solid #8fb3c9;
+
+}
+
+.district-participants-table th,
+.district-participants-table td {
+
+    padding: 13px 14px;
+
+    border: 2px solid #8fb3c9;
+
+    text-align: center;
+    vertical-align: middle;
+    word-break: break-word;
+    font-weight: 700;
+
+}
+
+.district-participants-table thead th {
+
+    background: linear-gradient(135deg, #e8f2f8, #dcecf5);
+
+    color: var(--number-text);
+
+    position: sticky;
+
+    top: 0;
+    z-index: 1;
+    border-color: #7fa7c0;
+
+}
+
+.district-participants-table tbody td:first-child {
+
+    background: rgba(0, 119, 182, 0.05);
+
+    vertical-align: middle;
+
+}
+
+.district-participants-table tbody tr:nth-child(even) td {
+
+    background: rgba(248, 251, 254, 0.82);
+
+}
+
+.district-participants-wrapper {
+
+    width: 100%;
+    max-width: 720px;
+    max-height: 440px;
+
+    overflow: auto;
+
+    border: 2px solid #8fb3c9;
+
+    border-radius: 18px;
+    background: #ffffff;
+
+}
+
+.private-training-section {
+
+    background: var(--alternate-bg);
+
+}
+
+.private-training-card {
+
+    max-width: 780px;
+
+    margin: 0 auto;
+
+    text-align: center;
+
+}
+
+@media (max-width: 991px) {
+
+    .summary-shell,
+    .district-detail-card,
+    .district-explorer-header {
+
+        grid-template-columns: 1fr;
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+    }
+
+    .district-filter-panel {
+
+        min-width: 100%;
+
+    }
+
+    .district-training-preview {
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+    }
+
+    .district-training-toggle {
+
+        width: 100%;
+
+    }
+
+}
+
+.district-pdf-header {
+
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 28px;
+
+}
+
+.district-pdf-header > div:first-child {
+
+    text-align: center;
+    margin: 0 auto;
+
+}
+
+.district-pdf-header h3 {
+
+    margin-bottom: 14px;
+    color: var(--text);
+    text-align: center;
+    font-weight: 800;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 6px;
+
+}
+
+.district-pdf-header p {
+
+    margin-bottom: 0;
+    text-align: center;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.72;
+
+}
+
+.district-pdf-carousel-shell {
+
+    display: flex;
+    justify-content: center;
+
+}
+
+.district-pdf-carousel-card {
+
+    width: min(100%, 1180px);
+    background:
+        linear-gradient(180deg, rgba(229, 243, 252, 0.92), rgba(250, 253, 255, 0.98));
+
+}
+
+.district-pdf-carousel-window {
+
+    border-radius: 26px;
+    background: rgba(255, 255, 255, 0.82);
+    border: 1px solid rgba(15, 23, 42, 0.08);
+
+}
+
+.district-pdf-carousel-track {
+
+    align-items: stretch;
+
+}
+
+.district-pdf-slide {
+
+    flex: 0 0 100%;
+    display: grid;
+    grid-template-columns: minmax(280px, 0.82fr) minmax(0, 1.18fr);
+    gap: 22px;
+    padding: 10px;
+
+}
+
+.district-pdf-meta {
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 26px;
+    border-radius: 22px;
+    background:
+        linear-gradient(180deg, rgba(236, 247, 255, 0.92), rgba(248, 252, 255, 0.98));
+    border: 2px solid rgba(15, 23, 42, 0.12);
+    text-align: center;
+
+}
+
+.district-pdf-label {
+
+    display: inline-flex;
+    justify-content: center;
+    align-self: center;
+    margin-bottom: 14px;
+    padding: 8px 16px;
+    border-radius: 999px;
+    background: rgba(0, 119, 182, 0.1);
+    color: #005b96;
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+
+}
+
+.district-pdf-meta h4 {
+
+    margin-bottom: 12px;
+    font-weight: 800;
+    color: var(--text);
+
+}
+
+.district-pdf-meta p {
+
+    margin-bottom: 0;
+    color: var(--text);
+    font-weight: 600;
+    line-height: 1.7;
+
+}
+
+.district-pdf-actions {
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 24px;
+
+}
+
+.district-pdf-frame-shell {
+
+    min-height: 540px;
+    border-radius: 22px;
+    overflow: hidden;
+    border: 2px solid rgba(15, 23, 42, 0.12);
+    background:
+        linear-gradient(180deg, #e8f2f8, #f8fcff);
+    box-shadow: 0 18px 40px rgba(0, 39, 64, 0.1);
+
+}
+
+.district-pdf-frame-shell iframe,
+.district-pdf-preview-image {
+
+    width: 100%;
+    height: 100%;
+    min-height: 540px;
+    display: block;
+
+}
+
+.district-pdf-frame-shell iframe {
+
+    border: 0;
+
+}
+
+.district-pdf-preview-shell {
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 18px;
+
+}
+
+.district-pdf-preview-image {
+
+    max-height: 760px;
+    min-height: 0;
+    object-fit: contain;
+    border-radius: 14px;
+    background: #ffffff;
+    box-shadow:
+        0 14px 34px rgba(15, 23, 42, 0.16),
+        0 0 0 1px rgba(15, 23, 42, 0.08);
+
+}
+
+.district-pdf-placeholder {
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 28px;
+    background:
+        linear-gradient(135deg, rgba(226, 240, 250, 0.96), rgba(243, 249, 255, 0.98));
+
+}
+
+.district-pdf-placeholder-copy {
+
+    text-align: center;
+    padding: 32px 24px;
+    border: 2px dashed rgba(0, 91, 150, 0.28);
+    border-radius: 22px;
+    background: rgba(255, 255, 255, 0.78);
+    width: min(100%, 420px);
+
+}
+
+.district-pdf-placeholder-copy h4 {
+
+    margin-bottom: 10px;
+    color: #005b96;
+    font-weight: 800;
+
+}
+
+.district-pdf-placeholder-copy p {
+
+    margin: 0;
+    color: var(--text);
+    font-weight: 700;
+
+}
+
+@media (max-width: 767px) {
+
+    .district-training-shell {
+
+        padding: 20px;
+
+        border-radius: 26px;
+
+    }
+
+    .district-training-heading {
+
+        margin-bottom: 26px;
+
+        padding-bottom: 18px;
+
+    }
+
+    .summary-copy,
+    .summary-table-card,
+    .district-explorer,
+    .private-training-card {
+
+        padding: 22px;
+
+    }
+
+    .gallery-carousel-card {
+
+        grid-template-columns: 1fr;
+
+        width: min(100%, 720px);
+
+        padding: 22px;
+
+    }
+
+    .gallery-slide {
+
+        flex-basis: 100%;
+
+        padding: 0 6px;
+
+    }
+
+    .gallery-nav-prev {
+
+        justify-self: start;
+
+    }
+
+    .gallery-nav-next {
+
+        justify-self: end;
+
+    }
+
+    .district-photo-panel img {
+
+        min-height: 320px;
+
+    }
+
+    .district-table-panel {
+
+        padding: 18px;
+
+    }
+
+}
+
+@media (max-width: 991px) {
+
+    .district-pdf-header,
+    .district-pdf-slide {
+
+        grid-template-columns: 1fr;
+        flex-direction: column;
+        align-items: stretch;
+
+    }
+
+}
+
+@media (max-width: 767px) {
+
+    .district-pdf-showcase {
+
+        padding: 22px;
+
+    }
+
+    .district-pdf-meta {
+
+        padding: 22px;
+
+    }
+
+    .district-pdf-frame-shell,
+    .district-pdf-frame-shell iframe,
+    .district-pdf-preview-image {
+
+        min-height: 420px;
+
+    }
+
+    .district-pdf-preview-shell {
+
+        padding: 12px;
+
+    }
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .district-training-shell::before,
+    .district-training-shell::after {
+
+        animation: none;
+
+    }
+
+}

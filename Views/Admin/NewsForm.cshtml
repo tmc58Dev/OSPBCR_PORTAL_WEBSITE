@@ -1,0 +1,113 @@
+@model NewsCardFormViewModel
+@{
+    Layout = "_CmsLayout";
+    var editing = Model.Id > 0;
+    ViewData["Title"] = editing ? "Update News Card" : "Create News Card";
+}
+<header class="cms-page-header cms-page-header-actions">
+    <div>
+        <span class="cms-eyebrow">Three-language content</span>
+        <h1>@(editing ? "Update News Card" : "Create a New News Card")</h1>
+        <p>Every language section is required. Title, Text Note, and Footer accept letters, numbers, and special characters up to 100,000 characters each. Add one shared gallery of up to 100 valid WebP photos, no larger than 5 MB each.</p>
+    </div>
+    <a class="cms-button cms-button-secondary" asp-action="News">Update existing card</a>
+</header>
+<form asp-action="@(editing ? "EditNews" : "CreateNews")" method="post" enctype="multipart/form-data" class="cms-form">
+    <input asp-for="Id" type="hidden" />
+    <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+    <label class="publish-toggle">
+        <input asp-for="IsPublished" />
+        <span><strong>Published</strong><small>Published cards appear automatically on the home page.</small></span>
+    </label>
+
+    <section class="shared-photo-panel">
+        <header>
+            <div>
+                <span class="cms-eyebrow">Shared across all languages</span>
+                <h2>News Card Photos</h2>
+                <p>These photos are used for the English, Hindi, and Odia versions of this News Card.</p>
+            </div>
+            <span class="shared-photo-limit">1–100 photos</span>
+        </header>
+        <div class="form-field">
+            <label asp-for="Photos">Add photos (.webp only)</label>
+            @if (editing)
+            {
+                <input asp-for="Photos" type="file" accept=".webp,image/webp" multiple />
+            }
+            else
+            {
+                <input asp-for="Photos" type="file" accept=".webp,image/webp" multiple required />
+            }
+            <small>Select multiple files together. Previews appear immediately. Each file must be a genuine WebP image and no larger than 5 MB.</small>
+            <span asp-validation-for="Photos"></span>
+        </div>
+        <div class="photo-gallery-toolbar">
+            <p data-photo-count aria-live="polite">0 of 100 photos selected</p>
+            <button class="cms-button cms-button-secondary photo-undo-button" type="button"
+                    data-photo-undo hidden>Undo last removal</button>
+        </div>
+        <p class="photo-client-error" data-photo-error role="alert" hidden></p>
+        <div class="existing-photo-gallery" data-photo-gallery data-max-photos="100"
+             aria-label="Shared News Card photo previews">
+            @if (Model.ExistingPhotoPaths.Count > 0)
+            {
+                @foreach (var path in Model.ExistingPhotoPaths)
+                {
+                    <input type="hidden" name="ExistingPhotoPaths" value="@path" />
+                    <article class="existing-photo-item" data-existing-photo>
+                        <img src="@path" alt="Current shared News Card photo" />
+                        <div class="photo-preview-actions">
+                            <span>Saved photo</span>
+                            @if (Model.RemovePhotoPaths.Contains(path))
+                            {
+                                <input type="checkbox" name="RemovePhotoPaths" value="@path"
+                                       data-remove-photo-checkbox hidden checked />
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="RemovePhotoPaths" value="@path"
+                                       data-remove-photo-checkbox hidden />
+                            }
+                            <button type="button" data-remove-existing-photo>Remove</button>
+                        </div>
+                    </article>
+                }
+            }
+        </div>
+        <small class="photo-save-note">Photo additions and removals are previewed instantly and are permanently applied when you save the News Card.</small>
+    </section>
+
+    <div class="language-grid">
+        <section class="language-card">
+            <header><span class="language-code">EN</span><div><h2>English</h2><p>English website content</p></div></header>
+            <div class="form-field"><label asp-for="English.Title"></label><input asp-for="English.Title" maxlength="100000" /><span asp-validation-for="English.Title"></span></div>
+            <div class="form-field"><label asp-for="English.PublishDate">Publish Date</label><input asp-for="English.PublishDate" inputmode="numeric" placeholder="DD/MM/YYYY" /><span asp-validation-for="English.PublishDate"></span></div>
+            <div class="form-field"><label asp-for="English.TextNote">Text Note</label><textarea asp-for="English.TextNote" rows="5" maxlength="100000"></textarea><span asp-validation-for="English.TextNote"></span></div>
+            <div class="form-field"><label asp-for="English.Footer"></label><textarea asp-for="English.Footer" rows="3" maxlength="100000"></textarea><span asp-validation-for="English.Footer"></span></div>
+        </section>
+
+        <section class="language-card" lang="hi">
+            <header><span class="language-code">HI</span><div><h2>हिन्दी</h2><p>Hindi website content</p></div></header>
+            <div class="form-field"><label asp-for="Hindi.Title">शीर्षक / Title</label><input asp-for="Hindi.Title" maxlength="100000" /><span asp-validation-for="Hindi.Title"></span></div>
+            <div class="form-field"><label asp-for="Hindi.PublishDate">प्रकाशन तिथि / Publish Date</label><input asp-for="Hindi.PublishDate" inputmode="numeric" placeholder="DD/MM/YYYY" /><span asp-validation-for="Hindi.PublishDate"></span></div>
+            <div class="form-field"><label asp-for="Hindi.TextNote">टेक्स्ट नोट / Text Note</label><textarea asp-for="Hindi.TextNote" rows="5" maxlength="100000"></textarea><span asp-validation-for="Hindi.TextNote"></span></div>
+            <div class="form-field"><label asp-for="Hindi.Footer">फुटर / Footer</label><textarea asp-for="Hindi.Footer" rows="3" maxlength="100000"></textarea><span asp-validation-for="Hindi.Footer"></span></div>
+        </section>
+
+        <section class="language-card" lang="or">
+            <header><span class="language-code">OR</span><div><h2>ଓଡ଼ିଆ</h2><p>Odia website content</p></div></header>
+            <div class="form-field"><label asp-for="Odia.Title">ଶୀର୍ଷକ / Title</label><input asp-for="Odia.Title" maxlength="100000" /><span asp-validation-for="Odia.Title"></span></div>
+            <div class="form-field"><label asp-for="Odia.PublishDate">ପ୍ରକାଶନ ତାରିଖ / Publish Date</label><input asp-for="Odia.PublishDate" inputmode="numeric" placeholder="DD/MM/YYYY" /><span asp-validation-for="Odia.PublishDate"></span></div>
+            <div class="form-field"><label asp-for="Odia.TextNote">ଟେକ୍ସଟ୍ ନୋଟ୍ / Text Note</label><textarea asp-for="Odia.TextNote" rows="5" maxlength="100000"></textarea><span asp-validation-for="Odia.TextNote"></span></div>
+            <div class="form-field"><label asp-for="Odia.Footer">ଫୁଟର / Footer</label><textarea asp-for="Odia.Footer" rows="3" maxlength="100000"></textarea><span asp-validation-for="Odia.Footer"></span></div>
+        </section>
+    </div>
+    <div class="sticky-form-actions">
+        <a class="cms-button cms-button-secondary" asp-action="News">Cancel</a>
+        <button class="cms-button cms-button-primary" type="submit">@(editing ? "Save all changes" : "Publish News Card")</button>
+    </div>
+</form>
+@section Scripts {
+    <script src="~/assets/js/pages/news-form.js" asp-append-version="true"></script>
+}

@@ -1,0 +1,36 @@
+@model IReadOnlyList<DistrictTrainingRecord>
+@{
+    Layout = "_CmsLayout";
+    ViewData["Title"] = "District Training PDFs";
+}
+<header class="cms-page-header cms-page-header-actions">
+    <div>
+        <span class="cms-eyebrow">Public Training page</span>
+        <h1>District Training PDFs</h1>
+        <p>Manage district reports, descriptions, PDF documents, and preview images.</p>
+    </div>
+    <a class="cms-button cms-button-primary" asp-action="CreateTraining">Add Training PDF</a>
+</header>
+<div class="cms-content-grid">
+@foreach (var record in Model)
+{
+    <article class="cms-content-card">
+        <img src="@record.PreviewPath" alt="@record.District training PDF preview" />
+        <div class="cms-content-card-body">
+            <span class="cms-badge">@record.District</span>
+            <h2>@record.Title</h2>
+            <p>@record.Description</p>
+            <div class="content-inline-actions">
+                <a class="cms-button cms-button-secondary cms-button-small" href="@record.PdfPath" target="_blank" rel="noopener">View PDF</a>
+                <a class="cms-button cms-button-secondary cms-button-small" asp-action="EditTraining" asp-route-id="@record.Id">Update</a>
+                <form asp-action="DeleteTraining" asp-route-id="@record.Id" method="post" data-confirm="Delete this district record and its uploaded files?">
+                    <button class="cms-button cms-button-danger cms-button-small" type="submit">Delete</button>
+                </form>
+            </div>
+        </div>
+    </article>
+}
+</div>
+@section Scripts {
+    <script>document.querySelectorAll("[data-confirm]").forEach(form => form.addEventListener("submit", event => { if (!confirm(form.dataset.confirm)) event.preventDefault(); }));</script>
+}
