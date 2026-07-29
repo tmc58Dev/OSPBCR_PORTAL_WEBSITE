@@ -788,6 +788,24 @@
 
 }
 
+.section.mission-section {
+
+    padding-bottom: clamp(24px, 3vw, 40px);
+
+}
+
+.mission-section .section-heading {
+
+    margin-bottom: 0;
+
+}
+
+.section.stats-section {
+
+    padding-top: clamp(24px, 3vw, 40px);
+
+}
+
 .section-heading p {
 
     max-width: 900px;

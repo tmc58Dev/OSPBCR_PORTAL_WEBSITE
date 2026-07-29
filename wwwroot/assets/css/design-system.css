@@ -102,13 +102,13 @@ main > .section:nth-of-type(odd),
     margin: 0;
     padding: 0;
 }
-.nav-wrapper { min-height: 104px; align-items: center; gap: 0; }
+.nav-wrapper { min-height: 128px; align-items: center; gap: 0; }
 .nav-menu {
     justify-content: flex-start;
     align-items: center;
     flex-wrap: nowrap;
     gap: 12px;
-    height: 104px;
+    height: 128px;
     padding: 0 24px;
     background: linear-gradient(90deg, #2C6F9B 0%, #005B96 42%, #003F6B 100%);
 }
@@ -154,14 +154,14 @@ main > .section:nth-of-type(odd),
 .logo-group:hover { transform: translateY(-2px); }
 .logo-text { color: var(--text); }
 .nav-left {
-    height: 104px;
+    height: 128px;
     padding: 0 28px 0 0;
     background: #ffffff;
     border-right: 1px solid rgba(229, 231, 235, 0.95);
     box-shadow: 10px 0 24px rgba(15, 23, 42, 0.04);
 }
 .navbar-logo {
-    height: 76px;
+    height: 100px;
     filter: none;
 }
 .nav-menu a.active { background: rgba(255, 255, 255, 0.16); }
@@ -413,6 +413,20 @@ main > .section:nth-of-type(odd),
 .info-panel, .map-container { padding: 24px; }
 .district-label { border-radius: 9px; color: var(--text) !important; }
 
+@media (max-width: 1400px) {
+    .nav-wrapper { min-height: 116px; }
+    .nav-left { height: 116px; }
+    .nav-menu { height: 116px; }
+    .navbar-logo { height: 88px; }
+}
+
+@media (max-width: 1200px) {
+    .nav-wrapper { min-height: 108px; }
+    .nav-left { height: 108px; }
+    .nav-menu { height: 108px; }
+    .navbar-logo { height: 80px; }
+}
+
 @media (max-width: 991px) {
     .about-hero::before, .participants-hero::before, .status-hero::before, .dashboard-hero::before,
     .sources-hero::before, .team-hero::before, .training-hero::before,
@@ -446,6 +460,8 @@ main > .section:nth-of-type(odd),
     .nav-left { justify-content: center; padding-right: 18px; box-shadow: none; }
     .nav-menu {
         width: 100%;
+        height: auto;
+        min-height: 64px;
         gap: 24px;
         padding: 10px 2px 14px;
         overflow-x: auto;
@@ -458,7 +474,8 @@ main > .section:nth-of-type(odd),
 @media (max-width: 767px) {
     body { padding-top: var(--navbar-offset, 170px); }
     .section { padding: 68px 0; }
-    .navbar-logo { height: 52px; }
+    .nav-left { height: 92px; }
+    .navbar-logo { height: 64px; }
     .hero-section { min-height: 720px; padding: 70px 0; }
     .hero-section .hero-content { width: calc(100% - 32px); padding: 30px 24px; }
     .about-hero, .participants-hero, .status-hero, .sources-hero, .dashboard-hero,

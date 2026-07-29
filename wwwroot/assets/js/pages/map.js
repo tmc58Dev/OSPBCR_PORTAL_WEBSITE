@@ -147,7 +147,7 @@ function updatePanel(districtName) {
         panel.innerHTML = `
             <div class="info-panel-header">
                 <span>${t("PBCR Odisha")}</span>
-                <h2>${t("District Cancer Statistics")}</h2>
+                <h2>${t("District Cancer Statistics")} 2025</h2>
             </div>
 
             ${districtFilter}
@@ -184,7 +184,7 @@ function updatePanel(districtName) {
     panel.innerHTML = `
         <div class="info-panel-header">
             <span>${t("PBCR Odisha")}</span>
-            <h2>${t("District Cancer Statistics")}</h2>
+            <h2>${t("District Cancer Statistics")} 2025</h2>
         </div>
 
         ${districtFilter}

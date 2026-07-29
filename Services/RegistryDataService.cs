@@ -6,7 +6,7 @@ using OSPBCR_PORTAL.Models;
 namespace OSPBCR_PORTAL.Services;
 
 public sealed class RegistryDataService(
-    ISqlConnectionFactory connectionFactory,
+    ISetuOdishaConnectionFactory connectionFactory,
     ILogger<RegistryDataService> logger) : IRegistryDataService
 {
     public async Task<DatabaseHealthDto> GetHealthAsync(CancellationToken cancellationToken = default)

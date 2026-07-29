@@ -6,7 +6,7 @@ using OSPBCR_PORTAL.Models;
 namespace OSPBCR_PORTAL.Data;
 
 public sealed class CmsRepository(
-    ISqlConnectionFactory connectionFactory,
+    IOspbcrPortalConnectionFactory connectionFactory,
     IPasswordHasher<CmsUser> passwordHasher) : ICmsRepository
 {
     public async Task InitializeAsync(CancellationToken cancellationToken = default)

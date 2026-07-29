@@ -13,7 +13,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddScoped<ISqlConnectionFactory, SqlConnectionFactory>();
+builder.Services.AddScoped<ISetuOdishaConnectionFactory, SetuOdishaSqlConnectionFactory>();
+builder.Services.AddScoped<IOspbcrPortalConnectionFactory, OspbcrPortalSqlConnectionFactory>();
 builder.Services.AddScoped<IRegistryDataService, RegistryDataService>();
 builder.Services.AddScoped<ICmsRepository, CmsRepository>();
 builder.Services.AddSingleton<IPasswordHasher<CmsUser>, PasswordHasher<CmsUser>>();

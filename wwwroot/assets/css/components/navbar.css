@@ -66,7 +66,7 @@
     flex-wrap: nowrap;
     margin: 0;
     padding: 0 24px;
-    height: 102px;
+    height: 126px;
     background: linear-gradient(90deg, #2C6F9B 0%, #005B96 42%, #003F6B 100%);
 
 }
@@ -276,7 +276,7 @@
 
 .navbar-logo {
 
-    height: 72px;
+    height: 96px;
 
     width: auto;
 
@@ -304,7 +304,7 @@
 
     .navbar-logo {
 
-        height: 64px;
+        height: 88px;
 
     }
 
@@ -333,7 +333,7 @@
 
     .navbar-logo {
 
-        height: 56px;
+        height: 80px;
 
     }
 
