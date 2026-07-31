@@ -23,4 +23,16 @@ public interface IRegistryDataService
         int? sex,
         string? district,
         CancellationToken cancellationToken = default);
+
+    Task<IReadOnlyList<CancerAgeSiteDistributionDto>> GetCancerIncidenceAgeSitesAsync(
+        int year,
+        int? sex,
+        string? district,
+        CancellationToken cancellationToken = default);
+
+    Task<IReadOnlyList<CancerAgeSiteDistributionDto>> GetCancerMortalityAgeSitesAsync(
+        int year,
+        int? sex,
+        string? district,
+        CancellationToken cancellationToken = default);
 }

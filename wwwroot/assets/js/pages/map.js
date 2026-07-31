@@ -26,10 +26,22 @@ const districtHighlightStyle = {
     weight: 2,
     color: "#000"
 };
-let selectedDistrict = "Khordha";
+let selectedDistrict = "";
 let selectedDistrictLayer = null;
 let selectedDistrictLabel = null;
 window.selectedMapDistrict = selectedDistrict;
+
+function clearSelectedDistrictHighlight() {
+    if (selectedDistrictLayer) {
+        selectedDistrictLayer.setStyle(districtBaseStyle);
+        selectedDistrictLayer = null;
+    }
+
+    if (selectedDistrictLabel) {
+        map.removeLayer(selectedDistrictLabel);
+        selectedDistrictLabel = null;
+    }
+}
 
 function showSelectedDistrictLabel(districtName, districtLayer) {
     if (selectedDistrictLabel) {
@@ -53,6 +65,11 @@ function showSelectedDistrictLabel(districtName, districtLayer) {
 }
 
 function highlightDistrictOnMap(districtName) {
+    if (!districtName) {
+        clearSelectedDistrictHighlight();
+        return;
+    }
+
     const sqlDistrictName = toSqlDistrictName(districtName);
     const districtLayer = districtLayers.get(sqlDistrictName);
 
@@ -97,10 +114,31 @@ const t = (key, replacements = {}) => {
 function updatePanel(districtName) {
 
     const panel = document.getElementById("infoPanel");
-
-    const data = districtData[districtName];
     const unavailable = t("Not Available");
     const normalizeNumber = (value) => Number(String(value).replace(/,/g, ""));
+    const summarizeStatewideStatistic = fieldName => {
+        let hasValues = false;
+        const total = Object.values(districtData).reduce((sum, district) => {
+            const value = normalizeNumber(district[fieldName]);
+
+            if (!Number.isFinite(value) || value < 0) return sum;
+
+            hasValues = true;
+            return sum + value;
+        }, 0);
+
+        return hasValues
+            ? total.toLocaleString(window.i18n?.getLanguage() || "en-IN")
+            : "";
+    };
+    const isStatewide = !districtName;
+    const data = isStatewide
+        ? {
+            incidentCancerCases: summarizeStatewideStatistic("incidentCancerCases"),
+            mortalityCancerCases: summarizeStatewideStatistic("mortalityCancerCases")
+        }
+        : districtData[districtName];
+    const selectedAreaName = isStatewide ? "All Districts" : districtName;
     const statValue = (value, options = {}) => {
         if (!value) return `<span>${unavailable}</span>`;
 
@@ -118,20 +156,31 @@ function updatePanel(districtName) {
         "\"": "&quot;",
         "'": "&#39;"
     }[character]));
-    const renderDistrictOptions = () => Object.keys(districtData)
-        .sort((firstDistrict, secondDistrict) => firstDistrict.localeCompare(secondDistrict))
-        .map(district => `
+    const renderDistrictOptions = () => `
+            <option value=""${isStatewide ? " selected" : ""}>${escapeHtml(t("All Districts"))}</option>
+        ` + Object.keys(districtData)
+            .sort((firstDistrict, secondDistrict) => firstDistrict.localeCompare(secondDistrict))
+            .map(district => `
             <option value="${escapeHtml(district)}"${district === districtName ? " selected" : ""}>
                 ${escapeHtml(t(district))}
             </option>
         `)
-        .join("");
-    const districtFilter = `
-        <div class="info-panel-filter">
-            <label for="districtStatisticsFilter">${t("Select District")}</label>
-            <select id="districtStatisticsFilter" aria-label="${t("Select district for cancer statistics")}">
-                ${renderDistrictOptions()}
-            </select>
+            .join("");
+    const statisticsFilters = `
+        <div class="info-panel-filters">
+            <div class="info-panel-filter info-panel-filter-state">
+                <label for="stateStatisticsFilter">${t("Select State")}</label>
+                <select id="stateStatisticsFilter" aria-label="${t("Select state for cancer statistics")}">
+                    <option value="Odisha" selected>${t("Odisha")}</option>
+                </select>
+            </div>
+
+            <div class="info-panel-filter">
+                <label for="districtStatisticsFilter">${t("Select District")}</label>
+                <select id="districtStatisticsFilter" aria-label="${t("Select district for cancer statistics")}">
+                    ${renderDistrictOptions()}
+                </select>
+            </div>
         </div>
     `;
     const bindDistrictFilter = () => {
@@ -150,20 +199,12 @@ function updatePanel(districtName) {
                 <h2>${t("District Cancer Statistics")} 2025</h2>
             </div>
 
-            ${districtFilter}
+            ${statisticsFilters}
 
             <div class="info-stats-grid">
                 <div class="info-stat">
                     <strong>${t("District Name")}</strong>
-                    <span>${t(districtName)}</span>
-                </div>
-                <div class="info-stat">
-                    <strong>${t("Population as of 2025")}</strong>
-                    <span>${unavailable}</span>
-                </div>
-                <div class="info-stat">
-                    <strong>${t("Cancer Cases")}</strong>
-                    <span>${unavailable}</span>
+                    <span>${t(selectedAreaName)}</span>
                 </div>
                 <div class="info-stat">
                     <strong>${t("Incident Cancer Cases")}</strong>
@@ -187,22 +228,12 @@ function updatePanel(districtName) {
             <h2>${t("District Cancer Statistics")} 2025</h2>
         </div>
 
-        ${districtFilter}
+        ${statisticsFilters}
 
         <div class="info-stats-grid">
             <div class="info-stat info-stat-wide">
                 <strong>${t("District Name")}</strong>
-                <span>${t(districtName)}</span>
-            </div>
-
-            <div class="info-stat">
-                <strong>${t("Population as of 2025")}</strong>
-                ${statValue(data.population, { count: true })}
-            </div>
-
-            <div class="info-stat">
-                <strong>${t("Cancer Cases")}</strong>
-                ${statValue(data.cancerCases, { count: true })}
+                <span>${t(selectedAreaName)}</span>
             </div>
 
             <div class="info-stat">
@@ -297,7 +328,7 @@ window.addEventListener(
 
 window.addEventListener("load", async () => {
     await window.loadDistrictDataFromApi?.();
-    renderSelectedDistrict("Khordha");
+    renderSelectedDistrict(selectedDistrict);
 });
 
 // =====================================

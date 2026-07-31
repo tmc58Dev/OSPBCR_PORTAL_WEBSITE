@@ -374,6 +374,256 @@ public sealed class RegistryDataService(
         return values;
     }
 
+    public async Task<IReadOnlyList<CancerAgeSiteDistributionDto>> GetCancerIncidenceAgeSitesAsync(
+        int year,
+        int? sex,
+        string? district,
+        CancellationToken cancellationToken = default)
+    {
+        const string sql = """
+            WITH AgeGroups AS
+            (
+                SELECT
+                    CONVERT(nvarchar(20), 'Pediatric') AS AgeGroup,
+                    0 AS MinimumAge,
+                    14 AS MaximumAge,
+                    1 AS SortOrder
+                UNION ALL
+                SELECT
+                    CONVERT(nvarchar(20), 'Geriatric'),
+                    64,
+                    2147483647,
+                    2
+            ),
+            NormalizedTumours AS
+            (
+                SELECT
+                    LTRIM(RTRIM(tumour.REGNO)) AS RegNo,
+                    TRY_CONVERT(int, LTRIM(RTRIM(tumour.Age))) AS PatientAge,
+                    UPPER(
+                        LEFT(
+                            REPLACE(
+                                REPLACE(LTRIM(RTRIM(tumour.ICD10)), '.', ''),
+                                ' ',
+                                ''),
+                            3))
+                        AS Icd10
+                FROM dbo.TumourTable tumour
+                INNER JOIN dbo.PatientTable patient
+                    ON LTRIM(RTRIM(patient.REGNO)) =
+                       LTRIM(RTRIM(tumour.REGNO))
+                INNER JOIN dbo.DistrictList district
+                    ON LTRIM(RTRIM(CONVERT(nvarchar(100), district.DistrictId))) =
+                       LTRIM(RTRIM(CONVERT(nvarchar(100), patient.District)))
+                WHERE TRY_CONVERT(int, LTRIM(RTRIM(tumour.YearDateOfDiagnosis))) = @Year
+                  AND LOWER(LTRIM(RTRIM(tumour.RECS))) = 'true'
+                  AND NULLIF(LTRIM(RTRIM(tumour.REGNO)), '') IS NOT NULL
+                  AND (@Sex IS NULL OR TRY_CONVERT(int, patient.Sex) = @Sex)
+                  AND (@District IS NULL OR LTRIM(RTRIM(district.DistrictName)) = @District)
+            ),
+            IcdLookup AS
+            (
+                SELECT
+                    UPPER(LTRIM(RTRIM(Code))) AS Icd10,
+                    MAX(NULLIF(LTRIM(RTRIM(Value)), '')) AS CancerSite
+                FROM dbo.ICD10Group
+                GROUP BY UPPER(LTRIM(RTRIM(Code)))
+            ),
+            GroupedSites AS
+            (
+                SELECT
+                    ageGroup.AgeGroup,
+                    ageGroup.SortOrder,
+                    tumour.Icd10,
+                    lookup.CancerSite,
+                    COUNT_BIG(DISTINCT tumour.RegNo) AS SiteCount
+                FROM AgeGroups ageGroup
+                INNER JOIN NormalizedTumours tumour
+                    ON tumour.PatientAge BETWEEN ageGroup.MinimumAge AND ageGroup.MaximumAge
+                INNER JOIN IcdLookup lookup
+                    ON lookup.Icd10 = tumour.Icd10
+                WHERE tumour.Icd10 LIKE 'C[0-9][0-9]'
+                GROUP BY
+                    ageGroup.AgeGroup,
+                    ageGroup.SortOrder,
+                    tumour.Icd10,
+                    lookup.CancerSite
+            ),
+            RankedSites AS
+            (
+                SELECT
+                    AgeGroup,
+                    SortOrder,
+                    Icd10,
+                    CancerSite,
+                    SiteCount,
+                    ROW_NUMBER() OVER (
+                        PARTITION BY AgeGroup
+                        ORDER BY SiteCount DESC, Icd10) AS SiteRank
+                FROM GroupedSites
+            )
+            SELECT
+                AgeGroup,
+                Icd10,
+                CancerSite,
+                SiteCount
+            FROM RankedSites
+            WHERE SiteRank <= 5
+            ORDER BY SortOrder, SiteRank;
+            """;
+
+        return await QueryCancerAgeSitesAsync(
+            sql,
+            year,
+            sex,
+            district,
+            cancellationToken);
+    }
+
+    public async Task<IReadOnlyList<CancerAgeSiteDistributionDto>> GetCancerMortalityAgeSitesAsync(
+        int year,
+        int? sex,
+        string? district,
+        CancellationToken cancellationToken = default)
+    {
+        const string sql = """
+            WITH AgeGroups AS
+            (
+                SELECT
+                    CONVERT(nvarchar(20), 'Pediatric') AS AgeGroup,
+                    0 AS MinimumAge,
+                    14 AS MaximumAge,
+                    1 AS SortOrder
+                UNION ALL
+                SELECT
+                    CONVERT(nvarchar(20), 'Geriatric'),
+                    64,
+                    2147483647,
+                    2
+            ),
+            NormalizedTumours AS
+            (
+                SELECT
+                    LTRIM(RTRIM(patient.REGNO)) AS RegNo,
+                    TRY_CONVERT(int, LTRIM(RTRIM(patient.AgeAtDeath))) AS PatientAge,
+                    UPPER(
+                        LEFT(
+                            REPLACE(
+                                REPLACE(LTRIM(RTRIM(tumour.ICD10)), '.', ''),
+                                ' ',
+                                ''),
+                            3))
+                        AS Icd10
+                FROM dbo.PatientTable patient
+                INNER JOIN dbo.TumourTable tumour
+                    ON LTRIM(RTRIM(tumour.REGNO)) =
+                       LTRIM(RTRIM(patient.REGNO))
+                INNER JOIN dbo.DistrictList district
+                    ON LTRIM(RTRIM(CONVERT(nvarchar(100), district.DistrictId))) =
+                       LTRIM(RTRIM(CONVERT(nvarchar(100), patient.District)))
+                WHERE COALESCE(
+                    TRY_CONVERT(
+                        int,
+                        NULLIF(LTRIM(RTRIM(patient.YearDateOfDeath)), '')),
+                    YEAR(
+                        TRY_CONVERT(
+                            date,
+                            NULLIF(LTRIM(RTRIM(patient.DateOfDeath)), '')))) = @Year
+                  AND LOWER(LTRIM(RTRIM(tumour.RECS))) = 'true'
+                  AND NULLIF(LTRIM(RTRIM(patient.REGNO)), '') IS NOT NULL
+                  AND (@Sex IS NULL OR TRY_CONVERT(int, patient.Sex) = @Sex)
+                  AND (@District IS NULL OR LTRIM(RTRIM(district.DistrictName)) = @District)
+            ),
+            IcdLookup AS
+            (
+                SELECT
+                    UPPER(LTRIM(RTRIM(Code))) AS Icd10,
+                    MAX(NULLIF(LTRIM(RTRIM(Value)), '')) AS CancerSite
+                FROM dbo.ICD10Group
+                GROUP BY UPPER(LTRIM(RTRIM(Code)))
+            ),
+            GroupedSites AS
+            (
+                SELECT
+                    ageGroup.AgeGroup,
+                    ageGroup.SortOrder,
+                    tumour.Icd10,
+                    lookup.CancerSite,
+                    COUNT_BIG(DISTINCT tumour.RegNo) AS SiteCount
+                FROM AgeGroups ageGroup
+                INNER JOIN NormalizedTumours tumour
+                    ON tumour.PatientAge BETWEEN ageGroup.MinimumAge AND ageGroup.MaximumAge
+                INNER JOIN IcdLookup lookup
+                    ON lookup.Icd10 = tumour.Icd10
+                WHERE tumour.Icd10 LIKE 'C[0-9][0-9]'
+                GROUP BY
+                    ageGroup.AgeGroup,
+                    ageGroup.SortOrder,
+                    tumour.Icd10,
+                    lookup.CancerSite
+            ),
+            RankedSites AS
+            (
+                SELECT
+                    AgeGroup,
+                    SortOrder,
+                    Icd10,
+                    CancerSite,
+                    SiteCount,
+                    ROW_NUMBER() OVER (
+                        PARTITION BY AgeGroup
+                        ORDER BY SiteCount DESC, Icd10) AS SiteRank
+                FROM GroupedSites
+            )
+            SELECT
+                AgeGroup,
+                Icd10,
+                CancerSite,
+                SiteCount
+            FROM RankedSites
+            WHERE SiteRank <= 5
+            ORDER BY SortOrder, SiteRank;
+            """;
+
+        return await QueryCancerAgeSitesAsync(
+            sql,
+            year,
+            sex,
+            district,
+            cancellationToken);
+    }
+
+    private async Task<IReadOnlyList<CancerAgeSiteDistributionDto>> QueryCancerAgeSitesAsync(
+        string sql,
+        int year,
+        int? sex,
+        string? district,
+        CancellationToken cancellationToken)
+    {
+        await using var connection = await connectionFactory.OpenConnectionAsync(cancellationToken);
+        await using var command = connection.CreateCommand();
+        command.CommandText = sql;
+        command.Parameters.Add("@Year", SqlDbType.Int).Value = year;
+        command.Parameters.Add("@Sex", SqlDbType.Int).Value =
+            sex.HasValue ? sex.Value : DBNull.Value;
+        command.Parameters.Add("@District", SqlDbType.NVarChar, 100).Value =
+            district is null ? DBNull.Value : district;
+
+        var values = new List<CancerAgeSiteDistributionDto>();
+        await using var reader = await command.ExecuteReaderAsync(cancellationToken);
+
+        while (await reader.ReadAsync(cancellationToken))
+        {
+            values.Add(new CancerAgeSiteDistributionDto(
+                ReadString(reader, "AgeGroup"),
+                ReadString(reader, "Icd10"),
+                ReadString(reader, "CancerSite"),
+                ReadInt64(reader, "SiteCount")));
+        }
+
+        return values;
+    }
+
     private static async Task<IReadOnlyList<TableSchema>> LoadSchemaAsync(
         SqlConnection connection,
         CancellationToken cancellationToken)

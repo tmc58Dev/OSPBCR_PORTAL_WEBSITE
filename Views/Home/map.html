@@ -23,13 +23,13 @@
     <!-- Website CSS -->
 
     <link rel="stylesheet"
-          href="assets/css/main.css?v=20260729-larger-logos">
+          href="assets/css/main.css?v=20260731-navbar-blue-fill">
 
     <link rel="stylesheet"
-          href="assets/css/pages/map.css?v=20260727-selected-district-label-v2">
+          href="assets/css/pages/map.css?v=20260731-visible-all-stat-cards">
 
     <link rel="stylesheet"
-          href="assets/css/design-system.css?v=20260729-navbar-fill">
+          href="assets/css/design-system.css?v=20260731-navbar-blue-fill">
 
 </head>
 
@@ -68,28 +68,28 @@
                             <h2>District Cancer Statistics 2025</h2>
                         </div>
 
-                        <div class="info-panel-filter">
-                            <label for="districtStatisticsFilter">Select District</label>
-                            <select id="districtStatisticsFilter"
-                                    aria-label="Select district for cancer statistics">
-                                <option>Loading districts...</option>
-                            </select>
+                        <div class="info-panel-filters">
+                            <div class="info-panel-filter info-panel-filter-state">
+                                <label for="stateStatisticsFilter">Select State</label>
+                                <select id="stateStatisticsFilter"
+                                        aria-label="Select state for cancer statistics">
+                                    <option value="Odisha" selected>Odisha</option>
+                                </select>
+                            </div>
+
+                            <div class="info-panel-filter">
+                                <label for="districtStatisticsFilter">Select District</label>
+                                <select id="districtStatisticsFilter"
+                                        aria-label="Select district for cancer statistics">
+                                    <option value="" selected>All Districts</option>
+                                </select>
+                            </div>
                         </div>
 
                         <div class="info-stats-grid">
                             <div class="info-stat">
                                 <strong>District Name</strong>
-                                <span>Select a district</span>
-                            </div>
-
-                            <div class="info-stat">
-                                <strong>Population as of 2025</strong>
-                                <span>--</span>
-                            </div>
-
-                            <div class="info-stat">
-                                <strong>Cancer Cases</strong>
-                                <span>--</span>
+                                <span>All Districts</span>
                             </div>
 
                             <div class="info-stat">
@@ -113,6 +113,8 @@
 
         <!-- CANCER-SITE INCIDENCE -->
 
+        <div class="cancer-chart-sections-grid">
+
         <section class="section cancer-incidence-section" aria-labelledby="cancerIncidenceTitle">
 
             <div class="container-custom">
@@ -121,13 +123,13 @@
                     <span class="section-kicker">YEAR 2025</span>
                     <h2 id="cancerIncidenceTitle">Incidence of Cancer Sites</h2>
                     <p>
-                        Top five cancer-site groups by unique REGNO, using the first two digits
+                        Top five cancer-site groups by REGNO, using the first two digits
                         after C in ICD-10 and the corresponding ICD10Group description.
                     </p>
                 </div>
 
                 <div class="incidence-toolbar fade-up">
-                    <span>Filter by sex</span>
+                    <span>Filter bar graph by sex</span>
                     <div class="incidence-sex-filter" role="group" aria-label="Filter cancer incidence by sex">
                         <button type="button" class="active" data-incidence-sex="" aria-pressed="true">All</button>
                         <button type="button" data-incidence-sex="1" aria-pressed="false">Male</button>
@@ -135,11 +137,13 @@
                     </div>
                 </div>
 
+                <div class="cancer-visualization-grid">
+
                 <article class="incidence-chart-panel fade-up">
 
                     <header class="incidence-chart-header">
                         <div>
-                            <span>Unique cases in top five</span>
+                            <span>Cases in top five</span>
                             <strong id="incidenceTotal">--</strong>
                         </div>
                         <div>
@@ -156,7 +160,7 @@
                             <canvas
                                 id="cancerSiteIncidenceChart"
                                 role="img"
-                                aria-label="Horizontal bar chart of cancer-site incidence counts for 2025">
+                                aria-label="Vertical bar chart of cancer-site incidence counts for 2025">
                             </canvas>
                         </div>
                     </div>
@@ -170,6 +174,64 @@
                     </p>
 
                 </article>
+
+                <article class="age-chart-panel fade-up" aria-labelledby="incidencePediatricTitle">
+                    <header class="age-chart-header">
+                        <span>AGES 0–14</span>
+                        <h3 id="incidencePediatricTitle">Pediatric</h3>
+                        <p>Cancer sites by selected sex filter</p>
+                    </header>
+
+                    <div class="age-chart-canvas" id="incidencePediatricRegion">
+                        <canvas
+                            id="incidencePediatricChart"
+                            role="img"
+                            aria-label="Pie chart of pediatric cancer-site incidence counts in 2025">
+                        </canvas>
+                    </div>
+
+                    <div class="age-chart-empty" id="incidencePediatricEmpty" hidden>
+                        No pediatric incidence records were found.
+                    </div>
+
+                    <div class="age-chart-breakdown" id="incidencePediatricBreakdown">
+                        <span class="age-chart-breakdown-loading">Loading cancer sites...</span>
+                    </div>
+
+                    <p class="age-chart-status" id="incidencePediatricStatus" role="status" aria-live="polite">
+                        Loading pediatric incidence data...
+                    </p>
+                </article>
+
+                <article class="age-chart-panel fade-up" aria-labelledby="incidenceGeriatricTitle">
+                    <header class="age-chart-header">
+                        <span>AGES 64 and Above</span>
+                        <h3 id="incidenceGeriatricTitle">Geriatric</h3>
+                        <p>Cancer sites by selected sex filter</p>
+                    </header>
+
+                    <div class="age-chart-canvas" id="incidenceGeriatricRegion">
+                        <canvas
+                            id="incidenceGeriatricChart"
+                            role="img"
+                            aria-label="Pie chart of geriatric cancer-site incidence counts in 2025">
+                        </canvas>
+                    </div>
+
+                    <div class="age-chart-empty" id="incidenceGeriatricEmpty" hidden>
+                        No geriatric incidence records were found.
+                    </div>
+
+                    <div class="age-chart-breakdown" id="incidenceGeriatricBreakdown">
+                        <span class="age-chart-breakdown-loading">Loading cancer sites...</span>
+                    </div>
+
+                    <p class="age-chart-status" id="incidenceGeriatricStatus" role="status" aria-live="polite">
+                        Loading geriatric incidence data...
+                    </p>
+                </article>
+
+                </div>
 
             </div>
 
@@ -185,13 +247,13 @@
                     <span class="section-kicker">YEAR 2025</span>
                     <h2 id="cancerMortalityTitle">Mortality of Cancer Sites</h2>
                     <p>
-                        Top five cancer-site groups by unique REGNO, using 2025 DateofDeath
+                        Top five cancer-site groups by REGNO, using 2025 DateofDeath
                         values and the corresponding ICD10Group description.
                     </p>
                 </div>
 
                 <div class="incidence-toolbar fade-up">
-                    <span>Filter by sex</span>
+                    <span>Filter bar graph by sex</span>
                     <div class="incidence-sex-filter" role="group" aria-label="Filter cancer mortality by sex">
                         <button type="button" class="active" data-mortality-sex="" aria-pressed="true">All</button>
                         <button type="button" data-mortality-sex="1" aria-pressed="false">Male</button>
@@ -199,11 +261,13 @@
                     </div>
                 </div>
 
+                <div class="cancer-visualization-grid">
+
                 <article class="incidence-chart-panel fade-up">
 
                     <header class="incidence-chart-header">
                         <div>
-                            <span>Unique deaths in top five</span>
+                            <span>Deaths in top five</span>
                             <strong id="mortalityTotal">--</strong>
                         </div>
                         <div>
@@ -220,7 +284,7 @@
                             <canvas
                                 id="cancerSiteMortalityChart"
                                 role="img"
-                                aria-label="Horizontal bar chart of cancer-site mortality counts for 2025">
+                                aria-label="Vertical bar chart of cancer-site mortality counts for 2025">
                             </canvas>
                         </div>
                     </div>
@@ -235,9 +299,69 @@
 
                 </article>
 
+                <article class="age-chart-panel fade-up" aria-labelledby="mortalityPediatricTitle">
+                    <header class="age-chart-header">
+                        <span>AGES 0–14</span>
+                        <h3 id="mortalityPediatricTitle">Pediatric</h3>
+                        <p>Cancer sites by selected sex filter</p>
+                    </header>
+
+                    <div class="age-chart-canvas" id="mortalityPediatricRegion">
+                        <canvas
+                            id="mortalityPediatricChart"
+                            role="img"
+                            aria-label="Pie chart of pediatric cancer-site mortality counts in 2025">
+                        </canvas>
+                    </div>
+
+                    <div class="age-chart-empty" id="mortalityPediatricEmpty" hidden>
+                        No pediatric mortality records were found.
+                    </div>
+
+                    <div class="age-chart-breakdown" id="mortalityPediatricBreakdown">
+                        <span class="age-chart-breakdown-loading">Loading cancer sites...</span>
+                    </div>
+
+                    <p class="age-chart-status" id="mortalityPediatricStatus" role="status" aria-live="polite">
+                        Loading pediatric mortality data...
+                    </p>
+                </article>
+
+                <article class="age-chart-panel fade-up" aria-labelledby="mortalityGeriatricTitle">
+                    <header class="age-chart-header">
+                        <span>AGES 64 and Above</span>
+                        <h3 id="mortalityGeriatricTitle">Geriatric</h3>
+                        <p>Cancer sites by selected sex filter</p>
+                    </header>
+
+                    <div class="age-chart-canvas" id="mortalityGeriatricRegion">
+                        <canvas
+                            id="mortalityGeriatricChart"
+                            role="img"
+                            aria-label="Pie chart of geriatric cancer-site mortality counts in 2025">
+                        </canvas>
+                    </div>
+
+                    <div class="age-chart-empty" id="mortalityGeriatricEmpty" hidden>
+                        No geriatric mortality records were found.
+                    </div>
+
+                    <div class="age-chart-breakdown" id="mortalityGeriatricBreakdown">
+                        <span class="age-chart-breakdown-loading">Loading cancer sites...</span>
+                    </div>
+
+                    <p class="age-chart-status" id="mortalityGeriatricStatus" role="status" aria-live="polite">
+                        Loading geriatric mortality data...
+                    </p>
+                </article>
+
+                </div>
+
             </div>
 
         </section>
+
+        </div>
 
     </main>
 
@@ -273,9 +397,10 @@
 
     <script src="assets/js/pages/district-data.js?v=20260727-district-sync-fix"></script>
 
-    <script src="assets/js/pages/map.js?v=20260729-statistics-year"></script>
-    <script src="assets/js/pages/cancer-site-incidence.js?v=20260728-i18n"></script>
-    <script src="assets/js/pages/cancer-site-mortality.js?v=20260728-i18n"></script>
+    <script src="assets/js/pages/map.js?v=20260731-state-district-filters"></script>
+    <script src="assets/js/pages/cancer-site-incidence.js?v=20260731-odisha-state-default"></script>
+    <script src="assets/js/pages/cancer-site-mortality.js?v=20260731-odisha-state-default"></script>
+    <script src="assets/js/pages/cancer-age-distribution.js?v=20260731-geriatric-age-label"></script>
 </body>
 
 </html>

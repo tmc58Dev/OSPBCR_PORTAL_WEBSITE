@@ -36,3 +36,9 @@ public sealed record CancerSiteMortalityDto(
     string Icd10,
     string CancerSite,
     long Count);
+
+public sealed record CancerAgeSiteDistributionDto(
+    string AgeGroup,
+    string Icd10,
+    string CancerSite,
+    long Count);

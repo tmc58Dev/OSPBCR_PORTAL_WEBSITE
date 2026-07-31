@@ -58,15 +58,18 @@
 
     display: flex;
     flex: 1 1 auto;
+    min-width: 0;
+    align-self: stretch;
 
-    gap: 12px;
+    gap: 8px;
 
     align-items: center;
     justify-content: flex-start;
     flex-wrap: nowrap;
     margin: 0;
-    padding: 0 24px;
-    height: 126px;
+    padding: 0 16px;
+    min-height: 112px;
+    height: auto;
     background: linear-gradient(90deg, #2C6F9B 0%, #005B96 42%, #003F6B 100%);
 
 }
@@ -84,8 +87,8 @@
     align-items: center;
     justify-content: center;
     min-height: 42px;
-    padding: 0 8px;
-    font-size: var(--font-size-nav);
+    padding: 0 5px;
+    font-size: clamp(13px, 0.82vw, var(--font-size-nav));
     font-weight: 600;
     letter-spacing: 0.01em;
     border-radius: 999px;
@@ -145,15 +148,15 @@
     display: flex;
     align-items: center;
     flex: 0 0 auto;
-    gap: 8px;
+    gap: 6px;
     margin-left: auto;
 }
 
 .nav-menu a.setu-pop-link {
     min-height: 42px;
-    padding: 0 14px;
+    padding: 0 10px;
     color: #ffffff;
-    font-size: 0.9rem;
+    font-size: 0.82rem;
     font-weight: 900;
     letter-spacing: 0.06em;
     text-transform: uppercase;
@@ -176,7 +179,7 @@
 
 .nav-menu a.cms-login-link {
     min-height: 40px;
-    padding: 0 13px;
+    padding: 0 10px;
     border: 1px solid rgba(255, 255, 255, 0.42);
     background: rgba(255, 255, 255, 0.1);
 }
@@ -213,9 +216,9 @@
 }
 
 .language-control select {
-    min-width: 98px;
+    min-width: 88px;
     height: 40px;
-    padding: 0 30px 0 11px;
+    padding: 0 26px 0 9px;
     color: #0f172a;
     font-family: "Noto Sans Devanagari", "Noto Sans Oriya", var(--font-family-base);
     font-size: 13px;
@@ -251,9 +254,11 @@
     display: flex;
 
     align-items: center;
+    align-self: stretch;
     flex: 0 0 auto;
-    height: 102px;
-    padding: 0 28px 0 0;
+    min-height: 112px;
+    height: auto;
+    padding: 0 16px 0 0;
     background: #ffffff;
     border-right: 1px solid rgba(229, 231, 235, 0.9);
     box-shadow: 10px 0 24px rgba(15, 23, 42, 0.04);
@@ -267,7 +272,7 @@
     align-items: center;
     flex-wrap: nowrap;
 
-    gap: 12px;
+    gap: 8px;
 
     text-decoration: none;
     transition: transform 0.28s ease;
@@ -276,7 +281,7 @@
 
 .navbar-logo {
 
-    height: 96px;
+    height: 70px;
 
     width: auto;
 
@@ -304,7 +309,7 @@
 
     .navbar-logo {
 
-        height: 88px;
+        height: 54px;
 
     }
 
@@ -316,8 +321,8 @@
 
     .nav-menu {
 
-        gap: 10px;
-        padding: 0 18px;
+        gap: 6px;
+        padding: 0 12px;
 
     }
 
@@ -333,34 +338,96 @@
 
     .navbar-logo {
 
-        height: 80px;
+        height: 60px;
 
     }
 
     .nav-left {
-        padding-right: 18px;
+        padding-right: 10px;
+    }
+
+    .logo-group {
+        gap: 5px;
     }
 
     .nav-menu {
-        padding: 0 14px;
-        gap: 6px;
+        padding: 0 8px;
+        gap: 4px;
     }
 
     .nav-menu a {
-        padding-inline: 5px;
+        padding-inline: 3px;
+        font-size: 12px;
     }
 
     .nav-menu a.setu-pop-link {
         min-height: 40px;
-        padding-inline: 12px;
-        font-size: 0.82rem;
+        padding-inline: 8px;
+        font-size: 12px;
     }
 
     .language-control select {
-        min-width: 88px;
-        padding-left: 8px;
+        min-width: 78px;
+        height: 36px;
+        padding: 0 22px 0 7px;
+        font-size: 12px;
     }
 
+}
+
+@media (min-width: 992px) and (max-width: 1200px) {
+    .navbar-custom {
+        min-height: auto;
+        padding-top: 8px;
+    }
+
+    .nav-wrapper {
+        min-height: auto;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+    }
+
+    .nav-left {
+        width: 100%;
+        min-height: 72px;
+        height: 72px;
+        justify-content: center;
+        padding-right: 0;
+        box-shadow: none;
+    }
+
+    .navbar-logo {
+        height: 52px;
+    }
+
+    .nav-menu {
+        width: 100%;
+        min-height: 64px;
+        height: 64px;
+        gap: 2px;
+        padding: 8px 6px;
+        overflow-x: visible;
+    }
+
+    .nav-menu a {
+        min-height: 38px;
+        padding-inline: 2px;
+        font-size: 11px;
+    }
+
+    .nav-menu a.setu-pop-link,
+    .nav-menu a.cms-login-link {
+        min-height: 36px;
+        padding-inline: 7px;
+        font-size: 11px;
+    }
+
+    .language-control select {
+        min-width: 72px;
+        height: 34px;
+        font-size: 11px;
+    }
 }
 
 @media (max-width: 991px) {
@@ -386,6 +453,7 @@
         width: 100%;
         gap: 24px;
         padding: 10px 2px 14px;
+        flex-wrap: nowrap;
         overflow-x: auto;
         scrollbar-width: none;
     }

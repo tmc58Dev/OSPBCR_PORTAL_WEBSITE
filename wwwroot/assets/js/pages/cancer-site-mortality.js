@@ -25,16 +25,16 @@ const mortalityValueLabelPlugin = {
         ctx.strokeStyle = "rgba(255, 255, 255, 0.9)";
         ctx.lineWidth = 4;
         ctx.font = "800 14px Arial, sans-serif";
-        ctx.textBaseline = "middle";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "bottom";
 
         meta.data.forEach((bar, index) => {
             const value = formatMortalityCount(values[index]);
             const position = bar.tooltipPosition();
-            const labelX = Math.min(position.x + 10, chartArea.right - 6);
+            const labelY = Math.max(position.y - 8, chartArea.top + 14);
 
-            ctx.textAlign = labelX >= chartArea.right - 6 ? "right" : "left";
-            ctx.strokeText(value, labelX, position.y);
-            ctx.fillText(value, labelX, position.y);
+            ctx.strokeText(value, position.x, labelY);
+            ctx.fillText(value, position.x, labelY);
         });
 
         ctx.restore();
@@ -113,7 +113,7 @@ function renderCancerSiteMortality(values, sex, district) {
     }
 
     const totalDeaths = values.reduce((sum, item) => sum + Number(item.count || 0), 0);
-    const chartHeight = Math.max(400, values.length * 64);
+    const chartHeight = 375;
     const canvasContainer = canvas.closest(".incidence-chart-canvas");
 
     if (canvasContainer) {
@@ -130,7 +130,7 @@ function renderCancerSiteMortality(values, sex, district) {
     canvas.setAttribute(
         "aria-label",
         translateMortality(
-            "Horizontal bar chart of the top five cancer-site mortality counts for {{sex}} in {{district}} in 2025",
+            "Vertical bar chart of the top five cancer-site mortality counts for {{sex}} in {{district}} in 2025",
             {
                 sex: getMortalitySexLabel(sex),
                 district: getMortalityDistrictLabel(district)
@@ -143,16 +143,16 @@ function renderCancerSiteMortality(values, sex, district) {
         data: {
             labels: values.map(item => `${item.icd10}  ${item.cancerSite}`),
             datasets: [{
-                label: translateMortality("Unique cancer deaths"),
+                label: translateMortality("Cancer deaths"),
                 data: values.map(item => Number(item.count || 0)),
                 backgroundColor: values.map((_, index) => mortalityPalette[index % mortalityPalette.length]),
                 borderWidth: 0,
                 borderRadius: 3,
-                barThickness: 22
+                maxBarThickness: 54
             }]
         },
         options: {
-            indexAxis: "y",
+            indexAxis: "x",
             responsive: true,
             maintainAspectRatio: false,
             animation: {
@@ -160,7 +160,8 @@ function renderCancerSiteMortality(values, sex, district) {
             },
             layout: {
                 padding: {
-                    right: 72
+                    top: 28,
+                    right: 12
                 }
             },
             plugins: {
@@ -179,17 +180,32 @@ function renderCancerSiteMortality(values, sex, district) {
                     padding: 12,
                     callbacks: {
                         label(context) {
-                            return ` ${translateMortality("Unique deaths")}: ${formatMortalityCount(context.raw)}`;
+                            return ` ${translateMortality("Deaths")}: ${formatMortalityCount(context.raw)}`;
                         }
                     }
                 }
             },
             scales: {
                 x: {
+                    ticks: {
+                        autoSkip: false,
+                        color: "#1f2937",
+                        maxRotation: 35,
+                        minRotation: 0,
+                        font: {
+                            size: 12,
+                            weight: "600"
+                        }
+                    },
+                    grid: {
+                        display: false
+                    }
+                },
+                y: {
                     beginAtZero: true,
                     title: {
                         display: true,
-                        text: translateMortality("Unique REGNO count")
+                        text: translateMortality("REGNO count")
                     },
                     ticks: {
                         precision: 0,
@@ -200,19 +216,6 @@ function renderCancerSiteMortality(values, sex, district) {
                     grid: {
                         color: "rgba(15, 23, 42, 0.08)"
                     }
-                },
-                y: {
-                    ticks: {
-                        autoSkip: false,
-                        color: "#1f2937",
-                        font: {
-                            size: 12,
-                            weight: "600"
-                        }
-                    },
-                    grid: {
-                        display: false
-                    }
                 }
             }
         },
@@ -221,7 +224,7 @@ function renderCancerSiteMortality(values, sex, district) {
 
     setMortalityStatus(
         translateMortality(
-            "{{district}} · {{sex}}: {{count}} unique deaths in the top {{siteCount}} ICD-10 site groups.",
+            "{{district}} · {{sex}}: {{count}} deaths in the top {{siteCount}} ICD-10 site groups.",
             {
                 district: getMortalityDistrictLabel(district),
                 sex: getMortalitySexLabel(sex),

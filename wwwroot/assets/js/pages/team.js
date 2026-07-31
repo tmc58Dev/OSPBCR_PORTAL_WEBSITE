@@ -49,7 +49,7 @@ const teamSections = [
             {
                 name: "Dr Atul Budukh",
                 designation: "Professor, Epidemiology",
-                image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/ATUL SIR.png"
+                image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/ATUL B.webp?v=20260801-photo-v2"
             },
             {
                 name: "Dr Lingaraj Nayak",
@@ -120,7 +120,7 @@ const teamSections = [
             {
                 name: "Mr Pratik Sawant",
                 designation: "Programmer",
-                image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/PRATIK SIR.png"
+                image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Pratik Sawant.webp?v=20260801-photo-v2"
             },
             {
                 name: "Ms Samyukta Shivshankar",

@@ -6,7 +6,7 @@
 @import url('./global/utilities.css');
 @import url('./global/animation.css');
 
-@import url('./components/navbar.css?v=20260729-larger-logos');
+@import url('./components/navbar.css?v=20260731-navbar-blue-fill');
 @import url('./components/footer.css');
 
 :root {

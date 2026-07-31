@@ -71,7 +71,7 @@ body.map-page {
 
     --map-dashboard-height: clamp(420px, 50vh, 560px);
 
-    --stats-dashboard-height: clamp(170px, 24vh, 200px);
+    --stats-dashboard-height: clamp(250px, 30vh, 280px);
 }
 
 .section.map-dashboard-section {
@@ -369,26 +369,37 @@ body.map-page.map-dashboard-collapsed #infoPanel h2 {
     text-align: left;
 }
 
-.info-panel-filter {
+.info-panel-filters {
 
     display: grid;
 
-    grid-template-columns: auto minmax(160px, 280px);
+    grid-template-columns: minmax(130px, 0.72fr) minmax(190px, 1.28fr);
 
-    gap: 10px;
+    gap: 12px;
 
-    align-items: center;
+    align-items: end;
 
-    justify-content: center;
+    width: 100%;
 
     margin: -4px 0 16px;
 }
 
-body.map-page.map-dashboard-collapsed .info-panel-filter {
+body.map-page.map-dashboard-collapsed .info-panel-filters {
 
-    justify-content: end;
+    grid-template-columns: minmax(150px, 0.65fr) minmax(220px, 1.35fr);
 
     margin: -2px 0 10px;
+}
+
+.info-panel-filter {
+
+    display: grid;
+
+    grid-template-columns: 1fr;
+
+    gap: 6px;
+
+    min-width: 0;
 }
 
 .info-panel-filter label {
@@ -449,14 +460,14 @@ body.map-page.map-dashboard-collapsed .info-panel-filter {
 
     display: grid;
 
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
 
     gap: 12px;
 }
 
 body.map-page.map-dashboard-collapsed .info-stats-grid {
 
-    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
 
     gap: 10px;
 }
@@ -504,9 +515,9 @@ body.map-page.map-dashboard-collapsed .info-stat {
 
 .info-stat-wide {
 
-    grid-column: 1 / -1;
+    grid-column: auto;
 
-    min-height: 104px;
+    min-height: 116px;
 }
 
 body.map-page.map-dashboard-collapsed .info-stat-wide {
@@ -684,12 +695,10 @@ body.map-page.map-dashboard-collapsed .info-stat span[data-count-to] {
         text-align: center;
     }
 
-    body.map-page.map-dashboard-collapsed .info-panel-filter,
-    .info-panel-filter {
+    body.map-page.map-dashboard-collapsed .info-panel-filters,
+    .info-panel-filters {
 
         grid-template-columns: 1fr;
-
-        justify-content: stretch;
 
         margin: 0 0 14px;
     }
@@ -750,6 +759,11 @@ body.map-page.map-dashboard-collapsed .info-stat span[data-count-to] {
 
         grid-template-columns: 1fr;
     }
+
+    .info-stat-wide {
+
+        grid-column: 1 / -1;
+    }
 }
 
 /* ======================================
@@ -759,6 +773,49 @@ body.map-page.map-dashboard-collapsed .info-stat span[data-count-to] {
 .cancer-incidence-section,
 .cancer-mortality-section {
     background: #f5f8fb;
+}
+
+.cancer-chart-sections-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    width: 90%;
+    max-width: 1600px;
+    margin: 0 auto;
+    background: #f5f8fb;
+}
+
+.cancer-chart-sections-grid > .section {
+    min-width: 0;
+}
+
+.cancer-chart-sections-grid > .section > .container-custom {
+    width: 100%;
+    max-width: none;
+}
+
+.cancer-chart-sections-grid .incidence-chart-header {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.cancer-chart-sections-grid .incidence-chart-header p {
+    grid-column: 1 / -1;
+}
+
+.cancer-visualization-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+    align-items: stretch;
+}
+
+.cancer-visualization-grid > article {
+    min-width: 0;
+    height: 100%;
+}
+
+.cancer-visualization-grid .incidence-chart-canvas {
+    min-width: 360px;
 }
 
 body.map-page main > .section.cancer-incidence-section,
@@ -843,6 +900,127 @@ body.map-page main > .section.cancer-mortality-section {
     box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
 }
 
+.age-chart-panel {
+    display: grid;
+    grid-template-rows: auto minmax(260px, 1fr) auto auto;
+    overflow: hidden;
+    min-width: 0;
+    border: 1px solid #d8e1e8;
+    border-radius: 8px;
+    background: #ffffff;
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+}
+
+.age-chart-header {
+    min-height: 132px;
+    padding: 22px 24px 18px;
+    border-bottom: 1px solid #e4e9ee;
+    background: #f9fbfc;
+}
+
+.age-chart-header span {
+    display: block;
+    margin-bottom: 5px;
+    color: #087f8c;
+    font-size: 0.74rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+}
+
+.age-chart-header h3 {
+    margin: 0 0 5px;
+    color: #003f6b;
+    font-size: 1.3rem;
+    font-weight: 800;
+}
+
+.age-chart-header p,
+.age-chart-status {
+    margin: 0;
+    color: #5d6875;
+    font-size: 0.82rem;
+    line-height: 1.45;
+}
+
+.age-chart-canvas {
+    position: relative;
+    min-height: 280px;
+    padding: 20px;
+}
+
+.age-chart-empty {
+    display: grid;
+    min-height: 280px;
+    place-items: center;
+    padding: 28px;
+    color: #64748b;
+    text-align: center;
+}
+
+.age-chart-empty[hidden] {
+    display: none;
+}
+
+.age-chart-breakdown {
+    display: grid;
+    gap: 7px;
+    min-height: 72px;
+    max-height: 156px;
+    overflow: auto;
+    padding: 13px 18px;
+    border-top: 1px solid #edf2f5;
+    background: #fbfdfe;
+    scrollbar-color: #9aafbd #edf2f5;
+    scrollbar-width: thin;
+}
+
+.age-chart-breakdown-row {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    color: #52606d;
+    font-size: 0.76rem;
+    font-weight: 700;
+}
+
+.age-chart-breakdown-row strong {
+    color: #003f6b;
+    font-size: 0.86rem;
+    font-variant-numeric: tabular-nums;
+}
+
+.age-chart-site-name {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.age-chart-breakdown-loading {
+    color: #64748b;
+    font-size: 0.8rem;
+    text-align: center;
+}
+
+.age-chart-dot {
+    width: 10px;
+    height: 10px;
+    flex: 0 0 10px;
+    border-radius: 50%;
+}
+
+.age-chart-status {
+    min-height: 58px;
+    padding: 12px 20px 16px;
+}
+
+.age-chart-status.is-error {
+    color: #b42318;
+    font-weight: 700;
+}
+
 .incidence-chart-header {
     display: grid;
     grid-template-columns: minmax(180px, 0.7fr) minmax(180px, 0.7fr) minmax(280px, 1.6fr);
@@ -894,8 +1072,8 @@ body.map-page main > .section.cancer-mortality-section {
 
 .incidence-chart-canvas {
     position: relative;
-    min-width: 760px;
-    height: 520px;
+    min-width: 570px;
+    height: 390px;
 }
 
 .incidence-empty-state {
@@ -923,6 +1101,14 @@ body.map-page main > .section.cancer-mortality-section {
 }
 
 @media (max-width: 900px) {
+    .cancer-chart-sections-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .cancer-visualization-grid {
+        grid-template-columns: 1fr;
+    }
+
     .incidence-chart-header {
         grid-template-columns: 1fr 1fr;
     }
@@ -956,6 +1142,6 @@ body.map-page main > .section.cancer-mortality-section {
     }
 
     .incidence-chart-canvas {
-        min-width: 680px;
+        min-width: 510px;
     }
 }

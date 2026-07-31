@@ -26,21 +26,63 @@ else
     {
         var english = card.Translations.GetValueOrDefault("en");
         var primaryImagePath = card.ImagePaths.FirstOrDefault() ?? english?.ImagePath;
-        <article class="cms-content-card">
-            @if (!string.IsNullOrWhiteSpace(primaryImagePath))
-            {
-                <img src="@primaryImagePath" alt="" />
-            }
-            <div class="cms-content-card-body">
-                <div class="cms-card-meta">
-                    <span class="cms-status @(card.Status == "Published" ? "is-published" : "is-draft")">@card.Status</span>
-                    <span>@english?.PublishDate.ToString("dd/MM/yyyy")</span>
-                </div>
+        var imagePaths = card.ImagePaths.Count > 0
+            ? card.ImagePaths.ToArray()
+            : !string.IsNullOrWhiteSpace(primaryImagePath)
+                ? new[] { primaryImagePath! }
+                : Array.Empty<string>();
+        var publishDate = english?.PublishDate;
+        <article class="cms-content-card cms-news-card" data-cms-news-card data-active-image="0">
+            <div class="cms-news-card-media">
+                @if (imagePaths.Length > 0)
+                {
+                    <div class="cms-news-card-gallery" data-cms-news-image-track>
+                        @for (var imageIndex = 0; imageIndex < imagePaths.Length; imageIndex++)
+                        {
+                            <img src="@imagePaths[imageIndex]"
+                                 alt="@(imageIndex == 0 ? english?.Title ?? "News Card image" : $"News Card image {imageIndex + 1}")"
+                                 loading="lazy"
+                                 decoding="async"
+                                 aria-hidden="@(imageIndex == 0 ? "false" : "true")"
+                                 data-cms-news-card-image />
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div class="cms-news-card-placeholder" aria-hidden="true">OSPBCR</div>
+                }
+                <span class="cms-news-card-language">English</span>
+                @if (imagePaths.Length > 1)
+                {
+                    <button class="cms-news-image-control cms-news-image-previous" type="button"
+                            aria-label="Previous photo" title="Previous photo" data-cms-news-image-previous>
+                        <span aria-hidden="true">&lsaquo;</span>
+                    </button>
+                    <button class="cms-news-image-control cms-news-image-next" type="button"
+                            aria-label="Next photo" title="Next photo" data-cms-news-image-next>
+                        <span aria-hidden="true">&rsaquo;</span>
+                    </button>
+                    <span class="cms-news-card-photo-count" data-cms-news-image-position>1 / @imagePaths.Length</span>
+                    @if (imagePaths.Length <= 10)
+                    {
+                        <div class="cms-news-card-image-dots" aria-hidden="true">
+                            @for (var imageIndex = 0; imageIndex < imagePaths.Length; imageIndex++)
+                            {
+                                <span class="@(imageIndex == 0 ? "is-active" : null)" data-cms-news-image-dot></span>
+                            }
+                        </div>
+                    }
+                }
+            </div>
+            <div class="cms-content-card-body cms-news-card-content">
                 <h2>@(english?.Title ?? "Untitled card")</h2>
-                <p>@(english?.TextNote ?? "")</p>
-                <small>@card.ImagePaths.Count shared photo(s) · Updated by @card.UpdatedByName on @card.UpdatedAt.ToLocalTime().ToString("dd MMM yyyy, HH:mm")</small>
+                <div class="cms-card-meta cms-news-card-meta">
+                    <span class="cms-status @(card.Status == "Published" ? "is-published" : "is-draft")">@card.Status</span>
+                    <time datetime="@(publishDate?.ToString("yyyy-MM-dd"))">@(publishDate?.ToString("dd/MM/yyyy") ?? "—")</time>
+                </div>
                 <div class="content-inline-actions">
-                    <a class="cms-button cms-button-secondary" asp-action="EditNews" asp-route-id="@card.Id">Update card</a>
+                    <a class="cms-button cms-button-primary" asp-action="EditNews" asp-route-id="@card.Id">Update card</a>
                     <form asp-action="DeleteNews" asp-route-id="@card.Id" method="post" data-confirm="Delete this multilingual News Card and its uploaded images?">
                         <button class="cms-button cms-button-danger" type="submit">Delete</button>
                     </form>
@@ -51,5 +93,6 @@ else
     </div>
 }
 @section Scripts {
+    <script src="~/assets/js/pages/cms-news-cards.js" asp-append-version="true"></script>
     <script>document.querySelectorAll("[data-confirm]").forEach(form => form.addEventListener("submit", event => { if (!confirm(form.dataset.confirm)) event.preventDefault(); }));</script>
 }
