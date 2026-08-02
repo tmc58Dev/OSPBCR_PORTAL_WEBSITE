@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Population Projection information from the Odisha State Population-Based Cancer Registry.">
+    <title>OSPBCR | Population Projection</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <link rel="stylesheet" href="assets/css/main.css?v=20260801-site-80-percent">
+    <link rel="stylesheet" href="assets/css/design-system.css?v=20260802-navbar-plus-3px">
+    <link rel="stylesheet" href="assets/css/pages/trending.css?v=20260727-gallery-controls">
+    <link rel="stylesheet" href="assets/css/pages/population-projection.css?v=20260802-gis-district-block-filters">
+</head>
+
+<body>
+    <div id="navbar-container"></div>
+
+    <main>
+        <section class="about-hero trending-hero">
+            <div class="container-custom">
+                <div class="hero-content trending-hero-copy fade-up">
+                    <span class="hero-tag trending-eyebrow">POPULATION PROJECTION</span>
+                    <h1>Population Projection</h1>
+                    <p>
+                        Explore population projections and demographic estimates that support cancer
+                        surveillance, research, planning, and public health initiatives across Odisha.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section population-gis-section" aria-labelledby="populationGisTitle">
+            <div class="container-custom">
+                <div class="section-heading population-gis-heading fade-up">
+                    <span class="section-kicker">NHM GIS DATA</span>
+                    <h2 id="populationGisTitle">GIS Mapping of Health Facilities and Village-Level GIS Data in Odisha for PBCR Activities</h2>
+                    <p>
+                        Explore district, block, village, subcentre, and medical-facility data converted
+                        from the NHM GIS archive. Select a district to load its detailed village layer.
+                    </p>
+                </div>
+
+                <div class="gis-summary-grid fade-up" aria-label="GIS dataset summary">
+                    <article class="gis-summary-card">
+                        <span>Districts</span>
+                        <strong id="gisDistrictCount">--</strong>
+                    </article>
+                    <article class="gis-summary-card">
+                        <span>Blocks</span>
+                        <strong id="gisBlockCount">--</strong>
+                    </article>
+                    <article class="gis-summary-card">
+                        <span>Villages</span>
+                        <strong id="gisVillageCount">--</strong>
+                    </article>
+                    <article class="gis-summary-card">
+                        <span>Health locations</span>
+                        <strong id="gisHealthCount">--</strong>
+                    </article>
+                </div>
+
+                <div class="gis-toolbar fade-up">
+                    <div class="gis-district-control">
+                        <label for="gisDistrictSelect">District</label>
+                        <select id="gisDistrictSelect" disabled>
+                            <option value="">All Odisha (30 districts)</option>
+                        </select>
+                    </div>
+
+                    <div class="gis-block-control">
+                        <label for="gisBlockSelect">Block</label>
+                        <select id="gisBlockSelect" disabled>
+                            <option value="">All blocks — select a district</option>
+                        </select>
+                    </div>
+
+                    <fieldset class="gis-layer-controls">
+                        <legend>Map layers</legend>
+                        <label class="gis-layer-toggle">
+                            <input type="checkbox" data-gis-layer="blocks" checked>
+                            <span class="gis-swatch gis-swatch-block"></span>
+                            Blocks
+                        </label>
+                        <label class="gis-layer-toggle is-disabled" id="gisVillageToggleLabel">
+                            <input type="checkbox" data-gis-layer="villages" disabled>
+                            <span class="gis-swatch gis-swatch-village"></span>
+                            Villages
+                        </label>
+                        <label class="gis-layer-toggle">
+                            <input type="checkbox" data-gis-layer="subcentres">
+                            <span class="gis-swatch gis-swatch-subcentre"></span>
+                            Subcentres
+                        </label>
+                        <label class="gis-layer-toggle">
+                            <input type="checkbox" data-gis-layer="medicalFacilities">
+                            <span class="gis-swatch gis-swatch-medical"></span>
+                            Medical facilities
+                        </label>
+                    </fieldset>
+
+                    <button type="button" class="gis-reset-button" id="gisResetButton">Reset map</button>
+                </div>
+
+                <div class="gis-map-shell fade-up">
+                    <div class="gis-map-region">
+                        <div
+                            id="populationGisMap"
+                            role="application"
+                            aria-label="Interactive map of Odisha health facilities and village-level GIS data">
+                        </div>
+                    </div>
+
+                    <aside class="gis-details-panel" aria-labelledby="gisDetailsTitle">
+                        <span class="gis-panel-kicker">SELECTED AREA</span>
+                        <h3 id="gisDetailsTitle">Odisha</h3>
+                        <p id="gisDetailsDescription">
+                            Select a district on the map or from the list to explore blocks and villages.
+                        </p>
+
+                        <dl class="gis-area-stats">
+                            <div>
+                                <dt>Blocks</dt>
+                                <dd id="gisSelectedBlocks">314</dd>
+                            </div>
+                            <div>
+                                <dt>Villages</dt>
+                                <dd id="gisSelectedVillages">52,945</dd>
+                            </div>
+                        </dl>
+
+                        <div class="gis-legend" aria-label="Map legend">
+                            <h4>Legend</h4>
+                            <span><i class="gis-swatch gis-swatch-district"></i>District boundary</span>
+                            <span><i class="gis-swatch gis-swatch-block"></i>Block boundary</span>
+                            <span><i class="gis-swatch gis-swatch-village"></i>Village boundary</span>
+                            <span><i class="gis-swatch gis-swatch-subcentre"></i>Subcentre</span>
+                            <span><i class="gis-swatch gis-swatch-medical"></i>Medical facility</span>
+                        </div>
+
+                        <p class="gis-status" id="gisStatus" role="status" aria-live="polite">Loading NHM GIS data...</p>
+                        <p class="gis-source-note">Source: GIS files NHM.rar</p>
+                    </aside>
+                </div>
+
+                <section class="projection-dashboard fade-up" id="populationProjectionCard" aria-labelledby="projectionDashboardTitle" aria-busy="true">
+                    <header class="projection-dashboard-header">
+                        <div>
+                            <span class="section-kicker">DEMOGRAPHIC PROJECTION</span>
+                            <h2 id="projectionDashboardTitle">Population statistics and age pyramid</h2>
+                            <p>Choose a year and use the workbook filters below. Selecting a district on the map updates this dashboard automatically.</p>
+                        </div>
+                        <div class="projection-area-badge" aria-live="polite">
+                            <span>Selected area</span>
+                            <strong id="projectionAreaBadge">Odisha</strong>
+                        </div>
+                    </header>
+
+                    <div class="projection-year-selector" role="group" aria-label="Projection year">
+                        <span class="projection-year-label">Year</span>
+                        <div class="projection-year-options">
+                            <button type="button" class="projection-year-button is-active" data-projection-year="2025" aria-pressed="true">2025</button>
+                            <button type="button" class="projection-year-button" data-projection-year="2026" aria-pressed="false">2026</button>
+                            <button type="button" class="projection-year-button" data-projection-year="2027" aria-pressed="false">2027</button>
+                            <button type="button" class="projection-year-button" data-projection-year="2028" aria-pressed="false">2028</button>
+                            <button type="button" class="projection-year-button" data-projection-year="2029" aria-pressed="false">2029</button>
+                            <button type="button" class="projection-year-button" data-projection-year="2030" aria-pressed="false">2030</button>
+                            <button type="button" class="projection-year-button" data-projection-year="2031" aria-pressed="false">2031</button>
+                        </div>
+                    </div>
+
+                    <div class="projection-dashboard-grid">
+                        <aside class="projection-stats-panel" aria-labelledby="projectionStatsTitle">
+                            <div class="projection-panel-heading">
+                                <span class="projection-panel-kicker">FILTERS &amp; STATISTICS</span>
+                                <h3 id="projectionStatsTitle">Odisha — all districts</h3>
+                                <p id="projectionStatsContext">Statewide projection inclusive of all districts and blocks.</p>
+                            </div>
+
+                            <div class="projection-filter-grid">
+                                <label class="projection-filter projection-filter-wide" for="projectionDistrictFilter">
+                                    <span>District</span>
+                                    <select id="projectionDistrictFilter" disabled>
+                                        <option value="">All Odisha</option>
+                                    </select>
+                                </label>
+                                <label class="projection-filter projection-filter-wide" for="projectionBlockFilter">
+                                    <span>Block</span>
+                                    <select id="projectionBlockFilter" disabled>
+                                        <option value="">All blocks</option>
+                                    </select>
+                                </label>
+                                <label class="projection-filter" for="projectionAgeFilter">
+                                    <span>Age group</span>
+                                    <select id="projectionAgeFilter" disabled></select>
+                                </label>
+                                <label class="projection-filter" for="projectionCategoryFilter">
+                                    <span>Category</span>
+                                    <select id="projectionCategoryFilter" disabled></select>
+                                </label>
+                                <label class="projection-filter projection-filter-wide" for="projectionGenderFilter">
+                                    <span>Gender</span>
+                                    <select id="projectionGenderFilter" disabled>
+                                        <option value="Both">Both genders</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                    </select>
+                                </label>
+                            </div>
+
+                            <button type="button" class="projection-reset-button" id="projectionResetFilters" disabled>Reset projection filters</button>
+
+                            <div class="projection-primary-stat">
+                                <span>Projected population</span>
+                                <strong id="projectionPopulation">--</strong>
+                                <small id="projectionPopulationLabel">All ages · Overall · Both genders</small>
+                            </div>
+
+                            <div class="projection-gender-stats">
+                                <article>
+                                    <span><i class="projection-dot projection-dot-male"></i>Male</span>
+                                    <strong id="projectionMale">--</strong>
+                                    <small id="projectionMaleShare">--</small>
+                                </article>
+                                <article>
+                                    <span><i class="projection-dot projection-dot-female"></i>Female</span>
+                                    <strong id="projectionFemale">--</strong>
+                                    <small id="projectionFemaleShare">--</small>
+                                </article>
+                            </div>
+
+                            <dl class="projection-detail-stats">
+                                <div>
+                                    <dt>Coverage</dt>
+                                    <dd id="projectionCoverage">--</dd>
+                                </div>
+                                <div>
+                                    <dt>Female per 1,000 male</dt>
+                                    <dd id="projectionSexRatio">--</dd>
+                                </div>
+                                <div>
+                                    <dt>Change from 2025</dt>
+                                    <dd id="projectionChange">--</dd>
+                                </div>
+                                <div>
+                                    <dt>Largest age cohort</dt>
+                                    <dd id="projectionLargestCohort">--</dd>
+                                </div>
+                                <div>
+                                    <dt>Share of Odisha</dt>
+                                    <dd id="projectionStateShare">--</dd>
+                                </div>
+                            </dl>
+
+                            <p class="projection-source-note">Source: district workbook <code>Block_overview</code> sheets. Unit: projected persons; displayed as rounded whole numbers.</p>
+                        </aside>
+
+                        <section class="projection-pyramid-panel" aria-labelledby="projectionPyramidTitle">
+                            <header class="projection-pyramid-heading">
+                                <div>
+                                    <span class="projection-panel-kicker">AGE–SEX DISTRIBUTION</span>
+                                    <h3 id="projectionPyramidTitle">Male and female age pyramid</h3>
+                                    <p id="projectionPyramidContext">Odisha · 2025 · Overall</p>
+                                </div>
+                                <div class="projection-pyramid-legend" aria-label="Chart legend">
+                                    <span><i class="projection-dot projection-dot-male"></i>Male</span>
+                                    <span><i class="projection-dot projection-dot-female"></i>Female</span>
+                                </div>
+                            </header>
+
+                            <div class="projection-pyramid-axis" aria-hidden="true">
+                                <span>Male</span>
+                                <span>Age</span>
+                                <span>Female</span>
+                            </div>
+                            <div class="projection-pyramid" id="projectionAgePyramid" role="img" aria-label="Loading population age pyramid"></div>
+                            <p class="projection-chart-note">Bar lengths use the largest male or female age cohort in the current selection as the scale.</p>
+                        </section>
+                    </div>
+
+                    <p class="projection-status" id="projectionStatus" role="status" aria-live="polite">Loading population projections…</p>
+                </section>
+            </div>
+        </section>
+    </main>
+
+    <div id="footer-container"></div>
+
+    <script src="assets/js/core/i18n.js?v=20260728-translation-audit-v3"></script>
+    <script src="assets/js/core/loader.js?v=20260725-population-projection"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="assets/js/pages/population-projection.js?v=20260802-gis-district-block-filters"></script>
+</body>
+
+</html>

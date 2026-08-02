@@ -79,7 +79,7 @@ main > .section:nth-of-type(odd),
 
 /* Navigation and footer use translucent pearl surfaces. */
 .navbar-custom {
-    min-height: 104px;
+    min-height: 107px;
     position: fixed;
     top: 0;
     left: 0;
@@ -102,7 +102,7 @@ main > .section:nth-of-type(odd),
     margin: 0;
     padding: 0;
 }
-.nav-wrapper { min-height: 128px; align-items: center; gap: 0; }
+.nav-wrapper { min-height: 131px; align-items: center; gap: 0; }
 .nav-menu {
     min-width: 0;
     align-self: stretch;
@@ -110,7 +110,7 @@ main > .section:nth-of-type(odd),
     align-items: center;
     flex-wrap: nowrap;
     gap: 8px;
-    min-height: 112px;
+    min-height: 115px;
     height: auto;
     padding: 0 16px;
     background: linear-gradient(90deg, #2C6F9B 0%, #005B96 42%, #003F6B 100%);
@@ -121,7 +121,8 @@ main > .section:nth-of-type(odd),
 }
 .nav-menu a {
     color: rgba(255, 255, 255, 0.96);
-    font-size: clamp(13px, 0.82vw, var(--font-size-nav));
+    min-height: 45px;
+    font-size: clamp(16px, calc(0.82vw + 3px), calc(var(--font-size-nav) + 3px));
     font-weight: 600;
     line-height: 1;
 }
@@ -134,7 +135,7 @@ main > .section:nth-of-type(odd),
 .nav-menu a.setu-pop-link:hover,
 .nav-menu a.setu-pop-link:focus-visible {
     color: #ffffff;
-    min-height: 42px;
+    min-height: 45px;
     padding: 0 10px;
     border: 1px solid rgba(255, 255, 255, 0.42);
     background: linear-gradient(90deg, #ff4d6d, #ffb703, #00b4d8, #7b2ff7, #ff4d6d);
@@ -154,11 +155,19 @@ main > .section:nth-of-type(odd),
 .language-control {
     margin-left: 0;
 }
+.language-control select {
+    min-width: 91px;
+    height: 43px;
+    font-size: 16px;
+}
+.nav-menu a.cms-login-link {
+    min-height: 43px;
+}
 .logo-group:hover { transform: translateY(-2px); }
 .logo-text { color: var(--text); }
 .nav-left {
     align-self: stretch;
-    min-height: 112px;
+    min-height: 115px;
     height: auto;
     padding: 0 16px 0 0;
     background: #ffffff;
@@ -166,11 +175,11 @@ main > .section:nth-of-type(odd),
     box-shadow: 10px 0 24px rgba(15, 23, 42, 0.04);
 }
 .navbar-logo {
-    height: 70px;
+    height: 73px;
     filter: none;
 }
 .navbar-logo-odisha {
-    height: 84px;
+    height: 87px;
 }
 .nav-menu a.active { background: rgba(255, 255, 255, 0.16); }
 .nav-menu a::after { height: 3px; border-radius: 99px; background: rgba(255, 255, 255, 0.92); }
@@ -422,24 +431,24 @@ main > .section:nth-of-type(odd),
 .district-label { border-radius: 9px; color: var(--text) !important; }
 
 @media (max-width: 1400px) {
-    .nav-wrapper { min-height: 104px; }
-    .nav-left { min-height: 104px; height: 104px; }
-    .nav-menu { min-height: 104px; height: 104px; }
-    .navbar-logo { height: 54px; }
-    .navbar-logo-odisha { height: 66px; }
+    .nav-wrapper { min-height: 107px; }
+    .nav-left { min-height: 107px; height: 107px; }
+    .nav-menu { min-height: 107px; height: 107px; }
+    .navbar-logo { height: 57px; }
+    .navbar-logo-odisha { height: 69px; }
     .nav-menu { gap: 6px; padding-inline: 12px; }
 }
 
 @media (max-width: 1200px) {
-    .nav-wrapper { min-height: 96px; }
-    .nav-left { min-height: 96px; height: 96px; }
-    .nav-menu { min-height: 96px; height: 96px; gap: 4px; padding-inline: 8px; }
-    .navbar-logo { height: 60px; }
-    .navbar-logo-odisha { height: 72px; }
-    .nav-menu a { padding-inline: 3px; font-size: 12px; }
-    .nav-menu a.setu-pop-link { padding-inline: 8px; font-size: 12px; }
+    .nav-wrapper { min-height: 99px; }
+    .nav-left { min-height: 99px; height: 99px; }
+    .nav-menu { min-height: 99px; height: 99px; gap: 4px; padding-inline: 8px; }
+    .navbar-logo { height: 63px; }
+    .navbar-logo-odisha { height: 75px; }
+    .nav-menu a { padding-inline: 3px; font-size: 15px; }
+    .nav-menu a.setu-pop-link { padding-inline: 8px; font-size: 15px; }
     .nav-menu a.cms-login-link { padding-inline: 8px; }
-    .language-control select { min-width: 78px; height: 36px; padding: 0 22px 0 7px; font-size: 12px; }
+    .language-control select { min-width: 81px; height: 39px; padding: 0 22px 0 7px; font-size: 15px; }
 }
 
 @media (min-width: 992px) and (max-width: 1200px) {
@@ -447,26 +456,26 @@ main > .section:nth-of-type(odd),
     .nav-wrapper { min-height: auto; flex-direction: column; align-items: stretch; gap: 8px; }
     .nav-left {
         width: 100%;
-        min-height: 72px;
-        height: 72px;
+        min-height: 75px;
+        height: 75px;
         justify-content: center;
         padding-right: 0;
         box-shadow: none;
     }
-    .navbar-logo { height: 52px; }
-    .navbar-logo-odisha { height: 62px; }
+    .navbar-logo { height: 55px; }
+    .navbar-logo-odisha { height: 65px; }
     .nav-menu {
         width: 100%;
-        min-height: 64px;
-        height: 64px;
+        min-height: 67px;
+        height: 67px;
         gap: 2px;
         padding: 8px 6px;
         overflow-x: visible;
     }
-    .nav-menu a { min-height: 38px; padding-inline: 2px; font-size: 11px; }
+    .nav-menu a { min-height: 41px; padding-inline: 2px; font-size: 14px; }
     .nav-menu a.setu-pop-link,
-    .nav-menu a.cms-login-link { min-height: 36px; padding-inline: 7px; font-size: 11px; }
-    .language-control select { min-width: 72px; height: 34px; font-size: 11px; }
+    .nav-menu a.cms-login-link { min-height: 39px; padding-inline: 7px; font-size: 14px; }
+    .language-control select { min-width: 75px; height: 37px; font-size: 14px; }
 }
 
 @media (max-width: 991px) {
@@ -503,7 +512,7 @@ main > .section:nth-of-type(odd),
     .nav-menu {
         width: 100%;
         height: auto;
-        min-height: 64px;
+        min-height: 67px;
         gap: 24px;
         padding: 10px 2px 14px;
         flex-wrap: nowrap;
@@ -517,9 +526,9 @@ main > .section:nth-of-type(odd),
 @media (max-width: 767px) {
     body { padding-top: var(--navbar-offset, 170px); }
     .section { padding: 68px 0; }
-    .nav-left { min-height: 92px; }
-    .navbar-logo { height: 64px; }
-    .navbar-logo-odisha { height: 88px; }
+    .nav-left { min-height: 95px; }
+    .navbar-logo { height: 67px; }
+    .navbar-logo-odisha { height: 91px; }
     .hero-section { min-height: 720px; padding: 70px 0; }
     .hero-section .hero-content { width: calc(100% - 32px); padding: 30px 24px; }
     .about-hero, .participants-hero, .status-hero, .sources-hero, .dashboard-hero,

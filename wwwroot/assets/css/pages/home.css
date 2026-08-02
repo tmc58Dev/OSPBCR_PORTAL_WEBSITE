@@ -185,8 +185,6 @@
 .news-card-page {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    grid-template-rows: repeat(2, auto);
-    grid-auto-flow: column;
     align-items: stretch;
     flex: 0 0 100%;
     min-width: 0;
@@ -359,7 +357,6 @@
 @media (max-width: 1100px) {
     .news-card-page {
         grid-template-columns: repeat(2, minmax(0, 1fr));
-        grid-template-rows: repeat(3, auto);
     }
 }
 
@@ -387,8 +384,6 @@
 @media (max-width: 620px) {
     .news-card-page {
         grid-template-columns: 1fr;
-        grid-template-rows: none;
-        grid-auto-flow: row;
         padding: 8px;
     }
 
@@ -459,10 +454,13 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .news-track,
-    .news-card-image-track {
+    .news-track {
         transition: none;
     }
+}
+
+.news-card-page .trending-learn-more {
+    text-decoration: none;
 }
 
 .hero-background::after {
@@ -478,28 +476,6 @@
     background:
         linear-gradient(135deg, rgba(0, 39, 64, 0.48), rgba(0, 91, 150, 0.30)),
         radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.08), transparent 30%);
-
-    pointer-events: none;
-
-}
-
-.hero-background::before {
-
-    content: "";
-
-    position: absolute;
-
-    left: 0;
-
-    right: 0;
-
-    bottom: 0;
-
-    height: 14px;
-
-    background: #000;
-
-    z-index: 2;
 
     pointer-events: none;
 

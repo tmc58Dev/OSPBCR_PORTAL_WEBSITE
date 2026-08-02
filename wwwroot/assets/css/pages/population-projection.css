@@ -1,0 +1,1100 @@
+.population-gis-section {
+    background:
+        radial-gradient(circle at 8% 10%, rgba(0, 128, 169, 0.09), transparent 28rem),
+        linear-gradient(180deg, #f7fbfd 0%, #ffffff 52%, #f5f9fb 100%);
+    padding-block: clamp(64px, 8vw, 104px);
+}
+
+.population-gis-heading {
+    max-width: 920px;
+    margin-bottom: 34px;
+}
+
+.population-gis-heading h2 {
+    max-width: 900px;
+}
+
+.population-gis-heading p {
+    max-width: 800px;
+}
+
+.gis-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+    margin-bottom: 18px;
+}
+
+.gis-summary-card {
+    position: relative;
+    overflow: hidden;
+    min-height: 112px;
+    padding: 22px 24px;
+    border: 1px solid rgba(0, 91, 150, 0.14);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.96);
+    box-shadow: 0 12px 30px rgba(8, 55, 78, 0.07);
+}
+
+.gis-summary-card::after {
+    content: "";
+    position: absolute;
+    inset: auto -25px -42px auto;
+    width: 92px;
+    height: 92px;
+    border-radius: 50%;
+    background: rgba(0, 128, 169, 0.08);
+}
+
+.gis-summary-card span {
+    display: block;
+    margin-bottom: 6px;
+    color: #527080;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.gis-summary-card strong {
+    color: #073e5a;
+    font-size: clamp(1.75rem, 3vw, 2.25rem);
+    line-height: 1;
+}
+
+.gis-toolbar {
+    display: flex;
+    align-items: end;
+    gap: 18px;
+    margin-bottom: 18px;
+    padding: 18px;
+    border: 1px solid rgba(0, 91, 150, 0.15);
+    border-radius: 14px;
+    background: #ffffff;
+    box-shadow: 0 10px 24px rgba(8, 55, 78, 0.06);
+}
+
+.gis-district-control,
+.gis-block-control {
+    flex: 0 1 220px;
+}
+
+.gis-district-control label,
+.gis-block-control label,
+.gis-layer-controls legend {
+    display: block;
+    margin-bottom: 7px;
+    color: #194d66;
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.gis-district-control select,
+.gis-block-control select {
+    width: 100%;
+    min-height: 44px;
+    padding: 8px 36px 8px 12px;
+    border: 1px solid #b9ced9;
+    border-radius: 8px;
+    background-color: #ffffff;
+    color: #173d51;
+    font-weight: 600;
+}
+
+.gis-layer-controls {
+    display: flex;
+    flex: 1 1 auto;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.gis-layer-controls legend {
+    flex-basis: 100%;
+    margin-bottom: -1px;
+}
+
+.gis-layer-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    min-height: 38px;
+    margin: 0;
+    padding: 7px 11px;
+    border: 1px solid #c8d9e2;
+    border-radius: 999px;
+    background: #f9fcfd;
+    color: #294f62;
+    cursor: pointer;
+    font-size: 0.82rem;
+    font-weight: 700;
+    transition: border-color 0.2s ease, background-color 0.2s ease, opacity 0.2s ease;
+}
+
+.gis-layer-toggle:has(input:checked) {
+    border-color: #0080a9;
+    background: #eaf8fc;
+}
+
+.gis-layer-toggle.is-disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.gis-layer-toggle input {
+    width: 15px;
+    height: 15px;
+    margin: 0;
+    accent-color: #007da5;
+}
+
+.gis-swatch {
+    display: inline-block;
+    flex: 0 0 auto;
+    width: 13px;
+    height: 13px;
+    border-radius: 3px;
+    background: #dbe8ee;
+}
+
+.gis-swatch-district {
+    border: 2px solid #075985;
+    background: #bae6fd;
+}
+
+.gis-swatch-block {
+    border: 2px solid #be123c;
+    background: rgba(251, 113, 133, 0.18);
+}
+
+.gis-swatch-village {
+    border: 1px solid #5b6d24;
+    background: #d9f99d;
+}
+
+.gis-swatch-subcentre {
+    border-radius: 50%;
+    border: 2px solid #ffffff;
+    background: #2563eb;
+    box-shadow: 0 0 0 1px #2563eb;
+}
+
+.gis-swatch-medical {
+    border-radius: 50%;
+    border: 2px solid #ffffff;
+    background: #dc2626;
+    box-shadow: 0 0 0 1px #dc2626;
+}
+
+.gis-reset-button {
+    min-height: 44px;
+    padding: 9px 17px;
+    border: 1px solid #075985;
+    border-radius: 8px;
+    background: #075985;
+    color: #ffffff;
+    font-weight: 700;
+    white-space: nowrap;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.gis-reset-button:hover,
+.gis-reset-button:focus-visible {
+    background: #034b70;
+    transform: translateY(-1px);
+}
+
+.gis-map-shell {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(270px, 330px);
+    overflow: hidden;
+    min-height: 590px;
+    border: 1px solid rgba(0, 91, 150, 0.18);
+    border-radius: 18px;
+    background: #ffffff;
+    box-shadow: 0 22px 55px rgba(8, 55, 78, 0.13);
+}
+
+.gis-map-region {
+    min-width: 0;
+    padding: 12px;
+    background: #e9f2f6;
+}
+
+#populationGisMap {
+    width: 100%;
+    height: 100%;
+    min-height: 566px;
+    border-radius: 10px;
+    background: #dcecf2;
+}
+
+#populationGisMap .leaflet-popup-content {
+    min-width: 190px;
+    margin: 14px 16px;
+}
+
+#populationGisMap .gis-district-name-label {
+    margin: 0;
+    padding: 4px 7px;
+    border: 1px solid rgba(7, 89, 133, 0.3);
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 2px 7px rgba(8, 55, 78, 0.18);
+    color: #063f5e;
+    font-family: var(--font-family-base);
+    font-size: calc(0.58rem + 3px);
+    font-weight: 800;
+    letter-spacing: 0.015em;
+    line-height: 1.15;
+    pointer-events: none;
+    text-align: center;
+    white-space: nowrap;
+}
+
+#populationGisMap .gis-district-name-label::before {
+    display: none;
+}
+
+#populationGisMap .gis-district-name-label.is-district-label-hidden {
+    visibility: hidden;
+    opacity: 0 !important;
+}
+
+#populationGisMap .gis-block-name-label {
+    margin: 0;
+    padding: 2px 5px;
+    border: 1px solid rgba(190, 18, 60, 0.34);
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 1px 5px rgba(95, 16, 38, 0.18);
+    color: #881337;
+    font-family: var(--font-family-base);
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.01em;
+    line-height: 1.1;
+    pointer-events: none;
+    text-align: center;
+    white-space: nowrap;
+}
+
+#populationGisMap .gis-block-name-label::before {
+    display: none;
+}
+
+.gis-popup h4 {
+    margin: 0 0 8px;
+    color: #075985;
+    font-size: 1rem;
+}
+
+.gis-popup dl {
+    margin: 0;
+}
+
+.gis-popup div {
+    display: grid;
+    grid-template-columns: 78px 1fr;
+    gap: 8px;
+    padding: 4px 0;
+    border-top: 1px solid #e4edf1;
+}
+
+.gis-popup dt {
+    color: #627885;
+    font-size: 0.73rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.gis-popup dd {
+    margin: 0;
+    color: #203f4e;
+    font-size: 0.8rem;
+}
+
+.gis-details-panel {
+    display: flex;
+    flex-direction: column;
+    padding: 30px 26px;
+    background:
+        linear-gradient(155deg, rgba(7, 89, 133, 0.97), rgba(5, 63, 92, 0.99)),
+        #075985;
+    color: #ffffff;
+}
+
+.gis-panel-kicker {
+    margin-bottom: 8px;
+    color: #9ee4f3;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+}
+
+.gis-details-panel h3 {
+    margin-bottom: 10px;
+    color: #ffffff;
+    font-size: clamp(1.6rem, 3vw, 2.15rem);
+}
+
+.gis-details-panel > p {
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 0.91rem;
+}
+
+.gis-area-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin: 20px 0 24px;
+}
+
+.gis-area-stats div {
+    padding: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.gis-area-stats dt {
+    color: #b9dce9;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.gis-area-stats dd {
+    margin: 3px 0 0;
+    color: #ffffff;
+    font-size: 1.45rem;
+    font-weight: 800;
+}
+
+.gis-legend {
+    display: grid;
+    gap: 10px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.gis-legend h4 {
+    margin: 0 0 2px;
+    color: #ffffff;
+    font-size: 0.82rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.gis-legend span {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    color: #dcebf1;
+    font-size: 0.84rem;
+}
+
+.gis-status {
+    margin-top: auto;
+    padding-top: 24px;
+    font-weight: 700;
+}
+
+.gis-status.is-error {
+    color: #fecaca;
+}
+
+.gis-source-note {
+    margin: 4px 0 0;
+    color: #b9dce9 !important;
+    font-size: 0.72rem !important;
+}
+
+.projection-dashboard {
+    overflow: hidden;
+    margin-top: 28px;
+    border: 1px solid rgba(0, 91, 150, 0.16);
+    border-radius: 22px;
+    background: #ffffff;
+    box-shadow: 0 24px 60px rgba(8, 55, 78, 0.13);
+}
+
+.projection-dashboard-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 28px;
+    padding: 30px 32px 24px;
+    background:
+        radial-gradient(circle at 90% -40%, rgba(56, 189, 248, 0.3), transparent 20rem),
+        linear-gradient(135deg, #063f5e 0%, #075985 55%, #087ca4 100%);
+    color: #ffffff;
+}
+
+.projection-dashboard-header h2 {
+    max-width: 720px;
+    margin: 5px 0 8px;
+    color: #ffffff;
+}
+
+.projection-dashboard-header p {
+    max-width: 760px;
+    margin: 0;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.91rem;
+}
+
+.projection-dashboard-header .section-kicker {
+    color: #9ee4f3;
+}
+
+.projection-area-badge {
+    flex: 0 0 auto;
+    min-width: 170px;
+    padding: 13px 16px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(8px);
+}
+
+.projection-area-badge span {
+    display: block;
+    margin-bottom: 2px;
+    color: #b9dce9;
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+}
+
+.projection-area-badge strong {
+    display: block;
+    overflow: hidden;
+    color: #ffffff;
+    font-size: 1.05rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.projection-year-selector {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 32px;
+    border-bottom: 1px solid #d8e7ee;
+    background: #eef7fa;
+}
+
+.projection-year-label {
+    color: #194d66;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+}
+
+.projection-year-options {
+    display: grid;
+    flex: 1;
+    grid-template-columns: repeat(7, minmax(72px, 1fr));
+    gap: 7px;
+}
+
+.projection-year-button {
+    min-height: 40px;
+    padding: 7px 12px;
+    border: 1px solid #b7cfdb;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #31586b;
+    font-size: 0.88rem;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    transition: transform 0.18s ease, border-color 0.18s ease, background-color 0.18s ease, color 0.18s ease;
+}
+
+.projection-year-button:hover,
+.projection-year-button:focus-visible {
+    border-color: #007da5;
+    transform: translateY(-1px);
+}
+
+.projection-year-button.is-active {
+    border-color: #075985;
+    background: #075985;
+    color: #ffffff;
+    box-shadow: 0 6px 16px rgba(7, 89, 133, 0.2);
+}
+
+.projection-dashboard-grid {
+    display: grid;
+    grid-template-columns: minmax(340px, 0.84fr) minmax(520px, 1.3fr);
+    min-height: 720px;
+}
+
+.projection-stats-panel,
+.projection-pyramid-panel {
+    min-width: 0;
+    padding: 30px 32px;
+}
+
+.projection-stats-panel {
+    border-right: 1px solid #dce8ee;
+    background: #f7fbfd;
+}
+
+.projection-panel-heading h3,
+.projection-pyramid-heading h3 {
+    margin: 4px 0 6px;
+    color: #123f55;
+}
+
+.projection-panel-heading p,
+.projection-pyramid-heading p {
+    margin: 0;
+    color: #607886;
+    font-size: 0.82rem;
+}
+
+.projection-panel-kicker {
+    color: #0080a9;
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.11em;
+}
+
+.projection-filter-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 11px;
+    margin-top: 22px;
+}
+
+.projection-filter-wide {
+    grid-column: 1 / -1;
+}
+
+.projection-filter {
+    display: grid;
+    gap: 6px;
+    margin: 0;
+}
+
+.projection-filter span {
+    color: #365c70;
+    font-size: 0.69rem;
+    font-weight: 800;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+}
+
+.projection-filter select {
+    width: 100%;
+    min-height: 43px;
+    padding: 8px 34px 8px 11px;
+    border: 1px solid #bed1dc;
+    border-radius: 8px;
+    background-color: #ffffff;
+    color: #173d51;
+    font-size: 0.84rem;
+    font-weight: 700;
+}
+
+.projection-filter select:focus-visible {
+    outline: 3px solid rgba(14, 165, 233, 0.2);
+    border-color: #0284c7;
+}
+
+.projection-filter select:disabled {
+    background-color: #edf3f6;
+    color: #81949e;
+}
+
+.projection-reset-button {
+    width: 100%;
+    min-height: 38px;
+    margin-top: 11px;
+    padding: 7px 12px;
+    border: 1px solid #b8ccd7;
+    border-radius: 8px;
+    background: transparent;
+    color: #31586b;
+    font-size: 0.77rem;
+    font-weight: 800;
+    transition: background-color 0.18s ease, border-color 0.18s ease;
+}
+
+.projection-reset-button:hover,
+.projection-reset-button:focus-visible {
+    border-color: #075985;
+    background: #eaf5f9;
+}
+
+.projection-primary-stat {
+    margin-top: 18px;
+    padding: 20px;
+    border: 1px solid rgba(7, 89, 133, 0.17);
+    border-radius: 13px;
+    background:
+        radial-gradient(circle at 100% 0, rgba(56, 189, 248, 0.18), transparent 12rem),
+        #ffffff;
+    box-shadow: 0 10px 24px rgba(8, 55, 78, 0.06);
+}
+
+.projection-primary-stat > span {
+    display: block;
+    color: #527080;
+    font-size: 0.69rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.projection-primary-stat strong {
+    display: block;
+    margin: 5px 0 3px;
+    color: #075985;
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.04em;
+    line-height: 1;
+}
+
+.projection-primary-stat small {
+    color: #607886;
+    font-size: 0.72rem;
+}
+
+.projection-gender-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.projection-gender-stats article {
+    padding: 14px;
+    border: 1px solid #d9e6ec;
+    border-radius: 10px;
+    background: #ffffff;
+}
+
+.projection-gender-stats span,
+.projection-pyramid-legend span {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    color: #526d7b;
+    font-size: 0.72rem;
+    font-weight: 800;
+}
+
+.projection-dot {
+    display: inline-block;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+}
+
+.projection-dot-male {
+    background: #0e7490;
+}
+
+.projection-dot-female {
+    background: #db2777;
+}
+
+.projection-gender-stats strong {
+    display: block;
+    margin-top: 4px;
+    color: #183f53;
+    font-size: 1.2rem;
+    font-variant-numeric: tabular-nums;
+}
+
+.projection-gender-stats small {
+    color: #728690;
+    font-size: 0.66rem;
+}
+
+.projection-detail-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 14px;
+    margin: 18px 0 0;
+    border-top: 1px solid #dce8ee;
+}
+
+.projection-detail-stats div {
+    padding: 11px 0;
+    border-bottom: 1px solid #dce8ee;
+}
+
+.projection-detail-stats div:last-child {
+    grid-column: 1 / -1;
+}
+
+.projection-detail-stats dt {
+    color: #718691;
+    font-size: 0.66rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.projection-detail-stats dd {
+    margin: 2px 0 0;
+    color: #244b5f;
+    font-size: 0.85rem;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+}
+
+.projection-detail-stats dd.is-negative {
+    color: #b91c1c;
+}
+
+.projection-source-note {
+    margin: 15px 0 0;
+    color: #778d98;
+    font-size: 0.67rem;
+    line-height: 1.55;
+}
+
+.projection-source-note code {
+    color: #31586b;
+    font-size: inherit;
+}
+
+.projection-pyramid-panel {
+    background:
+        radial-gradient(circle at 92% 8%, rgba(14, 116, 144, 0.07), transparent 22rem),
+        #ffffff;
+}
+
+.projection-pyramid-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid #e0ebf0;
+}
+
+.projection-pyramid-legend {
+    display: flex;
+    flex: 0 0 auto;
+    gap: 14px;
+    padding: 8px 10px;
+    border: 1px solid #dce8ee;
+    border-radius: 999px;
+    background: #f8fbfc;
+}
+
+.projection-pyramid-axis {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 58px minmax(0, 1fr);
+    gap: 10px;
+    margin: 18px 66px 9px;
+    color: #6b828e;
+    font-size: 0.67rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.projection-pyramid-axis span:first-child {
+    text-align: right;
+}
+
+.projection-pyramid-axis span:last-child {
+    text-align: left;
+}
+
+.projection-pyramid {
+    display: grid;
+    gap: 6px;
+}
+
+.projection-pyramid-row {
+    display: grid;
+    grid-template-columns: 56px minmax(0, 1fr) 58px minmax(0, 1fr) 56px;
+    align-items: center;
+    gap: 10px;
+    min-height: 25px;
+    transition: opacity 0.2s ease;
+}
+
+.projection-pyramid-row.is-muted {
+    opacity: 0.27;
+}
+
+.projection-pyramid-track {
+    display: flex;
+    align-items: stretch;
+    overflow: hidden;
+    height: 19px;
+    border-radius: 4px;
+    background: #eef3f6;
+}
+
+.projection-pyramid-track-male {
+    justify-content: flex-end;
+}
+
+.projection-pyramid-bar {
+    display: block;
+    min-width: 1px;
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.34s ease;
+}
+
+.projection-pyramid-bar-male {
+    background: linear-gradient(90deg, #22a6c3, #0e7490);
+}
+
+.projection-pyramid-bar-female {
+    background: linear-gradient(90deg, #db2777, #f472b6);
+}
+
+.projection-pyramid-age {
+    color: #31586b;
+    font-size: 0.71rem;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.projection-pyramid-value {
+    color: #4d6977;
+    font-size: 0.65rem;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    transition: opacity 0.2s ease;
+}
+
+.projection-pyramid-value-male {
+    text-align: right;
+}
+
+.projection-pyramid-value-female {
+    text-align: left;
+}
+
+.projection-pyramid-track.is-gender-muted,
+.projection-pyramid-value.is-gender-muted {
+    opacity: 0.2;
+}
+
+.projection-chart-note {
+    margin: 15px 0 0;
+    padding-top: 13px;
+    border-top: 1px solid #e0ebf0;
+    color: #718691;
+    font-size: 0.69rem;
+    text-align: center;
+}
+
+.projection-status {
+    margin: 0;
+    padding: 10px 32px;
+    border-top: 1px solid #dce8ee;
+    background: #f5fafc;
+    color: #527080;
+    font-size: 0.72rem;
+    font-weight: 700;
+}
+
+.projection-status.is-error {
+    background: #fff1f2;
+    color: #b91c1c;
+}
+
+@media (max-width: 1050px) {
+    .gis-summary-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .gis-toolbar {
+        align-items: stretch;
+        flex-wrap: wrap;
+    }
+
+    .gis-district-control,
+    .gis-block-control {
+        flex: 1 1 calc(50% - 9px);
+    }
+
+    .gis-map-shell {
+        grid-template-columns: 1fr;
+    }
+
+    .gis-details-panel {
+        min-height: 380px;
+    }
+
+    .projection-dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .projection-stats-panel {
+        border-right: 0;
+        border-bottom: 1px solid #dce8ee;
+    }
+}
+
+@media (max-width: 640px) {
+    .population-gis-section {
+        padding-block: 52px;
+    }
+
+    .gis-summary-grid {
+        gap: 10px;
+    }
+
+    .gis-summary-card {
+        min-height: 96px;
+        padding: 18px 16px;
+    }
+
+    .gis-summary-card span {
+        font-size: 0.66rem;
+    }
+
+    .gis-toolbar,
+    .gis-details-panel {
+        padding: 18px;
+    }
+
+    .gis-layer-controls {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .gis-district-control,
+    .gis-block-control {
+        flex-basis: 100%;
+    }
+
+    .gis-layer-controls legend {
+        grid-column: 1 / -1;
+    }
+
+    .gis-layer-toggle {
+        border-radius: 8px;
+    }
+
+    .gis-reset-button {
+        width: 100%;
+    }
+
+    .gis-map-shell {
+        min-height: 500px;
+        border-radius: 12px;
+    }
+
+    .gis-map-region {
+        padding: 7px;
+    }
+
+    #populationGisMap {
+        min-height: 485px;
+    }
+
+    #populationGisMap .gis-district-name-label {
+        padding: 3px 5px;
+        font-size: calc(0.49rem + 3px);
+    }
+
+    #populationGisMap .gis-block-name-label {
+        padding: 2px 4px;
+        font-size: 0.58rem;
+    }
+
+    .projection-dashboard {
+        border-radius: 13px;
+    }
+
+    .projection-dashboard-header {
+        display: grid;
+        padding: 24px 18px;
+    }
+
+    .projection-area-badge {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .projection-year-selector {
+        display: block;
+        padding: 13px 18px 16px;
+    }
+
+    .projection-year-label {
+        display: block;
+        margin-bottom: 7px;
+    }
+
+    .projection-year-options {
+        display: flex;
+        overflow-x: auto;
+        padding-bottom: 4px;
+        scrollbar-width: thin;
+    }
+
+    .projection-year-button {
+        flex: 0 0 75px;
+    }
+
+    .projection-stats-panel,
+    .projection-pyramid-panel {
+        padding: 24px 18px;
+    }
+
+    .projection-filter-grid,
+    .projection-detail-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .projection-filter-wide,
+    .projection-detail-stats div:last-child {
+        grid-column: auto;
+    }
+
+    .projection-pyramid-heading {
+        display: grid;
+    }
+
+    .projection-pyramid-legend {
+        width: max-content;
+    }
+
+    .projection-pyramid-axis {
+        margin-inline: 42px;
+    }
+
+    .projection-pyramid-row {
+        grid-template-columns: 34px minmax(0, 1fr) 42px minmax(0, 1fr) 34px;
+        gap: 5px;
+    }
+
+    .projection-pyramid-value {
+        font-size: 0.58rem;
+    }
+
+    .projection-pyramid-age {
+        font-size: 0.64rem;
+    }
+
+    .projection-status {
+        padding-inline: 18px;
+    }
+}

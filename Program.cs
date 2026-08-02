@@ -111,6 +111,9 @@ app.MapGet("/", () => Results.Redirect("/home.html"))
 app.MapGet("/trending", () => Results.Redirect("/trending.html?dateOrder=desc&view=20260726-auto-image-slider"))
     .AllowAnonymous();
 
+app.MapGet("/population-projection", () => Results.Redirect("/population-projection.html"))
+    .AllowAnonymous();
+
 app.MapStaticAssets();
 app.MapControllers();
 

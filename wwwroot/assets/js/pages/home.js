@@ -112,7 +112,6 @@ document.addEventListener("DOMContentLoaded", () => {
     let cards = [];
     let pages = [];
     let activeIndex = 0;
-    let timer = 0;
     let imageTimer = 0;
     let requestVersion = 0;
     let newsLanguage = currentLanguage();
@@ -123,6 +122,11 @@ document.addEventListener("DOMContentLoaded", () => {
         en: "English",
         hi: "हिन्दी",
         or: "ଓଡ଼ିଆ"
+    };
+    const imageControlLabels = {
+        en: { previous: "Previous photo", next: "Next photo" },
+        hi: { previous: "पिछला चित्र", next: "अगला चित्र" },
+        or: { previous: "ପୂର୍ବ ଫଟୋ", next: "ପରବର୍ତ୍ତୀ ଫଟୋ" }
     };
     const viewMoreLabels = {
         en: "View More",
@@ -140,13 +144,6 @@ document.addEventListener("DOMContentLoaded", () => {
             button.classList.toggle("is-active", isActive);
             button.setAttribute("aria-pressed", String(isActive));
         });
-    }
-
-    function stopRotation() {
-        if (timer) {
-            window.clearInterval(timer);
-            timer = 0;
-        }
     }
 
     function stopImageRotation() {
@@ -176,6 +173,12 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+    function moveCardImage(card, direction) {
+        if (!card) return;
+        const currentImage = Number.parseInt(card.dataset.activeImage || "0", 10);
+        showCardImage(card, currentImage + direction);
+    }
+
     function startImageRotation() {
         stopImageRotation();
         const activeCards = Array.from(
@@ -191,22 +194,13 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    function startRotation() {
-        stopRotation();
-        if (pages.length > 1 && !interactionPaused && !reduceMotion.matches && !document.hidden) {
-            timer = window.setInterval(() => show(activeIndex + 1), 5500);
-        }
-    }
-
     function pauseCarousels() {
         interactionPaused = true;
-        stopRotation();
         stopImageRotation();
     }
 
     function resumeCarousels() {
         interactionPaused = false;
-        startRotation();
         startImageRotation();
     }
 
@@ -229,23 +223,19 @@ document.addEventListener("DOMContentLoaded", () => {
         startImageRotation();
     }
 
-    function createCard(item) {
-        const article = document.createElement("article");
-        article.className = "news-card";
-        article.dataset.i18nSkip = "";
-        article.lang = item.language;
-
-        const frame = document.createElement("div");
-        frame.className = "news-card-frame";
-
+    function createMedia(item) {
         const media = document.createElement("div");
-        media.className = "news-card-media";
+        media.className = "trending-card-media";
         const imagePaths = Array.isArray(item.imagePaths) && item.imagePaths.length
             ? item.imagePaths
             : [item.imagePath].filter(Boolean);
         const imageTrack = document.createElement("div");
-        imageTrack.className = "news-card-image-track";
+        imageTrack.className = "trending-card-gallery";
         imageTrack.dataset.newsImageTrack = "";
+        imageTrack.setAttribute(
+            "aria-label",
+            `${item.title}: ${imagePaths.length} photo${imagePaths.length === 1 ? "" : "s"}`
+        );
         imagePaths.forEach((path, imageIndex) => {
             const image = document.createElement("img");
             image.src = path;
@@ -258,19 +248,38 @@ document.addEventListener("DOMContentLoaded", () => {
         });
         media.appendChild(imageTrack);
         const language = document.createElement("span");
-        language.className = "news-card-language";
+        language.className = "trending-card-language";
         language.textContent = languageNames[item.language] || item.language.toUpperCase();
         media.appendChild(language);
         if (imagePaths.length > 1) {
+            const labels = imageControlLabels[item.language] || imageControlLabels.en;
+            const previousImage = document.createElement("button");
+            previousImage.type = "button";
+            previousImage.className = "trending-image-control trending-image-previous";
+            previousImage.dataset.newsImagePrevious = "";
+            previousImage.setAttribute("aria-label", labels.previous);
+            previousImage.title = labels.previous;
+            previousImage.innerHTML = '<span aria-hidden="true">‹</span>';
+
+            const nextImage = document.createElement("button");
+            nextImage.type = "button";
+            nextImage.className = "trending-image-control trending-image-next";
+            nextImage.dataset.newsImageNext = "";
+            nextImage.setAttribute("aria-label", labels.next);
+            nextImage.title = labels.next;
+            nextImage.innerHTML = '<span aria-hidden="true">›</span>';
+
+            media.append(previousImage, nextImage);
+
             const photoCount = document.createElement("span");
-            photoCount.className = "news-card-photo-count";
+            photoCount.className = "trending-card-photo-count";
             photoCount.dataset.newsImagePosition = "";
             photoCount.textContent = `1 / ${imagePaths.length}`;
             media.appendChild(photoCount);
 
             if (imagePaths.length <= 10) {
                 const dots = document.createElement("div");
-                dots.className = "news-card-image-dots";
+                dots.className = "trending-card-image-dots";
                 dots.setAttribute("aria-hidden", "true");
                 imagePaths.forEach((_, imageIndex) => {
                     const dot = document.createElement("span");
@@ -282,23 +291,32 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
 
+        return media;
+    }
+
+    function createCard(item) {
+        const article = document.createElement("article");
+        article.className = "news-card trending-card";
+        article.id = `home-news-${item.id}-${item.language}`;
+        article.dataset.i18nSkip = "";
+        article.lang = item.language;
+        article.dataset.activeImage = "0";
+
         const copy = document.createElement("div");
-        copy.className = "news-card-copy";
-        const title = document.createElement("h3");
+        copy.className = "trending-card-content";
+        const title = document.createElement("h2");
         title.textContent = item.title;
         const date = document.createElement("time");
-        date.className = "news-card-date";
+        date.className = "trending-card-date";
         date.textContent = item.publishDate;
         date.dateTime = toIsoDate(item.publishDate);
         const link = document.createElement("a");
-        link.className = "news-card-more";
+        link.className = "trending-learn-more";
         link.href = `trending.html?news=${encodeURIComponent(item.id)}&language=${encodeURIComponent(item.language)}&dateOrder=desc&view=20260726-auto-image-slider`;
         link.textContent = viewMoreLabels[item.language] || viewMoreLabels.en;
         link.setAttribute("aria-label", `${link.textContent}: ${item.title}`);
         copy.append(title, date, link);
-        frame.append(media, copy);
-        article.appendChild(frame);
-        article.dataset.activeImage = "0";
+        article.append(createMedia(item), copy);
         return article;
     }
 
@@ -307,7 +325,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const language = newsLanguage;
         syncLanguageFilter();
         carousel.setAttribute("aria-busy", "true");
-        stopRotation();
         stopImageRotation();
         try {
             const response = await fetch(`/api/content/news?language=${encodeURIComponent(language)}`, {
@@ -352,12 +369,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 page.setAttribute("aria-label", `${pageIndex + 1} of ${pages.length}`);
             });
             show(0);
-            startRotation();
         } catch (error) {
             console.error("News Cards could not be loaded.", error);
             if (version === requestVersion) {
                 section.hidden = true;
-                stopRotation();
                 stopImageRotation();
             }
         } finally {
@@ -369,11 +384,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     previous.addEventListener("click", () => {
         show(activeIndex - 1);
-        startRotation();
     });
     next.addEventListener("click", () => {
         show(activeIndex + 1);
-        startRotation();
     });
     carousel.addEventListener("mouseenter", pauseCarousels);
     carousel.addEventListener("mouseleave", resumeCarousels);
@@ -387,12 +400,18 @@ document.addEventListener("DOMContentLoaded", () => {
         if (event.key === "ArrowLeft") {
             event.preventDefault();
             show(activeIndex - 1);
-            startRotation();
         } else if (event.key === "ArrowRight") {
             event.preventDefault();
             show(activeIndex + 1);
-            startRotation();
         }
+    });
+    carousel.addEventListener("click", (event) => {
+        const previousImage = event.target.closest("[data-news-image-previous]");
+        const nextImage = event.target.closest("[data-news-image-next]");
+        if (!previousImage && !nextImage) return;
+
+        const card = (previousImage || nextImage).closest(".news-card");
+        moveCardImage(card, previousImage ? -1 : 1);
     });
     carousel.addEventListener("touchstart", (event) => {
         touchStartX = event.changedTouches[0]?.clientX || 0;
@@ -414,10 +433,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     document.addEventListener("visibilitychange", () => {
         if (document.hidden) {
-            stopRotation();
             stopImageRotation();
         } else {
-            startRotation();
             startImageRotation();
         }
     });
@@ -426,7 +443,6 @@ document.addEventListener("DOMContentLoaded", () => {
         loadNews();
     });
     reduceMotion.addEventListener?.("change", () => {
-        startRotation();
         startImageRotation();
     });
 

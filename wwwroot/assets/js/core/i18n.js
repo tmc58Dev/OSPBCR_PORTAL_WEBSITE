@@ -10,6 +10,7 @@
     };
     const catalogs = new Map();
     const catalogIndexes = new Map();
+    const catalogCacheVersion = "20260801-about-network";
     const originalText = new WeakMap();
     const originalAttributes = new WeakMap();
     let currentLanguage = getSavedLanguage();
@@ -113,8 +114,8 @@
 
         try {
             const [response, overridesResponse] = await Promise.all([
-                fetch(`${scriptBasePath}${language}.json`),
-                fetch(`${scriptBasePath}${language}.overrides.json`)
+                fetch(`${scriptBasePath}${language}.json?v=${catalogCacheVersion}`),
+                fetch(`${scriptBasePath}${language}.overrides.json?v=${catalogCacheVersion}`)
             ]);
 
             if (!response.ok) throw new Error(`HTTP ${response.status}`);

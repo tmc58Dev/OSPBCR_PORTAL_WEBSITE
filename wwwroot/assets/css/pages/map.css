@@ -203,6 +203,21 @@ body.map-page.map-dashboard-collapsed .map-container {
     box-shadow: var(--shadow-sm);
 
     text-align: center;
+
+    white-space: nowrap;
+
+    pointer-events: none;
+}
+
+.district-label:not(.selected-district-label) {
+
+    font-size: 0.72rem;
+
+    line-height: 1.15;
+
+    padding: 2px 5px;
+
+    box-shadow: 0 1px 4px rgba(15, 23, 42, 0.16);
 }
 
 .district-label::before {

@@ -7,10 +7,10 @@
         hi: "हिन्दी",
         or: "ଓଡ଼ିଆ"
     };
-    const learnMoreLabels = {
-        en: "Learn More",
-        hi: "और जानें",
-        or: "ଅଧିକ ଜାଣନ୍ତୁ"
+    const viewMoreLabels = {
+        en: "View More",
+        hi: "और देखें",
+        or: "ଅଧିକ ଦେଖନ୍ତୁ"
     };
     const messages = {
         en: {
@@ -318,16 +318,16 @@
             date.textContent = item.publishDate;
             date.dateTime = toIsoDate(item.publishDate);
 
-            const learnMore = document.createElement("button");
-            learnMore.type = "button";
-            learnMore.className = "trending-learn-more";
-            learnMore.dataset.learnMore = "";
-            learnMore.dataset.newsId = String(item.id);
-            learnMore.dataset.newsLanguage = item.language;
-            learnMore.textContent = learnMoreLabels[item.language] || learnMoreLabels.en;
-            learnMore.setAttribute("aria-label", `${learnMore.textContent}: ${item.title}`);
+            const viewMore = document.createElement("button");
+            viewMore.type = "button";
+            viewMore.className = "trending-learn-more";
+            viewMore.dataset.learnMore = "";
+            viewMore.dataset.newsId = String(item.id);
+            viewMore.dataset.newsLanguage = item.language;
+            viewMore.textContent = viewMoreLabels[item.language] || viewMoreLabels.en;
+            viewMore.setAttribute("aria-label", `${viewMore.textContent}: ${item.title}`);
 
-            content.append(title, date, learnMore);
+            content.append(title, date, viewMore);
             article.append(createMedia(item, false), content);
             return article;
         }

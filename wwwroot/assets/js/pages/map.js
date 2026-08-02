@@ -38,30 +38,19 @@ function clearSelectedDistrictHighlight() {
     }
 
     if (selectedDistrictLabel) {
-        map.removeLayer(selectedDistrictLabel);
+        selectedDistrictLabel.getElement()?.classList.remove("selected-district-label");
         selectedDistrictLabel = null;
     }
 }
 
 function showSelectedDistrictLabel(districtName, districtLayer) {
     if (selectedDistrictLabel) {
-        map.removeLayer(selectedDistrictLabel);
+        selectedDistrictLabel.getElement()?.classList.remove("selected-district-label");
     }
 
-    const labelContent = document.createElement("span");
-    labelContent.textContent = t(districtName);
-
-    selectedDistrictLabel = L.tooltip({
-        permanent: true,
-        direction: "top",
-        className: "district-label selected-district-label",
-        interactive: false,
-        opacity: 1,
-        offset: [0, -4]
-    })
-        .setLatLng(districtLayer.getBounds().getCenter())
-        .setContent(labelContent)
-        .addTo(map);
+    selectedDistrictLabel = districtLayer.getTooltip();
+    selectedDistrictLabel?.setContent(t(districtName));
+    selectedDistrictLabel?.getElement()?.classList.add("selected-district-label");
 }
 
 function highlightDistrictOnMap(districtName) {
@@ -269,7 +258,13 @@ const renderSelectedDistrict = (districtName) => {
     }
 };
 
-document.addEventListener("languagechange", () => renderSelectedDistrict(selectedDistrict));
+document.addEventListener("languagechange", () => {
+    districtLayers.forEach((districtLayer, districtName) => {
+        districtLayer.getTooltip()?.setContent(t(districtName));
+    });
+
+    renderSelectedDistrict(selectedDistrict);
+});
 
 // =====================================
 // COLLAPSE MAP WHILE PAGE SCROLLS DOWN
@@ -352,6 +347,14 @@ fetch("assets/data/Orissa.geojson?v=20260727-sql-district-names-v2")
             );
 
             districtLayers.set(districtName, layer);
+
+            layer.bindTooltip(t(districtName), {
+                permanent: true,
+                direction: "center",
+                className: "district-label",
+                interactive: false,
+                opacity: 1
+            });
 
             layer.on({
 
