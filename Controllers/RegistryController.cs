@@ -12,29 +12,39 @@ public sealed class RegistryController(IRegistryDataService registryDataService)
     [HttpGet("health")]
     public async Task<IActionResult> Health(CancellationToken cancellationToken)
     {
-        var health = await registryDataService.GetHealthAsync(cancellationToken);
-        return health.Connected ? Ok(health) : StatusCode(StatusCodes.Status503ServiceUnavailable, health);
+        return await ExecuteQueryAsync(
+            registryDataService.GetHealthAsync,
+            health => health.Connected
+                ? Ok(health)
+                : StatusCode(StatusCodes.Status503ServiceUnavailable, health),
+            cancellationToken);
     }
 
     [HttpGet("district-status")]
     public async Task<IActionResult> DistrictStatus(CancellationToken cancellationToken)
     {
-        var values = await registryDataService.GetDistrictStatusAsync(cancellationToken);
-        return Ok(values);
+        return await ExecuteQueryAsync(
+            registryDataService.GetDistrictStatusAsync,
+            Ok,
+            cancellationToken);
     }
 
     [HttpGet("district-statistics")]
     public async Task<IActionResult> DistrictStatistics(CancellationToken cancellationToken)
     {
-        var values = await registryDataService.GetDistrictStatisticsAsync(cancellationToken);
-        return Ok(values);
+        return await ExecuteQueryAsync(
+            registryDataService.GetDistrictStatisticsAsync,
+            Ok,
+            cancellationToken);
     }
 
     [HttpGet("facilities")]
     public async Task<IActionResult> Facilities(CancellationToken cancellationToken)
     {
-        var values = await registryDataService.GetFacilitiesAsync(cancellationToken);
-        return Ok(values);
+        return await ExecuteQueryAsync(
+            registryDataService.GetFacilitiesAsync,
+            Ok,
+            cancellationToken);
     }
 
     [HttpGet("cancer-site-incidence")]
@@ -61,8 +71,10 @@ public sealed class RegistryController(IRegistryDataService registryDataService)
             return BadRequest("District must be 100 characters or fewer.");
         }
 
-        var values = await registryDataService.GetCancerSiteIncidenceAsync(year, sex, district, cancellationToken);
-        return Ok(values);
+        return await ExecuteQueryAsync(
+            token => registryDataService.GetCancerSiteIncidenceAsync(year, sex, district, token),
+            Ok,
+            cancellationToken);
     }
 
     [HttpGet("cancer-site-mortality")]
@@ -89,8 +101,10 @@ public sealed class RegistryController(IRegistryDataService registryDataService)
             return BadRequest("District must be 100 characters or fewer.");
         }
 
-        var values = await registryDataService.GetCancerSiteMortalityAsync(year, sex, district, cancellationToken);
-        return Ok(values);
+        return await ExecuteQueryAsync(
+            token => registryDataService.GetCancerSiteMortalityAsync(year, sex, district, token),
+            Ok,
+            cancellationToken);
     }
 
     [HttpGet("cancer-age-incidence")]
@@ -117,13 +131,10 @@ public sealed class RegistryController(IRegistryDataService registryDataService)
             return BadRequest("District must be 100 characters or fewer.");
         }
 
-        var values = await registryDataService.GetCancerIncidenceAgeSitesAsync(
-            year,
-            sex,
-            district,
+        return await ExecuteQueryAsync(
+            token => registryDataService.GetCancerIncidenceAgeSitesAsync(year, sex, district, token),
+            Ok,
             cancellationToken);
-
-        return Ok(values);
     }
 
     [HttpGet("cancer-age-mortality")]
@@ -150,12 +161,24 @@ public sealed class RegistryController(IRegistryDataService registryDataService)
             return BadRequest("District must be 100 characters or fewer.");
         }
 
-        var values = await registryDataService.GetCancerMortalityAgeSitesAsync(
-            year,
-            sex,
-            district,
+        return await ExecuteQueryAsync(
+            token => registryDataService.GetCancerMortalityAgeSitesAsync(year, sex, district, token),
+            Ok,
             cancellationToken);
+    }
 
-        return Ok(values);
+    private async Task<IActionResult> ExecuteQueryAsync<T>(
+        Func<CancellationToken, Task<T>> query,
+        Func<T, IActionResult> createResult,
+        CancellationToken cancellationToken)
+    {
+        try
+        {
+            return createResult(await query(cancellationToken));
+        }
+        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+        {
+            return new EmptyResult();
+        }
     }
 }

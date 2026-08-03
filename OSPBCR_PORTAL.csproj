@@ -11,6 +11,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Scripts\NhmGisImporter\**\*.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="Views\Home\*.html">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>

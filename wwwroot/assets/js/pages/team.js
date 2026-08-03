@@ -100,7 +100,8 @@ const teamSections = [
         members: [
             {
                 name: "Dr Suvarna Gore",
-                designation: "Scientific Officer"
+                designation: "Scientific Officer",
+                image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Suvarna Gore.webp"
             },
             {
                 name: "Ms Sushama Saoba",
@@ -119,8 +120,13 @@ const teamSections = [
             },
             {
                 name: "Mr Pratik Sawant",
-                designation: "Programmer",
+                designation: "Senior Programmer",
                 image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Pratik Sawant.webp?v=20260801-photo-v2"
+            },
+            {
+                name: "Mr Vinay Tawde",
+                designation: "Programmer",
+                image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/VINAY TAWDE.webp?v=20260803-photo-v2"
             },
             {
                 name: "Ms Samyukta Shivshankar",

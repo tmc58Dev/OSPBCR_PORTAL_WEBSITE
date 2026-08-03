@@ -297,7 +297,12 @@ main > .section:nth-of-type(odd),
 }
 
 /* Home hero keeps the photography but places dark copy on a pearl glass panel. */
-.hero-section { min-height: calc(100vh - 92px); padding: 110px 0; background: var(--alternate-bg); }
+.hero-section {
+    /* Give the 4:3 and 3:2 slideshow photos a taller frame on wide screens. */
+    min-height: max(calc(100vh - 92px), 70vw);
+    padding: 110px 0;
+    background: var(--alternate-bg);
+}
 .hero-background::after {
     background: linear-gradient(90deg, rgba(250,249,246,0.82) 0%, rgba(250,249,246,0.50) 48%, rgba(243,246,250,0.16) 100%);
 }

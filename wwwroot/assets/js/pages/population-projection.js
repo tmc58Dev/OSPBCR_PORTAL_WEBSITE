@@ -564,6 +564,16 @@
         return crosswalk?.get(requestedKey) || requestedKey;
     };
 
+    const resolveProjectionBlockName = (district, mapBlock, projectionBlockNames = []) => {
+        const normalizedMapBlock = normalizeBlockName(mapBlock);
+        const crosswalk = projectionBlockNames.length
+            ? buildBlockCrosswalk(district, projectionBlockNames)
+            : projectionBlockCrosswalks.get(district);
+        return projectionBlockNames.find(projectionBlock =>
+            normalizeBlockName(crosswalk?.get(normalizeBlockName(projectionBlock))) === normalizedMapBlock
+        ) || mapBlock;
+    };
+
     const makePopup = (title, rows) => {
         const wrapper = document.createElement("div");
         wrapper.className = "gis-popup";
@@ -860,6 +870,32 @@
         selectDistrict(requestedDistrict, true, requestedBlock, false, projectionBlockNames);
     });
 
+    const selectBlockFromMap = (district, mapBlock) => {
+        layerState.selectedDistrict = district;
+        document.dispatchEvent(new CustomEvent("population:mapdistrictchange", {
+            detail: { mapKey: district }
+        }));
+
+        const projectionBlock = resolveProjectionBlockName(
+            district,
+            mapBlock,
+            layerState.projectionBlockNames
+        );
+        selectDistrict(
+            district,
+            true,
+            projectionBlock,
+            false,
+            layerState.projectionBlockNames
+        );
+        document.dispatchEvent(new CustomEvent("population:mapblockchange", {
+            detail: {
+                mapKey: district,
+                block: projectionBlock
+            }
+        }));
+    };
+
     const loadPointLayer = async layerName => {
         const isSubcentre = layerName === "subcentres";
         const file = isSubcentre ? "subcentres.geojson" : "medical-facilities.geojson";
@@ -1018,7 +1054,9 @@
                         ["District", properties.DISTRICT],
                         ["Block code", properties.T_CODE]
                     ]));
-                    featureLayer.on("click", () => selectDistrict(properties.DISTRICT, false));
+                    featureLayer.on("click", () =>
+                        selectBlockFromMap(properties.DISTRICT, properties.T_NAME)
+                    );
                 }
             }).addTo(map);
 

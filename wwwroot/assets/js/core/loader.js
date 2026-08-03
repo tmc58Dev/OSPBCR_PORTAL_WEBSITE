@@ -26,6 +26,24 @@ function syncNavbarScrollState() {
     navbar.classList.toggle("navbar-scrolled", scrolled);
 }
 
+function syncActiveNavigation() {
+    const currentPage = window.location.pathname.split("/").pop() || "home.html";
+
+    document.querySelectorAll(".nav-menu .nav-link[href]").forEach(link => {
+        const linkUrl = new URL(link.getAttribute("href"), window.location.href);
+        const linkPage = linkUrl.pathname.split("/").pop();
+        const isActive = linkPage === currentPage;
+
+        link.classList.toggle("active", isActive);
+
+        if (isActive) {
+            link.setAttribute("aria-current", "page");
+        } else {
+            link.removeAttribute("aria-current");
+        }
+    });
+}
+
 async function initializeLayout() {
     await Promise.all([
         loadComponent("navbar-container", "components/navbar.html"),
@@ -34,6 +52,7 @@ async function initializeLayout() {
 
     updateNavbarOffset();
     syncNavbarScrollState();
+    syncActiveNavigation();
 
     window.addEventListener("resize", updateNavbarOffset, { passive: true });
     window.addEventListener("scroll", syncNavbarScrollState, { passive: true });

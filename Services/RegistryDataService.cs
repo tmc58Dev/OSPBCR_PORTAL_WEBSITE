@@ -39,6 +39,10 @@ public sealed class RegistryDataService(
                 Convert.ToInt32(reader["TableCount"]),
                 null);
         }
+        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+        {
+            throw;
+        }
         catch (Exception exception)
         {
             logger.LogError(exception, "Database health check failed.");

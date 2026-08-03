@@ -101,6 +101,26 @@ if (Directory.Exists(sharedViewsPath))
 
 app.UseRouting();
 
+app.Use(async (context, next) =>
+{
+    try
+    {
+        await next(context);
+    }
+    catch (OperationCanceledException) when (context.RequestAborted.IsCancellationRequested)
+    {
+        app.Logger.LogDebug(
+            "Request {Method} {Path} was canceled by the client.",
+            context.Request.Method,
+            context.Request.Path);
+
+        if (!context.Response.HasStarted)
+        {
+            context.Response.StatusCode = 499;
+        }
+    }
+});
+
 app.UseRateLimiter();
 app.UseAuthentication();
 app.UseAuthorization();
