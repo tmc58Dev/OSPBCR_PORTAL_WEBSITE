@@ -75,7 +75,7 @@
         let interactionPaused = false;
         let ignoreInitialWebsiteLanguage = Boolean(requestedLanguage);
         const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-        const imageRotationDelay = 1500;
+        const imageRotationDelay = 2000;
 
         function currentWebsiteLanguage() {
             const language = window.i18n?.getLanguage?.() || localStorage.getItem("ospbcr-language") || "en";

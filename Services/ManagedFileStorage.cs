@@ -20,11 +20,52 @@ public sealed class ManagedFileStorage(IWebHostEnvironment environment) : IManag
         CancellationToken cancellationToken = default) =>
         ValidateAsync(file, required, ".pdf", "application/pdf", MaxPdfBytes, IsPdfAsync, cancellationToken);
 
+    public async Task<string?> ValidatePreviewImageAsync(
+        IFormFile? file,
+        bool required,
+        CancellationToken cancellationToken = default)
+    {
+        if (file is null || file.Length == 0)
+        {
+            return required ? "This file is required." : null;
+        }
+        if (file.Length > MaxImageBytes)
+        {
+            return $"The file must be no larger than {MaxImageBytes / 1024 / 1024} MB.";
+        }
+
+        var extension = Path.GetExtension(file.FileName).ToLowerInvariant();
+        var valid = extension switch
+        {
+            ".webp" when file.ContentType.Equals("image/webp", StringComparison.OrdinalIgnoreCase) =>
+                await IsWebpAsync(file, cancellationToken),
+            ".jpg" or ".jpeg" when file.ContentType.Equals("image/jpeg", StringComparison.OrdinalIgnoreCase) =>
+                await IsJpegAsync(file, cancellationToken),
+            ".png" when file.ContentType.Equals("image/png", StringComparison.OrdinalIgnoreCase) =>
+                await IsPngAsync(file, cancellationToken),
+            _ => false
+        };
+        return valid ? null : "Only valid WebP, JPEG, or PNG preview images are accepted.";
+    }
+
     public Task<string> SaveWebpAsync(IFormFile file, string category, CancellationToken cancellationToken = default) =>
         SaveAsync(file, category, ".webp", cancellationToken);
 
     public Task<string> SavePdfAsync(IFormFile file, string category, CancellationToken cancellationToken = default) =>
         SaveAsync(file, category, ".pdf", cancellationToken);
+
+    public Task<string> SavePreviewImageAsync(
+        IFormFile file,
+        string category,
+        CancellationToken cancellationToken = default)
+    {
+        var extension = Path.GetExtension(file.FileName).ToLowerInvariant();
+        if (extension == ".jpeg")
+        {
+            extension = ".jpg";
+        }
+        return SaveAsync(file, category, extension, cancellationToken);
+    }
 
     public Task DeleteIfManagedAsync(string? publicPath, CancellationToken cancellationToken = default)
     {
@@ -122,5 +163,21 @@ public sealed class ManagedFileStorage(IWebHostEnvironment environment) : IManag
             return false;
         }
         return header.AsSpan().SequenceEqual("%PDF-"u8);
+    }
+
+    private static async Task<bool> IsJpegAsync(IFormFile file, CancellationToken cancellationToken)
+    {
+        var header = new byte[3];
+        await using var stream = file.OpenReadStream();
+        return await stream.ReadAsync(header, cancellationToken) == header.Length &&
+               header.AsSpan().SequenceEqual(new byte[] { 0xFF, 0xD8, 0xFF });
+    }
+
+    private static async Task<bool> IsPngAsync(IFormFile file, CancellationToken cancellationToken)
+    {
+        var header = new byte[8];
+        await using var stream = file.OpenReadStream();
+        return await stream.ReadAsync(header, cancellationToken) == header.Length &&
+               header.AsSpan().SequenceEqual(new byte[] { 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A });
     }
 }

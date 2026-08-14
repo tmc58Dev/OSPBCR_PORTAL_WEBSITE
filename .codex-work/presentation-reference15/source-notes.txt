@@ -1,0 +1,12 @@
+Local source root: D:/VINAY/PROJECTS/OSPBCR_PORTAL
+Reference deck: D:/VINAY/PROJECTS/OSPBCR_PORTAL/.codex-work/presentation-reference15/reference-source.pptx
+Portal screenshots: D:/VINAY/PROJECTS/OSPBCR_PORTAL/.codex-work/presentation-assets
+Institutional logos: D:/VINAY/PROJECTS/OSPBCR_PORTAL/wwwroot/assets/IMAGES_PDF_PPT_EXCEL/logos
+Odisha map source: D:/VINAY/PROJECTS/OSPBCR_PORTAL/wwwroot/assets/svg/Odisha_districts_map.svg
+Application bootstrap/security/API registrations: D:/VINAY/PROJECTS/OSPBCR_PORTAL/Program.cs
+Public pages: D:/VINAY/PROJECTS/OSPBCR_PORTAL/Views/Home
+Admin/CMS pages: D:/VINAY/PROJECTS/OSPBCR_PORTAL/Views/Admin
+Database profile: D:/VINAY/PROJECTS/OSPBCR_PORTAL/Summary of DB/.database-summary-work/database-profile.json
+CMS repository/schema: D:/VINAY/PROJECTS/OSPBCR_PORTAL/Services/CmsRepository.cs and related local source files
+
+All facts in the deck are derived from the local website, local database profile, and local screenshots. No external statistics were introduced.

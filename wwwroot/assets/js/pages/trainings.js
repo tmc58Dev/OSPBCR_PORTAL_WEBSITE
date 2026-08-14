@@ -52,6 +52,7 @@ const privateTrainingGalleryImages = [
 ];
 
 let districtTrainingPdfs = [];
+let districtTrainingLanguageAtLoad = null;
 
 const t = (key, replacements = {}) => {
     if (window.i18n) return window.i18n.t(key, replacements);
@@ -63,6 +64,8 @@ const t = (key, replacements = {}) => {
 };
 
 document.addEventListener("DOMContentLoaded", async () => {
+
+    districtTrainingLanguageAtLoad = window.i18n?.getLanguage() || "en";
 
     initializeDistrictTrainingToggle();
     renderTrainingGallery();
@@ -76,7 +79,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 async function loadDistrictTrainingPdfs() {
     try {
-        const response = await fetch("/api/content/training-pdfs", {
+        const language = window.i18n?.getLanguage() || "en";
+        const response = await fetch(`/api/content/training-pdfs?language=${encodeURIComponent(language)}`, {
             headers: { "Accept": "application/json" }
         });
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
@@ -93,6 +97,12 @@ async function loadDistrictTrainingPdfs() {
         districtTrainingPdfs = [];
     }
 }
+
+document.addEventListener("languagechange", (event) => {
+    if (districtTrainingLanguageAtLoad && event.detail?.language !== districtTrainingLanguageAtLoad) {
+        window.location.reload();
+    }
+});
 
 function initializeDistrictTrainingToggle() {
 
@@ -231,7 +241,7 @@ function initializeTrainingCarousel() {
 
         function startAutoSlide() {
             stopAutoSlide();
-            autoSlideTimer = window.setInterval(() => moveCarousel(1), 3500);
+            autoSlideTimer = window.setInterval(() => moveCarousel(1), 2000);
         }
 
         function stopAutoSlide() {
@@ -387,13 +397,21 @@ async function initializeDistrictPdfCarousel() {
     }
 
     try {
-        const response = await fetch("assets/data/district-trainings.json");
+        const response = await fetch("assets/data/district-trainings.json", {
+            headers: { "Accept": "application/json" }
+        });
+        if (!response.ok) {
+            throw new Error(`Districts HTTP ${response.status}`);
+        }
+
         const payload = await response.json();
         const districts = (payload.districts || [])
-            .map((item) => item.name)
-            .sort((left, right) => left.localeCompare(right));
+            .map((item) => String(item.name || "").trim())
+            .filter(Boolean);
 
         if (districts.length === 0) {
+            select.innerHTML = `<option>${t("Districts unavailable")}</option>`;
+            select.disabled = true;
             track.innerHTML = `
                 <article class="district-pdf-slide">
                     <div class="district-pdf-meta">
@@ -404,21 +422,33 @@ async function initializeDistrictPdfCarousel() {
             return;
         }
 
+        const normalizeDistrictName = (value) => String(value || "")
+            .trim()
+            .toLocaleLowerCase("en");
+        const districtCollator = new Intl.Collator("en", {
+            sensitivity: "base",
+            numeric: true
+        });
         const pdfByDistrict = new Map(
-            districtTrainingPdfs.map((item) => [item.district, item])
+            districtTrainingPdfs.map((pdf) => [normalizeDistrictName(pdf.district), pdf])
         );
+        const districtPdfSlides = districts
+            .map((district) => ({
+                district,
+                pdf: pdfByDistrict.get(normalizeDistrictName(district)) || null
+            }))
+            .sort((left, right) =>
+                districtCollator.compare(left.district, right.district)
+            );
 
-        const districtPdfSlides = districts.map((districtName) => ({
-            district: districtName,
-            pdf: pdfByDistrict.get(districtName) || null
-        }));
-
-        select.innerHTML = districtPdfSlides.map((item) => `
-            <option value="${item.district}">${t(item.district)}</option>
+        select.disabled = false;
+        select.innerHTML = districtPdfSlides.map((item, index) => `
+            <option value="${index}">${escapeHtml(t(item.district))}</option>
         `).join("");
 
         track.innerHTML = districtPdfSlides.map((item) => {
-            const districtLabel = t(item.district);
+            const translatedDistrict = t(item.district);
+            const districtLabel = escapeHtml(translatedDistrict);
 
             if (!item.pdf) {
                 return `
@@ -426,7 +456,7 @@ async function initializeDistrictPdfCarousel() {
                         <div class="district-pdf-meta">
                             <span class="district-pdf-label">${districtLabel}</span>
                             <h4>${t("District Training PDF")}</h4>
-                            <p>${t("{{district}} district PDF will be added soon.", { district: districtLabel })}</p>
+                            <p>${escapeHtml(t("{{district}} district PDF will be added soon.", { district: translatedDistrict }))}</p>
                         </div>
                         <div class="district-pdf-frame-shell district-pdf-placeholder">
                             <div class="district-pdf-placeholder-copy">
@@ -456,7 +486,7 @@ async function initializeDistrictPdfCarousel() {
                         <img
                             class="district-pdf-preview-image"
                             src="${previewPath}"
-                            alt="${t("{{district}} district training PDF preview", { district: districtLabel })}"
+                            alt="${escapeHtml(t("{{district}} district training PDF preview", { district: translatedDistrict }))}"
                             loading="lazy"
                         >
                     </div>
@@ -475,7 +505,10 @@ async function initializeDistrictPdfCarousel() {
 
         function updateCarousel() {
             track.style.transform = `translateX(-${currentIndex * 100}%)`;
-            select.value = districtPdfSlides[currentIndex].district;
+            select.value = String(currentIndex);
+            slides.forEach((slide, index) => {
+                slide.setAttribute("aria-hidden", String(index !== currentIndex));
+            });
         }
 
         function moveCarousel(direction) {
@@ -483,14 +516,12 @@ async function initializeDistrictPdfCarousel() {
             updateCarousel();
         }
 
-        function goToDistrict(districtName) {
-            const nextIndex = districtPdfSlides.findIndex((item) => item.district === districtName);
-
-            if (nextIndex < 0) {
+        function goToPdf(index) {
+            if (!Number.isInteger(index) || index < 0 || index >= slides.length) {
                 return;
             }
 
-            currentIndex = nextIndex;
+            currentIndex = index;
             updateCarousel();
         }
 
@@ -514,7 +545,7 @@ async function initializeDistrictPdfCarousel() {
         });
 
         select.addEventListener("change", (event) => {
-            goToDistrict(event.target.value);
+            goToPdf(Number(event.target.value));
             startAutoSlide();
         });
 

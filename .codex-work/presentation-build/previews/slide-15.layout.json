@@ -1,0 +1,1815 @@
+{
+  "schema": "openai.presentation.layout/v4",
+  "unit": "px",
+  "slide": {
+    "aid": "sl/7lcdbo",
+    "id": "7lcdbo",
+    "slide": 15,
+    "layoutId": "2ce90dc0-96cc-4478-9d42-2784762c9dfc",
+    "layoutName": "Title Slide",
+    "layoutType": "title",
+    "masterLayoutId": "2acc4366-c204-409c-86b1-c8fb782314b1",
+    "masterLayoutName": "Master",
+    "backgroundColor": "#FFFFFF",
+    "frame": {
+      "left": 0,
+      "top": 0,
+      "width": 1280,
+      "height": 720
+    }
+  },
+  "theme": {
+    "colorSchemeName": "ChatGPT",
+    "colors": {
+      "accent1": "#156082",
+      "accent2": "#E97132",
+      "accent3": "#196B24",
+      "accent4": "#0F9ED5",
+      "accent5": "#A02B93",
+      "accent6": "#4EA72E",
+      "bg1": "#FFFFFF",
+      "bg2": "#000000",
+      "tx1": "#1F1F1F",
+      "tx2": "#FFFFFF",
+      "dk1": "#000000",
+      "lt1": "#FFFFFF",
+      "dk2": "#0E2841",
+      "lt2": "#E8E8E8",
+      "hlink": "#467886",
+      "folHlink": "#96607D"
+    },
+    "typefaces": [
+      "Arial"
+    ]
+  },
+  "inheritedLayers": [
+    {
+      "scope": "layout",
+      "id": "2ce90dc0-96cc-4478-9d42-2784762c9dfc",
+      "name": "Title Slide",
+      "type": "title",
+      "parentLayoutId": "2acc4366-c204-409c-86b1-c8fb782314b1",
+      "elements": []
+    },
+    {
+      "scope": "master",
+      "id": "2acc4366-c204-409c-86b1-c8fb782314b1",
+      "name": "Master",
+      "type": "master",
+      "elements": []
+    }
+  ],
+  "elements": [
+    {
+      "order": 1,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/jyhgvm1c",
+      "id": "1",
+      "name": "text",
+      "bbox": [
+        42,
+        32,
+        420,
+        24
+      ],
+      "geometry": "rect",
+      "text": "SYSTEM WALKTHROUGH",
+      "textPreview": "SYSTEM WALKTHROUGH",
+      "resolvedFontSize": 13,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 13,
+        "typeface": "Arial",
+        "color": "#0077A8",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "SYSTEM WALKTHROUGH"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "SYSTEM WALKTHROUGH",
+          "resolvedTextStyle": {
+            "fontSize": 13,
+            "typeface": "Arial",
+            "color": "#0077A8",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "SYSTEM WALKTHROUGH",
+              "fontSize": 13,
+              "typeface": "Arial",
+              "color": "#0077A8",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 2,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/4zqx4r2x",
+      "id": "2",
+      "name": "text",
+      "bbox": [
+        42,
+        70,
+        1196,
+        48
+      ],
+      "geometry": "rect",
+      "text": "Twelve anonymous GET routes power the public portal",
+      "textPreview": "Twelve anonymous GET routes power the public portal",
+      "resolvedFontSize": 36,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 36,
+        "typeface": "Arial",
+        "color": "#071A2D",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Twelve anonymous GET routes power the public portal"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Twelve anonymous GET routes power the public portal",
+          "resolvedTextStyle": {
+            "fontSize": 36,
+            "typeface": "Arial",
+            "color": "#071A2D",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Twelve anonymous GET routes power the public portal",
+              "fontSize": 36,
+              "typeface": "Arial",
+              "color": "#071A2D",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 3,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/50zyxwji",
+      "id": "3",
+      "bbox": [
+        42,
+        136,
+        1196,
+        0
+      ],
+      "geometry": "straightConnector1",
+      "lineColor": "#BCC7D1",
+      "lineWidth": 1
+    },
+    {
+      "order": 4,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/618f6hkn",
+      "id": "4",
+      "bbox": [
+        42,
+        666,
+        1196,
+        0
+      ],
+      "geometry": "straightConnector1",
+      "lineColor": "#BCC7D1",
+      "lineWidth": 1
+    },
+    {
+      "order": 5,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/r2hgzm18",
+      "id": "5",
+      "name": "text",
+      "bbox": [
+        42,
+        675,
+        750,
+        20
+      ],
+      "geometry": "rect",
+      "text": "OSPBCR portal technical overview",
+      "textPreview": "OSPBCR portal technical overview",
+      "resolvedFontSize": 12,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 12,
+        "typeface": "Arial",
+        "color": "#566575",
+        "alignment": "left",
+        "verticalAlignment": "middle",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "OSPBCR portal technical overview"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "OSPBCR portal technical overview",
+          "resolvedTextStyle": {
+            "fontSize": 12,
+            "typeface": "Arial",
+            "color": "#566575",
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "OSPBCR portal technical overview",
+              "fontSize": 12,
+              "typeface": "Arial",
+              "color": "#566575",
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 6,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/snqx8rit",
+      "id": "6",
+      "name": "text",
+      "bbox": [
+        1180,
+        675,
+        58,
+        20
+      ],
+      "geometry": "rect",
+      "text": "15",
+      "textPreview": "15",
+      "resolvedFontSize": 12,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 12,
+        "typeface": "Arial",
+        "color": "#566575",
+        "alignment": "right",
+        "verticalAlignment": "middle",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "15"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "15",
+          "resolvedTextStyle": {
+            "fontSize": 12,
+            "typeface": "Arial",
+            "color": "#566575",
+            "alignment": "right"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "15",
+              "fontSize": 12,
+              "typeface": "Arial",
+              "color": "#566575",
+              "alignment": "right"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 7,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/tozy1wje",
+      "id": "7",
+      "name": "text",
+      "bbox": [
+        42,
+        157,
+        1160,
+        38
+      ],
+      "geometry": "rect",
+      "text": "The API surface is read-only for the public site; CMS mutations remain behind authenticated MVC actions.",
+      "textPreview": "The API surface is read-only for the public site; CMS mutations remain behind authenticated MVC actions.",
+      "resolvedFontSize": 19,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 19,
+        "typeface": "Arial",
+        "color": "#566575",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "The API surface is read-only for the public site; CMS mutations remain behind authenticated MVC actions."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "The API surface is read-only for the public site; CMS mutations remain behind authenticated MVC actions.",
+          "resolvedTextStyle": {
+            "fontSize": 19,
+            "typeface": "Arial",
+            "color": "#566575",
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "The API surface is read-only for the public site; CMS mutations remain behind authenticated MVC actions.",
+              "fontSize": 19,
+              "typeface": "Arial",
+              "color": "#566575",
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 8,
+      "kind": "table",
+      "scope": "slide",
+      "aid": "tb/7yx8vqh0",
+      "id": "8",
+      "bbox": [
+        42,
+        214,
+        1196,
+        418
+      ],
+      "text": "Route group | Endpoint | Purpose | Inputs\nRegistry | /api/registry/health | Database connectivity and metadata | —\nRegistry | /district-status • /district-statistics | District workload, cases, incidence, mortality | —\nRegistry | /facilities | Facility/source-centre case totals | —\nRegistry | /cancer-site-incidence • mortality | Top cancer sites | year, sex, district\nRegistry | /cancer-age-incidence • mortality | Pediatric and geriatric distributions | year, sex, district\nContent | /api/content/news | Published multilingual news cards | language\nContent | /training-pdfs | Localized district training reports | language\nContent | /cancer-burden-pdfs | Localized burden factsheets | language\nContent | /odisha-circulars | Localized district circulars | language",
+      "textPreview": "Route group | Endpoint | Purpose | Inputs | Registry | /api/registry/health | Database connectivity and metadata | — | Registry | /distri...",
+      "rows": 10,
+      "cols": 4,
+      "cells": [
+        {
+          "index": 1,
+          "row": 1,
+          "column": 1,
+          "bbox": [
+            42,
+            214,
+            150,
+            41.8
+          ],
+          "text": "Route group",
+          "textPreview": "Route group",
+          "fillColor": "#0B4F7B",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Route group",
+              "resolvedTextStyle": {
+                "fontSize": 14,
+                "typeface": "Arial",
+                "color": "#FFFFFF",
+                "bold": true
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Route group",
+                  "fontSize": 14,
+                  "typeface": "Arial",
+                  "color": "#FFFFFF",
+                  "bold": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "row": 1,
+          "column": 2,
+          "bbox": [
+            192,
+            214,
+            360,
+            41.8
+          ],
+          "text": "Endpoint",
+          "textPreview": "Endpoint",
+          "fillColor": "#0B4F7B",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Endpoint",
+              "resolvedTextStyle": {
+                "fontSize": 14,
+                "typeface": "Arial",
+                "color": "#FFFFFF",
+                "bold": true
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Endpoint",
+                  "fontSize": 14,
+                  "typeface": "Arial",
+                  "color": "#FFFFFF",
+                  "bold": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 3,
+          "row": 1,
+          "column": 3,
+          "bbox": [
+            552,
+            214,
+            450,
+            41.8
+          ],
+          "text": "Purpose",
+          "textPreview": "Purpose",
+          "fillColor": "#0B4F7B",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Purpose",
+              "resolvedTextStyle": {
+                "fontSize": 14,
+                "typeface": "Arial",
+                "color": "#FFFFFF",
+                "bold": true
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Purpose",
+                  "fontSize": 14,
+                  "typeface": "Arial",
+                  "color": "#FFFFFF",
+                  "bold": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 4,
+          "row": 1,
+          "column": 4,
+          "bbox": [
+            1002,
+            214,
+            236,
+            41.8
+          ],
+          "text": "Inputs",
+          "textPreview": "Inputs",
+          "fillColor": "#0B4F7B",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Inputs",
+              "resolvedTextStyle": {
+                "fontSize": 14,
+                "typeface": "Arial",
+                "color": "#FFFFFF",
+                "bold": true
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Inputs",
+                  "fontSize": 14,
+                  "typeface": "Arial",
+                  "color": "#FFFFFF",
+                  "bold": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 5,
+          "row": 2,
+          "column": 1,
+          "bbox": [
+            42,
+            255.8,
+            150,
+            41.8
+          ],
+          "text": "Registry",
+          "textPreview": "Registry",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Registry",
+              "resolvedTextStyle": {
+                "fontSize": 14,
+                "typeface": "Arial",
+                "color": "#071A2D"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Registry",
+                  "fontSize": 14,
+                  "typeface": "Arial",
+                  "color": "#071A2D"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 6,
+          "row": 2,
+          "column": 2,
+          "bbox": [
+            192,
+            255.8,
+            360,
+            41.8
+          ],
+          "text": "/api/registry/health",
+          "textPreview": "/api/registry/health",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "/api/registry/health",
+              "resolvedTextStyle": {
+                "fontSize": 14,
+                "typeface": "Arial",
+                "color": "#071A2D"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "/api/registry/health",
+                  "fontSize": 14,
+                  "typeface": "Arial",
+                  "color": "#071A2D"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 7,
+          "row": 2,
+          "column": 3,
+          "bbox": [
+            552,
+            255.8,
+            450,
+            41.8
+          ],
+          "text": "Database connectivity and metadata",
+          "textPreview": "Database connectivity and metadata",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Database connectivity and metadata",
+              "resolvedTextStyle": {
+                "fontSize": 14,
+                "typeface": "Arial",
+                "color": "#071A2D"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Database connectivity and metadata",
+                  "fontSize": 14,
+                  "typeface": "Arial",
+                  "color": "#071A2D"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 8,
+          "row": 2,
+          "column": 4,
+          "bbox": [
+            1002,
+            255.8,
+            236,
+            41.8
+          ],
+          "text": "—",
+          "textPreview": "—",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "—",
+              "resolvedTextStyle": {
+                "fontSize": 14,
+                "typeface": "Arial",
+                "color": "#071A2D"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "—",
+                  "fontSize": 14,
+                  "typeface": "Arial",
+                  "color": "#071A2D"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 9,
+          "row": 3,
+          "column": 1,
+          "bbox": [
+            42,
+            297.6,
+            150,
+            41.8
+          ],
+          "text": "Registry",
+          "textPreview": "Registry",
+          "fillColor": "#F7F9FB",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Registry",
+              "resolvedTextStyle": {
+                "fontSize": 14,
+                "typeface": "Arial",
+                "color": "#071A2D"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Registry",
+                  "fontSize": 14,
+                  "typeface": "Arial",
+                  "color": "#071A2D"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 10,
+          "row": 3,
+          "column": 2,
+          "bbox": [
+            192,
+            297.6,
+            360,
+            41.8
+          ],
+          "text": "/district-status • /district-statistics",
+          "textPreview": "/district-status • /district-statistics",
+          "fillColor": "#F7F9FB",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "/district-status • /district-statistics",
+              "resolvedTextStyle": {
+                "fontSize": 14,
+                "typeface": "Arial",
+                "color": "#071A2D"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "/district-status • /district-statistics",
+                  "fontSize": 14,
+                  "typeface": "Arial",
+                  "color": "#071A2D"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 11,
+          "row": 3,
+          "column": 3,
+          "bbox": [
+            552,
+            297.6,
+            450,
+            41.8
+          ],
+          "text": "District workload, cases, incidence, mortality",
+          "textPreview": "District workload, cases, incidence, mortality",
+          "fillColor": "#F7F9FB",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "District workload, cases, incidence, mortality",
+              "resolvedTextStyle": {
+                "fontSize": 14,
+                "typeface": "Arial",
+                "color": "#071A2D"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "District workload, cases, incidence, mortality",
+                  "fontSize": 14,
+                  "typeface": "Arial",
+                  "color": "#071A2D"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 12,
+          "row": 3,
+          "column": 4,
+          "bbox": [
+            1002,
+            297.6,
+            236,
+            41.8
+          ],
+          "text": "—",
+          "textPreview": "—",
+          "fillColor": "#F7F9FB",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "—",
+              "resolvedTextStyle": {
+                "fontSize": 14,
+                "typeface": "Arial",
+                "color": "#071A2D"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "—",
+                  "fontSize": 14,
+                  "typeface": "Arial",
+                  "color": "#071A2D"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 13,
+          "row": 4,
+          "column": 1,
+          "bbox": [
+            42,
+            339.4,
+            150,
+            41.8
+          ],
+          "text": "Registry",
+          "textPreview": "Registry",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Registry",
+              "resolvedTextStyle": {
+                "fontSize": 14,
+                "typeface": "Arial",
+                "color": "#071A2D"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Registry",
+                  "fontSize": 14,
+                  "typeface": "Arial",
+                  "color": "#071A2D"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 14,
+          "row": 4,
+          "column": 2,
+          "bbox": [
+            192,
+            339.4,
+            360,
+            41.8
+          ],
+          "text": "/facilities",
+          "textPreview": "/facilities",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "/facilities",
+              "resolvedTextStyle": {
+                "fontSize": 14,
+                "typeface": "Arial",
+                "color": "#071A2D"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "/facilities",
+                  "fontSize": 14,
+                  "typeface": "Arial",
+                  "color": "#071A2D"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 15,
+          "row": 4,
+          "column": 3,
+          "bbox": [
+            552,
+            339.4,
+            450,
+            41.8
+          ],
+          "text": "Facility/source-centre case totals",
+          "textPreview": "Facility/source-centre case totals",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Facility/source-centre case totals",
+              "resolvedTextStyle": {
+                "fontSize": 14,
+                "typeface": "Arial",
+                "color": "#071A2D"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Facility/source-centre case totals",
+                  "fontSize": 14,
+                  "typeface": "Arial",
+                  "color": "#071A2D"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 16,
+          "row": 4,
+          "column": 4,
+          "bbox": [
+            1002,
+            339.4,
+            236,
+            41.8
+          ],
+          "text": "—",
+          "textPreview": "—",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "—",
+              "resolvedTextStyle": {
+                "fontSize": 14,
+                "typeface": "Arial",
+                "color": "#071A2D"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "—",
+                  "fontSize": 14,
+                  "typeface": "Arial",
+                  "color": "#071A2D"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 17,
+          "row": 5,
+          "column": 1,
+          "bbox": [
+            42,
+            381.2,
+            150,
+            41.8
+          ],
+          "text": "Registry",
+          "textPreview": "Registry",
+          "fillColor": "#F7F9FB",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Registry",
+              "resolvedTextStyle": {
+                "fontSize": 14,
+                "typeface": "Arial",
+                "color": "#071A2D"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Registry",
+                  "fontSize": 14,
+                  "typeface": "Arial",
+                  "color": "#071A2D"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 18,
+          "row": 5,
+          "column": 2,
+          "bbox": [
+            192,
+            381.2,
+            360,
+            41.8
+          ],
+          "text": "/cancer-site-incidence • mortality",
+          "textPreview": "/cancer-site-incidence • mortality",
+          "fillColor": "#F7F9FB",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "/cancer-site-incidence • mortality",
+              "resolvedTextStyle": {
+                "fontSize": 14,
+                "typeface": "Arial",
+                "color": "#071A2D"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "/cancer-site-incidence • mortality",
+                  "fontSize": 14,
+                  "typeface": "Arial",
+                  "color": "#071A2D"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 19,
+          "row": 5,
+          "column": 3,
+          "bbox": [
+            552,
+            381.2,
+            450,
+            41.8
+          ],
+          "text": "Top cancer sites",
+          "textPreview": "Top cancer sites",
+          "fillColor": "#F7F9FB",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Top cancer sites",
+              "resolvedTextStyle": {
+                "fontSize": 14,
+                "typeface": "Arial",
+                "color": "#071A2D"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Top cancer sites",
+                  "fontSize": 14,
+                  "typeface": "Arial",
+                  "color": "#071A2D"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 20,
+          "row": 5,
+          "column": 4,
+          "bbox": [
+            1002,
+            381.2,
+            236,
+            41.8
+          ],
+          "text": "year, sex, district",
+          "textPreview": "year, sex, district",
+          "fillColor": "#F7F9FB",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "year, sex, district",
+              "resolvedTextStyle": {
+                "fontSize": 14,
+                "typeface": "Arial",
+                "color": "#071A2D"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "year, sex, district",
+                  "fontSize": 14,
+                  "typeface": "Arial",
+                  "color": "#071A2D"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 21,
+          "row": 6,
+          "column": 1,
+          "bbox": [
+            42,
+            423,
+            150,
+            41.8
+          ],
+          "text": "Registry",
+          "textPreview": "Registry",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Registry",
+              "resolvedTextStyle": {
+                "fontSize": 14,
+                "typeface": "Arial",
+                "color": "#071A2D"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Registry",
+                  "fontSize": 14,
+                  "typeface": "Arial",
+                  "color": "#071A2D"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 22,
+          "row": 6,
+          "column": 2,
+          "bbox": [
+            192,
+            423,
+            360,
+            41.8
+          ],
+          "text": "/cancer-age-incidence • mortality",
+          "textPreview": "/cancer-age-incidence • mortality",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "/cancer-age-incidence • mortality",
+              "resolvedTextStyle": {
+                "fontSize": 14,
+                "typeface": "Arial",
+                "color": "#071A2D"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "/cancer-age-incidence • mortality",
+                  "fontSize": 14,
+                  "typeface": "Arial",
+                  "color": "#071A2D"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 23,
+          "row": 6,
+          "column": 3,
+          "bbox": [
+            552,
+            423,
+            450,
+            41.8
+          ],
+          "text": "Pediatric and geriatric distributions",
+          "textPreview": "Pediatric and geriatric distributions",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Pediatric and geriatric distributions",
+              "resolvedTextStyle": {
+                "fontSize": 14,
+                "typeface": "Arial",
+                "color": "#071A2D"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Pediatric and geriatric distributions",
+                  "fontSize": 14,
+                  "typeface": "Arial",
+                  "color": "#071A2D"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 24,
+          "row": 6,
+          "column": 4,
+          "bbox": [
+            1002,
+            423,
+            236,
+            41.8
+          ],
+          "text": "year, sex, district",
+          "textPreview": "year, sex, district",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "year, sex, district",
+              "resolvedTextStyle": {
+                "fontSize": 14,
+                "typeface": "Arial",
+                "color": "#071A2D"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "year, sex, district",
+                  "fontSize": 14,
+                  "typeface": "Arial",
+                  "color": "#071A2D"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 25,
+          "row": 7,
+          "column": 1,
+          "bbox": [
+            42,
+            464.8,
+            150,
+            41.8
+          ],
+          "text": "Content",
+          "textPreview": "Content",
+          "fillColor": "#F7F9FB",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Content",
+              "resolvedTextStyle": {
+                "fontSize": 14,
+                "typeface": "Arial",
+                "color": "#071A2D"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Content",
+                  "fontSize": 14,
+                  "typeface": "Arial",
+                  "color": "#071A2D"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 26,
+          "row": 7,
+          "column": 2,
+          "bbox": [
+            192,
+            464.8,
+            360,
+            41.8
+          ],
+          "text": "/api/content/news",
+          "textPreview": "/api/content/news",
+          "fillColor": "#F7F9FB",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "/api/content/news",
+              "resolvedTextStyle": {
+                "fontSize": 14,
+                "typeface": "Arial",
+                "color": "#071A2D"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "/api/content/news",
+                  "fontSize": 14,
+                  "typeface": "Arial",
+                  "color": "#071A2D"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 27,
+          "row": 7,
+          "column": 3,
+          "bbox": [
+            552,
+            464.8,
+            450,
+            41.8
+          ],
+          "text": "Published multilingual news cards",
+          "textPreview": "Published multilingual news cards",
+          "fillColor": "#F7F9FB",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Published multilingual news cards",
+              "resolvedTextStyle": {
+                "fontSize": 14,
+                "typeface": "Arial",
+                "color": "#071A2D"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Published multilingual news cards",
+                  "fontSize": 14,
+                  "typeface": "Arial",
+                  "color": "#071A2D"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 28,
+          "row": 7,
+          "column": 4,
+          "bbox": [
+            1002,
+            464.8,
+            236,
+            41.8
+          ],
+          "text": "language",
+          "textPreview": "language",
+          "fillColor": "#F7F9FB",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "language",
+              "resolvedTextStyle": {
+                "fontSize": 14,
+                "typeface": "Arial",
+                "color": "#071A2D"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "language",
+                  "fontSize": 14,
+                  "typeface": "Arial",
+                  "color": "#071A2D"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 29,
+          "row": 8,
+          "column": 1,
+          "bbox": [
+            42,
+            506.6,
+            150,
+            41.8
+          ],
+          "text": "Content",
+          "textPreview": "Content",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Content",
+              "resolvedTextStyle": {
+                "fontSize": 14,
+                "typeface": "Arial",
+                "color": "#071A2D"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Content",
+                  "fontSize": 14,
+                  "typeface": "Arial",
+                  "color": "#071A2D"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 30,
+          "row": 8,
+          "column": 2,
+          "bbox": [
+            192,
+            506.6,
+            360,
+            41.8
+          ],
+          "text": "/training-pdfs",
+          "textPreview": "/training-pdfs",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "/training-pdfs",
+              "resolvedTextStyle": {
+                "fontSize": 14,
+                "typeface": "Arial",
+                "color": "#071A2D"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "/training-pdfs",
+                  "fontSize": 14,
+                  "typeface": "Arial",
+                  "color": "#071A2D"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 31,
+          "row": 8,
+          "column": 3,
+          "bbox": [
+            552,
+            506.6,
+            450,
+            41.8
+          ],
+          "text": "Localized district training reports",
+          "textPreview": "Localized district training reports",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Localized district training reports",
+              "resolvedTextStyle": {
+                "fontSize": 14,
+                "typeface": "Arial",
+                "color": "#071A2D"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Localized district training reports",
+                  "fontSize": 14,
+                  "typeface": "Arial",
+                  "color": "#071A2D"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 32,
+          "row": 8,
+          "column": 4,
+          "bbox": [
+            1002,
+            506.6,
+            236,
+            41.8
+          ],
+          "text": "language",
+          "textPreview": "language",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "language",
+              "resolvedTextStyle": {
+                "fontSize": 14,
+                "typeface": "Arial",
+                "color": "#071A2D"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "language",
+                  "fontSize": 14,
+                  "typeface": "Arial",
+                  "color": "#071A2D"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 33,
+          "row": 9,
+          "column": 1,
+          "bbox": [
+            42,
+            548.4,
+            150,
+            41.8
+          ],
+          "text": "Content",
+          "textPreview": "Content",
+          "fillColor": "#F7F9FB",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Content",
+              "resolvedTextStyle": {
+                "fontSize": 14,
+                "typeface": "Arial",
+                "color": "#071A2D"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Content",
+                  "fontSize": 14,
+                  "typeface": "Arial",
+                  "color": "#071A2D"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 34,
+          "row": 9,
+          "column": 2,
+          "bbox": [
+            192,
+            548.4,
+            360,
+            41.8
+          ],
+          "text": "/cancer-burden-pdfs",
+          "textPreview": "/cancer-burden-pdfs",
+          "fillColor": "#F7F9FB",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "/cancer-burden-pdfs",
+              "resolvedTextStyle": {
+                "fontSize": 14,
+                "typeface": "Arial",
+                "color": "#071A2D"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "/cancer-burden-pdfs",
+                  "fontSize": 14,
+                  "typeface": "Arial",
+                  "color": "#071A2D"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 35,
+          "row": 9,
+          "column": 3,
+          "bbox": [
+            552,
+            548.4,
+            450,
+            41.8
+          ],
+          "text": "Localized burden factsheets",
+          "textPreview": "Localized burden factsheets",
+          "fillColor": "#F7F9FB",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Localized burden factsheets",
+              "resolvedTextStyle": {
+                "fontSize": 14,
+                "typeface": "Arial",
+                "color": "#071A2D"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Localized burden factsheets",
+                  "fontSize": 14,
+                  "typeface": "Arial",
+                  "color": "#071A2D"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 36,
+          "row": 9,
+          "column": 4,
+          "bbox": [
+            1002,
+            548.4,
+            236,
+            41.8
+          ],
+          "text": "language",
+          "textPreview": "language",
+          "fillColor": "#F7F9FB",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "language",
+              "resolvedTextStyle": {
+                "fontSize": 14,
+                "typeface": "Arial",
+                "color": "#071A2D"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "language",
+                  "fontSize": 14,
+                  "typeface": "Arial",
+                  "color": "#071A2D"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 37,
+          "row": 10,
+          "column": 1,
+          "bbox": [
+            42,
+            590.2,
+            150,
+            41.8
+          ],
+          "text": "Content",
+          "textPreview": "Content",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Content",
+              "resolvedTextStyle": {
+                "fontSize": 14,
+                "typeface": "Arial",
+                "color": "#071A2D"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Content",
+                  "fontSize": 14,
+                  "typeface": "Arial",
+                  "color": "#071A2D"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 38,
+          "row": 10,
+          "column": 2,
+          "bbox": [
+            192,
+            590.2,
+            360,
+            41.8
+          ],
+          "text": "/odisha-circulars",
+          "textPreview": "/odisha-circulars",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "/odisha-circulars",
+              "resolvedTextStyle": {
+                "fontSize": 14,
+                "typeface": "Arial",
+                "color": "#071A2D"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "/odisha-circulars",
+                  "fontSize": 14,
+                  "typeface": "Arial",
+                  "color": "#071A2D"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 39,
+          "row": 10,
+          "column": 3,
+          "bbox": [
+            552,
+            590.2,
+            450,
+            41.8
+          ],
+          "text": "Localized district circulars",
+          "textPreview": "Localized district circulars",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Localized district circulars",
+              "resolvedTextStyle": {
+                "fontSize": 14,
+                "typeface": "Arial",
+                "color": "#071A2D"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Localized district circulars",
+                  "fontSize": 14,
+                  "typeface": "Arial",
+                  "color": "#071A2D"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 40,
+          "row": 10,
+          "column": 4,
+          "bbox": [
+            1002,
+            590.2,
+            236,
+            41.8
+          ],
+          "text": "language",
+          "textPreview": "language",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "language",
+              "resolvedTextStyle": {
+                "fontSize": 14,
+                "typeface": "Arial",
+                "color": "#071A2D"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "language",
+                  "fontSize": 14,
+                  "typeface": "Arial",
+                  "color": "#071A2D"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "composeRuns": []
+}

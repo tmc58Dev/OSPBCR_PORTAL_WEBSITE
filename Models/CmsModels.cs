@@ -115,12 +115,33 @@ public sealed record PublicNewsCard(
     string Footer,
     DateTimeOffset UpdatedAt);
 
+public sealed class PdfResourceLanguageInput
+{
+    [Required, StringLength(250)]
+    public string Title { get; set; } = "";
+
+    [Required, StringLength(2000)]
+    public string Description { get; set; } = "";
+}
+
+public sealed record PublicPdfResource(
+    object Id,
+    string District,
+    string Title,
+    string Description,
+    string PdfPath,
+    string PreviewPath);
+
 public sealed class DistrictTrainingRecord
 {
     public Guid Id { get; set; }
     public string District { get; set; } = "";
     public string Title { get; set; } = "";
     public string Description { get; set; } = "";
+    public string TitleHi { get; set; } = "";
+    public string DescriptionHi { get; set; } = "";
+    public string TitleOr { get; set; } = "";
+    public string DescriptionOr { get; set; } = "";
     public string PdfPath { get; set; } = "";
     public string PreviewPath { get; set; } = "";
     public DateTimeOffset CreatedAt { get; set; }
@@ -134,11 +155,79 @@ public sealed class DistrictTrainingFormViewModel
     [Required]
     public string District { get; set; } = "";
 
-    [Required, StringLength(250)]
-    public string Title { get; set; } = "";
+    public PdfResourceLanguageInput English { get; set; } = new();
+    public PdfResourceLanguageInput Hindi { get; set; } = new();
+    public PdfResourceLanguageInput Odia { get; set; } = new();
 
-    [Required, StringLength(2000)]
+    public IFormFile? PdfFile { get; set; }
+    public IFormFile? PreviewImage { get; set; }
+    public string? ExistingPdfPath { get; set; }
+    public string? ExistingPreviewPath { get; set; }
+}
+
+public sealed class CancerBurdenRecord
+{
+    public int Id { get; set; }
+    public string District { get; set; } = "";
+    public string Title { get; set; } = "";
     public string Description { get; set; } = "";
+    public string TitleHi { get; set; } = "";
+    public string DescriptionHi { get; set; } = "";
+    public string TitleOr { get; set; } = "";
+    public string DescriptionOr { get; set; } = "";
+    public string PdfPath { get; set; } = "";
+    public string PreviewPath { get; set; } = "";
+    public int? CreatedById { get; set; }
+    public int? UpdatedById { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
+    public DateTimeOffset UpdatedAt { get; set; }
+}
+
+public sealed class CancerBurdenFormViewModel
+{
+    public int? Id { get; set; }
+
+    [Required]
+    public string District { get; set; } = "";
+
+    public PdfResourceLanguageInput English { get; set; } = new();
+    public PdfResourceLanguageInput Hindi { get; set; } = new();
+    public PdfResourceLanguageInput Odia { get; set; } = new();
+
+    public IFormFile? PdfFile { get; set; }
+    public IFormFile? PreviewImage { get; set; }
+    public string? ExistingPdfPath { get; set; }
+    public string? ExistingPreviewPath { get; set; }
+}
+
+public sealed class OdishaCircularRecord
+{
+    public int Id { get; set; }
+    public string District { get; set; } = "";
+    public string Title { get; set; } = "";
+    public string Description { get; set; } = "";
+    public string TitleHi { get; set; } = "";
+    public string DescriptionHi { get; set; } = "";
+    public string TitleOr { get; set; } = "";
+    public string DescriptionOr { get; set; } = "";
+    public string PdfPath { get; set; } = "";
+    public string PreviewPath { get; set; } = "";
+    public int? CreatedById { get; set; }
+    public int? UpdatedById { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
+    public DateTimeOffset UpdatedAt { get; set; }
+}
+
+public sealed class OdishaCircularFormViewModel
+{
+    public int? Id { get; set; }
+
+    [Required]
+    public string District { get; set; } = "";
+
+    public PdfResourceLanguageInput English { get; set; } = new();
+    public PdfResourceLanguageInput Hindi { get; set; } = new();
+    public PdfResourceLanguageInput Odia { get; set; } = new();
 
     public IFormFile? PdfFile { get; set; }
     public IFormFile? PreviewImage { get; set; }
@@ -151,4 +240,6 @@ public sealed class DashboardViewModel
     public int UserCount { get; set; }
     public int NewsCount { get; set; }
     public int TrainingPdfCount { get; set; }
+    public int CancerBurdenPdfCount { get; set; }
+    public int OdishaCircularCount { get; set; }
 }

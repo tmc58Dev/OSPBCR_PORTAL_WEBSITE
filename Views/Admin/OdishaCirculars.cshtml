@@ -1,0 +1,36 @@
+@model IReadOnlyList<OdishaCircularRecord>
+@{
+    Layout = "_CmsLayout";
+    ViewData["Title"] = "Odisha State Circulars";
+}
+<header class="cms-page-header cms-page-header-actions">
+    <div>
+        <span class="cms-eyebrow">Public About Us page</span>
+        <h1>Odisha State Circulars</h1>
+        <p>Manage district circulars, descriptions, PDF documents, and preview images.</p>
+    </div>
+    <a class="cms-button cms-button-primary" asp-action="CreateOdishaCircular">Add Odisha State Circular</a>
+</header>
+<div class="cms-content-grid">
+@foreach (var record in Model)
+{
+    <article class="cms-content-card">
+        <img src="@record.PreviewPath" alt="@record.District Odisha State circular PDF preview" />
+        <div class="cms-content-card-body">
+            <span class="cms-badge">@record.District</span>
+            <h2>@record.Title</h2>
+            <p>@record.Description</p>
+            <div class="content-inline-actions">
+                <a class="cms-button cms-button-secondary cms-button-small" href="@record.PdfPath" target="_blank" rel="noopener">View PDF</a>
+                <a class="cms-button cms-button-secondary cms-button-small" asp-action="EditOdishaCircular" asp-route-id="@record.Id">Update</a>
+                <form asp-action="DeleteOdishaCircular" asp-route-id="@record.Id" method="post" data-confirm="Delete this Odisha State circular record and its uploaded files?">
+                    <button class="cms-button cms-button-danger cms-button-small" type="submit">Delete</button>
+                </form>
+            </div>
+        </div>
+    </article>
+}
+</div>
+@section Scripts {
+    <script>document.querySelectorAll("[data-confirm]").forEach(form => form.addEventListener("submit", event => { if (!confirm(form.dataset.confirm)) event.preventDefault(); }));</script>
+}

@@ -5,21 +5,34 @@ const teamSections = [
         title: "Department of Health and Family Welfare, Government of Odisha",
         members: [
             {
-                name: "Smt Aswathy S.",
-                designation: "Commissioner cum Secretary"
+                name: "Ms. Ashwathy S IAS",
+                designation: "Health Secretary",
+                image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Ms. Ashwathy S IAS.webp?v=20260811-photo-v2"
             },
             {
-                name: "Dr Nilakantha Mishra",
-                designation: "Director of Public Health, Odisha"
+                name: "Dr. Rabindra Nath Mishra",
+                designation: "Director Public Health",
+                image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Dr. Rabindra Nath Mishra.webp?v=20260811"
             },
             {
-                name: "Dr Susanta Kumar Swain",
-                designation: "Additional Director NCD cum State Nodal Officer, Cancer Care",
-                image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Sushanta Swain.webp"
+                name: "Dr. Pramila Baral",
+                designation: "Senior Administrative Grade",
+                image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Dr. Pramila Baral.webp?v=20260811"
             },
             {
-                name: "Dr Roma Rattan",
-                designation: "Additional DMET"
+                name: "Dr. Binay Kumar Dasmohapatra",
+                designation: "ADNCD",
+                image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Dr. Binay Kumar Dasmohapatra.webp?v=20260811"
+            },
+            {
+                name: "Dr. Roma Rattan",
+                designation: "Joint Director, DMET",
+                image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Dr. Roma Rattan.webp?v=20260811"
+            },
+            {
+                name: "Dr. Nilakantha Mishra",
+                designation: "Former DPH",
+                image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Dr. Nilakantha Mishra.webp?v=20260811"
             },
             {
                 name: "Chief District Medical Officers (CDMOs) of all districts",
@@ -32,19 +45,23 @@ const teamSections = [
         members: [
             {
                 name: "Dr Sudeep Gupta",
-                designation: "Director, TMC"
+                designation: "Director, TMC",
+                image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Sudeep Gupta.webp?v=20260805"
             },
             {
                 name: "Dr Pankaj Chaturvedi",
-                designation: "Director, ACTREC, TMC"
+                designation: "Director, ACTREC, TMC",
+                image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Pankaj_chaturvedi.webp?v=20260805"
             },
             {
                 name: "Dr Rajesh Dikshit",
-                designation: "Director, CCE, TMC"
+                designation: "Director, CCE, TMC",
+                image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Dr.Dikshit.jpg?v=20260805"
             },
             {
                 name: "Dr Gauravi Mishra",
-                designation: "Deputy Director, CCE, TMC"
+                designation: "Deputy Director, CCE, TMC",
+                image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Gauravi Mishra.webp?v=20260805"
             },
             {
                 name: "Dr Atul Budukh",
@@ -53,7 +70,8 @@ const teamSections = [
             },
             {
                 name: "Dr Lingaraj Nayak",
-                designation: "Professor, Medical Oncology"
+                designation: "Professor, Medical Oncology",
+                image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Dr Lingaraj.webp?v=20260805"
             }
         ]
     },
@@ -76,9 +94,9 @@ const teamSections = [
                 image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Bedangdas Mohanty.webp"
             },
             {
-                name: "Mr Abhaya Kumar Mohanty",
-                designation: "Administrative Officer-II",
-                image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Abhay Mohanty.webp"
+                name: "Mr. Abhay Kumar Mohanty",
+                designation: "Administrative Officer",
+                image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Mr. Abhay Kumar Mohanty.webp?v=20260811"
             },
             {
                 name: "Mr. Prasanna Kumar Muduli",
@@ -90,8 +108,59 @@ const teamSections = [
                 image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Bandita Dash.webp"
             },
             {
-                name: "Dr. Biswajit Mishra",
-                designation: "Scientific Officer (Medical)"
+                name: "Dr. Biswajit Dash",
+                designation: "Scientific Officer",
+                image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Dr. Biswajit Dash.webp?v=20260811"
+            }
+        ]
+    },
+    {
+        title: "Odisha State PBCR Staff",
+        members: [
+            {
+                name: "Dr. Shubham Sritam Samantaray",
+                designation: "State Co-ordinator",
+                image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Dr. Shubham Sritam Samantaray.webp"
+            },
+            {
+                name: "Dr. Sourav Dey",
+                designation: "Statistician",
+                image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Dr. Sourav Dey.webp"
+            },
+            {
+                name: "Mr. Shantanu Rewatkar",
+                designation: "Programmer",
+                image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Mr. Shantanu Rewatkar.webp"
+            },
+            {
+                name: "Dr. Asutosh Pradhan",
+                designation: "Zonal Co-ordinator",
+                image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Dr. Asutosh Pradhan.webp"
+            },
+            {
+                name: "Ms. Jogita Khamari",
+                designation: "Zonal Co-ordinator",
+                image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Ms. Jogita Khamari.webp"
+            },
+            {
+                name: "Mr. Swastik Suman Dash",
+                designation: "Zonal Co-ordinator",
+                image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Mr. Swastik Suman Dash.webp"
+            },
+            {
+                name: "Mr. Akshay Ranjan Patro",
+                designation: "Zonal Co-ordinator",
+                image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Mr. Akshay Ranjan Patro.webp"
+            },
+            {
+                name: "Ms. Rasmita Sahoo",
+                designation: "Zonal Co-ordinator",
+                image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Ms. Rasmita Sahoo.webp"
+            },
+            {
+                name: "Dr. Priyanka Swain",
+                designation: "Zonal Co-ordinator",
+                image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Dr. Priyanka Swain.webp"
             }
         ]
     },
@@ -127,11 +196,6 @@ const teamSections = [
                 name: "Mr Vinay Tawde",
                 designation: "Programmer",
                 image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/VINAY TAWDE.webp?v=20260803-photo-v2"
-            },
-            {
-                name: "Ms Samyukta Shivshankar",
-                designation: "Project Manager",
-                image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Samyukta Shivshankar.webp"
             }
         ]
     }

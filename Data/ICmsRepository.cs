@@ -18,4 +18,16 @@ public interface ICmsRepository
     Task<bool> UpdateNewsCardAsync(NewsCard card, CancellationToken cancellationToken = default);
     Task<bool> DeleteNewsCardAsync(int id, CancellationToken cancellationToken = default);
     Task<IReadOnlyList<PublicNewsCard>> GetPublishedNewsAsync(string language, CancellationToken cancellationToken = default);
+    Task<IReadOnlyList<CancerBurdenRecord>> GetCancerBurdenRecordsAsync(CancellationToken cancellationToken = default);
+    Task<CancerBurdenRecord?> GetCancerBurdenRecordAsync(int id, CancellationToken cancellationToken = default);
+    Task<int> CountCancerBurdenRecordsAsync(CancellationToken cancellationToken = default);
+    Task<int> CreateCancerBurdenRecordAsync(CancerBurdenRecord record, CancellationToken cancellationToken = default);
+    Task<bool> UpdateCancerBurdenRecordAsync(CancerBurdenRecord record, CancellationToken cancellationToken = default);
+    Task<bool> DeleteCancerBurdenRecordAsync(int id, CancellationToken cancellationToken = default);
+    Task<IReadOnlyList<OdishaCircularRecord>> GetOdishaCircularRecordsAsync(CancellationToken cancellationToken = default);
+    Task<OdishaCircularRecord?> GetOdishaCircularRecordAsync(int id, CancellationToken cancellationToken = default);
+    Task<int> CountOdishaCircularRecordsAsync(CancellationToken cancellationToken = default);
+    Task<int> CreateOdishaCircularRecordAsync(OdishaCircularRecord record, CancellationToken cancellationToken = default);
+    Task<bool> UpdateOdishaCircularRecordAsync(OdishaCircularRecord record, CancellationToken cancellationToken = default);
+    Task<bool> DeleteOdishaCircularRecordAsync(int id, CancellationToken cancellationToken = default);
 }

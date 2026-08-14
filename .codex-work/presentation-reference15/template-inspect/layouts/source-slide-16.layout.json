@@ -1,0 +1,2222 @@
+{
+  "schema": "openai.presentation.layout/v4",
+  "unit": "px",
+  "slide": {
+    "aid": "sl/gny5sjyp",
+    "id": "gny5sjyp",
+    "slide": 16,
+    "layoutId": "/ppt/slideLayouts/slideLayout12.xml",
+    "layoutName": "CUSTOM_10",
+    "masterLayoutId": "/ppt/slideMasters/slideMaster1.xml",
+    "masterLayoutName": "simple-light-2",
+    "frame": {
+      "left": 0,
+      "top": 0,
+      "width": 960,
+      "height": 540
+    }
+  },
+  "theme": {
+    "colorSchemeName": "Simple Light",
+    "colors": {
+      "accent1": "#CAD6CA",
+      "accent2": "#748165",
+      "accent3": "#FFFFFF",
+      "accent4": "#FFFFFF",
+      "accent5": "#FFFFFF",
+      "accent6": "#FFFFFF",
+      "dk1": "#161614",
+      "lt1": "#FCF9F3",
+      "dk2": "#F0E4C2",
+      "lt2": "#8E9FE5",
+      "hlink": "#161614",
+      "folHlink": "#0097A7"
+    },
+    "fontScheme": {
+      "name": "Office",
+      "majorFont": {
+        "latinTypeface": "Arial"
+      },
+      "minorFont": {
+        "latinTypeface": "Arial"
+      }
+    },
+    "typefaces": [
+      "Arial",
+      "Barlow",
+      "Montserrat",
+      "Montserrat SemiBold"
+    ]
+  },
+  "inheritedLayers": [
+    {
+      "scope": "layout",
+      "id": "/ppt/slideLayouts/slideLayout12.xml",
+      "name": "CUSTOM_10",
+      "parentLayoutId": "/ppt/slideMasters/slideMaster1.xml",
+      "elements": [
+        {
+          "order": 1,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout12.xml/678",
+          "id": "678",
+          "name": "Google Shape;678;p13",
+          "bbox": [
+            820.54,
+            483.36,
+            374.4,
+            148.69
+          ],
+          "geometry": "custom",
+          "resolvedTextStyle": {
+            "anchor": 2,
+            "verticalAlignment": "middle",
+            "wrap": "square",
+            "autoFit": "none",
+            "insets": {
+              "top": 9.6,
+              "right": 9.6,
+              "bottom": 9.6,
+              "left": 9.6
+            },
+            "useParagraphSpacing": true
+          },
+          "fillColor": "accent1",
+          "lineWidth": 0
+        },
+        {
+          "order": 2,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout12.xml/679",
+          "id": "679",
+          "name": "Google Shape;679;p13",
+          "bbox": [
+            75.35,
+            46.72,
+            809.29,
+            60.13
+          ],
+          "geometry": "rect",
+          "resolvedTextStyle": {
+            "anchor": 1,
+            "verticalAlignment": "top",
+            "wrap": "square",
+            "autoFit": "none",
+            "insets": {
+              "top": 9.6,
+              "right": 9.6,
+              "bottom": 9.6,
+              "left": 9.6
+            },
+            "useParagraphSpacing": true
+          }
+        },
+        {
+          "order": 3,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout12.xml/681",
+          "id": "681",
+          "name": "Google Shape;681;p13",
+          "bbox": [
+            -1477.66,
+            463.75,
+            3.86,
+            3.86
+          ],
+          "rotation": 0,
+          "horizontalFlip": true,
+          "geometry": "custom",
+          "resolvedTextStyle": {
+            "anchor": 2,
+            "verticalAlignment": "middle",
+            "wrap": "square",
+            "autoFit": "none",
+            "insets": {
+              "top": 9.6,
+              "right": 9.6,
+              "bottom": 9.6,
+              "left": 9.6
+            },
+            "useParagraphSpacing": true
+          },
+          "fillColor": "accent2",
+          "lineWidth": 0
+        },
+        {
+          "order": 4,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout12.xml/682",
+          "id": "682",
+          "name": "Google Shape;682;p13",
+          "bbox": [
+            -1498.35,
+            463.75,
+            3.86,
+            3.86
+          ],
+          "rotation": 0,
+          "horizontalFlip": true,
+          "geometry": "custom",
+          "resolvedTextStyle": {
+            "anchor": 2,
+            "verticalAlignment": "middle",
+            "wrap": "square",
+            "autoFit": "none",
+            "insets": {
+              "top": 9.6,
+              "right": 9.6,
+              "bottom": 9.6,
+              "left": 9.6
+            },
+            "useParagraphSpacing": true
+          },
+          "fillColor": "accent2",
+          "lineWidth": 0
+        },
+        {
+          "order": 5,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout12.xml/683",
+          "id": "683",
+          "name": "Google Shape;683;p13",
+          "bbox": [
+            -1519.04,
+            463.75,
+            3.86,
+            3.86
+          ],
+          "rotation": 0,
+          "horizontalFlip": true,
+          "geometry": "custom",
+          "resolvedTextStyle": {
+            "anchor": 2,
+            "verticalAlignment": "middle",
+            "wrap": "square",
+            "autoFit": "none",
+            "insets": {
+              "top": 9.6,
+              "right": 9.6,
+              "bottom": 9.6,
+              "left": 9.6
+            },
+            "useParagraphSpacing": true
+          },
+          "fillColor": "accent2",
+          "lineWidth": 0
+        },
+        {
+          "order": 6,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout12.xml/684",
+          "id": "684",
+          "name": "Google Shape;684;p13",
+          "bbox": [
+            -1539.73,
+            463.75,
+            3.86,
+            3.86
+          ],
+          "rotation": 0,
+          "horizontalFlip": true,
+          "geometry": "custom",
+          "resolvedTextStyle": {
+            "anchor": 2,
+            "verticalAlignment": "middle",
+            "wrap": "square",
+            "autoFit": "none",
+            "insets": {
+              "top": 9.6,
+              "right": 9.6,
+              "bottom": 9.6,
+              "left": 9.6
+            },
+            "useParagraphSpacing": true
+          },
+          "fillColor": "accent2",
+          "lineWidth": 0
+        },
+        {
+          "order": 7,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout12.xml/685",
+          "id": "685",
+          "name": "Google Shape;685;p13",
+          "bbox": [
+            -1560.42,
+            463.75,
+            3.86,
+            3.86
+          ],
+          "rotation": 0,
+          "horizontalFlip": true,
+          "geometry": "custom",
+          "resolvedTextStyle": {
+            "anchor": 2,
+            "verticalAlignment": "middle",
+            "wrap": "square",
+            "autoFit": "none",
+            "insets": {
+              "top": 9.6,
+              "right": 9.6,
+              "bottom": 9.6,
+              "left": 9.6
+            },
+            "useParagraphSpacing": true
+          },
+          "fillColor": "accent2",
+          "lineWidth": 0
+        },
+        {
+          "order": 8,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout12.xml/686",
+          "id": "686",
+          "name": "Google Shape;686;p13",
+          "bbox": [
+            -1581.11,
+            463.75,
+            3.86,
+            3.86
+          ],
+          "rotation": 0,
+          "horizontalFlip": true,
+          "geometry": "custom",
+          "resolvedTextStyle": {
+            "anchor": 2,
+            "verticalAlignment": "middle",
+            "wrap": "square",
+            "autoFit": "none",
+            "insets": {
+              "top": 9.6,
+              "right": 9.6,
+              "bottom": 9.6,
+              "left": 9.6
+            },
+            "useParagraphSpacing": true
+          },
+          "fillColor": "accent2",
+          "lineWidth": 0
+        },
+        {
+          "order": 9,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout12.xml/687",
+          "id": "687",
+          "name": "Google Shape;687;p13",
+          "bbox": [
+            -1601.8,
+            463.75,
+            3.86,
+            3.86
+          ],
+          "rotation": 0,
+          "horizontalFlip": true,
+          "geometry": "custom",
+          "resolvedTextStyle": {
+            "anchor": 2,
+            "verticalAlignment": "middle",
+            "wrap": "square",
+            "autoFit": "none",
+            "insets": {
+              "top": 9.6,
+              "right": 9.6,
+              "bottom": 9.6,
+              "left": 9.6
+            },
+            "useParagraphSpacing": true
+          },
+          "fillColor": "accent2",
+          "lineWidth": 0
+        },
+        {
+          "order": 10,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout12.xml/688",
+          "id": "688",
+          "name": "Google Shape;688;p13",
+          "bbox": [
+            -1622.49,
+            463.75,
+            3.86,
+            3.86
+          ],
+          "rotation": 0,
+          "horizontalFlip": true,
+          "geometry": "custom",
+          "resolvedTextStyle": {
+            "anchor": 2,
+            "verticalAlignment": "middle",
+            "wrap": "square",
+            "autoFit": "none",
+            "insets": {
+              "top": 9.6,
+              "right": 9.6,
+              "bottom": 9.6,
+              "left": 9.6
+            },
+            "useParagraphSpacing": true
+          },
+          "fillColor": "accent2",
+          "lineWidth": 0
+        },
+        {
+          "order": 11,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout12.xml/689",
+          "id": "689",
+          "name": "Google Shape;689;p13",
+          "bbox": [
+            -1477.66,
+            483.2,
+            3.86,
+            4.02
+          ],
+          "rotation": 0,
+          "horizontalFlip": true,
+          "geometry": "custom",
+          "resolvedTextStyle": {
+            "anchor": 2,
+            "verticalAlignment": "middle",
+            "wrap": "square",
+            "autoFit": "none",
+            "insets": {
+              "top": 9.6,
+              "right": 9.6,
+              "bottom": 9.6,
+              "left": 9.6
+            },
+            "useParagraphSpacing": true
+          },
+          "fillColor": "accent2",
+          "lineWidth": 0
+        },
+        {
+          "order": 12,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout12.xml/690",
+          "id": "690",
+          "name": "Google Shape;690;p13",
+          "bbox": [
+            -1498.35,
+            483.2,
+            3.86,
+            4.02
+          ],
+          "rotation": 0,
+          "horizontalFlip": true,
+          "geometry": "custom",
+          "resolvedTextStyle": {
+            "anchor": 2,
+            "verticalAlignment": "middle",
+            "wrap": "square",
+            "autoFit": "none",
+            "insets": {
+              "top": 9.6,
+              "right": 9.6,
+              "bottom": 9.6,
+              "left": 9.6
+            },
+            "useParagraphSpacing": true
+          },
+          "fillColor": "accent2",
+          "lineWidth": 0
+        },
+        {
+          "order": 13,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout12.xml/691",
+          "id": "691",
+          "name": "Google Shape;691;p13",
+          "bbox": [
+            -1519.04,
+            483.2,
+            3.86,
+            4.02
+          ],
+          "rotation": 0,
+          "horizontalFlip": true,
+          "geometry": "custom",
+          "resolvedTextStyle": {
+            "anchor": 2,
+            "verticalAlignment": "middle",
+            "wrap": "square",
+            "autoFit": "none",
+            "insets": {
+              "top": 9.6,
+              "right": 9.6,
+              "bottom": 9.6,
+              "left": 9.6
+            },
+            "useParagraphSpacing": true
+          },
+          "fillColor": "accent2",
+          "lineWidth": 0
+        },
+        {
+          "order": 14,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout12.xml/692",
+          "id": "692",
+          "name": "Google Shape;692;p13",
+          "bbox": [
+            -1539.73,
+            483.2,
+            3.86,
+            4.02
+          ],
+          "rotation": 0,
+          "horizontalFlip": true,
+          "geometry": "custom",
+          "resolvedTextStyle": {
+            "anchor": 2,
+            "verticalAlignment": "middle",
+            "wrap": "square",
+            "autoFit": "none",
+            "insets": {
+              "top": 9.6,
+              "right": 9.6,
+              "bottom": 9.6,
+              "left": 9.6
+            },
+            "useParagraphSpacing": true
+          },
+          "fillColor": "accent2",
+          "lineWidth": 0
+        },
+        {
+          "order": 15,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout12.xml/693",
+          "id": "693",
+          "name": "Google Shape;693;p13",
+          "bbox": [
+            -1560.42,
+            483.2,
+            3.86,
+            4.02
+          ],
+          "rotation": 0,
+          "horizontalFlip": true,
+          "geometry": "custom",
+          "resolvedTextStyle": {
+            "anchor": 2,
+            "verticalAlignment": "middle",
+            "wrap": "square",
+            "autoFit": "none",
+            "insets": {
+              "top": 9.6,
+              "right": 9.6,
+              "bottom": 9.6,
+              "left": 9.6
+            },
+            "useParagraphSpacing": true
+          },
+          "fillColor": "accent2",
+          "lineWidth": 0
+        },
+        {
+          "order": 16,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout12.xml/694",
+          "id": "694",
+          "name": "Google Shape;694;p13",
+          "bbox": [
+            -1581.11,
+            483.2,
+            3.86,
+            4.02
+          ],
+          "rotation": 0,
+          "horizontalFlip": true,
+          "geometry": "custom",
+          "resolvedTextStyle": {
+            "anchor": 2,
+            "verticalAlignment": "middle",
+            "wrap": "square",
+            "autoFit": "none",
+            "insets": {
+              "top": 9.6,
+              "right": 9.6,
+              "bottom": 9.6,
+              "left": 9.6
+            },
+            "useParagraphSpacing": true
+          },
+          "fillColor": "accent2",
+          "lineWidth": 0
+        },
+        {
+          "order": 17,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout12.xml/695",
+          "id": "695",
+          "name": "Google Shape;695;p13",
+          "bbox": [
+            -1601.8,
+            483.2,
+            3.86,
+            4.02
+          ],
+          "rotation": 0,
+          "horizontalFlip": true,
+          "geometry": "custom",
+          "resolvedTextStyle": {
+            "anchor": 2,
+            "verticalAlignment": "middle",
+            "wrap": "square",
+            "autoFit": "none",
+            "insets": {
+              "top": 9.6,
+              "right": 9.6,
+              "bottom": 9.6,
+              "left": 9.6
+            },
+            "useParagraphSpacing": true
+          },
+          "fillColor": "accent2",
+          "lineWidth": 0
+        },
+        {
+          "order": 18,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout12.xml/696",
+          "id": "696",
+          "name": "Google Shape;696;p13",
+          "bbox": [
+            -1622.49,
+            483.2,
+            3.86,
+            4.02
+          ],
+          "rotation": 0,
+          "horizontalFlip": true,
+          "geometry": "custom",
+          "resolvedTextStyle": {
+            "anchor": 2,
+            "verticalAlignment": "middle",
+            "wrap": "square",
+            "autoFit": "none",
+            "insets": {
+              "top": 9.6,
+              "right": 9.6,
+              "bottom": 9.6,
+              "left": 9.6
+            },
+            "useParagraphSpacing": true
+          },
+          "fillColor": "accent2",
+          "lineWidth": 0
+        },
+        {
+          "order": 19,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout12.xml/697",
+          "id": "697",
+          "name": "Google Shape;697;p13",
+          "bbox": [
+            -1477.66,
+            502.81,
+            3.86,
+            4.02
+          ],
+          "rotation": 0,
+          "horizontalFlip": true,
+          "geometry": "custom",
+          "resolvedTextStyle": {
+            "anchor": 2,
+            "verticalAlignment": "middle",
+            "wrap": "square",
+            "autoFit": "none",
+            "insets": {
+              "top": 9.6,
+              "right": 9.6,
+              "bottom": 9.6,
+              "left": 9.6
+            },
+            "useParagraphSpacing": true
+          },
+          "fillColor": "accent2",
+          "lineWidth": 0
+        },
+        {
+          "order": 20,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout12.xml/698",
+          "id": "698",
+          "name": "Google Shape;698;p13",
+          "bbox": [
+            -1498.35,
+            502.81,
+            3.86,
+            4.02
+          ],
+          "rotation": 0,
+          "horizontalFlip": true,
+          "geometry": "custom",
+          "resolvedTextStyle": {
+            "anchor": 2,
+            "verticalAlignment": "middle",
+            "wrap": "square",
+            "autoFit": "none",
+            "insets": {
+              "top": 9.6,
+              "right": 9.6,
+              "bottom": 9.6,
+              "left": 9.6
+            },
+            "useParagraphSpacing": true
+          },
+          "fillColor": "accent2",
+          "lineWidth": 0
+        },
+        {
+          "order": 21,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout12.xml/699",
+          "id": "699",
+          "name": "Google Shape;699;p13",
+          "bbox": [
+            -1519.04,
+            502.81,
+            3.86,
+            4.02
+          ],
+          "rotation": 0,
+          "horizontalFlip": true,
+          "geometry": "custom",
+          "resolvedTextStyle": {
+            "anchor": 2,
+            "verticalAlignment": "middle",
+            "wrap": "square",
+            "autoFit": "none",
+            "insets": {
+              "top": 9.6,
+              "right": 9.6,
+              "bottom": 9.6,
+              "left": 9.6
+            },
+            "useParagraphSpacing": true
+          },
+          "fillColor": "accent2",
+          "lineWidth": 0
+        },
+        {
+          "order": 22,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout12.xml/700",
+          "id": "700",
+          "name": "Google Shape;700;p13",
+          "bbox": [
+            -1539.73,
+            502.81,
+            3.86,
+            4.02
+          ],
+          "rotation": 0,
+          "horizontalFlip": true,
+          "geometry": "custom",
+          "resolvedTextStyle": {
+            "anchor": 2,
+            "verticalAlignment": "middle",
+            "wrap": "square",
+            "autoFit": "none",
+            "insets": {
+              "top": 9.6,
+              "right": 9.6,
+              "bottom": 9.6,
+              "left": 9.6
+            },
+            "useParagraphSpacing": true
+          },
+          "fillColor": "accent2",
+          "lineWidth": 0
+        },
+        {
+          "order": 23,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout12.xml/701",
+          "id": "701",
+          "name": "Google Shape;701;p13",
+          "bbox": [
+            -1560.42,
+            502.81,
+            3.86,
+            4.02
+          ],
+          "rotation": 0,
+          "horizontalFlip": true,
+          "geometry": "custom",
+          "resolvedTextStyle": {
+            "anchor": 2,
+            "verticalAlignment": "middle",
+            "wrap": "square",
+            "autoFit": "none",
+            "insets": {
+              "top": 9.6,
+              "right": 9.6,
+              "bottom": 9.6,
+              "left": 9.6
+            },
+            "useParagraphSpacing": true
+          },
+          "fillColor": "accent2",
+          "lineWidth": 0
+        },
+        {
+          "order": 24,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout12.xml/702",
+          "id": "702",
+          "name": "Google Shape;702;p13",
+          "bbox": [
+            -1581.11,
+            502.81,
+            3.86,
+            4.02
+          ],
+          "rotation": 0,
+          "horizontalFlip": true,
+          "geometry": "custom",
+          "resolvedTextStyle": {
+            "anchor": 2,
+            "verticalAlignment": "middle",
+            "wrap": "square",
+            "autoFit": "none",
+            "insets": {
+              "top": 9.6,
+              "right": 9.6,
+              "bottom": 9.6,
+              "left": 9.6
+            },
+            "useParagraphSpacing": true
+          },
+          "fillColor": "accent2",
+          "lineWidth": 0
+        },
+        {
+          "order": 25,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout12.xml/703",
+          "id": "703",
+          "name": "Google Shape;703;p13",
+          "bbox": [
+            -1601.8,
+            502.81,
+            3.86,
+            4.02
+          ],
+          "rotation": 0,
+          "horizontalFlip": true,
+          "geometry": "custom",
+          "resolvedTextStyle": {
+            "anchor": 2,
+            "verticalAlignment": "middle",
+            "wrap": "square",
+            "autoFit": "none",
+            "insets": {
+              "top": 9.6,
+              "right": 9.6,
+              "bottom": 9.6,
+              "left": 9.6
+            },
+            "useParagraphSpacing": true
+          },
+          "fillColor": "accent2",
+          "lineWidth": 0
+        },
+        {
+          "order": 26,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout12.xml/704",
+          "id": "704",
+          "name": "Google Shape;704;p13",
+          "bbox": [
+            -1622.49,
+            502.81,
+            3.86,
+            4.02
+          ],
+          "rotation": 0,
+          "horizontalFlip": true,
+          "geometry": "custom",
+          "resolvedTextStyle": {
+            "anchor": 2,
+            "verticalAlignment": "middle",
+            "wrap": "square",
+            "autoFit": "none",
+            "insets": {
+              "top": 9.6,
+              "right": 9.6,
+              "bottom": 9.6,
+              "left": 9.6
+            },
+            "useParagraphSpacing": true
+          },
+          "fillColor": "accent2",
+          "lineWidth": 0
+        },
+        {
+          "order": 27,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout12.xml/705",
+          "id": "705",
+          "name": "Google Shape;705;p13",
+          "bbox": [
+            -1477.66,
+            522.42,
+            3.86,
+            4.02
+          ],
+          "rotation": 0,
+          "horizontalFlip": true,
+          "geometry": "custom",
+          "resolvedTextStyle": {
+            "anchor": 2,
+            "verticalAlignment": "middle",
+            "wrap": "square",
+            "autoFit": "none",
+            "insets": {
+              "top": 9.6,
+              "right": 9.6,
+              "bottom": 9.6,
+              "left": 9.6
+            },
+            "useParagraphSpacing": true
+          },
+          "fillColor": "accent2",
+          "lineWidth": 0
+        },
+        {
+          "order": 28,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout12.xml/706",
+          "id": "706",
+          "name": "Google Shape;706;p13",
+          "bbox": [
+            -1498.35,
+            522.42,
+            3.86,
+            4.02
+          ],
+          "rotation": 0,
+          "horizontalFlip": true,
+          "geometry": "custom",
+          "resolvedTextStyle": {
+            "anchor": 2,
+            "verticalAlignment": "middle",
+            "wrap": "square",
+            "autoFit": "none",
+            "insets": {
+              "top": 9.6,
+              "right": 9.6,
+              "bottom": 9.6,
+              "left": 9.6
+            },
+            "useParagraphSpacing": true
+          },
+          "fillColor": "accent2",
+          "lineWidth": 0
+        },
+        {
+          "order": 29,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout12.xml/707",
+          "id": "707",
+          "name": "Google Shape;707;p13",
+          "bbox": [
+            -1519.04,
+            522.42,
+            3.86,
+            4.02
+          ],
+          "rotation": 0,
+          "horizontalFlip": true,
+          "geometry": "custom",
+          "resolvedTextStyle": {
+            "anchor": 2,
+            "verticalAlignment": "middle",
+            "wrap": "square",
+            "autoFit": "none",
+            "insets": {
+              "top": 9.6,
+              "right": 9.6,
+              "bottom": 9.6,
+              "left": 9.6
+            },
+            "useParagraphSpacing": true
+          },
+          "fillColor": "accent2",
+          "lineWidth": 0
+        },
+        {
+          "order": 30,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout12.xml/708",
+          "id": "708",
+          "name": "Google Shape;708;p13",
+          "bbox": [
+            -1539.73,
+            522.42,
+            3.86,
+            4.02
+          ],
+          "rotation": 0,
+          "horizontalFlip": true,
+          "geometry": "custom",
+          "resolvedTextStyle": {
+            "anchor": 2,
+            "verticalAlignment": "middle",
+            "wrap": "square",
+            "autoFit": "none",
+            "insets": {
+              "top": 9.6,
+              "right": 9.6,
+              "bottom": 9.6,
+              "left": 9.6
+            },
+            "useParagraphSpacing": true
+          },
+          "fillColor": "accent2",
+          "lineWidth": 0
+        },
+        {
+          "order": 31,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout12.xml/709",
+          "id": "709",
+          "name": "Google Shape;709;p13",
+          "bbox": [
+            -1560.42,
+            522.42,
+            3.86,
+            4.02
+          ],
+          "rotation": 0,
+          "horizontalFlip": true,
+          "geometry": "custom",
+          "resolvedTextStyle": {
+            "anchor": 2,
+            "verticalAlignment": "middle",
+            "wrap": "square",
+            "autoFit": "none",
+            "insets": {
+              "top": 9.6,
+              "right": 9.6,
+              "bottom": 9.6,
+              "left": 9.6
+            },
+            "useParagraphSpacing": true
+          },
+          "fillColor": "accent2",
+          "lineWidth": 0
+        },
+        {
+          "order": 32,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout12.xml/710",
+          "id": "710",
+          "name": "Google Shape;710;p13",
+          "bbox": [
+            -1581.11,
+            522.42,
+            3.86,
+            4.02
+          ],
+          "rotation": 0,
+          "horizontalFlip": true,
+          "geometry": "custom",
+          "resolvedTextStyle": {
+            "anchor": 2,
+            "verticalAlignment": "middle",
+            "wrap": "square",
+            "autoFit": "none",
+            "insets": {
+              "top": 9.6,
+              "right": 9.6,
+              "bottom": 9.6,
+              "left": 9.6
+            },
+            "useParagraphSpacing": true
+          },
+          "fillColor": "accent2",
+          "lineWidth": 0
+        },
+        {
+          "order": 33,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout12.xml/711",
+          "id": "711",
+          "name": "Google Shape;711;p13",
+          "bbox": [
+            -1601.8,
+            522.42,
+            3.86,
+            4.02
+          ],
+          "rotation": 0,
+          "horizontalFlip": true,
+          "geometry": "custom",
+          "resolvedTextStyle": {
+            "anchor": 2,
+            "verticalAlignment": "middle",
+            "wrap": "square",
+            "autoFit": "none",
+            "insets": {
+              "top": 9.6,
+              "right": 9.6,
+              "bottom": 9.6,
+              "left": 9.6
+            },
+            "useParagraphSpacing": true
+          },
+          "fillColor": "accent2",
+          "lineWidth": 0
+        },
+        {
+          "order": 34,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout12.xml/712",
+          "id": "712",
+          "name": "Google Shape;712;p13",
+          "bbox": [
+            -1622.49,
+            522.42,
+            3.86,
+            4.02
+          ],
+          "rotation": 0,
+          "horizontalFlip": true,
+          "geometry": "custom",
+          "resolvedTextStyle": {
+            "anchor": 2,
+            "verticalAlignment": "middle",
+            "wrap": "square",
+            "autoFit": "none",
+            "insets": {
+              "top": 9.6,
+              "right": 9.6,
+              "bottom": 9.6,
+              "left": 9.6
+            },
+            "useParagraphSpacing": true
+          },
+          "fillColor": "accent2",
+          "lineWidth": 0
+        },
+        {
+          "order": 35,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout12.xml/715",
+          "id": "715",
+          "name": "Google Shape;715;p13",
+          "bbox": [
+            910.63,
+            369.7,
+            37.37,
+            37.37
+          ],
+          "rotation": 0,
+          "geometry": "custom",
+          "resolvedTextStyle": {
+            "anchor": 2,
+            "verticalAlignment": "middle",
+            "wrap": "square",
+            "autoFit": "none",
+            "insets": {
+              "top": 9.6,
+              "right": 9.6,
+              "bottom": 9.6,
+              "left": 9.6
+            },
+            "useParagraphSpacing": true
+          },
+          "fillColor": "lt2",
+          "lineWidth": 0
+        },
+        {
+          "order": 36,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout12.xml/716",
+          "id": "716",
+          "name": "Google Shape;716;p13",
+          "bbox": [
+            910.63,
+            373.46,
+            37.37,
+            30.37
+          ],
+          "rotation": 0,
+          "geometry": "custom",
+          "resolvedTextStyle": {
+            "anchor": 2,
+            "verticalAlignment": "middle",
+            "wrap": "square",
+            "autoFit": "none",
+            "insets": {
+              "top": 9.6,
+              "right": 9.6,
+              "bottom": 9.6,
+              "left": 9.6
+            },
+            "useParagraphSpacing": true
+          },
+          "fillColor": "dk2",
+          "lineWidth": 0
+        },
+        {
+          "order": 37,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout12.xml/717",
+          "id": "717",
+          "name": "Google Shape;717;p13",
+          "bbox": [
+            782.56,
+            506.08,
+            15.7,
+            15.7
+          ],
+          "rotation": 0,
+          "geometry": "custom",
+          "resolvedTextStyle": {
+            "anchor": 2,
+            "verticalAlignment": "middle",
+            "wrap": "square",
+            "autoFit": "none",
+            "insets": {
+              "top": 9.6,
+              "right": 9.6,
+              "bottom": 9.6,
+              "left": 9.6
+            },
+            "useParagraphSpacing": true
+          },
+          "fillColor": "accent2",
+          "lineWidth": 0
+        }
+      ]
+    },
+    {
+      "scope": "master",
+      "id": "/ppt/slideMasters/slideMaster1.xml",
+      "name": "simple-light-2",
+      "type": "master",
+      "backgroundColor": "lt1",
+      "elements": [
+        {
+          "order": 1,
+          "kind": "shape",
+          "scope": "master",
+          "aid": "template/master//ppt/slideMasters/slideMaster1.xml/6",
+          "id": "6",
+          "name": "Google Shape;6;p1",
+          "bbox": [
+            74.88,
+            46.72,
+            810.24,
+            60.13
+          ],
+          "geometry": "rect",
+          "resolvedTextStyle": {
+            "anchor": 1,
+            "verticalAlignment": "top",
+            "wrap": "square",
+            "autoFit": "none",
+            "insets": {
+              "top": 9.6,
+              "right": 9.6,
+              "bottom": 9.6,
+              "left": 9.6
+            },
+            "useParagraphSpacing": true
+          },
+          "lineWidth": 0
+        },
+        {
+          "order": 2,
+          "kind": "shape",
+          "scope": "master",
+          "aid": "template/master//ppt/slideMasters/slideMaster1.xml/7",
+          "id": "7",
+          "name": "Google Shape;7;p1",
+          "bbox": [
+            74.88,
+            120.99,
+            810.24,
+            358.68
+          ],
+          "geometry": "rect",
+          "resolvedTextStyle": {
+            "anchor": 1,
+            "verticalAlignment": "top",
+            "wrap": "square",
+            "autoFit": "none",
+            "insets": {
+              "top": 9.6,
+              "right": 9.6,
+              "bottom": 9.6,
+              "left": 9.6
+            },
+            "useParagraphSpacing": true
+          },
+          "lineWidth": 0
+        }
+      ]
+    }
+  ],
+  "elements": [
+    {
+      "order": 1,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/z6xovytw",
+      "id": "1769",
+      "name": "Google Shape;1769;p40",
+      "bbox": [
+        75.35,
+        46.72,
+        809.29,
+        60.13
+      ],
+      "geometry": "rect",
+      "text": "Rubric",
+      "textPreview": "Rubric",
+      "resolvedFontSize": 37.33,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 37.33,
+        "typeface": "Montserrat",
+        "color": "dk1",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "textTransform": "none",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 9.6,
+          "right": 9.6,
+          "bottom": 9.6,
+          "left": 9.6
+        },
+        "useParagraphSpacing": true
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Rubric"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Rubric",
+          "resolvedTextStyle": {
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Rubric",
+              "alignment": "left"
+            }
+          ],
+          "bulletCharacter": "",
+          "lineSpacingPercent": 100000
+        }
+      ]
+    },
+    {
+      "order": 2,
+      "kind": "table",
+      "scope": "slide",
+      "aid": "tb/ydsn2h87",
+      "id": "1770",
+      "name": "Google Shape;1770;p40",
+      "bbox": [
+        75.59,
+        120.35,
+        808.8,
+        276.88
+      ],
+      "text": "Criteria | Excellent (4) | Good (3) | Basic (2) | Limited (1)\nContent knowledge | Profound understanding, integrates relevant health science research | Solid grasp of key health science principles | Presents basic health science information with inaccuracies | Fails to convey clear health science concepts\nApplication of epidemiological methods | Applies advanced epidemiological methods, enhancing precision | Proficient in applying epidemiological methods for analysis | Uses basic epidemiological methods with occasional errors | Lacks application of epidemiological methods, hindering analysis\nVisual aids | Integrates appealing visuals, enhances understanding | Uses appropriate visuals, including epidemiological visuals | Inconsistent or ineffective use of health science visuals | Lacks or poorly incorporates health science-related visuals\nDelivery and engagement | Maintains strong eye contact, confident posture | Demonstrates engagement, maintains interest throughout | Limited engagement, occasional lack of confidence | Appears nervous, lacks engagement, struggles to connect",
+      "textPreview": "Criteria | Excellent (4) | Good (3) | Basic (2) | Limited (1) | Content knowledge | Profound understanding, integrates relevant health sc...",
+      "rows": 5,
+      "cols": 5,
+      "cells": [
+        {
+          "index": 1,
+          "row": 1,
+          "column": 1,
+          "bbox": [
+            75.59,
+            120.35,
+            127.55,
+            28.38
+          ],
+          "text": "Criteria",
+          "textPreview": "Criteria",
+          "fillColor": "dk2",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Criteria",
+              "lineSpacingPercent": 115000,
+              "resolvedTextStyle": {
+                "alignment": "left"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Criteria",
+                  "typeface": "Montserrat SemiBold",
+                  "color": "dk1"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "row": 1,
+          "column": 2,
+          "bbox": [
+            203.14,
+            120.35,
+            181.72,
+            28.38
+          ],
+          "text": "Excellent (4)",
+          "textPreview": "Excellent (4)",
+          "fillColor": "dk2",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Excellent (4)",
+              "lineSpacingPercent": 115000,
+              "resolvedTextStyle": {
+                "alignment": "left"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Excellent (4)",
+                  "typeface": "Montserrat SemiBold",
+                  "color": "dk1"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 3,
+          "row": 1,
+          "column": 3,
+          "bbox": [
+            384.86,
+            120.35,
+            171.01,
+            28.38
+          ],
+          "text": "Good (3)",
+          "textPreview": "Good (3)",
+          "fillColor": "dk2",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Good (3)",
+              "lineSpacingPercent": 115000,
+              "resolvedTextStyle": {
+                "alignment": "left"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Good (",
+                  "typeface": "Montserrat SemiBold",
+                  "color": "dk1"
+                },
+                {
+                  "index": 2,
+                  "text": "3",
+                  "typeface": "Montserrat SemiBold",
+                  "color": "dk1"
+                },
+                {
+                  "index": 3,
+                  "text": ")",
+                  "typeface": "Montserrat SemiBold",
+                  "color": "dk1"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 4,
+          "row": 1,
+          "column": 4,
+          "bbox": [
+            555.88,
+            120.35,
+            159,
+            28.38
+          ],
+          "text": "Basic (2)",
+          "textPreview": "Basic (2)",
+          "fillColor": "dk2",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Basic (2)",
+              "lineSpacingPercent": 115000,
+              "resolvedTextStyle": {
+                "alignment": "left"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Basic (",
+                  "typeface": "Montserrat SemiBold",
+                  "color": "dk1"
+                },
+                {
+                  "index": 2,
+                  "text": "2",
+                  "typeface": "Montserrat SemiBold",
+                  "color": "dk1"
+                },
+                {
+                  "index": 3,
+                  "text": ")",
+                  "typeface": "Montserrat SemiBold",
+                  "color": "dk1"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 5,
+          "row": 1,
+          "column": 5,
+          "bbox": [
+            714.88,
+            120.35,
+            169.51,
+            28.38
+          ],
+          "text": "Limited (1)",
+          "textPreview": "Limited (1)",
+          "fillColor": "dk2",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Limited (1)",
+              "lineSpacingPercent": 115000,
+              "resolvedTextStyle": {
+                "alignment": "left"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Limited (1)",
+                  "typeface": "Montserrat SemiBold",
+                  "color": "dk1"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 6,
+          "row": 2,
+          "column": 1,
+          "bbox": [
+            75.59,
+            148.72,
+            127.55,
+            54.23
+          ],
+          "text": "Content knowledge",
+          "textPreview": "Content knowledge",
+          "fillColor": "accent1",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Content knowledge",
+              "lineSpacingPercent": 115000,
+              "resolvedTextStyle": {
+                "alignment": "left"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Content knowledge",
+                  "fontSize": 16,
+                  "typeface": "Barlow",
+                  "color": "dk1",
+                  "bold": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 7,
+          "row": 2,
+          "column": 2,
+          "bbox": [
+            203.14,
+            148.72,
+            181.72,
+            54.23
+          ],
+          "text": "Profound understanding, integrates relevant health science research",
+          "textPreview": "Profound understanding, integrates relevant health science research",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Profound understanding, integrates relevant health science research",
+              "lineSpacingPercent": 115000,
+              "resolvedTextStyle": {
+                "alignment": "left"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Profound understanding, integrates relevant health science research",
+                  "fontSize": 16,
+                  "typeface": "Barlow",
+                  "color": "dk1"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 8,
+          "row": 2,
+          "column": 3,
+          "bbox": [
+            384.86,
+            148.72,
+            171.01,
+            54.23
+          ],
+          "text": "Solid grasp of key health science principles",
+          "textPreview": "Solid grasp of key health science principles",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Solid grasp of key health science principles",
+              "lineSpacingPercent": 115000,
+              "resolvedTextStyle": {
+                "alignment": "left"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Solid grasp of key health science principles",
+                  "fontSize": 16,
+                  "typeface": "Barlow",
+                  "color": "dk1"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 9,
+          "row": 2,
+          "column": 4,
+          "bbox": [
+            555.88,
+            148.72,
+            159,
+            54.23
+          ],
+          "text": "Presents basic health science information with inaccuracies",
+          "textPreview": "Presents basic health science information with inaccuracies",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Presents basic health science information with inaccuracies",
+              "lineSpacingPercent": 115000,
+              "resolvedTextStyle": {
+                "alignment": "left"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Presents basic health science information with inaccuracies",
+                  "fontSize": 16,
+                  "typeface": "Barlow",
+                  "color": "dk1"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 10,
+          "row": 2,
+          "column": 5,
+          "bbox": [
+            714.88,
+            148.72,
+            169.51,
+            54.23
+          ],
+          "text": "Fails to convey clear health science concepts",
+          "textPreview": "Fails to convey clear health science concepts",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Fails to convey clear health science concepts",
+              "lineSpacingPercent": 115000,
+              "resolvedTextStyle": {
+                "alignment": "left"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Fails to convey clear health science concepts",
+                  "fontSize": 16,
+                  "typeface": "Barlow",
+                  "color": "dk1"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 11,
+          "row": 3,
+          "column": 1,
+          "bbox": [
+            75.59,
+            202.96,
+            127.55,
+            70.02
+          ],
+          "text": "Application of epidemiological methods",
+          "textPreview": "Application of epidemiological methods",
+          "fillColor": "accent1",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Application of epidemiological methods",
+              "lineSpacingPercent": 115000,
+              "resolvedTextStyle": {
+                "alignment": "left"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Application of epidemiological methods",
+                  "fontSize": 16,
+                  "typeface": "Barlow",
+                  "color": "dk1",
+                  "bold": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 12,
+          "row": 3,
+          "column": 2,
+          "bbox": [
+            203.14,
+            202.96,
+            181.72,
+            70.02
+          ],
+          "text": "Applies advanced epidemiological methods, enhancing precision",
+          "textPreview": "Applies advanced epidemiological methods, enhancing precision",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Applies advanced epidemiological methods, enhancing precision",
+              "lineSpacingPercent": 115000,
+              "resolvedTextStyle": {
+                "alignment": "left"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Applies advanced epidemiological methods, enhancing precision",
+                  "fontSize": 16,
+                  "typeface": "Barlow",
+                  "color": "dk1"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 13,
+          "row": 3,
+          "column": 3,
+          "bbox": [
+            384.86,
+            202.96,
+            171.01,
+            70.02
+          ],
+          "text": "Proficient in applying epidemiological methods for analysis",
+          "textPreview": "Proficient in applying epidemiological methods for analysis",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Proficient in applying epidemiological methods for analysis",
+              "lineSpacingPercent": 115000,
+              "resolvedTextStyle": {
+                "alignment": "left"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Proficient in applying epidemiological methods for analysis",
+                  "fontSize": 16,
+                  "typeface": "Barlow",
+                  "color": "dk1"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 14,
+          "row": 3,
+          "column": 4,
+          "bbox": [
+            555.88,
+            202.96,
+            159,
+            70.02
+          ],
+          "text": "Uses basic epidemiological methods with occasional errors",
+          "textPreview": "Uses basic epidemiological methods with occasional errors",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Uses basic epidemiological methods with occasional errors",
+              "lineSpacingPercent": 115000,
+              "resolvedTextStyle": {
+                "alignment": "left"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Uses basic epidemiological methods with occasional errors",
+                  "fontSize": 16,
+                  "typeface": "Barlow",
+                  "color": "dk1"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 15,
+          "row": 3,
+          "column": 5,
+          "bbox": [
+            714.88,
+            202.96,
+            169.51,
+            70.02
+          ],
+          "text": "Lacks application of epidemiological methods, hindering analysis",
+          "textPreview": "Lacks application of epidemiological methods, hindering analysis",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Lacks application of epidemiological methods, hindering analysis",
+              "lineSpacingPercent": 115000,
+              "resolvedTextStyle": {
+                "alignment": "left"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Lacks application of epidemiological methods, hindering analysis",
+                  "fontSize": 16,
+                  "typeface": "Barlow",
+                  "color": "dk1"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 16,
+          "row": 4,
+          "column": 1,
+          "bbox": [
+            75.59,
+            272.97,
+            127.55,
+            54.23
+          ],
+          "text": "Visual aids",
+          "textPreview": "Visual aids",
+          "fillColor": "accent1",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Visual aids",
+              "lineSpacingPercent": 115000,
+              "resolvedTextStyle": {
+                "alignment": "left"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Visual aids",
+                  "fontSize": 16,
+                  "typeface": "Barlow",
+                  "color": "dk1",
+                  "bold": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 17,
+          "row": 4,
+          "column": 2,
+          "bbox": [
+            203.14,
+            272.97,
+            181.72,
+            54.23
+          ],
+          "text": "Integrates appealing visuals, enhances understanding",
+          "textPreview": "Integrates appealing visuals, enhances understanding",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Integrates appealing visuals, enhances understanding",
+              "lineSpacingPercent": 115000,
+              "resolvedTextStyle": {
+                "alignment": "left"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Integrates appealing visuals, enhances understanding",
+                  "fontSize": 16,
+                  "typeface": "Barlow",
+                  "color": "dk1"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 18,
+          "row": 4,
+          "column": 3,
+          "bbox": [
+            384.86,
+            272.97,
+            171.01,
+            54.23
+          ],
+          "text": "Uses appropriate visuals, including epidemiological visuals",
+          "textPreview": "Uses appropriate visuals, including epidemiological visuals",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Uses appropriate visuals, including epidemiological visuals",
+              "lineSpacingPercent": 115000,
+              "resolvedTextStyle": {
+                "alignment": "left"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Uses appropriate visuals, including epidemiological visuals",
+                  "fontSize": 16,
+                  "typeface": "Barlow",
+                  "color": "dk1"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 19,
+          "row": 4,
+          "column": 4,
+          "bbox": [
+            555.88,
+            272.97,
+            159,
+            54.23
+          ],
+          "text": "Inconsistent or ineffective use of health science visuals",
+          "textPreview": "Inconsistent or ineffective use of health science visuals",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Inconsistent or ineffective use of health science visuals",
+              "lineSpacingPercent": 115000,
+              "resolvedTextStyle": {
+                "alignment": "left"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Inconsistent or ineffective use of health science visuals",
+                  "fontSize": 16,
+                  "typeface": "Barlow",
+                  "color": "dk1"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 20,
+          "row": 4,
+          "column": 5,
+          "bbox": [
+            714.88,
+            272.97,
+            169.51,
+            54.23
+          ],
+          "text": "Lacks or poorly incorporates health science-related visuals",
+          "textPreview": "Lacks or poorly incorporates health science-related visuals",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Lacks or poorly incorporates health science-related visuals",
+              "lineSpacingPercent": 115000,
+              "resolvedTextStyle": {
+                "alignment": "left"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Lacks or poorly incorporates health science-related visuals",
+                  "fontSize": 16,
+                  "typeface": "Barlow",
+                  "color": "dk1"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 21,
+          "row": 5,
+          "column": 1,
+          "bbox": [
+            75.59,
+            327.21,
+            127.55,
+            70.02
+          ],
+          "text": "Delivery and engagement",
+          "textPreview": "Delivery and engagement",
+          "fillColor": "accent1",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Delivery and engagement",
+              "lineSpacingPercent": 115000,
+              "resolvedTextStyle": {
+                "alignment": "left"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Delivery and engagement",
+                  "fontSize": 16,
+                  "typeface": "Barlow",
+                  "color": "dk1",
+                  "bold": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 22,
+          "row": 5,
+          "column": 2,
+          "bbox": [
+            203.14,
+            327.21,
+            181.72,
+            70.02
+          ],
+          "text": "Maintains strong eye contact, confident posture",
+          "textPreview": "Maintains strong eye contact, confident posture",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Maintains strong eye contact, confident posture",
+              "lineSpacingPercent": 115000,
+              "resolvedTextStyle": {
+                "alignment": "left"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Maintains strong eye contact, confident posture",
+                  "fontSize": 16,
+                  "typeface": "Barlow",
+                  "color": "dk1"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 23,
+          "row": 5,
+          "column": 3,
+          "bbox": [
+            384.86,
+            327.21,
+            171.01,
+            70.02
+          ],
+          "text": "Demonstrates engagement, maintains interest throughout",
+          "textPreview": "Demonstrates engagement, maintains interest throughout",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Demonstrates engagement, maintains interest throughout",
+              "lineSpacingPercent": 115000,
+              "resolvedTextStyle": {
+                "alignment": "left"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Demonstrates engagement, maintains interest throughout",
+                  "fontSize": 16,
+                  "typeface": "Barlow",
+                  "color": "dk1"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 24,
+          "row": 5,
+          "column": 4,
+          "bbox": [
+            555.88,
+            327.21,
+            159,
+            70.02
+          ],
+          "text": "Limited engagement, occasional lack of confidence",
+          "textPreview": "Limited engagement, occasional lack of confidence",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Limited engagement, occasional lack of confidence",
+              "lineSpacingPercent": 115000,
+              "resolvedTextStyle": {
+                "alignment": "left"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Limited engagement, occasional lack of confidence",
+                  "fontSize": 16,
+                  "typeface": "Barlow",
+                  "color": "dk1"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 25,
+          "row": 5,
+          "column": 5,
+          "bbox": [
+            714.88,
+            327.21,
+            169.51,
+            70.02
+          ],
+          "text": "Appears nervous, lacks engagement, struggles to connect",
+          "textPreview": "Appears nervous, lacks engagement, struggles to connect",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Appears nervous, lacks engagement, struggles to connect",
+              "lineSpacingPercent": 115000,
+              "resolvedTextStyle": {
+                "alignment": "left"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Appears nervous, lacks engagement, struggles to connect",
+                  "fontSize": 16,
+                  "typeface": "Barlow",
+                  "color": "dk1"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "composeRuns": []
+}

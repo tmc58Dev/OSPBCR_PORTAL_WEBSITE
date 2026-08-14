@@ -54,8 +54,12 @@ public sealed class DistrictTrainingStore(
             {
                 Id = Guid.NewGuid(),
                 District = form.District.Trim(),
-                Title = form.Title.Trim(),
-                Description = form.Description.Trim(),
+                Title = form.English.Title.Trim(),
+                Description = form.English.Description.Trim(),
+                TitleHi = form.Hindi.Title.Trim(),
+                DescriptionHi = form.Hindi.Description.Trim(),
+                TitleOr = form.Odia.Title.Trim(),
+                DescriptionOr = form.Odia.Description.Trim(),
                 PdfPath = pdfPath,
                 PreviewPath = previewPath,
                 CreatedAt = now,
@@ -116,8 +120,12 @@ public sealed class DistrictTrainingStore(
                 oldPdfPath = record.PdfPath;
                 oldPreviewPath = record.PreviewPath;
                 record.District = form.District.Trim();
-                record.Title = form.Title.Trim();
-                record.Description = form.Description.Trim();
+                record.Title = form.English.Title.Trim();
+                record.Description = form.English.Description.Trim();
+                record.TitleHi = form.Hindi.Title.Trim();
+                record.DescriptionHi = form.Hindi.Description.Trim();
+                record.TitleOr = form.Odia.Title.Trim();
+                record.DescriptionOr = form.Odia.Description.Trim();
                 record.PdfPath = newPdfPath ?? record.PdfPath;
                 record.PreviewPath = newPreviewPath ?? record.PreviewPath;
                 record.UpdatedAt = DateTimeOffset.Now;

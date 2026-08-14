@@ -103,8 +103,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const next = document.querySelector("[data-news-next]");
     const position = document.querySelector("[data-news-position]");
     const languageButtons = Array.from(document.querySelectorAll("[data-news-language]"));
+    const dateOrderButtons = Array.from(document.querySelectorAll("[data-news-date-order]"));
 
-    if (!section || !carousel || !track || !previous || !next || !position || !languageButtons.length) {
+    if (!section || !carousel || !track || !previous || !next || !position ||
+        !languageButtons.length || !dateOrderButtons.length) {
         return;
     }
 
@@ -115,6 +117,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let imageTimer = 0;
     let requestVersion = 0;
     let newsLanguage = currentLanguage();
+    let newsDateOrder = "desc";
     let touchStartX = 0;
     let interactionPaused = false;
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -141,6 +144,14 @@ document.addEventListener("DOMContentLoaded", () => {
     function syncLanguageFilter() {
         languageButtons.forEach((button) => {
             const isActive = button.dataset.newsLanguage === newsLanguage;
+            button.classList.toggle("is-active", isActive);
+            button.setAttribute("aria-pressed", String(isActive));
+        });
+    }
+
+    function syncDateOrderFilter() {
+        dateOrderButtons.forEach((button) => {
+            const isActive = button.dataset.newsDateOrder === newsDateOrder;
             button.classList.toggle("is-active", isActive);
             button.setAttribute("aria-pressed", String(isActive));
         });
@@ -190,7 +201,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     const currentImage = Number.parseInt(card.dataset.activeImage || "0", 10);
                     showCardImage(card, currentImage + 1);
                 });
-            }, 1500);
+            }, 2000);
         }
     }
 
@@ -312,7 +323,7 @@ document.addEventListener("DOMContentLoaded", () => {
         date.dateTime = toIsoDate(item.publishDate);
         const link = document.createElement("a");
         link.className = "trending-learn-more";
-        link.href = `trending.html?news=${encodeURIComponent(item.id)}&language=${encodeURIComponent(item.language)}&dateOrder=desc&view=20260726-auto-image-slider`;
+        link.href = `trending.html?news=${encodeURIComponent(item.id)}&language=${encodeURIComponent(item.language)}&dateOrder=${encodeURIComponent(newsDateOrder)}&view=20260726-auto-image-slider`;
         link.textContent = viewMoreLabels[item.language] || viewMoreLabels.en;
         link.setAttribute("aria-label", `${link.textContent}: ${item.title}`);
         copy.append(title, date, link);
@@ -324,6 +335,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const version = ++requestVersion;
         const language = newsLanguage;
         syncLanguageFilter();
+        syncDateOrderFilter();
         carousel.setAttribute("aria-busy", "true");
         stopImageRotation();
         try {
@@ -335,9 +347,12 @@ document.addEventListener("DOMContentLoaded", () => {
             const items = await response.json();
             if (version !== requestVersion) return;
 
-            const sortedItems = [...items].sort(
-                (left, right) => newsDateValue(right.publishDate) - newsDateValue(left.publishDate)
-            );
+            const direction = newsDateOrder === "asc" ? 1 : -1;
+            const sortedItems = [...items].sort((left, right) => {
+                const dateDifference = newsDateValue(left.publishDate) - newsDateValue(right.publishDate);
+                if (dateDifference !== 0) return dateDifference * direction;
+                return (Number(left.id) - Number(right.id)) * direction;
+            });
             const pageElements = [];
             for (let index = 0; index < sortedItems.length; index += cardsPerPage) {
                 const page = document.createElement("div");
@@ -431,6 +446,15 @@ document.addEventListener("DOMContentLoaded", () => {
             loadNews();
         });
     });
+    dateOrderButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+            const requestedOrder = button.dataset.newsDateOrder;
+            if (requestedOrder !== "asc" && requestedOrder !== "desc") return;
+            if (requestedOrder === newsDateOrder) return;
+            newsDateOrder = requestedOrder;
+            loadNews();
+        });
+    });
     document.addEventListener("visibilitychange", () => {
         if (document.hidden) {
             stopImageRotation();
@@ -447,6 +471,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     syncLanguageFilter();
+    syncDateOrderFilter();
     loadNews();
 
 });

@@ -1,0 +1,257 @@
+{"kind":"deck","id":"pr/0kg6dh","name":"Deck"}
+{"kind":"layout","layoutId":"/ppt/slideMasters/slideMaster1.xml","name":"simple-light-2","type":"master","placeholders":[{"name":"title","type":"title"},{"name":"body","type":"body"}]}
+{"kind":"layout","layoutId":"/ppt/slideLayouts/slideLayout1.xml","name":"TITLE","type":"title","placeholders":[{"name":"title","type":"title"},{"name":"subtitle","type":"subtitle"}]}
+{"kind":"layout","layoutId":"/ppt/slideLayouts/slideLayout2.xml","name":"SECTION_HEADER","type":"secHead","placeholders":[{"name":"title","type":"title"},{"name":"title","type":"title","textPreview":"xx%"},{"name":"subtitle","type":"subtitle"}]}
+{"kind":"layout","layoutId":"/ppt/slideLayouts/slideLayout3.xml","name":"TITLE_AND_BODY","type":"tx","placeholders":[{"name":"title","type":"title"},{"name":"body","type":"body"}]}
+{"kind":"layout","layoutId":"/ppt/slideLayouts/slideLayout4.xml","name":"TITLE_AND_TWO_COLUMNS","type":"twoColTx","placeholders":[{"name":"title","type":"title"},{"name":"subtitle","type":"subtitle"},{"name":"subtitle","type":"subtitle"},{"name":"subtitle","type":"subtitle"},{"name":"subtitle","type":"subtitle"}]}
+{"kind":"layout","layoutId":"/ppt/slideLayouts/slideLayout5.xml","name":"TITLE_ONLY","type":"titleOnly","placeholders":[{"name":"title","type":"title"}]}
+{"kind":"layout","layoutId":"/ppt/slideLayouts/slideLayout6.xml","name":"ONE_COLUMN_TEXT","placeholders":[{"name":"title","type":"title"},{"name":"subtitle","type":"subtitle"},{"name":"picture","type":"picture"}]}
+{"kind":"layout","layoutId":"/ppt/slideLayouts/slideLayout7.xml","name":"MAIN_POINT","placeholders":[{"name":"title","type":"title"}]}
+{"kind":"layout","layoutId":"/ppt/slideLayouts/slideLayout8.xml","name":"SECTION_TITLE_AND_DESCRIPTION","placeholders":[{"name":"title","type":"title"},{"name":"subtitle","type":"subtitle"}]}
+{"kind":"layout","layoutId":"/ppt/slideLayouts/slideLayout9.xml","name":"CAPTION_ONLY","placeholders":[{"name":"picture","type":"picture"},{"name":"title","type":"title"}]}
+{"kind":"layout","layoutId":"/ppt/slideLayouts/slideLayout10.xml","name":"BIG_NUMBER","placeholders":[{"name":"title","type":"title","textPreview":"xx%"},{"name":"subtitle","type":"subtitle"}]}
+{"kind":"layout","layoutId":"/ppt/slideLayouts/slideLayout11.xml","name":"BLANK","type":"blank"}
+{"kind":"layout","layoutId":"/ppt/slideLayouts/slideLayout12.xml","name":"CUSTOM_10","placeholders":[{"name":"title","type":"title"}]}
+{"kind":"layout","layoutId":"/ppt/slideLayouts/slideLayout13.xml","name":"CUSTOM_11","placeholders":[{"name":"title","type":"title"}]}
+{"kind":"layout","layoutId":"/ppt/slideLayouts/slideLayout14.xml","name":"TITLE_AND_TWO_COLUMNS_1_1","placeholders":[{"name":"title","type":"title"},{"name":"subtitle","type":"subtitle"},{"name":"subtitle","type":"subtitle"}]}
+{"kind":"layout","layoutId":"/ppt/slideLayouts/slideLayout15.xml","name":"CUSTOM_6","placeholders":[{"name":"title","type":"title"},{"name":"subtitle","type":"subtitle"},{"name":"subtitle","type":"subtitle"},{"name":"subtitle","type":"subtitle"},{"name":"subtitle","type":"subtitle"},{"name":"subtitle","type":"subtitle"},{"name":"subtitle","type":"subtitle"}]}
+{"kind":"layout","layoutId":"/ppt/slideLayouts/slideLayout16.xml","name":"CUSTOM_12","placeholders":[{"name":"title","type":"title"},{"name":"subtitle","type":"subtitle"},{"name":"subtitle","type":"subtitle"},{"name":"subtitle","type":"subtitle"},{"name":"subtitle","type":"subtitle"},{"name":"title","type":"title","textPreview":"xx%"},{"name":"title","type":"title","textPreview":"xx%"},{"name":"title","type":"title","textPreview":"xx%"},{"name":"title","type":"title","textPreview":"xx%"},{"name":"subtitle","type":"subtitle"},{"name":"subtitle","type":"subtitle"},{"name":"subtitle","type":"subtitle"},{"name":"subtitle","type":"subtitle"}]}
+{"kind":"layout","layoutId":"/ppt/slideLayouts/slideLayout17.xml","name":"CUSTOM_7","placeholders":[{"name":"title","type":"title"},{"name":"subtitle","type":"subtitle"},{"name":"subtitle","type":"subtitle"},{"name":"subtitle","type":"subtitle"},{"name":"subtitle","type":"subtitle"},{"name":"subtitle","type":"subtitle"},{"name":"subtitle","type":"subtitle"},{"name":"subtitle","type":"subtitle"},{"name":"subtitle","type":"subtitle"},{"name":"subtitle","type":"subtitle"},{"name":"subtitle","type":"subtitle"},{"name":"subtitle","type":"subtitle"},{"name":"subtitle","type":"subtitle"}]}
+{"kind":"layout","layoutId":"/ppt/slideLayouts/slideLayout18.xml","name":"CUSTOM_3_1","placeholders":[{"name":"title","type":"title"},{"name":"subtitle","type":"subtitle"}]}
+{"kind":"layout","layoutId":"/ppt/slideLayouts/slideLayout19.xml","name":"CUSTOM_9"}
+{"kind":"layout","layoutId":"/ppt/slideLayouts/slideLayout20.xml","name":"CUSTOM_9_1"}
+{"kind":"layout","layoutId":"/ppt/slideMasters/slideMaster2.xml","name":"simple-light-2","type":"master","placeholders":[{"name":"title","type":"title"},{"name":"body","type":"body"}]}
+{"kind":"layout","layoutId":"/ppt/slideLayouts/slideLayout21.xml","name":"BLANK","type":"blank"}
+{"kind":"layout","layoutId":"/ppt/slideLayouts/slideLayout22.xml","name":"CUSTOM","placeholders":[{"name":"title","type":"title"}]}
+{"kind":"slide","id":"sl/3i88qj","slide":1,"title":"Social and Behavioral Sciences in Public Health - Bachelor of Science in Publ...","textShapes":2}
+{"kind":"textbox","id":"sh/wzah8ni5","slide":1,"name":"Google Shape;1227;p25","placeholder":"title","text":"Social and Behavioral Sciences in Public Health - Bachelor of Science in Public Health","textPreview":"Social and Behavioral Sciences in Public Health - Bachelor of Science in Public Health","textChars":86,"textLines":1,"bbox":[74.88,151.07,810.24,189.45]}
+{"kind":"textbox","id":"sh/7a1gvi1o","slide":1,"name":"Google Shape;1228;p25","placeholder":"subtitle","text":"Here is where your presentation begins","textPreview":"Here is where your presentation begins","textChars":38,"textLines":1,"bbox":[74.88,349.97,474.11,38.96]}
+{"kind":"shape","id":"sh/c365gfup","slide":1,"name":"Google Shape;1230;p25","bbox":[807.21,501.06,5.2,63.36]}
+{"kind":"shape","id":"sh/d4f6pkva","slide":1,"name":"Google Shape;1231;p25","bbox":[753.83,379.75,111.97,123.19]}
+{"kind":"shape","id":"sh/q14ne5cj","slide":1,"name":"Google Shape;1232;p25","bbox":[791.01,377.46,7.9,8.53]}
+{"kind":"shape","id":"sh/b2donad4","slide":1,"name":"Google Shape;1233;p25","bbox":[796.2,374.97,7.9,13.3]}
+{"kind":"shape","id":"sh/0765kzul","slide":1,"name":"Google Shape;1234;p25","bbox":[820.72,377.46,8.11,8.53]}
+{"kind":"shape","id":"sh/l8f6t4v6","slide":1,"name":"Google Shape;1235;p25","bbox":[815.52,374.97,8.11,13.3]}
+{"kind":"shape","id":"sh/y5onipcv","slide":1,"name":"Google Shape;1236;p25","bbox":[757.15,454.95,105.53,50.07]}
+{"kind":"notes","id":"nt/3i88qj","slide":1,"text":""}
+{"kind":"slide","id":"sl/nvdbp0","slide":2,"title":"Table of contents","textShapes":13}
+{"kind":"textbox","id":"sh/z6x83mtc","slide":2,"name":"Google Shape;1250;p27","placeholder":"title","text":"Table of contents","textPreview":"Table of contents","textChars":17,"textLines":1,"bbox":[75.59,46.72,808.82,60.13]}
+{"kind":"textbox","id":"sh/y5o7ahsr","slide":2,"name":"Google Shape;1251;p27","placeholder":"subtitle","text":"Analyzing health studies' impact on public well-being and preventive measures","textPreview":"Analyzing health studies' impact on public well-being and preventive measures","textChars":77,"textLines":1,"bbox":[491.35,200.94,393.42,85.48]}
+{"kind":"textbox","id":"sh/l8zq5cb2","slide":2,"name":"Google Shape;1252;p27","placeholder":"subtitle","text":"Navigating the essential principles that form the bedrock of in-depth health studies","textPreview":"Navigating the essential principles that form the bedrock of in-depth health studies","textChars":84,"textLines":1,"bbox":[75.24,200.94,393.42,85.48]}
+{"kind":"textbox","id":"sh/07qpc7ax","slide":2,"name":"Google Shape;1253;p27","placeholder":"subtitle","text":"Unveiling cutting-edge advancements and emerging trends in health","textPreview":"Unveiling cutting-edge advancements and emerging trends in health","textChars":65,"textLines":1,"bbox":[75.24,397.88,393.42,85.48]}
+{"kind":"textbox","id":"sh/7ah87mt8","slide":2,"name":"Google Shape;1254;p27","placeholder":"subtitle","text":"Examining real-world uses and case studies in health sciences","textPreview":"Examining real-world uses and case studies in health sciences","textChars":61,"textLines":1,"bbox":[491.35,397.88,393.42,85.48]}
+{"kind":"textbox","id":"sh/m98rehsn","slide":2,"name":"Google Shape;1255;p27","placeholder":"title","text":"03","textPreview":"03","textChars":2,"textLines":1,"bbox":[491.62,116.51,70.46,46.99]}
+{"kind":"textbox","id":"sh/9czq9wbe","slide":2,"name":"Google Shape;1256;p27","placeholder":"title","text":"02","textPreview":"02","textChars":2,"textLines":1,"bbox":[75.24,313.89,70.46,46.99]}
+{"kind":"textbox","id":"sh/8bq9grat","slide":2,"name":"Google Shape;1257;p27","placeholder":"title","text":"04","textPreview":"04","textChars":2,"textLines":1,"bbox":[491.62,313.89,70.46,46.99]}
+{"kind":"textbox","id":"sh/veh8b69k","slide":2,"name":"Google Shape;1258;p27","placeholder":"subtitle","text":"Cutting-edge research and trends","textPreview":"Cutting-edge research and trends","textChars":32,"textLines":1,"bbox":[75.24,360.89,393.42,46.99]}
+{"kind":"textbox","id":"sh/ud8ri1sz","slide":2,"name":"Google Shape;1259;p27","placeholder":"title","text":"01","textPreview":"01","textChars":2,"textLines":1,"bbox":[75.23,116.51,70.46,46.99]}
+{"kind":"textbox","id":"sh/69cba5c7","slide":2,"name":"Google Shape;1260;p27","placeholder":"subtitle","text":"Foundations of health sciences","textPreview":"Foundations of health sciences","textChars":30,"textLines":1,"bbox":[75.24,163.51,393.42,46.99]}
+{"kind":"textbox","id":"sh/ruls3ads","slide":2,"name":"Google Shape;1261;p27","placeholder":"subtitle","text":"Public health insights","textPreview":"Public health insights","textChars":22,"textLines":1,"bbox":[491.35,163.51,393.42,46.99]}
+{"kind":"textbox","id":"sh/svutcvux","slide":2,"name":"Google Shape;1262;p27","placeholder":"subtitle","text":"Practical applications","textPreview":"Practical applications","textChars":22,"textLines":1,"bbox":[491.35,360.89,393.42,46.99]}
+{"kind":"notes","id":"nt/nvdbp0","slide":2,"text":"\n"}
+{"kind":"slide","id":"sl/mn4169","slide":3,"title":"Conclusions","textShapes":7}
+{"kind":"textbox","id":"sh/6lkj2xoj","slide":3,"name":"Google Shape;1793;p43","placeholder":"title","text":"Conclusions","textPreview":"Conclusions","textChars":11,"textLines":1,"bbox":[75.59,46.72,808.82,60.13]}
+{"kind":"textbox","id":"sh/lkb29s7y","slide":3,"name":"Google Shape;1794;p43","placeholder":"subtitle","text":"Understanding health studies holistically aids informed decision-making, fostering proactive well-being management","textPreview":"Understanding health studies holistically aids informed decision-making, fostering proactive well-being management","textChars":114,"textLines":1,"bbox":[124.64,160.34,354.39,139.81]}
+{"kind":"textbox","id":"sh/kj210n6d","slide":3,"name":"Google Shape;1795;p43","placeholder":"subtitle","text":"Witnessing practical applications, from community wellness to personalized care, highlights the transformative impact of health studies in real-world contexts","textPreview":"Witnessing practical applications, from community wellness to personalized care, highlights the transformative impact of health studies i...","textChars":158,"textLines":1,"bbox":[124.64,343.55,354.39,139.81]}
+{"kind":"textbox","id":"sh/jitk72ps","slide":3,"name":"Google Shape;1796;p43","placeholder":"subtitle","text":"In the dynamic realm of health studies, ongoing learning ensures our ability to contribute meaningfully to the ever-evolving landscape, promoting global health advancement","textPreview":"In the dynamic realm of health studies, ongoing learning ensures our ability to contribute meaningfully to the ever-evolving landscape, p...","textChars":171,"textLines":1,"bbox":[530.72,251.94,354.39,139.81]}
+{"kind":"textbox","id":"sh/yhkjyxo7","slide":3,"name":"Google Shape;1797;p43","placeholder":"subtitle","text":"Holistic health perspective","textPreview":"Holistic health perspective","textChars":27,"textLines":1,"bbox":[124.64,119.51,354.39,49.13]}
+{"kind":"textbox","id":"sh/pgf2lwn2","slide":3,"name":"Google Shape;1798;p43","placeholder":"subtitle","text":"Impactful applications","textPreview":"Impactful applications","textChars":22,"textLines":1,"bbox":[124.64,302.72,354.39,49.13]}
+{"kind":"textbox","id":"sh/4f6lcr6h","slide":3,"name":"Google Shape;1799;p43","placeholder":"subtitle","text":"Continual learning","textPreview":"Continual learning","textChars":18,"textLines":1,"bbox":[530.73,211.12,354.39,49.13]}
+{"kind":"shape","id":"sh/hk3alwvm","slide":3,"name":"Google Shape;1800;p43","bbox":[74.88,129.6,49.05,49.14]}
+{"kind":"shape","id":"sh/gzutcru1","slide":3,"name":"Google Shape;1801;p43","bbox":[74.88,312.81,49.05,49.14]}
+{"kind":"shape","id":"sh/vylsj6dg","slide":3,"name":"Google Shape;1802;p43","bbox":[480.88,221.21,49.05,49.14]}
+{"kind":"shape","id":"sh/5onapgby","slide":3,"name":"Google Shape;1804;p43","bbox":[82.95,332.4,33.17,11.73]}
+{"kind":"shape","id":"sh/4netgbud","slide":3,"name":"Google Shape;1805;p43","bbox":[82.69,322.87,33.08,14.03]}
+{"kind":"shape","id":"sh/3mlsn6ts","slide":3,"name":"Google Shape;1806;p43","bbox":[89.04,340.87,20.91,11.03]}
+{"kind":"shape","id":"sh/lsjadcve","slide":3,"name":"Google Shape;1808;p43","bbox":[488.77,242.78,3.88,5.91]}
+{"kind":"shape","id":"sh/kra947ut","slide":3,"name":"Google Shape;1809;p43","bbox":[488.77,250.72,5.91,1.94]}
+{"kind":"shape","id":"sh/qlozytof","slide":3,"name":"Google Shape;1810;p43","bbox":[488.77,238.89,5.91,1.95]}
+{"kind":"shape","id":"sh/bmxgryp0","slide":3,"name":"Google Shape;1811;p43","bbox":[488.86,229.19,33.17,33.17]}
+{"kind":"shape","id":"sh/cn6h0j6l","slide":3,"name":"Google Shape;1812;p43","bbox":[501.47,240.84,9.71,9.7]}
+{"kind":"shape","id":"sh/dofyto76","slide":3,"name":"Google Shape;1813;p43","bbox":[494.68,235.01,21.44,21.53]}
+{"kind":"shape","id":"sh/zqxgvy5c","slide":3,"name":"Google Shape;1815;p43","bbox":[96.14,151.44,5.83,5.74]}
+{"kind":"shape","id":"sh/0rqh436x","slide":3,"name":"Google Shape;1816;p43","bbox":[83.17,137.59,32.47,33.17]}
+{"kind":"notes","id":"nt/mn4169","slide":3,"text":""}
+{"kind":"slide","id":"sl/8itpuy","slide":4,"title":"Assignment brief","textShapes":5}
+{"kind":"textbox","id":"sh/6x0vihcb","slide":4,"name":"Google Shape;1775;p41","placeholder":"title","text":"Assignment brief","textPreview":"Assignment brief","textChars":16,"textLines":1,"bbox":[75.35,46.72,809.29,60.13]}
+{"kind":"textbox","id":"sh/sjidkruh","slide":4,"name":"Google Shape;1777;p41","placeholder":"subtitle","text":"This unit is designed to provide students with a comprehensive understanding of key concepts in health science, emphasizing the integration of theoretical knowledge with practical applications","textPreview":"This unit is designed to provide students with a comprehensive understanding of key concepts in health science, emphasizing the integrati...","textChars":192,"textLines":1,"bbox":[419.09,177.04,442.68,114.3]}
+{"kind":"textbox","id":"sh/budwnqt0","slide":4,"name":"Google Shape;1778;p41","placeholder":"subtitle","text":"Abstract of the unit","textPreview":"Abstract of the unit","textChars":20,"textLines":1,"bbox":[419.09,138.4,442.68,51.09]}
+{"kind":"textbox","id":"sh/qtkvulcf","slide":4,"name":"Google Shape;1779;p41","placeholder":"subtitle","text":"The assignment focuses on evaluating content knowledge, applying epidemiological methods, effectively using health science-related visual aids, and delivering engaging presentations","textPreview":"The assignment focuses on evaluating content knowledge, applying epidemiological methods, effectively using health science-related visual...","textChars":181,"textLines":1,"bbox":[419.09,362.62,442.68,114.3]}
+{"kind":"textbox","id":"sh/mp0j6dwn","slide":4,"name":"Google Shape;1780;p41","placeholder":"subtitle","text":"Assignment brief","textPreview":"Assignment brief","textChars":16,"textLines":1,"bbox":[419.09,323.98,442.68,51.09]}
+{"kind":"table","id":"tb/0z69kvat","slide":4,"name":"Google Shape;1776;p41","rows":6,"cols":2,"preview":"Course | Foreign language","bbox":[98.23,144.47,314.96,314.96]}
+{"kind":"notes","id":"nt/8itpuy","slide":4,"text":""}
+{"kind":"slide","id":"sl/7bcyuv","slide":5,"title":"Empowering minds, transforming lives—health studies pave the way to a brighte...","textShapes":1}
+{"kind":"textbox","id":"sh/n6p0zedk","slide":5,"name":"Google Shape;1319;p33","placeholder":"title","text":"Empowering minds, transforming lives—health studies pave the way to a brighter, healthier future","textPreview":"Empowering minds, transforming lives—health studies pave the way to a brighter, healthier future","textChars":96,"textLines":1,"bbox":[149.8,412.46,660.41,70.9]}
+{"kind":"shape","id":"sh/i9gze9s7","slide":5,"name":"Google Shape;1321;p33","bbox":[776.11,525.65,374.4,148.69]}
+{"kind":"shape","id":"sh/kvyhgjad","slide":5,"name":"Google Shape;1323;p33","bbox":[876.35,440.19,3.86,3.86]}
+{"kind":"shape","id":"sh/v6pgje9w","slide":5,"name":"Google Shape;1324;p33","bbox":[897.04,440.19,3.86,3.86]}
+{"kind":"shape","id":"sh/a5gza9sb","slide":5,"name":"Google Shape;1325;p33","bbox":[917.73,440.19,3.86,3.86]}
+{"kind":"shape","id":"sh/x87yl4rm","slide":5,"name":"Google Shape;1326;p33","bbox":[938.42,440.19,3.86,3.86]}
+{"kind":"shape","id":"sh/w7yhczah","slide":5,"name":"Google Shape;1327;p33","bbox":[959.11,440.19,3.86,3.86]}
+{"kind":"shape","id":"sh/n25gfu9k","slide":5,"name":"Google Shape;1328;p33","bbox":[979.8,440.19,3.86,3.86]}
+{"kind":"shape","id":"sh/m1wzmpsz","slide":5,"name":"Google Shape;1329;p33","bbox":[1000.49,440.19,3.86,3.86]}
+{"kind":"shape","id":"sh/c7udgvqx","slide":5,"name":"Google Shape;1330;p33","bbox":[1021.18,440.19,3.86,3.86]}
+{"kind":"shape","id":"sh/d83ep07i","slide":5,"name":"Google Shape;1331;p33","bbox":[876.35,459.64,3.86,4.02]}
+{"kind":"shape","id":"sh/q5svel8r","slide":5,"name":"Google Shape;1332;p33","bbox":[897.04,459.64,3.86,4.02]}
+{"kind":"shape","id":"sh/b6lwnqpc","slide":5,"name":"Google Shape;1333;p33","bbox":[917.73,459.64,3.86,4.02]}
+{"kind":"shape","id":"sh/0budkfq9","slide":5,"name":"Google Shape;1334;p33","bbox":[938.42,459.64,3.86,4.02]}
+{"kind":"shape","id":"sh/lc3et07e","slide":5,"name":"Google Shape;1335;p33","bbox":[959.11,459.64,3.86,4.02]}
+{"kind":"shape","id":"sh/y9cvi583","slide":5,"name":"Google Shape;1336;p33","bbox":[979.8,459.64,3.86,4.02]}
+{"kind":"shape","id":"sh/zalwrapo","slide":5,"name":"Google Shape;1337;p33","bbox":[1000.49,459.64,3.86,4.02]}
+{"kind":"shape","id":"sh/gfad8bqp","slide":5,"name":"Google Shape;1338;p33","bbox":[1021.18,459.64,3.86,4.02]}
+{"kind":"shape","id":"sh/1gjehg7a","slide":5,"name":"Google Shape;1339;p33","bbox":[876.35,479.25,3.86,4.02]}
+{"kind":"shape","id":"sh/9cv6hg7u","slide":5,"name":"Google Shape;1340;p33","bbox":[897.04,479.25,3.86,4.02]}
+{"kind":"shape","id":"sh/8bm5obq9","slide":5,"name":"Google Shape;1341;p33","bbox":[917.73,479.25,3.86,4.02]}
+{"kind":"shape","id":"sh/7atof6po","slide":5,"name":"Google Shape;1342;p33","bbox":[938.42,479.25,3.86,4.02]}
+{"kind":"shape","id":"sh/m9knm183","slide":5,"name":"Google Shape;1343;p33","bbox":[959.11,479.25,3.86,4.02]}
+{"kind":"shape","id":"sh/l8b6dw7i","slide":5,"name":"Google Shape;1344;p33","bbox":[979.8,479.25,3.86,4.02]}
+{"kind":"shape","id":"sh/k725krqx","slide":5,"name":"Google Shape;1345;p33","bbox":[1000.49,479.25,3.86,4.02]}
+{"kind":"shape","id":"sh/z6t4b6pc","slide":5,"name":"Google Shape;1346;p33","bbox":[1021.18,479.25,3.86,4.02]}
+{"kind":"shape","id":"sh/y5kni18r","slide":5,"name":"Google Shape;1347;p33","bbox":[876.35,498.86,3.86,4.02]}
+{"kind":"shape","id":"sh/x4bm9w7m","slide":5,"name":"Google Shape;1348;p33","bbox":[897.04,498.86,3.86,4.02]}
+{"kind":"shape","id":"sh/c325grq1","slide":5,"name":"Google Shape;1349;p33","bbox":[917.73,498.86,3.86,4.02]}
+{"kind":"shape","id":"sh/29g3qxoj","slide":5,"name":"Google Shape;1350;p33","bbox":[938.42,498.86,3.86,4.02]}
+{"kind":"shape","id":"sh/napkj254","slide":5,"name":"Google Shape;1351;p33","bbox":[959.11,498.86,3.86,4.02]}
+{"kind":"shape","id":"sh/obils76p","slide":5,"name":"Google Shape;1352;p33","bbox":[979.8,498.86,3.86,4.02]}
+{"kind":"shape","id":"sh/pcr2lsna","slide":5,"name":"Google Shape;1353;p33","bbox":[1000.49,498.86,3.86,4.02]}
+{"kind":"shape","id":"sh/elg3mdon","slide":5,"name":"Google Shape;1354;p33","bbox":[1021.18,498.86,3.86,4.02]}
+{"kind":"shape","id":"sh/g7ylon6t","slide":5,"name":"Google Shape;1356;p33","bbox":[898.95,347.35,49.05,49.14]}
+{"kind":"shape","id":"sh/1872hsne","slide":5,"name":"Google Shape;1357;p33","bbox":[908.38,360.52,30.27,26.16]}
+{"kind":"shape","id":"sh/6hwjidor","slide":5,"name":"Google Shape;1358;p33","bbox":[829.81,502.88,22.04,22.04]}
+{"kind":"shape","id":"sh/vml0je5o","slide":5,"name":"Google Shape;1360;p33","bbox":[-214.67,-180.35,374.4,148.69]}
+{"kind":"shape","id":"sh/ho3il43u","slide":5,"name":"Google Shape;1362;p33","bbox":[-93.69,-19.34,3.86,3.86]}
+{"kind":"shape","id":"sh/wnuhsjm9","slide":5,"name":"Google Shape;1363;p33","bbox":[-73,-19.34,3.86,3.86]}
+{"kind":"shape","id":"sh/jql0nel0","slide":5,"name":"Google Shape;1364;p33","bbox":[-52.31,-19.34,3.86,3.86]}
+{"kind":"shape","id":"sh/ipcze94f","slide":5,"name":"Google Shape;1365;p33","bbox":[-31.62,-19.34,3.86,3.86]}
+{"kind":"shape","id":"sh/5snipo36","slide":5,"name":"Google Shape;1366;p33","bbox":[-10.93,-19.34,3.86,3.86]}
+{"kind":"shape","id":"sh/4ruhgjml","slide":5,"name":"Google Shape;1367;p33","bbox":[9.76,-19.34,3.86,3.86]}
+{"kind":"shape","id":"sh/zu1gbu5w","slide":5,"name":"Google Shape;1368;p33","bbox":[30.45,-19.34,3.86,3.86]}
+{"kind":"shape","id":"sh/ytszip4b","slide":5,"name":"Google Shape;1369;p33","bbox":[51.14,-19.34,3.86,3.86]}
+{"kind":"shape","id":"sh/onm5wryx","slide":5,"name":"Google Shape;1370;p33","bbox":[-93.69,0.11,3.86,4.02]}
+{"kind":"shape","id":"sh/pof65wzi","slide":5,"name":"Google Shape;1371;p33","bbox":[-73,0.11,3.86,4.02]}
+{"kind":"shape","id":"sh/2l4nuhgr","slide":5,"name":"Google Shape;1372;p33","bbox":[-52.31,0.11,3.86,4.02]}
+{"kind":"shape","id":"sh/3mdo3mhc","slide":5,"name":"Google Shape;1373;p33","bbox":[-31.62,0.11,3.86,4.02]}
+{"kind":"shape","id":"sh/gjm5sryl","slide":5,"name":"Google Shape;1374;p33","bbox":[-10.93,0.11,3.86,4.02]}
+{"kind":"shape","id":"sh/1kv61cz6","slide":5,"name":"Google Shape;1375;p33","bbox":[9.76,0.11,3.86,4.02]}
+{"kind":"shape","id":"sh/eh4nqhgf","slide":5,"name":"Google Shape;1376;p33","bbox":[30.45,0.11,3.86,4.02]}
+{"kind":"shape","id":"sh/fid4zmh0","slide":5,"name":"Google Shape;1377;p33","bbox":[51.14,0.11,3.86,4.02]}
+{"kind":"shape","id":"sh/0f654by5","slide":5,"name":"Google Shape;1378;p33","bbox":[-93.69,19.72,3.86,4.02]}
+{"kind":"shape","id":"sh/lgz6xgfa","slide":5,"name":"Google Shape;1379;p33","bbox":[-73,19.72,3.86,4.02]}
+{"kind":"shape","id":"sh/ts3atcb6","slide":5,"name":"Google Shape;1380;p33","bbox":[-52.31,19.72,3.86,4.02]}
+{"kind":"shape","id":"sh/87a9k7ul","slide":5,"name":"Google Shape;1381;p33","bbox":[-31.62,19.72,3.86,4.02]}
+{"kind":"shape","id":"sh/761srmt0","slide":5,"name":"Google Shape;1382;p33","bbox":[-10.93,19.72,3.86,4.02]}
+{"kind":"shape","id":"sh/65srihcf","slide":5,"name":"Google Shape;1383;p33","bbox":[9.76,19.72,3.86,4.02]}
+{"kind":"shape","id":"sh/hw3axwb2","slide":5,"name":"Google Shape;1384;p33","bbox":[30.45,19.72,3.86,4.02]}
+{"kind":"shape","id":"sh/gvutoruh","slide":5,"name":"Google Shape;1385;p33","bbox":[51.14,19.72,3.86,4.02]}
+{"kind":"shape","id":"sh/fulsvmtw","slide":5,"name":"Google Shape;1386;p33","bbox":[-93.69,39.32,3.86,4.02]}
+{"kind":"shape","id":"sh/utcbmhcr","slide":5,"name":"Google Shape;1387;p33","bbox":[-73,39.32,3.86,4.02]}
+{"kind":"shape","id":"sh/x0jalsby","slide":5,"name":"Google Shape;1388;p33","bbox":[-52.31,39.32,3.86,4.02]}
+{"kind":"shape","id":"sh/wzq9cnud","slide":5,"name":"Google Shape;1389;p33","bbox":[-31.62,39.32,3.86,4.02]}
+{"kind":"shape","id":"sh/2t4z69oz","slide":5,"name":"Google Shape;1390;p33","bbox":[-10.93,39.32,3.86,4.02]}
+{"kind":"shape","id":"sh/nudgze5k","slide":5,"name":"Google Shape;1391;p33","bbox":[9.76,39.32,3.86,4.02]}
+{"kind":"shape","id":"sh/ov6h8z65","slide":5,"name":"Google Shape;1392;p33","bbox":[30.45,39.32,3.86,4.02]}
+{"kind":"shape","id":"sh/pwfy14na","slide":5,"name":"Google Shape;1393;p33","bbox":[51.14,39.32,3.86,4.02]}
+{"kind":"shape","id":"sh/axoza9ov","slide":5,"name":"Google Shape;1394;p33","bbox":[21.23,86.35,15.7,15.7]}
+{"kind":"shape","id":"sh/cz6hcj61","slide":5,"name":"Google Shape;1396;p33","bbox":[62,12,37.37,37.28]}
+{"kind":"shape","id":"sh/x0fy5onm","slide":5,"name":"Google Shape;1397;p33","bbox":[73.09,20.04,15.2,22.62]}
+{"kind":"image","id":"im/dkfydoje","slide":5,"name":"Google Shape;1318;p33","bbox":[0,-1.44,960,541.45]}
+{"kind":"notes","id":"nt/7bcyuv","slide":5,"text":""}
+{"kind":"slide","id":"sl/r2qq6s","slide":6,"title":"Foundations of health sciences","textShapes":2}
+{"kind":"textbox","id":"sh/mlk36xsr","slide":6,"name":"Google Shape;1289;p30","placeholder":"title","text":"Foundations of health sciences","textPreview":"Foundations of health sciences","textChars":30,"textLines":1,"bbox":[74.88,84.88,443.4,106.43]}
+{"kind":"textbox","id":"sh/krmlg7q5","slide":6,"name":"Google Shape;1290;p30","placeholder":"subtitle","text":"In research, we have to mention three key elements:\nStay informed\nFoster innovation\nExplore the evolving landscape\nEmbrace a forward-thinking perspective as we navigate the ever-evolving terrain of health studies, where staying informed and embracing innovation are key to shaping the future of healthcare","textPreview":"In research, we have to mention three key elements: | Stay informed | Foster innovation | Explore the evolving landscape | Embrace a forw...","textChars":305,"textLines":5,"bbox":[74.88,199.81,443.4,255.31]}
+{"kind":"image","id":"im/2xcj6hwz","slide":6,"name":"Google Shape;1291;p30","geometry":"roundRect","bbox":[572.58,71.21,341.57,397.57]}
+{"kind":"notes","id":"nt/r2qq6s","slide":6,"text":""}
+{"kind":"slide","id":"sl/6pzpa5","slide":7,"title":"Foundations of health sciences","textShapes":2}
+{"kind":"textbox","id":"sh/dsrmt4rm","slide":7,"name":"Google Shape;1289;p30","placeholder":"title","text":"Foundations of health sciences","textPreview":"Foundations of health sciences","textChars":30,"textLines":1,"bbox":[74.88,84.88,443.4,106.43]}
+{"kind":"textbox","id":"sh/nmtojydo","slide":7,"name":"Google Shape;1290;p30","placeholder":"subtitle","text":"In research, we have to mention three key elements:\nStay informed\nFoster innovation\nExplore the evolving landscape\nEmbrace a forward-thinking perspective as we navigate the ever-evolving terrain of health studies, where staying informed and embracing innovation are key to shaping the future of healthcare","textPreview":"In research, we have to mention three key elements: | Stay informed | Foster innovation | Explore the evolving landscape | Embrace a forw...","textChars":305,"textLines":5,"bbox":[74.88,199.81,443.4,255.31]}
+{"kind":"image","id":"im/x8r2hcv2","slide":7,"name":"Google Shape;1291;p30","geometry":"roundRect","bbox":[572.58,71.21,341.57,397.57]}
+{"kind":"notes","id":"nt/6pzpa5","slide":7,"text":""}
+{"kind":"slide","id":"sl/spffya","slide":8,"title":"Health trends overview","textShapes":6}
+{"kind":"textbox","id":"sh/n2p4zm9g","slide":8,"name":"Google Shape;1680;p36","placeholder":"title","text":"Health trends overview","textPreview":"Health trends overview","textChars":22,"textLines":1,"bbox":[75.35,46.72,809.29,60.13]}
+{"kind":"textbox","id":"sh/m1gnqhsv","slide":8,"name":"Google Shape;1681;p36","text":"Follow the link in the graph to modify its data and then paste the new one here. For more info, click here","textPreview":"Follow the link in the graph to modify its data and then paste the new one here. For more info, click here","textChars":106,"textLines":1,"bbox":[101.37,451.08,724.91,32.28]}
+{"kind":"textbox","id":"sh/94761cr6","slide":8,"name":"Google Shape;1682;p36","placeholder":"title","text":"Preventive measures","textPreview":"Preventive measures","textChars":19,"textLines":1,"bbox":[119.91,122.82,353.32,44.69]}
+{"kind":"textbox","id":"sh/o3y5sra1","slide":8,"name":"Google Shape;1683;p36","placeholder":"title","text":"Advancements in healthcare","textPreview":"Advancements in healthcare","textChars":26,"textLines":1,"bbox":[526.78,122.82,353.32,44.69]}
+{"kind":"textbox","id":"sh/zyp4v2t4","slide":8,"name":"Google Shape;1684;p36","placeholder":"title","text":"Treatment outcomes","textPreview":"Treatment outcomes","textChars":18,"textLines":1,"bbox":[119.91,173.52,353.32,44.69]}
+{"kind":"textbox","id":"sh/exwnmxsj","slide":8,"name":"Google Shape;1685;p36","placeholder":"title","text":" Impact of social factors","textPreview":"Impact of social factors","textChars":25,"textLines":1,"bbox":[526.78,173.52,353.32,44.69]}
+{"kind":"shape","id":"sh/107mxcba","slide":8,"name":"Google Shape;1686;p36","bbox":[79.9,131.15,26.49,26.49]}
+{"kind":"shape","id":"sh/0zy5o7ap","slide":8,"name":"Google Shape;1687;p36","bbox":[486.76,131.15,26.49,26.49]}
+{"kind":"shape","id":"sh/ra54r2t8","slide":8,"name":"Google Shape;1688;p36","bbox":[79.9,181.85,26.49,26.49]}
+{"kind":"shape","id":"sh/q9wnixsn","slide":8,"name":"Google Shape;1689;p36","bbox":[486.76,181.85,26.49,26.49]}
+{"kind":"image","id":"im/3alsvad8","slide":8,"name":"Google Shape;1690;p36","bbox":[75.35,240.04,761.8,205.21]}
+{"kind":"notes","id":"nt/spffya","slide":8,"text":""}
+{"kind":"slide","id":"sl/915umf","slide":9,"title":"Foundations of health sciences","textShapes":2}
+{"kind":"textbox","id":"sh/kjipwvy1","slide":9,"name":"Google Shape;1289;p30","placeholder":"title","text":"Foundations of health sciences","textPreview":"Foundations of health sciences","textChars":30,"textLines":1,"bbox":[74.88,84.88,443.4,106.43]}
+{"kind":"textbox","id":"sh/apgnq1wz","slide":9,"name":"Google Shape;1290;p30","placeholder":"subtitle","text":"In research, we have to mention three key elements:\nStay informed\nFoster innovation\nExplore the evolving landscape\nEmbrace a forward-thinking perspective as we navigate the ever-evolving terrain of health studies, where staying informed and embracing innovation are key to shaping the future of healthcare","textPreview":"In research, we have to mention three key elements: | Stay informed | Foster innovation | Explore the evolving landscape | Embrace a forw...","textChars":305,"textLines":5,"bbox":[74.88,199.81,443.4,255.31]}
+{"kind":"image","id":"im/ozudkvy9","slide":9,"name":"Google Shape;1291;p30","geometry":"roundRect","bbox":[572.58,71.21,341.57,397.57]}
+{"kind":"notes","id":"nt/915umf","slide":9,"text":""}
+{"kind":"slide","id":"sl/484f6m","slide":10,"title":"Foundations of health sciences","textShapes":2}
+{"kind":"textbox","id":"sh/oj2tkni9","slide":10,"name":"Google Shape;1289;p30","placeholder":"title","text":"Foundations of health sciences","textPreview":"Foundations of health sciences","textChars":30,"textLines":1,"bbox":[74.88,84.88,443.4,106.43]}
+{"kind":"textbox","id":"sh/mdszilcf","slide":10,"name":"Google Shape;1290;p30","placeholder":"subtitle","text":"In research, we have to mention three key elements:\nStay informed\nFoster innovation\nExplore the evolving landscape\nEmbrace a forward-thinking perspective as we navigate the ever-evolving terrain of health studies, where staying informed and embracing innovation are key to shaping the future of healthcare","textPreview":"In research, we have to mention three key elements: | Stay informed | Foster innovation | Explore the evolving landscape | Embrace a forw...","textChars":305,"textLines":5,"bbox":[74.88,199.81,443.4,255.31]}
+{"kind":"image","id":"im/8bm1onmh","slide":10,"name":"Google Shape;1291;p30","geometry":"roundRect","bbox":[572.58,71.21,341.57,397.57]}
+{"kind":"notes","id":"nt/484f6m","slide":10,"text":""}
+{"kind":"slide","id":"sl/c4aso9","slide":11,"title":"Foundations of health sciences","textShapes":2}
+{"kind":"textbox","id":"sh/svm9or2l","slide":11,"name":"Google Shape;1289;p30","placeholder":"title","text":"Foundations of health sciences","textPreview":"Foundations of health sciences","textChars":30,"textLines":1,"bbox":[74.88,84.88,443.4,106.43]}
+{"kind":"textbox","id":"sh/q5wfmpwr","slide":11,"name":"Google Shape;1290;p30","placeholder":"subtitle","text":"In research, we have to mention three key elements:\nStay informed\nFoster innovation\nExplore the evolving landscape\nEmbrace a forward-thinking perspective as we navigate the ever-evolving terrain of health studies, where staying informed and embracing innovation are key to shaping the future of healthcare","textPreview":"In research, we have to mention three key elements: | Stay informed | Foster innovation | Explore the evolving landscape | Embrace a forw...","textChars":305,"textLines":5,"bbox":[74.88,199.81,443.4,255.31]}
+{"kind":"image","id":"im/ona98z25","slide":11,"name":"Google Shape;1291;p30","geometry":"roundRect","bbox":[572.58,71.21,341.57,397.57]}
+{"kind":"notes","id":"nt/c4aso9","slide":11,"text":""}
+{"kind":"slide","id":"sl/ac4c0j","slide":12,"title":"Foundations of health sciences","textShapes":2}
+{"kind":"textbox","id":"sh/ori54ba1","slide":12,"name":"Google Shape;1289;p30","placeholder":"title","text":"Foundations of health sciences","textPreview":"Foundations of health sciences","textChars":30,"textLines":1,"bbox":[74.88,84.88,443.4,106.43]}
+{"kind":"textbox","id":"sh/exg3eh8z","slide":12,"name":"Google Shape;1290;p30","placeholder":"subtitle","text":"In research, we have to mention three key elements:\nStay informed\nFoster innovation\nExplore the evolving landscape\nEmbrace a forward-thinking perspective as we navigate the ever-evolving terrain of health studies, where staying informed and embracing innovation are key to shaping the future of healthcare","textPreview":"In research, we have to mention three key elements: | Stay informed | Foster innovation | Explore the evolving landscape | Embrace a forw...","textChars":305,"textLines":5,"bbox":[74.88,199.81,443.4,255.31]}
+{"kind":"image","id":"im/8vut0bqt","slide":12,"name":"Google Shape;1291;p30","geometry":"roundRect","bbox":[572.58,71.21,341.57,397.57]}
+{"kind":"notes","id":"nt/ac4c0j","slide":12,"text":""}
+{"kind":"slide","id":"sl/iwz8ea","slide":13,"title":"Foundations of health sciences","textShapes":2}
+{"kind":"textbox","id":"sh/nitsrq1w","slide":13,"name":"Google Shape;1289;p30","placeholder":"title","text":"Foundations of health sciences","textPreview":"Foundations of health sciences","textChars":30,"textLines":1,"bbox":[74.88,84.88,443.4,106.43]}
+{"kind":"textbox","id":"sh/hofmdo7a","slide":13,"name":"Google Shape;1290;p30","placeholder":"subtitle","text":"In research, we have to mention three key elements:\nStay informed\nFoster innovation\nExplore the evolving landscape\nEmbrace a forward-thinking perspective as we navigate the ever-evolving terrain of health studies, where staying informed and embracing innovation are key to shaping the future of healthcare","textPreview":"In research, we have to mention three key elements: | Stay informed | Foster innovation | Explore the evolving landscape | Embrace a forw...","textChars":305,"textLines":5,"bbox":[74.88,199.81,443.4,255.31]}
+{"kind":"image","id":"im/fe1credo","slide":13,"name":"Google Shape;1291;p30","geometry":"roundRect","bbox":[572.58,71.21,341.57,397.57]}
+{"kind":"notes","id":"nt/iwz8ea","slide":13,"text":""}
+{"kind":"slide","id":"sl/g8dlqb","slide":14,"title":"Integrated health framework","textShapes":18}
+{"kind":"textbox","id":"sh/583etoza","slide":14,"name":"Google Shape;1715;p38","placeholder":"title","text":"Integrated health framework","textPreview":"Integrated health framework","textChars":27,"textLines":1,"bbox":[75.59,46.72,808.82,60.13]}
+{"kind":"textbox","id":"sh/i5cfy9gz","slide":14,"name":"Google Shape;1716;p38","text":"B","textPreview":"B","textChars":1,"textLines":1,"bbox":[632.78,155.62,58.68,58.68]}
+{"kind":"textbox","id":"sh/j6lwreh4","slide":14,"name":"Google Shape;1717;p38","text":"G","textPreview":"G","textChars":1,"textLines":1,"bbox":[268.54,414.62,58.68,58.68]}
+{"kind":"textbox","id":"sh/kbadozil","slide":14,"name":"Google Shape;1718;p38","text":"H","textPreview":"H","textChars":1,"textLines":1,"bbox":[632.78,414.62,58.68,58.68]}
+{"kind":"textbox","id":"sh/lcjeh4z6","slide":14,"name":"Google Shape;1719;p38","text":"A","textPreview":"A","textChars":1,"textLines":1,"bbox":[268.54,155.62,58.68,58.68]}
+{"kind":"textbox","id":"sh/1wr25wni","slide":14,"name":"Google Shape;1720;p38","text":"Prevention initiatives","textPreview":"Prevention initiatives","textChars":22,"textLines":1,"bbox":[75.58,155.62,174.05,58.68]}
+{"kind":"textbox","id":"sh/gvilwr6d","slide":14,"name":"Google Shape;1721;p38","text":"Health","textPreview":"Health","textChars":6,"textLines":1,"bbox":[404.49,276.95,151.02,75.02]}
+{"kind":"shape","id":"sh/fu9k3m5s","slide":14,"name":"Google Shape;1722;p38","bbox":[510.39,154.56,92,152.79]}
+{"kind":"shape","id":"sh/et03uho7","slide":14,"name":"Google Shape;1723;p38","bbox":[510.39,321.58,92,152.79]}
+{"kind":"textbox","id":"sh/p0bm9wnu","slide":14,"name":"Google Shape;1724;p38","text":"Social analysis","textPreview":"Social analysis","textChars":15,"textLines":1,"bbox":[75.58,414.62,174.05,58.68]}
+{"kind":"textbox","id":"sh/ozil0r69","slide":14,"name":"Google Shape;1725;p38","text":"Health partnerships","textPreview":"Health partnerships","textChars":19,"textLines":1,"bbox":[710.36,155.62,174.05,58.68]}
+{"kind":"textbox","id":"sh/ny9k765o","slide":14,"name":"Google Shape;1726;p38","text":"Health programs","textPreview":"Health programs","textChars":15,"textLines":1,"bbox":[710.36,414.62,174.05,58.68]}
+{"kind":"shape","id":"sh/2x03y1o3","slide":14,"name":"Google Shape;1727;p38","bbox":[357.61,154.56,92,152.79]}
+{"kind":"shape","id":"sh/xobmdgnq","slide":14,"name":"Google Shape;1728;p38","bbox":[357.61,321.58,92,152.79]}
+{"kind":"textbox","id":"sh/cn2l4b65","slide":14,"name":"Google Shape;1729;p38","text":"Surveillance systems","textPreview":"Surveillance systems","textChars":20,"textLines":1,"bbox":[75.58,241.96,174.05,58.68]}
+{"kind":"textbox","id":"sh/u9czyd4n","slide":14,"name":"Google Shape;1730;p38","text":"Treatment plans","textPreview":"Treatment plans","textChars":15,"textLines":1,"bbox":[75.58,328.29,174.05,58.68]}
+{"kind":"textbox","id":"sh/va50ril8","slide":14,"name":"Google Shape;1731;p38","text":"Telehealth integration","textPreview":"Telehealth integration","textChars":22,"textLines":1,"bbox":[710.37,241.96,174.05,58.68]}
+{"kind":"textbox","id":"sh/wbeh03mt","slide":14,"name":"Google Shape;1732;p38","text":"Informatics solutions","textPreview":"Informatics solutions","textChars":21,"textLines":1,"bbox":[710.37,328.29,174.05,58.68]}
+{"kind":"textbox","id":"sh/hwnit83e","slide":14,"name":"Google Shape;1733;p38","text":"C","textPreview":"C","textChars":1,"textLines":1,"bbox":[268.53,241.96,58.68,58.68]}
+{"kind":"textbox","id":"sh/ixwj2d4z","slide":14,"name":"Google Shape;1734;p38","text":"E","textPreview":"E","textChars":1,"textLines":1,"bbox":[268.54,328.29,58.68,58.68]}
+{"kind":"textbox","id":"sh/jy50vilk","slide":14,"name":"Google Shape;1735;p38","text":"D","textPreview":"D","textChars":1,"textLines":1,"bbox":[632.78,241.96,58.68,58.68]}
+{"kind":"textbox","id":"sh/4ze14nm5","slide":14,"name":"Google Shape;1736;p38","text":"F","textPreview":"F","textChars":1,"textLines":1,"bbox":[632.78,328.29,58.68,58.68]}
+{"kind":"shape","id":"sh/50nixs3a","slide":14,"name":"Google Shape;1737;p38","bbox":[327.2,271.28,77.29,43.18]}
+{"kind":"shape","id":"sh/61gj6x4v","slide":14,"name":"Google Shape;1738;p38","bbox":[327.23,314.46,77.26,43.18]}
+{"kind":"shape","id":"sh/r2p0z2lg","slide":14,"name":"Google Shape;1739;p38","bbox":[555.51,271.28,77.26,43.18]}
+{"kind":"shape","id":"sh/fil0jidk","slide":14,"name":"Google Shape;1740;p38","bbox":[555.51,314.46,77.26,43.18]}
+{"kind":"notes","id":"nt/g8dlqb","slide":14,"text":""}
+{"kind":"slide","id":"sl/o1uknv","slide":15,"title":"Conclusions","textShapes":7}
+{"kind":"textbox","id":"sh/ne1sbmtk","slide":15,"name":"Google Shape;1793;p43","placeholder":"title","text":"Conclusions","textPreview":"Conclusions","textChars":11,"textLines":1,"bbox":[75.59,46.72,808.82,60.13]}
+{"kind":"textbox","id":"sh/0batg7a9","slide":15,"name":"Google Shape;1794;p43","placeholder":"subtitle","text":"Understanding health studies holistically aids informed decision-making, fostering proactive well-being management","textPreview":"Understanding health studies holistically aids informed decision-making, fostering proactive well-being management","textChars":114,"textLines":1,"bbox":[124.64,160.34,354.39,139.81]}
+{"kind":"textbox","id":"sh/1cja9cbe","slide":15,"name":"Google Shape;1795;p43","placeholder":"subtitle","text":"Witnessing practical applications, from community wellness to personalized care, highlights the transformative impact of health studies in real-world contexts","textPreview":"Witnessing practical applications, from community wellness to personalized care, highlights the transformative impact of health studies i...","textChars":158,"textLines":1,"bbox":[124.64,343.55,354.39,139.81]}
+{"kind":"textbox","id":"sh/e9sbexs3","slide":15,"name":"Google Shape;1796;p43","placeholder":"subtitle","text":"In the dynamic realm of health studies, ongoing learning ensures our ability to contribute meaningfully to the ever-evolving landscape, promoting global health advancement","textPreview":"In the dynamic realm of health studies, ongoing learning ensures our ability to contribute meaningfully to the ever-evolving landscape, p...","textChars":171,"textLines":1,"bbox":[530.72,251.94,354.39,139.81]}
+{"kind":"textbox","id":"sh/fa1s72to","slide":15,"name":"Google Shape;1797;p43","placeholder":"subtitle","text":"Holistic health perspective","textPreview":"Holistic health perspective","textChars":27,"textLines":1,"bbox":[124.64,119.51,354.39,49.13]}
+{"kind":"textbox","id":"sh/k7utsbad","slide":15,"name":"Google Shape;1798;p43","placeholder":"subtitle","text":"Impactful applications","textPreview":"Impactful applications","textChars":22,"textLines":1,"bbox":[124.64,302.72,354.39,49.13]}
+{"kind":"textbox","id":"sh/l8nulgby","slide":15,"name":"Google Shape;1799;p43","placeholder":"subtitle","text":"Continual learning","textPreview":"Continual learning","textChars":18,"textLines":1,"bbox":[530.73,211.12,354.39,49.13]}
+{"kind":"shape","id":"sh/cvqtwz6h","slide":15,"name":"Google Shape;1800;p43","bbox":[74.88,129.6,49.05,49.14]}
+{"kind":"shape","id":"sh/dwzup472","slide":15,"name":"Google Shape;1801;p43","bbox":[74.88,312.81,49.05,49.14]}
+{"kind":"shape","id":"sh/qt8bupob","slide":15,"name":"Google Shape;1802;p43","bbox":[480.88,221.21,49.05,49.14]}
+{"kind":"shape","id":"sh/o76tsf65","slide":15,"name":"Google Shape;1804;p43","bbox":[82.95,332.4,33.17,11.73]}
+{"kind":"shape","id":"sh/p8zulk7q","slide":15,"name":"Google Shape;1805;p43","bbox":[82.69,322.87,33.08,14.03]}
+{"kind":"shape","id":"sh/25obqpof","slide":15,"name":"Google Shape;1806;p43","bbox":[89.04,340.87,20.91,11.03]}
+{"kind":"shape","id":"sh/83ad4j6p","slide":15,"name":"Google Shape;1808;p43","bbox":[488.77,242.78,3.88,5.91]}
+{"kind":"shape","id":"sh/94juxo7a","slide":15,"name":"Google Shape;1809;p43","bbox":[488.77,250.72,5.91,1.94]}
+{"kind":"shape","id":"sh/ju5oj2do","slide":15,"name":"Google Shape;1810;p43","bbox":[488.77,238.89,5.91,1.95]}
+{"kind":"shape","id":"sh/i9wnahc3","slide":15,"name":"Google Shape;1811;p43","bbox":[488.86,229.19,33.17,33.17]}
+{"kind":"shape","id":"sh/5w76lcve","slide":15,"name":"Google Shape;1812;p43","bbox":[501.47,240.84,9.71,9.7]}
+{"kind":"shape","id":"sh/4ve5c7ut","slide":15,"name":"Google Shape;1813;p43","bbox":[494.68,235.01,21.44,21.53]}
+{"kind":"shape","id":"sh/6xgnehcz","slide":15,"name":"Google Shape;1815;p43","bbox":[96.14,151.44,5.83,5.74]}
+{"kind":"shape","id":"sh/t076pwvq","slide":15,"name":"Google Shape;1816;p43","bbox":[83.17,137.59,32.47,33.17]}
+{"kind":"notes","id":"nt/o1uknv","slide":15,"text":""}

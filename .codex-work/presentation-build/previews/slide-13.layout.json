@@ -1,0 +1,1792 @@
+{
+  "schema": "openai.presentation.layout/v4",
+  "unit": "px",
+  "slide": {
+    "aid": "sl/9b2sml",
+    "id": "9b2sml",
+    "slide": 13,
+    "layoutId": "2ce90dc0-96cc-4478-9d42-2784762c9dfc",
+    "layoutName": "Title Slide",
+    "layoutType": "title",
+    "masterLayoutId": "2acc4366-c204-409c-86b1-c8fb782314b1",
+    "masterLayoutName": "Master",
+    "backgroundColor": "#FFFFFF",
+    "frame": {
+      "left": 0,
+      "top": 0,
+      "width": 1280,
+      "height": 720
+    }
+  },
+  "theme": {
+    "colorSchemeName": "ChatGPT",
+    "colors": {
+      "accent1": "#156082",
+      "accent2": "#E97132",
+      "accent3": "#196B24",
+      "accent4": "#0F9ED5",
+      "accent5": "#A02B93",
+      "accent6": "#4EA72E",
+      "bg1": "#FFFFFF",
+      "bg2": "#000000",
+      "tx1": "#1F1F1F",
+      "tx2": "#FFFFFF",
+      "dk1": "#000000",
+      "lt1": "#FFFFFF",
+      "dk2": "#0E2841",
+      "lt2": "#E8E8E8",
+      "hlink": "#467886",
+      "folHlink": "#96607D"
+    },
+    "typefaces": [
+      "Arial"
+    ]
+  },
+  "inheritedLayers": [
+    {
+      "scope": "layout",
+      "id": "2ce90dc0-96cc-4478-9d42-2784762c9dfc",
+      "name": "Title Slide",
+      "type": "title",
+      "parentLayoutId": "2acc4366-c204-409c-86b1-c8fb782314b1",
+      "elements": []
+    },
+    {
+      "scope": "master",
+      "id": "2acc4366-c204-409c-86b1-c8fb782314b1",
+      "name": "Master",
+      "type": "master",
+      "elements": []
+    }
+  ],
+  "elements": [
+    {
+      "order": 1,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/1crqpo36",
+      "id": "1",
+      "name": "text",
+      "bbox": [
+        42,
+        32,
+        420,
+        24
+      ],
+      "geometry": "rect",
+      "text": "SYSTEM WALKTHROUGH",
+      "textPreview": "SYSTEM WALKTHROUGH",
+      "resolvedFontSize": 13,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 13,
+        "typeface": "Arial",
+        "color": "#0077A8",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "SYSTEM WALKTHROUGH"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "SYSTEM WALKTHROUGH",
+          "resolvedTextStyle": {
+            "fontSize": 13,
+            "typeface": "Arial",
+            "color": "#0077A8",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "SYSTEM WALKTHROUGH",
+              "fontSize": 13,
+              "typeface": "Arial",
+              "color": "#0077A8",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 2,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/e907u9kf",
+      "id": "2",
+      "name": "text",
+      "bbox": [
+        42,
+        70,
+        1196,
+        48
+      ],
+      "geometry": "rect",
+      "text": "ASP.NET Core combines MVC APIs with static public pages",
+      "textPreview": "ASP.NET Core combines MVC APIs with static public pages",
+      "resolvedFontSize": 36,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 36,
+        "typeface": "Arial",
+        "color": "#071A2D",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "ASP.NET Core combines MVC APIs with static public pages"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "ASP.NET Core combines MVC APIs with static public pages",
+          "resolvedTextStyle": {
+            "fontSize": 36,
+            "typeface": "Arial",
+            "color": "#071A2D",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "ASP.NET Core combines MVC APIs with static public pages",
+              "fontSize": 36,
+              "typeface": "Arial",
+              "color": "#071A2D",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 3,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/fa98nel0",
+      "id": "3",
+      "bbox": [
+        42,
+        136,
+        1196,
+        0
+      ],
+      "geometry": "straightConnector1",
+      "lineColor": "#BCC7D1",
+      "lineWidth": 1
+    },
+    {
+      "order": 4,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/s7ipsj2p",
+      "id": "4",
+      "bbox": [
+        42,
+        666,
+        1196,
+        0
+      ],
+      "geometry": "straightConnector1",
+      "lineColor": "#BCC7D1",
+      "lineWidth": 1
+    },
+    {
+      "order": 5,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/t8r6l43u",
+      "id": "5",
+      "name": "text",
+      "bbox": [
+        42,
+        675,
+        750,
+        20
+      ],
+      "geometry": "rect",
+      "text": "OSPBCR portal technical overview",
+      "textPreview": "OSPBCR portal technical overview",
+      "resolvedFontSize": 12,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 12,
+        "typeface": "Arial",
+        "color": "#566575",
+        "alignment": "left",
+        "verticalAlignment": "middle",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "OSPBCR portal technical overview"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "OSPBCR portal technical overview",
+          "resolvedTextStyle": {
+            "fontSize": 12,
+            "typeface": "Arial",
+            "color": "#566575",
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "OSPBCR portal technical overview",
+              "fontSize": 12,
+              "typeface": "Arial",
+              "color": "#566575",
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 6,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/65g7q9kj",
+      "id": "6",
+      "name": "text",
+      "bbox": [
+        1180,
+        675,
+        58,
+        20
+      ],
+      "geometry": "rect",
+      "text": "13",
+      "textPreview": "13",
+      "resolvedFontSize": 12,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 12,
+        "typeface": "Arial",
+        "color": "#566575",
+        "alignment": "right",
+        "verticalAlignment": "middle",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "13"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "13",
+          "resolvedTextStyle": {
+            "fontSize": 12,
+            "typeface": "Arial",
+            "color": "#566575",
+            "alignment": "right"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "13",
+              "fontSize": 12,
+              "typeface": "Arial",
+              "color": "#566575",
+              "alignment": "right"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 7,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/r69ojel4",
+      "id": "7",
+      "bbox": [
+        295,
+        288,
+        75,
+        0
+      ],
+      "geometry": "straightConnector1",
+      "lineColor": "#0077A8",
+      "lineWidth": 2
+    },
+    {
+      "order": 8,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/43ypoz2d",
+      "id": "8",
+      "bbox": [
+        610,
+        288,
+        75,
+        0
+      ],
+      "geometry": "straightConnector1",
+      "lineColor": "#0077A8",
+      "lineWidth": 2
+    },
+    {
+      "order": 9,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/5476h43y",
+      "id": "9",
+      "bbox": [
+        925,
+        288,
+        75,
+        0
+      ],
+      "geometry": "straightConnector1",
+      "lineColor": "#0077A8",
+      "lineWidth": 2
+    },
+    {
+      "order": 10,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/hkzet4z6",
+      "id": "10",
+      "bbox": [
+        848,
+        355,
+        0,
+        95
+      ],
+      "geometry": "straightConnector1",
+      "lineColor": "#00A6A6",
+      "lineWidth": 2
+    },
+    {
+      "order": 11,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/wjqd0zil",
+      "id": "11",
+      "bbox": [
+        1080,
+        355,
+        0,
+        95
+      ],
+      "geometry": "straightConnector1",
+      "lineColor": "#F28C28",
+      "lineWidth": 2
+    },
+    {
+      "order": 12,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/vihwruhg",
+      "id": "12",
+      "name": "node-Browser",
+      "bbox": [
+        42,
+        205,
+        252,
+        170
+      ],
+      "geometry": "roundRect",
+      "fillColor": "#F7F9FB",
+      "lineColor": "#BCC7D1",
+      "lineWidth": 1
+    },
+    {
+      "order": 13,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/uhovyp0v",
+      "id": "13",
+      "name": "node-accent",
+      "bbox": [
+        42,
+        205,
+        8,
+        170
+      ],
+      "geometry": "rect",
+      "fillColor": "#0077A8",
+      "lineWidth": 0
+    },
+    {
+      "order": 14,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/9gfupkza",
+      "id": "14",
+      "name": "text",
+      "bbox": [
+        66,
+        221,
+        210,
+        32
+      ],
+      "geometry": "rect",
+      "text": "Browser",
+      "textPreview": "Browser",
+      "resolvedFontSize": 22,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 22,
+        "typeface": "Arial",
+        "color": "#071A2D",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Browser"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Browser",
+          "resolvedTextStyle": {
+            "fontSize": 22,
+            "typeface": "Arial",
+            "color": "#071A2D",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Browser",
+              "fontSize": 22,
+              "typeface": "Arial",
+              "color": "#071A2D",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 15,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/8f6dwfip",
+      "id": "15",
+      "name": "text",
+      "bbox": [
+        66,
+        259,
+        210,
+        106
+      ],
+      "geometry": "rect",
+      "text": "Static HTML pages\nBootstrap + custom CSS\nJavaScript modules\nLeaflet maps + i18n",
+      "textPreview": "Static HTML pages | Bootstrap + custom CSS | JavaScript modules | Leaflet maps + i18n",
+      "resolvedFontSize": 16,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 16,
+        "typeface": "Arial",
+        "color": "#566575",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 4,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Static HTML pages"
+          },
+          {
+            "index": 2,
+            "text": "Bootstrap + custom CSS"
+          },
+          {
+            "index": 3,
+            "text": "JavaScript modules"
+          },
+          {
+            "index": 4,
+            "text": "Leaflet maps + i18n"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Static HTML pages",
+          "resolvedTextStyle": {
+            "fontSize": 16,
+            "typeface": "Arial",
+            "color": "#566575",
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Static HTML pages",
+              "fontSize": 16,
+              "typeface": "Arial",
+              "color": "#566575",
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        },
+        {
+          "index": 2,
+          "text": "Bootstrap + custom CSS",
+          "resolvedTextStyle": {
+            "fontSize": 16,
+            "typeface": "Arial",
+            "color": "#566575",
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Bootstrap + custom CSS",
+              "fontSize": 16,
+              "typeface": "Arial",
+              "color": "#566575",
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        },
+        {
+          "index": 3,
+          "text": "JavaScript modules",
+          "resolvedTextStyle": {
+            "fontSize": 16,
+            "typeface": "Arial",
+            "color": "#566575",
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "JavaScript modules",
+              "fontSize": 16,
+              "typeface": "Arial",
+              "color": "#566575",
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        },
+        {
+          "index": 4,
+          "text": "Leaflet maps + i18n",
+          "resolvedTextStyle": {
+            "fontSize": 16,
+            "typeface": "Arial",
+            "color": "#566575",
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Leaflet maps + i18n",
+              "fontSize": 16,
+              "typeface": "Arial",
+              "color": "#566575",
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 16,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/7excnah4",
+      "id": "16",
+      "name": "node-ASP.NET Core",
+      "bbox": [
+        370,
+        205,
+        240,
+        170
+      ],
+      "geometry": "roundRect",
+      "fillColor": "#F7F9FB",
+      "lineColor": "#BCC7D1",
+      "lineWidth": 1
+    },
+    {
+      "order": 17,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/mtovup0j",
+      "id": "17",
+      "name": "node-accent",
+      "bbox": [
+        370,
+        205,
+        8,
+        170
+      ],
+      "geometry": "rect",
+      "fillColor": "#00A6A6",
+      "lineWidth": 0
+    },
+    {
+      "order": 18,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/lsfulkzy",
+      "id": "18",
+      "name": "text",
+      "bbox": [
+        394,
+        221,
+        198,
+        32
+      ],
+      "geometry": "rect",
+      "text": "ASP.NET Core",
+      "textPreview": "ASP.NET Core",
+      "resolvedFontSize": 22,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 22,
+        "typeface": "Arial",
+        "color": "#071A2D",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "ASP.NET Core"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "ASP.NET Core",
+          "resolvedTextStyle": {
+            "fontSize": 22,
+            "typeface": "Arial",
+            "color": "#071A2D",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "ASP.NET Core",
+              "fontSize": 22,
+              "typeface": "Arial",
+              "color": "#071A2D",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 19,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/kr6dsfit",
+      "id": "19",
+      "name": "text",
+      "bbox": [
+        394,
+        259,
+        198,
+        106
+      ],
+      "geometry": "rect",
+      "text": ".NET 10 web host\nMVC / API controllers\nRouting + static assets\nDependency injection",
+      "textPreview": ".NET 10 web host | MVC / API controllers | Routing + static assets | Dependency injection",
+      "resolvedFontSize": 16,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 16,
+        "typeface": "Arial",
+        "color": "#566575",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 4,
+        "lines": [
+          {
+            "index": 1,
+            "text": ".NET 10 web host"
+          },
+          {
+            "index": 2,
+            "text": "MVC / API controllers"
+          },
+          {
+            "index": 3,
+            "text": "Routing + static assets"
+          },
+          {
+            "index": 4,
+            "text": "Dependency injection"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": ".NET 10 web host",
+          "resolvedTextStyle": {
+            "fontSize": 16,
+            "typeface": "Arial",
+            "color": "#566575",
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": ".NET 10 web host",
+              "fontSize": 16,
+              "typeface": "Arial",
+              "color": "#566575",
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        },
+        {
+          "index": 2,
+          "text": "MVC / API controllers",
+          "resolvedTextStyle": {
+            "fontSize": 16,
+            "typeface": "Arial",
+            "color": "#566575",
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "MVC / API controllers",
+              "fontSize": 16,
+              "typeface": "Arial",
+              "color": "#566575",
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        },
+        {
+          "index": 3,
+          "text": "Routing + static assets",
+          "resolvedTextStyle": {
+            "fontSize": 16,
+            "typeface": "Arial",
+            "color": "#566575",
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Routing + static assets",
+              "fontSize": 16,
+              "typeface": "Arial",
+              "color": "#566575",
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        },
+        {
+          "index": 4,
+          "text": "Dependency injection",
+          "resolvedTextStyle": {
+            "fontSize": 16,
+            "typeface": "Arial",
+            "color": "#566575",
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Dependency injection",
+              "fontSize": 16,
+              "typeface": "Arial",
+              "color": "#566575",
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 20,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/cvqd8fq9",
+      "id": "20",
+      "name": "node-Services",
+      "bbox": [
+        685,
+        205,
+        240,
+        170
+      ],
+      "geometry": "roundRect",
+      "fillColor": "#F7F9FB",
+      "lineColor": "#BCC7D1",
+      "lineWidth": 1
+    },
+    {
+      "order": 21,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/dwje1k7u",
+      "id": "21",
+      "name": "node-accent",
+      "bbox": [
+        685,
+        205,
+        8,
+        170
+      ],
+      "geometry": "rect",
+      "fillColor": "#F28C28",
+      "lineWidth": 0
+    },
+    {
+      "order": 22,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/q98v658j",
+      "id": "22",
+      "name": "text",
+      "bbox": [
+        709,
+        221,
+        198,
+        32
+      ],
+      "geometry": "rect",
+      "text": "Services",
+      "textPreview": "Services",
+      "resolvedFontSize": 22,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 22,
+        "typeface": "Arial",
+        "color": "#071A2D",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Services"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Services",
+          "resolvedTextStyle": {
+            "fontSize": 22,
+            "typeface": "Arial",
+            "color": "#071A2D",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Services",
+              "fontSize": 22,
+              "typeface": "Arial",
+              "color": "#071A2D",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 23,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/buhwzap4",
+      "id": "23",
+      "name": "text",
+      "bbox": [
+        709,
+        259,
+        198,
+        106
+      ],
+      "geometry": "rect",
+      "text": "RegistryDataService\nCmsRepository\nManagedFileStorage\nDistrictTrainingStore",
+      "textPreview": "RegistryDataService | CmsRepository | ManagedFileStorage | DistrictTrainingStore",
+      "resolvedFontSize": 16,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 16,
+        "typeface": "Arial",
+        "color": "#566575",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 4,
+        "lines": [
+          {
+            "index": 1,
+            "text": "RegistryDataService"
+          },
+          {
+            "index": 2,
+            "text": "CmsRepository"
+          },
+          {
+            "index": 3,
+            "text": "ManagedFileStorage"
+          },
+          {
+            "index": 4,
+            "text": "DistrictTrainingStore"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "RegistryDataService",
+          "resolvedTextStyle": {
+            "fontSize": 16,
+            "typeface": "Arial",
+            "color": "#566575",
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "RegistryDataService",
+              "fontSize": 16,
+              "typeface": "Arial",
+              "color": "#566575",
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        },
+        {
+          "index": 2,
+          "text": "CmsRepository",
+          "resolvedTextStyle": {
+            "fontSize": 16,
+            "typeface": "Arial",
+            "color": "#566575",
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "CmsRepository",
+              "fontSize": 16,
+              "typeface": "Arial",
+              "color": "#566575",
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        },
+        {
+          "index": 3,
+          "text": "ManagedFileStorage",
+          "resolvedTextStyle": {
+            "fontSize": 16,
+            "typeface": "Arial",
+            "color": "#566575",
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "ManagedFileStorage",
+              "fontSize": 16,
+              "typeface": "Arial",
+              "color": "#566575",
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        },
+        {
+          "index": 4,
+          "text": "DistrictTrainingStore",
+          "resolvedTextStyle": {
+            "fontSize": 16,
+            "typeface": "Arial",
+            "color": "#566575",
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "DistrictTrainingStore",
+              "fontSize": 16,
+              "typeface": "Arial",
+              "color": "#566575",
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 24,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/o7qd4vqd",
+      "id": "24",
+      "name": "node-SQL access",
+      "bbox": [
+        1000,
+        205,
+        238,
+        170
+      ],
+      "geometry": "roundRect",
+      "fillColor": "#F7F9FB",
+      "lineColor": "#BCC7D1",
+      "lineWidth": 1
+    },
+    {
+      "order": 25,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/p8zex07y",
+      "id": "25",
+      "name": "node-accent",
+      "bbox": [
+        1000,
+        205,
+        8,
+        170
+      ],
+      "geometry": "rect",
+      "fillColor": "#1B8A6B",
+      "lineWidth": 0
+    },
+    {
+      "order": 26,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/258v2587",
+      "id": "26",
+      "name": "text",
+      "bbox": [
+        1024,
+        221,
+        196,
+        32
+      ],
+      "geometry": "rect",
+      "text": "SQL access",
+      "textPreview": "SQL access",
+      "resolvedFontSize": 22,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 22,
+        "typeface": "Arial",
+        "color": "#071A2D",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "SQL access"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "SQL access",
+          "resolvedTextStyle": {
+            "fontSize": 22,
+            "typeface": "Arial",
+            "color": "#071A2D",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "SQL access",
+              "fontSize": 22,
+              "typeface": "Arial",
+              "color": "#071A2D",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 27,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/36hcvaps",
+      "id": "27",
+      "name": "text",
+      "bbox": [
+        1024,
+        259,
+        196,
+        106
+      ],
+      "geometry": "rect",
+      "text": "Microsoft.Data.SqlClient\nNamed connection factories\nParameterized queries",
+      "textPreview": "Microsoft.Data.SqlClient | Named connection factories | Parameterized queries",
+      "resolvedFontSize": 16,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 16,
+        "typeface": "Arial",
+        "color": "#566575",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 4,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Microsoft.Data.SqlClient"
+          },
+          {
+            "index": 2,
+            "text": "Named connection"
+          },
+          {
+            "index": 3,
+            "text": "factories"
+          },
+          {
+            "index": 4,
+            "text": "Parameterized queries"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Microsoft.Data.SqlClient",
+          "resolvedTextStyle": {
+            "fontSize": 16,
+            "typeface": "Arial",
+            "color": "#566575",
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Microsoft.Data.SqlClient",
+              "fontSize": 16,
+              "typeface": "Arial",
+              "color": "#566575",
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        },
+        {
+          "index": 2,
+          "text": "Named connection factories",
+          "resolvedTextStyle": {
+            "fontSize": 16,
+            "typeface": "Arial",
+            "color": "#566575",
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Named connection factories",
+              "fontSize": 16,
+              "typeface": "Arial",
+              "color": "#566575",
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        },
+        {
+          "index": 3,
+          "text": "Parameterized queries",
+          "resolvedTextStyle": {
+            "fontSize": 16,
+            "typeface": "Arial",
+            "color": "#566575",
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Parameterized queries",
+              "fontSize": 16,
+              "typeface": "Arial",
+              "color": "#566575",
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 28,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/83udgzqh",
+      "id": "28",
+      "name": "node-Setu_Odisha",
+      "bbox": [
+        685,
+        450,
+        326,
+        150
+      ],
+      "geometry": "roundRect",
+      "fillColor": "#F7F9FB",
+      "lineColor": "#BCC7D1",
+      "lineWidth": 1
+    },
+    {
+      "order": 29,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/943e9472",
+      "id": "29",
+      "name": "node-accent",
+      "bbox": [
+        685,
+        450,
+        8,
+        150
+      ],
+      "geometry": "rect",
+      "fillColor": "#00A6A6",
+      "lineWidth": 0
+    },
+    {
+      "order": 30,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/3ap8v2dg",
+      "id": "30",
+      "name": "text",
+      "bbox": [
+        709,
+        466,
+        284,
+        32
+      ],
+      "geometry": "rect",
+      "text": "Setu_Odisha",
+      "textPreview": "Setu_Odisha",
+      "resolvedFontSize": 22,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 22,
+        "typeface": "Arial",
+        "color": "#071A2D",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Setu_Odisha"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Setu_Odisha",
+          "resolvedTextStyle": {
+            "fontSize": 22,
+            "typeface": "Arial",
+            "color": "#071A2D",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Setu_Odisha",
+              "fontSize": 22,
+              "typeface": "Arial",
+              "color": "#071A2D",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 31,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/i9g7mxwv",
+      "id": "31",
+      "name": "text",
+      "bbox": [
+        709,
+        504,
+        284,
+        86
+      ],
+      "geometry": "rect",
+      "text": "Operational cancer registry, geography, facilities, coding lists, users, and file metadata.",
+      "textPreview": "Operational cancer registry, geography, facilities, coding lists, users, and file metadata.",
+      "resolvedFontSize": 16,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 16,
+        "typeface": "Arial",
+        "color": "#566575",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 3,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Operational cancer registry,"
+          },
+          {
+            "index": 2,
+            "text": "geography, facilities, coding lists,"
+          },
+          {
+            "index": 3,
+            "text": "users, and file metadata."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Operational cancer registry, geography, facilities, coding lists, users, and file metadata.",
+          "resolvedTextStyle": {
+            "fontSize": 16,
+            "typeface": "Arial",
+            "color": "#566575",
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Operational cancer registry, geography, facilities, coding lists, users, and file metadata.",
+              "fontSize": 16,
+              "typeface": "Arial",
+              "color": "#566575",
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 32,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/5w7qxsvm",
+      "id": "32",
+      "name": "node-Portal content",
+      "bbox": [
+        1030,
+        450,
+        208,
+        150
+      ],
+      "geometry": "roundRect",
+      "fillColor": "#F7F9FB",
+      "lineColor": "#BCC7D1",
+      "lineWidth": 1
+    },
+    {
+      "order": 33,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/4vypone1",
+      "id": "33",
+      "name": "node-accent",
+      "bbox": [
+        1030,
+        450,
+        8,
+        150
+      ],
+      "geometry": "rect",
+      "fillColor": "#F28C28",
+      "lineWidth": 0
+    },
+    {
+      "order": 34,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/ryp8z2ds",
+      "id": "34",
+      "name": "text",
+      "bbox": [
+        1054,
+        466,
+        166,
+        32
+      ],
+      "geometry": "rect",
+      "text": "Portal content",
+      "textPreview": "Portal content",
+      "resolvedFontSize": 20,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 20,
+        "typeface": "Arial",
+        "color": "#071A2D",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Portal content"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Portal content",
+          "resolvedTextStyle": {
+            "fontSize": 20,
+            "typeface": "Arial",
+            "color": "#071A2D",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Portal content",
+              "fontSize": 20,
+              "typeface": "Arial",
+              "color": "#071A2D",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 35,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/qxg7qxw7",
+      "id": "35",
+      "name": "text",
+      "bbox": [
+        1054,
+        504,
+        166,
+        86
+      ],
+      "geometry": "rect",
+      "text": "OSPBCR_PORTAL SQL\n+ App_Data JSON\n+ wwwroot/uploads",
+      "textPreview": "OSPBCR_PORTAL SQL | + App_Data JSON | + wwwroot/uploads",
+      "resolvedFontSize": 15,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 15,
+        "typeface": "Arial",
+        "color": "#566575",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 4,
+        "lines": [
+          {
+            "index": 1,
+            "text": "OSPBCR_PORTAL"
+          },
+          {
+            "index": 2,
+            "text": "SQL"
+          },
+          {
+            "index": 3,
+            "text": "+ App_Data JSON"
+          },
+          {
+            "index": 4,
+            "text": "+ wwwroot/uploads"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "OSPBCR_PORTAL SQL",
+          "resolvedTextStyle": {
+            "fontSize": 15,
+            "typeface": "Arial",
+            "color": "#566575",
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "OSPBCR_PORTAL SQL",
+              "fontSize": 15,
+              "typeface": "Arial",
+              "color": "#566575",
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        },
+        {
+          "index": 2,
+          "text": "+ App_Data JSON",
+          "resolvedTextStyle": {
+            "fontSize": 15,
+            "typeface": "Arial",
+            "color": "#566575",
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "+ App_Data JSON",
+              "fontSize": 15,
+              "typeface": "Arial",
+              "color": "#566575",
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        },
+        {
+          "index": 3,
+          "text": "+ wwwroot/uploads",
+          "resolvedTextStyle": {
+            "fontSize": 15,
+            "typeface": "Arial",
+            "color": "#566575",
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "+ wwwroot/uploads",
+              "fontSize": 15,
+              "typeface": "Arial",
+              "color": "#566575",
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    }
+  ],
+  "composeRuns": []
+}

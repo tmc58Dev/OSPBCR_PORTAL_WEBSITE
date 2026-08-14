@@ -549,6 +549,30 @@ REGISTRY OBJECTIVES
 
 }
 
+.registry-objective-card > .objective-card-detail {
+
+    display: grid;
+
+    gap: 7px;
+
+    margin-top: -14px;
+
+    margin-bottom: 24px;
+
+    color: #496777;
+
+    font-size: 0.9rem;
+
+    line-height: 1.55;
+
+}
+
+.objective-card-detail span {
+
+    display: block;
+
+}
+
 .objective-card-footer {
 
     display: flex;
@@ -2649,8 +2673,9 @@ ABOUT PAGE 2026: REGISTRY NETWORK
 .regional-cluster-visual {
     position: relative;
     isolation: isolate;
-    width: 100%;
-    aspect-ratio: 16 / 9;
+    justify-self: center;
+    width: 80%;
+    aspect-ratio: 4 / 3;
     margin: 0;
     overflow: hidden;
     background: #fffdf8;

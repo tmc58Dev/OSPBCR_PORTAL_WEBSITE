@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="assets/css/main.css?v=20260801-site-80-percent">
     <link rel="stylesheet" href="assets/css/design-system.css?v=20260802-navbar-plus-3px">
     <link rel="stylesheet" href="assets/css/pages/trending.css?v=20260727-gallery-controls">
+    <link rel="stylesheet" href="assets/css/pages/trainings.css?v=20260804-cancer-burden-pdfs">
 </head>
 
 <body>
@@ -29,12 +30,70 @@
                 </div>
             </div>
         </section>
+
+        <section class="section district-pdf-section cancer-burden-pdf-section">
+            <div class="container-custom">
+                <div class="district-pdf-showcase fade-up">
+                    <div class="district-pdf-header">
+                        <div>
+                            <span class="section-kicker">District Cancer Burden</span>
+                            <h3>District Wise Cancer Burden PDFs</h3>
+                            <p>
+                                Browse district-wise cancer burden factsheets. The slider moves
+                                automatically, and you can jump to any district using the filter.
+                            </p>
+                        </div>
+
+                        <div class="district-filter-panel">
+                            <label for="cancerBurdenPdfFilter">Select District</label>
+                            <select id="cancerBurdenPdfFilter" aria-label="Select a district cancer burden factsheet"></select>
+                        </div>
+                    </div>
+
+                    <div class="district-pdf-carousel-shell">
+                        <div class="gallery-carousel-card district-pdf-carousel-card" data-cancer-burden-pdf-carousel>
+                            <button
+                                class="gallery-nav gallery-nav-prev"
+                                type="button"
+                                aria-label="Show previous cancer burden PDF"
+                                data-direction="-1"
+                            >
+                                &#8249;
+                            </button>
+
+                            <div class="gallery-carousel-window district-pdf-carousel-window">
+                                <div class="gallery-carousel-track district-pdf-carousel-track" id="cancerBurdenPdfTrack">
+                                    <article class="district-pdf-slide">
+                                        <div class="district-pdf-meta">
+                                            <h4>Loading cancer burden factsheets...</h4>
+                                        </div>
+                                    </article>
+                                </div>
+                            </div>
+
+                            <button
+                                class="gallery-nav gallery-nav-next"
+                                type="button"
+                                aria-label="Show next cancer burden PDF"
+                                data-direction="1"
+                            >
+                                &#8250;
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
 
     <div id="footer-container"></div>
 
-    <script src="assets/js/core/i18n.js?v=20260728-translation-audit-v3"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="assets/js/core/i18n.js?v=20260813-translation-completion-v2"></script>
     <script src="assets/js/core/loader.js?v=20260725-cancer-burden"></script>
+    <script src="assets/js/core/animations.js"></script>
+    <script src="assets/js/pages/cancer-burden.js?v=20260813-all-districts-alpha"></script>
 </body>
 
 </html>

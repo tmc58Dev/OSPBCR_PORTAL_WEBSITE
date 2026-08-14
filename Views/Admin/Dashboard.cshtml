@@ -31,6 +31,24 @@
         </div>
         <span class="dashboard-arrow" aria-hidden="true">→</span>
     </a>
+    <a class="dashboard-action-card" asp-action="CancerBurden">
+        <span class="dashboard-icon" aria-hidden="true">CB</span>
+        <div>
+            <span class="cms-eyebrow">District factsheets</span>
+            <h2>Cancer Burden PDFs</h2>
+            <p>Add, update, or remove district cancer burden factsheets and preview images.</p>
+        </div>
+        <span class="dashboard-arrow" aria-hidden="true">→</span>
+    </a>
+    <a class="dashboard-action-card" asp-action="OdishaCirculars">
+        <span class="dashboard-icon" aria-hidden="true">OC</span>
+        <div>
+            <span class="cms-eyebrow">About Us documents</span>
+            <h2>Odisha State Circulars</h2>
+            <p>Add, update, or remove district circular PDFs and preview images.</p>
+        </div>
+        <span class="dashboard-arrow" aria-hidden="true">&rarr;</span>
+    </a>
 </section>
 
 <section class="cms-stats" aria-label="Content totals">
@@ -40,4 +58,6 @@
     }
     <a asp-action="News"><strong>@Model.NewsCount</strong><span>News Cards</span></a>
     <a asp-action="Training"><strong>@Model.TrainingPdfCount</strong><span>Training PDFs</span></a>
+    <a asp-action="CancerBurden"><strong>@Model.CancerBurdenPdfCount</strong><span>Cancer Burden PDFs</span></a>
+    <a asp-action="OdishaCirculars"><strong>@Model.OdishaCircularCount</strong><span>Odisha State Circulars</span></a>
 </section>

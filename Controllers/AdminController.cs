@@ -35,7 +35,9 @@ public sealed class AdminController(
         {
             UserCount = await repository.CountUsersAsync(cancellationToken),
             NewsCount = await repository.CountNewsCardsAsync(cancellationToken),
-            TrainingPdfCount = (await trainingStore.GetAllAsync(cancellationToken)).Count
+            TrainingPdfCount = (await trainingStore.GetAllAsync(cancellationToken)).Count,
+            CancerBurdenPdfCount = await repository.CountCancerBurdenRecordsAsync(cancellationToken),
+            OdishaCircularCount = await repository.CountOdishaCircularRecordsAsync(cancellationToken)
         };
         return View(model);
     }
@@ -371,8 +373,9 @@ public sealed class AdminController(
         {
             Id = record.Id,
             District = record.District,
-            Title = record.Title,
-            Description = record.Description,
+            English = ResourceLanguage(record.Title, record.Description),
+            Hindi = ResourceLanguage(record.TitleHi, record.DescriptionHi, record.Title, record.Description),
+            Odia = ResourceLanguage(record.TitleOr, record.DescriptionOr, record.Title, record.Description),
             ExistingPdfPath = record.PdfPath,
             ExistingPreviewPath = record.PreviewPath
         });
@@ -411,6 +414,360 @@ public sealed class AdminController(
         }
         TempData["Success"] = "The district training record and its managed files were deleted.";
         return RedirectToAction(nameof(Training));
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> CancerBurden(CancellationToken cancellationToken) =>
+        View(await repository.GetCancerBurdenRecordsAsync(cancellationToken));
+
+    [HttpGet]
+    public IActionResult CreateCancerBurden()
+    {
+        SetDistricts();
+        return View("CancerBurdenForm", new CancerBurdenFormViewModel());
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    [RequestFormLimits(MultipartBodyLengthLimit = 35 * 1024 * 1024)]
+    public async Task<IActionResult> CreateCancerBurden(
+        CancerBurdenFormViewModel model,
+        CancellationToken cancellationToken)
+    {
+        await ValidateCancerBurdenAsync(model, true, cancellationToken);
+        if (!ModelState.IsValid)
+        {
+            SetDistricts();
+            return View("CancerBurdenForm", model);
+        }
+
+        string? pdfPath = null;
+        string? previewPath = null;
+        try
+        {
+            pdfPath = await files.SavePdfAsync(model.PdfFile!, "cancer-burden", cancellationToken);
+            previewPath = await files.SavePreviewImageAsync(
+                model.PreviewImage!,
+                "cancer-burden",
+                cancellationToken);
+            var userId = GetCurrentUserId();
+            await repository.CreateCancerBurdenRecordAsync(new CancerBurdenRecord
+            {
+                District = model.District.Trim(),
+                Title = model.English.Title.Trim(),
+                Description = model.English.Description.Trim(),
+                TitleHi = model.Hindi.Title.Trim(),
+                DescriptionHi = model.Hindi.Description.Trim(),
+                TitleOr = model.Odia.Title.Trim(),
+                DescriptionOr = model.Odia.Description.Trim(),
+                PdfPath = pdfPath,
+                PreviewPath = previewPath,
+                CreatedById = userId,
+                UpdatedById = userId
+            }, cancellationToken);
+            TempData["Success"] = "The cancer burden factsheet was added to the public Cancer Burden page.";
+            return RedirectToAction(nameof(CancerBurden));
+        }
+        catch
+        {
+            await files.DeleteIfManagedAsync(pdfPath, cancellationToken);
+            await files.DeleteIfManagedAsync(previewPath, cancellationToken);
+            throw;
+        }
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> EditCancerBurden(int id, CancellationToken cancellationToken)
+    {
+        var record = await repository.GetCancerBurdenRecordAsync(id, cancellationToken);
+        if (record is null)
+        {
+            return NotFound();
+        }
+        SetDistricts();
+        return View("CancerBurdenForm", new CancerBurdenFormViewModel
+        {
+            Id = record.Id,
+            District = record.District,
+            English = ResourceLanguage(record.Title, record.Description),
+            Hindi = ResourceLanguage(record.TitleHi, record.DescriptionHi, record.Title, record.Description),
+            Odia = ResourceLanguage(record.TitleOr, record.DescriptionOr, record.Title, record.Description),
+            ExistingPdfPath = record.PdfPath,
+            ExistingPreviewPath = record.PreviewPath
+        });
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    [RequestFormLimits(MultipartBodyLengthLimit = 35 * 1024 * 1024)]
+    public async Task<IActionResult> EditCancerBurden(
+        CancerBurdenFormViewModel model,
+        CancellationToken cancellationToken)
+    {
+        if (model.Id is null)
+        {
+            return BadRequest();
+        }
+        var existing = await repository.GetCancerBurdenRecordAsync(model.Id.Value, cancellationToken);
+        if (existing is null)
+        {
+            return NotFound();
+        }
+
+        await ValidateCancerBurdenAsync(model, false, cancellationToken);
+        if (!ModelState.IsValid)
+        {
+            model.ExistingPdfPath = existing.PdfPath;
+            model.ExistingPreviewPath = existing.PreviewPath;
+            SetDistricts();
+            return View("CancerBurdenForm", model);
+        }
+
+        string? newPdfPath = null;
+        string? newPreviewPath = null;
+        try
+        {
+            if (model.PdfFile is { Length: > 0 })
+            {
+                newPdfPath = await files.SavePdfAsync(model.PdfFile, "cancer-burden", cancellationToken);
+            }
+            if (model.PreviewImage is { Length: > 0 })
+            {
+                newPreviewPath = await files.SavePreviewImageAsync(
+                    model.PreviewImage,
+                    "cancer-burden",
+                    cancellationToken);
+            }
+
+            var updated = new CancerBurdenRecord
+            {
+                Id = existing.Id,
+                District = model.District.Trim(),
+                Title = model.English.Title.Trim(),
+                Description = model.English.Description.Trim(),
+                TitleHi = model.Hindi.Title.Trim(),
+                DescriptionHi = model.Hindi.Description.Trim(),
+                TitleOr = model.Odia.Title.Trim(),
+                DescriptionOr = model.Odia.Description.Trim(),
+                PdfPath = newPdfPath ?? existing.PdfPath,
+                PreviewPath = newPreviewPath ?? existing.PreviewPath,
+                UpdatedById = GetCurrentUserId()
+            };
+            if (!await repository.UpdateCancerBurdenRecordAsync(updated, cancellationToken))
+            {
+                await files.DeleteIfManagedAsync(newPdfPath, cancellationToken);
+                await files.DeleteIfManagedAsync(newPreviewPath, cancellationToken);
+                return NotFound();
+            }
+            if (newPdfPath is not null)
+            {
+                await files.DeleteIfManagedAsync(existing.PdfPath, cancellationToken);
+            }
+            if (newPreviewPath is not null)
+            {
+                await files.DeleteIfManagedAsync(existing.PreviewPath, cancellationToken);
+            }
+            TempData["Success"] = "The cancer burden factsheet was updated.";
+            return RedirectToAction(nameof(CancerBurden));
+        }
+        catch
+        {
+            await files.DeleteIfManagedAsync(newPdfPath, cancellationToken);
+            await files.DeleteIfManagedAsync(newPreviewPath, cancellationToken);
+            throw;
+        }
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> DeleteCancerBurden(int id, CancellationToken cancellationToken)
+    {
+        var record = await repository.GetCancerBurdenRecordAsync(id, cancellationToken);
+        if (record is null || !await repository.DeleteCancerBurdenRecordAsync(id, cancellationToken))
+        {
+            return NotFound();
+        }
+        await files.DeleteIfManagedAsync(record.PdfPath, cancellationToken);
+        await files.DeleteIfManagedAsync(record.PreviewPath, cancellationToken);
+        TempData["Success"] = "The cancer burden record and its managed files were deleted.";
+        return RedirectToAction(nameof(CancerBurden));
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> OdishaCirculars(CancellationToken cancellationToken) =>
+        View(await repository.GetOdishaCircularRecordsAsync(cancellationToken));
+
+    [HttpGet]
+    public IActionResult CreateOdishaCircular()
+    {
+        SetDistricts();
+        return View("OdishaCircularForm", new OdishaCircularFormViewModel());
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    [RequestFormLimits(MultipartBodyLengthLimit = 35 * 1024 * 1024)]
+    public async Task<IActionResult> CreateOdishaCircular(
+        OdishaCircularFormViewModel model,
+        CancellationToken cancellationToken)
+    {
+        await ValidateOdishaCircularAsync(model, true, cancellationToken);
+        if (!ModelState.IsValid)
+        {
+            SetDistricts();
+            return View("OdishaCircularForm", model);
+        }
+
+        string? pdfPath = null;
+        string? previewPath = null;
+        try
+        {
+            pdfPath = await files.SavePdfAsync(model.PdfFile!, "odisha-circulars", cancellationToken);
+            previewPath = await files.SavePreviewImageAsync(
+                model.PreviewImage!,
+                "odisha-circulars",
+                cancellationToken);
+            var userId = GetCurrentUserId();
+            await repository.CreateOdishaCircularRecordAsync(new OdishaCircularRecord
+            {
+                District = model.District.Trim(),
+                Title = model.English.Title.Trim(),
+                Description = model.English.Description.Trim(),
+                TitleHi = model.Hindi.Title.Trim(),
+                DescriptionHi = model.Hindi.Description.Trim(),
+                TitleOr = model.Odia.Title.Trim(),
+                DescriptionOr = model.Odia.Description.Trim(),
+                PdfPath = pdfPath,
+                PreviewPath = previewPath,
+                CreatedById = userId,
+                UpdatedById = userId
+            }, cancellationToken);
+            TempData["Success"] = "The Odisha State circular was added to the public About Us page.";
+            return RedirectToAction(nameof(OdishaCirculars));
+        }
+        catch
+        {
+            await files.DeleteIfManagedAsync(pdfPath, cancellationToken);
+            await files.DeleteIfManagedAsync(previewPath, cancellationToken);
+            throw;
+        }
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> EditOdishaCircular(int id, CancellationToken cancellationToken)
+    {
+        var record = await repository.GetOdishaCircularRecordAsync(id, cancellationToken);
+        if (record is null)
+        {
+            return NotFound();
+        }
+        SetDistricts();
+        return View("OdishaCircularForm", new OdishaCircularFormViewModel
+        {
+            Id = record.Id,
+            District = record.District,
+            English = ResourceLanguage(record.Title, record.Description),
+            Hindi = ResourceLanguage(record.TitleHi, record.DescriptionHi, record.Title, record.Description),
+            Odia = ResourceLanguage(record.TitleOr, record.DescriptionOr, record.Title, record.Description),
+            ExistingPdfPath = record.PdfPath,
+            ExistingPreviewPath = record.PreviewPath
+        });
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    [RequestFormLimits(MultipartBodyLengthLimit = 35 * 1024 * 1024)]
+    public async Task<IActionResult> EditOdishaCircular(
+        OdishaCircularFormViewModel model,
+        CancellationToken cancellationToken)
+    {
+        if (model.Id is null)
+        {
+            return BadRequest();
+        }
+        var existing = await repository.GetOdishaCircularRecordAsync(model.Id.Value, cancellationToken);
+        if (existing is null)
+        {
+            return NotFound();
+        }
+
+        await ValidateOdishaCircularAsync(model, false, cancellationToken);
+        if (!ModelState.IsValid)
+        {
+            model.ExistingPdfPath = existing.PdfPath;
+            model.ExistingPreviewPath = existing.PreviewPath;
+            SetDistricts();
+            return View("OdishaCircularForm", model);
+        }
+
+        string? newPdfPath = null;
+        string? newPreviewPath = null;
+        try
+        {
+            if (model.PdfFile is { Length: > 0 })
+            {
+                newPdfPath = await files.SavePdfAsync(model.PdfFile, "odisha-circulars", cancellationToken);
+            }
+            if (model.PreviewImage is { Length: > 0 })
+            {
+                newPreviewPath = await files.SavePreviewImageAsync(
+                    model.PreviewImage,
+                    "odisha-circulars",
+                    cancellationToken);
+            }
+
+            var updated = new OdishaCircularRecord
+            {
+                Id = existing.Id,
+                District = model.District.Trim(),
+                Title = model.English.Title.Trim(),
+                Description = model.English.Description.Trim(),
+                TitleHi = model.Hindi.Title.Trim(),
+                DescriptionHi = model.Hindi.Description.Trim(),
+                TitleOr = model.Odia.Title.Trim(),
+                DescriptionOr = model.Odia.Description.Trim(),
+                PdfPath = newPdfPath ?? existing.PdfPath,
+                PreviewPath = newPreviewPath ?? existing.PreviewPath,
+                UpdatedById = GetCurrentUserId()
+            };
+            if (!await repository.UpdateOdishaCircularRecordAsync(updated, cancellationToken))
+            {
+                await files.DeleteIfManagedAsync(newPdfPath, cancellationToken);
+                await files.DeleteIfManagedAsync(newPreviewPath, cancellationToken);
+                return NotFound();
+            }
+            if (newPdfPath is not null)
+            {
+                await files.DeleteIfManagedAsync(existing.PdfPath, cancellationToken);
+            }
+            if (newPreviewPath is not null)
+            {
+                await files.DeleteIfManagedAsync(existing.PreviewPath, cancellationToken);
+            }
+            TempData["Success"] = "The Odisha State circular was updated.";
+            return RedirectToAction(nameof(OdishaCirculars));
+        }
+        catch
+        {
+            await files.DeleteIfManagedAsync(newPdfPath, cancellationToken);
+            await files.DeleteIfManagedAsync(newPreviewPath, cancellationToken);
+            throw;
+        }
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> DeleteOdishaCircular(int id, CancellationToken cancellationToken)
+    {
+        var record = await repository.GetOdishaCircularRecordAsync(id, cancellationToken);
+        if (record is null || !await repository.DeleteOdishaCircularRecordAsync(id, cancellationToken))
+        {
+            return NotFound();
+        }
+        await files.DeleteIfManagedAsync(record.PdfPath, cancellationToken);
+        await files.DeleteIfManagedAsync(record.PreviewPath, cancellationToken);
+        TempData["Success"] = "The Odisha State circular record and its managed files were deleted.";
+        return RedirectToAction(nameof(OdishaCirculars));
     }
 
     private int GetCurrentUserId() =>
@@ -558,6 +915,64 @@ public sealed class AdminController(
             ModelState.AddModelError(nameof(model.PreviewImage), previewError);
         }
     }
+
+    private async Task ValidateCancerBurdenAsync(
+        CancerBurdenFormViewModel model,
+        bool required,
+        CancellationToken cancellationToken)
+    {
+        if (!Districts.Contains(model.District))
+        {
+            ModelState.AddModelError(nameof(model.District), "Select a valid Odisha district.");
+        }
+        var pdfError = await files.ValidatePdfAsync(model.PdfFile, required, cancellationToken);
+        if (pdfError is not null)
+        {
+            ModelState.AddModelError(nameof(model.PdfFile), pdfError);
+        }
+        var previewError = await files.ValidatePreviewImageAsync(
+            model.PreviewImage,
+            required,
+            cancellationToken);
+        if (previewError is not null)
+        {
+            ModelState.AddModelError(nameof(model.PreviewImage), previewError);
+        }
+    }
+
+    private async Task ValidateOdishaCircularAsync(
+        OdishaCircularFormViewModel model,
+        bool required,
+        CancellationToken cancellationToken)
+    {
+        if (!Districts.Contains(model.District))
+        {
+            ModelState.AddModelError(nameof(model.District), "Select a valid Odisha district.");
+        }
+        var pdfError = await files.ValidatePdfAsync(model.PdfFile, required, cancellationToken);
+        if (pdfError is not null)
+        {
+            ModelState.AddModelError(nameof(model.PdfFile), pdfError);
+        }
+        var previewError = await files.ValidatePreviewImageAsync(
+            model.PreviewImage,
+            required,
+            cancellationToken);
+        if (previewError is not null)
+        {
+            ModelState.AddModelError(nameof(model.PreviewImage), previewError);
+        }
+    }
+
+    private static PdfResourceLanguageInput ResourceLanguage(
+        string title,
+        string description,
+        string? fallbackTitle = null,
+        string? fallbackDescription = null) => new()
+    {
+        Title = string.IsNullOrWhiteSpace(title) ? fallbackTitle ?? "" : title,
+        Description = string.IsNullOrWhiteSpace(description) ? fallbackDescription ?? "" : description
+    };
 
     private void SetDistricts() => ViewBag.Districts = Districts;
 }

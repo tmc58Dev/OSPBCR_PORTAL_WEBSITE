@@ -10,7 +10,7 @@
     };
     const catalogs = new Map();
     const catalogIndexes = new Map();
-    const catalogCacheVersion = "20260801-about-network";
+    const catalogCacheVersion = "20260813-translation-completion-v2";
     const originalText = new WeakMap();
     const originalAttributes = new WeakMap();
     let currentLanguage = getSavedLanguage();
@@ -113,15 +113,17 @@
         if (catalogs.has(language)) return catalogs.get(language);
 
         try {
-            const [response, overridesResponse] = await Promise.all([
+            const [response, overridesResponse, completionResponse] = await Promise.all([
                 fetch(`${scriptBasePath}${language}.json?v=${catalogCacheVersion}`),
-                fetch(`${scriptBasePath}${language}.overrides.json?v=${catalogCacheVersion}`)
+                fetch(`${scriptBasePath}${language}.overrides.json?v=${catalogCacheVersion}`),
+                fetch(`${scriptBasePath}${language}.completion.json?v=${catalogCacheVersion}`)
             ]);
 
             if (!response.ok) throw new Error(`HTTP ${response.status}`);
             const baseCatalog = await response.json();
             const overrides = overridesResponse.ok ? await overridesResponse.json() : {};
-            const catalog = { ...baseCatalog, ...overrides };
+            const completion = completionResponse.ok ? await completionResponse.json() : {};
+            const catalog = { ...baseCatalog, ...overrides, ...completion };
             catalogs.set(language, catalog);
             indexCatalog(language, catalog);
             return catalog;

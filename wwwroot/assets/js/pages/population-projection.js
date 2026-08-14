@@ -413,7 +413,6 @@
     createPane("districtLabelPane", 425);
     createPane("blockLabelPane", 426);
     createPane("villagePane", 430);
-    createPane("healthPane", 440);
 
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         maxZoom: 19,
@@ -428,8 +427,7 @@
         blocks: null,
         blockLabels: null,
         villages: null,
-        subcentres: null,
-        medicalFacilities: null,
+        villageRequestId: 0,
         selectedDistrict: "",
         selectedBlock: "",
         selectedBlockDisplayName: "",
@@ -566,12 +564,43 @@
 
     const resolveProjectionBlockName = (district, mapBlock, projectionBlockNames = []) => {
         const normalizedMapBlock = normalizeBlockName(mapBlock);
+        if (!normalizedMapBlock) return "";
         const crosswalk = projectionBlockNames.length
             ? buildBlockCrosswalk(district, projectionBlockNames)
             : projectionBlockCrosswalks.get(district);
-        return projectionBlockNames.find(projectionBlock =>
+
+        const exactProjectionBlock = projectionBlockNames.find(projectionBlock =>
+            compactBlockName(projectionBlock) === compactBlockName(normalizedMapBlock)
+        );
+        if (exactProjectionBlock) return exactProjectionBlock;
+
+        const exactMappedBlock = projectionBlockNames.find(projectionBlock =>
             normalizeBlockName(crosswalk?.get(normalizeBlockName(projectionBlock))) === normalizedMapBlock
-        ) || mapBlock;
+        );
+        if (exactMappedBlock) return exactMappedBlock;
+
+        const closestProjectionBlock = projectionBlockNames
+            .map(projectionBlock => ({
+                projectionBlock,
+                score: Math.max(
+                    blockNameSimilarity(projectionBlock, normalizedMapBlock),
+                    blockNameSimilarity(
+                        crosswalk?.get(normalizeBlockName(projectionBlock)) || projectionBlock,
+                        normalizedMapBlock
+                    )
+                )
+            }))
+            .sort((left, right) => right.score - left.score)[0];
+
+        return closestProjectionBlock?.score >= 0.55
+            ? closestProjectionBlock.projectionBlock
+            : mapBlock;
+    };
+
+    const namesApproximatelyMatch = (left, right, threshold) => {
+        if (!left || !right) return false;
+        return compactBlockName(left) === compactBlockName(right) ||
+            blockNameSimilarity(left, right) >= threshold;
     };
 
     const makePopup = (title, rows) => {
@@ -616,7 +645,7 @@
         const blockDisplayName = layerState.selectedBlockDisplayName || block;
         const hasBlockGeometry = !block || blockFeatureLayers.has(blockLayerKey(district, block));
         const villageCount = block
-            ? layerState.villages?.toGeoJSON().features.length || 0
+            ? layerState.villages?.toGeoJSON().features.length ?? null
             : district
                 ? layerState.metadata.villageFiles[district]?.count || 0
             : layerState.metadata.counts.villages;
@@ -636,14 +665,28 @@
         document.getElementById("gisSelectedBlocks").textContent = numberFormatter.format(
             block ? Number(hasBlockGeometry) : districtBlockCount(district)
         );
-        document.getElementById("gisSelectedVillages").textContent = numberFormatter.format(villageCount);
+        document.getElementById("gisSelectedVillages").textContent = villageCount === null
+            ? "Not loaded"
+            : numberFormatter.format(villageCount);
     };
 
     const styleDistrictSelection = () => {
         districtFeatureLayers.forEach((featureLayer, district) => {
-            featureLayer.setStyle(district === layerState.selectedDistrict
+            const isSelected = district === layerState.selectedDistrict;
+            const isHidden = Boolean(layerState.selectedDistrict) && !isSelected;
+            featureLayer.options.interactive = !isHidden;
+            featureLayer.setStyle(isSelected
                 ? districtSelectedStyle
-                : districtBaseStyle);
+                : isHidden
+                    ? {
+                        pane: "districtPane",
+                        color: "transparent",
+                        weight: 0,
+                        fillColor: "transparent",
+                        fillOpacity: 0,
+                        opacity: 0
+                    }
+                    : districtBaseStyle);
         });
     };
 
@@ -708,14 +751,17 @@
             const isSelectedBlock = !layerState.selectedBlock ||
                 normalizeBlockName(properties.T_NAME) === layerState.selectedBlock;
             const selected = inDistrict && isSelectedBlock;
+            const hiddenByAreaSelection = Boolean(layerState.selectedDistrict) && !inDistrict;
             const hiddenByBlockSelection = Boolean(layerState.selectedBlock) && !selected;
+            const hidden = hiddenByAreaSelection || hiddenByBlockSelection;
+            featureLayer.options.interactive = !hidden;
             featureLayer.setStyle({
                 pane: "blockPane",
-                color: selected ? "#be123c" : hiddenByBlockSelection ? "transparent" : "#a7b7c0",
-                weight: selected ? 1.4 : hiddenByBlockSelection ? 0 : 0.55,
-                fillColor: selected ? "#fb7185" : hiddenByBlockSelection ? "transparent" : "#d8e2e7",
-                fillOpacity: selected ? 0.12 : hiddenByBlockSelection ? 0 : 0.015,
-                opacity: selected ? 0.95 : hiddenByBlockSelection ? 0 : 0.3
+                color: selected ? "#be123c" : hidden ? "transparent" : "#a7b7c0",
+                weight: selected ? 1.4 : hidden ? 0 : 0.55,
+                fillColor: selected ? "#fb7185" : hidden ? "transparent" : "#d8e2e7",
+                fillOpacity: selected ? 0.12 : hidden ? 0 : 0.015,
+                opacity: selected ? 0.95 : hidden ? 0 : 0.3
             });
             if (selected && layerState.selectedBlock) featureLayer.bringToFront();
         });
@@ -731,19 +777,28 @@
     const loadVillageLayer = async () => {
         const district = layerState.selectedDistrict;
         const villageFile = layerState.metadata.villageFiles[district]?.file;
+        const requestId = ++layerState.villageRequestId;
         removeVillageLayer();
         if (!district || !villageFile || !villageToggle.checked) return;
 
         setStatus(`Loading village boundaries for ${district}...`);
         try {
             const data = await loadJson(villageFile);
-            if (district !== layerState.selectedDistrict || !villageToggle.checked) return;
+            if (requestId !== layerState.villageRequestId ||
+                district !== layerState.selectedDistrict ||
+                !villageToggle.checked) return;
 
             const visibleVillageData = layerState.selectedBlock
                 ? {
                     ...data,
                     features: data.features.filter(feature =>
-                        normalizeBlockName(feature.properties.BLOCK) === layerState.selectedBlock
+                        [layerState.selectedBlock, layerState.selectedBlockDisplayName]
+                            .filter(Boolean)
+                            .some(selectedName => namesApproximatelyMatch(
+                                feature.properties.BLOCK,
+                                selectedName,
+                                0.55
+                            ))
                     )
                 }
                 : data;
@@ -762,6 +817,9 @@
                         ["Block", feature.properties.BLOCK],
                         ["Village code", feature.properties.LCODE]
                     ]));
+                    featureLayer.on("click", () =>
+                        selectBlockFromOverlay(district, feature.properties.BLOCK)
+                    );
                 }
             }).addTo(map);
             layerState.villages.bringToFront();
@@ -773,6 +831,31 @@
         }
     };
 
+    const openSelectedBlockPopup = (district, block) => {
+        const featureLayer = blockFeatureLayers.get(blockLayerKey(district, block));
+        if (!featureLayer) return false;
+
+        const properties = featureLayer.feature.properties;
+        const popup = L.popup({ closeButton: true, autoPan: true })
+            .setLatLng(featureLayer.getBounds().getCenter())
+            .setContent(makePopup(properties.T_NAME, [
+                ["District", properties.DISTRICT],
+                ["Block code", properties.T_CODE]
+            ]));
+
+        popup.once("add", () => {
+            const closeButton = popup.getElement()?.querySelector(".leaflet-popup-close-button");
+            if (!closeButton) return;
+            closeButton.addEventListener(
+                "click",
+                () => showAllBlocksForDistrict(district),
+                { once: true }
+            );
+        });
+        popup.openOn(map);
+        return true;
+    };
+
     const selectDistrict = async (
         district,
         fitMap = true,
@@ -780,6 +863,7 @@
         notifyProjection = true,
         projectionBlockNames = []
     ) => {
+        mapElement.classList.remove("gis-block-cursor");
         layerState.selectedDistrict = district || "";
         layerState.projectionBlockNames = projectionBlockNames;
         syncToolbarBlockSelect(layerState.selectedDistrict, projectionBlockNames, block);
@@ -818,6 +902,12 @@
             if (selectedBlockLayer) map.fitBounds(selectedBlockLayer.getBounds(), { padding: [34, 34] });
             else if (selectedLayer) map.fitBounds(selectedLayer.getBounds(), { padding: [24, 24] });
             else if (layerState.districts) map.fitBounds(layerState.districts.getBounds(), { padding: [18, 18] });
+        }
+
+        if (layerState.selectedBlock && selectedBlockLayer) {
+            openSelectedBlockPopup(layerState.selectedDistrict, layerState.selectedBlock);
+        } else {
+            map.closePopup();
         }
 
         if (villageToggle.checked) await loadVillageLayer();
@@ -896,47 +986,29 @@
         }));
     };
 
-    const loadPointLayer = async layerName => {
-        const isSubcentre = layerName === "subcentres";
-        const file = isSubcentre ? "subcentres.geojson" : "medical-facilities.geojson";
-        const label = isSubcentre ? "subcentres" : "medical facilities";
-        setStatus(`Loading ${label}...`);
-
-        try {
-            const data = await loadJson(file);
-            const layer = L.geoJSON(data, {
-                pane: "healthPane",
-                pointToLayer: (_, latlng) => L.circleMarker(latlng, {
-                    pane: "healthPane",
-                    radius: isSubcentre ? 3.2 : 6,
-                    color: "#ffffff",
-                    weight: isSubcentre ? 0.8 : 1.5,
-                    fillColor: isSubcentre ? "#2563eb" : "#dc2626",
-                    fillOpacity: 0.9
-                }),
-                onEachFeature: (feature, featureLayer) => {
-                    const properties = feature.properties;
-                    featureLayer.bindPopup(isSubcentre
-                        ? makePopup(properties.SUBCENTER || "Subcentre", [
-                            ["District", properties.D_NAME],
-                            ["Block", properties.BLOCK],
-                            ["Code", properties.CODE]
-                        ])
-                        : makePopup(properties.INST || properties.LOCATION || "Medical facility", [
-                            ["Category", properties.MED_CATEGO],
-                            ["District", properties.DIST_NAME],
-                            ["Block", properties.BLOCK_NAME],
-                            ["Location", properties.LOCATION]
-                        ]));
-                }
-            }).addTo(map);
-            layerState[layerName] = layer;
-            setStatus(`${numberFormatter.format(data.features.length)} ${label} displayed.`);
-        } catch (error) {
-            console.error(`${label} GIS data error:`, error);
-            setStatus(`${label[0].toUpperCase()}${label.slice(1)} could not be loaded.`, true);
-            document.querySelector(`[data-gis-layer="${layerName}"]`).checked = false;
+    const selectBlockFromOverlay = (district, rawBlock) => {
+        if (!district || !rawBlock) return;
+        if (layerState.selectedDistrict !== district) {
+            selectDistrict(district);
+            return;
         }
+        selectBlockFromMap(district, rawBlock);
+    };
+
+    const showAllBlocksForDistrict = district => {
+        selectDistrict(
+            district,
+            true,
+            "",
+            false,
+            layerState.projectionBlockNames
+        );
+        document.dispatchEvent(new CustomEvent("population:mapblockchange", {
+            detail: {
+                mapKey: district,
+                block: ""
+            }
+        }));
     };
 
     const handleLayerToggle = async event => {
@@ -944,8 +1016,13 @@
         const layerName = checkbox.dataset.gisLayer;
 
         if (layerName === "blocks") {
-            if (checkbox.checked) layerState.blocks.addTo(map);
-            else map.removeLayer(layerState.blocks);
+            if (!layerState.blocks) return;
+            if (checkbox.checked) {
+                layerState.blocks.addTo(map);
+                styleBlockSelection();
+            } else {
+                map.removeLayer(layerState.blocks);
+            }
             syncBlockLabels();
             setStatus(`Block boundaries ${checkbox.checked ? "displayed" : "hidden"}.`);
             return;
@@ -959,14 +1036,6 @@
                 setStatus("Village boundaries hidden.");
             }
             return;
-        }
-
-        if (checkbox.checked) {
-            if (layerState[layerName]) layerState[layerName].addTo(map);
-            else await loadPointLayer(layerName);
-        } else if (layerState[layerName]) {
-            map.removeLayer(layerState[layerName]);
-            setStatus(`${layerName === "subcentres" ? "Subcentres" : "Medical facilities"} hidden.`);
         }
     };
 
@@ -1050,13 +1119,22 @@
                         { label: blockLabel, mapName: normalizedBlock }
                     );
 
-                    featureLayer.bindPopup(makePopup(properties.T_NAME, [
-                        ["District", properties.DISTRICT],
-                        ["Block code", properties.T_CODE]
-                    ]));
-                    featureLayer.on("click", () =>
-                        selectBlockFromMap(properties.DISTRICT, properties.T_NAME)
-                    );
+                    featureLayer.on("click", () => {
+                        if (layerState.selectedDistrict !== properties.DISTRICT) {
+                            selectDistrict(properties.DISTRICT);
+                            return;
+                        }
+                        selectBlockFromMap(properties.DISTRICT, properties.T_NAME);
+                    });
+                    featureLayer.on("mouseover", () => {
+                        const canSelectBlock = Boolean(layerState.selectedDistrict) &&
+                            properties.DISTRICT === layerState.selectedDistrict &&
+                            map.hasLayer(layerState.blocks);
+                        mapElement.classList.toggle("gis-block-cursor", canSelectBlock);
+                    });
+                    featureLayer.on("mouseout", () => {
+                        mapElement.classList.remove("gis-block-cursor");
+                    });
                 }
             }).addTo(map);
 
@@ -1103,12 +1181,6 @@
     resetButton.addEventListener("click", () => {
         blockToggle.checked = true;
         if (layerState.blocks && !map.hasLayer(layerState.blocks)) layerState.blocks.addTo(map);
-
-        ["subcentres", "medicalFacilities"].forEach(layerName => {
-            const checkbox = document.querySelector(`[data-gis-layer="${layerName}"]`);
-            checkbox.checked = false;
-            if (layerState[layerName]) map.removeLayer(layerState[layerName]);
-        });
         selectDistrict("");
     });
 

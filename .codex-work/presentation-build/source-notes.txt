@@ -1,0 +1,19 @@
+Presentation: OSPBCR Portal — Complete Website & Database Overview
+Generated: 2026-08-13
+
+Primary local sources
+- D:/VINAY/PROJECTS/OSPBCR_PORTAL/Program.cs
+- D:/VINAY/PROJECTS/OSPBCR_PORTAL/OSPBCR_PORTAL.csproj
+- D:/VINAY/PROJECTS/OSPBCR_PORTAL/Controllers/*.cs
+- D:/VINAY/PROJECTS/OSPBCR_PORTAL/Data/*.cs
+- D:/VINAY/PROJECTS/OSPBCR_PORTAL/Models/*.cs
+- D:/VINAY/PROJECTS/OSPBCR_PORTAL/Services/*.cs
+- D:/VINAY/PROJECTS/OSPBCR_PORTAL/Views/Home/*.html
+- D:/VINAY/PROJECTS/OSPBCR_PORTAL/Views/Admin/*.cshtml
+- D:/VINAY/PROJECTS/OSPBCR_PORTAL/Views/Shared/navbar.html
+- D:/VINAY/PROJECTS/OSPBCR_PORTAL/wwwroot/assets/js/**/*.js
+- D:/VINAY/PROJECTS/OSPBCR_PORTAL/wwwroot/assets/css/**/*.css
+- D:/VINAY/PROJECTS/OSPBCR_PORTAL/Summary of DB/.database-summary-work/database-profile.json
+
+Local screenshots captured from the running portal at http://localhost:5136 on 2026-08-13.
+No internet research was used. All claims are based on the local project and its local database profile.

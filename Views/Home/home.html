@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="assets/css/pages/about.css">
 
     <!-- Home CSS -->
-    <link rel="stylesheet" href="assets/css/pages/home.css?v=20260802-slider-bar-fix">
+    <link rel="stylesheet" href="assets/css/pages/home.css?v=20260805-news-date-sort">
     <link rel="stylesheet" href="assets/css/design-system.css?v=20260803-home-slider-height">
     <link rel="stylesheet" href="assets/css/pages/trending.css?v=20260801-shared-news-cards">
 
@@ -414,10 +414,22 @@
                         <p>Recent announcements, activities, and milestones from the Odisha State Population-Based Cancer Registry.</p>
                     </div>
 
-                    <div class="news-language-filter" role="group" aria-label="Filter News Cards by language">
-                        <button type="button" data-news-language="en" data-i18n-skip>English</button>
-                        <button type="button" data-news-language="hi" data-i18n-skip>हिन्दी</button>
-                        <button type="button" data-news-language="or" data-i18n-skip>ଓଡ଼ିଆ</button>
+                    <div class="news-filter-controls">
+                        <div class="news-language-filter" role="group" aria-label="Filter News Cards by language">
+                            <button type="button" data-news-language="en" data-i18n-skip>English</button>
+                            <button type="button" data-news-language="hi" data-i18n-skip>हिन्दी</button>
+                            <button type="button" data-news-language="or" data-i18n-skip>ଓଡ଼ିଆ</button>
+                        </div>
+                        <div class="news-date-filter" role="group" aria-label="Arrange News Cards by date">
+                            <button type="button" data-news-date-order="asc" title="Oldest date first">
+                                <span aria-hidden="true">&uarr;</span>
+                                Ascending
+                            </button>
+                            <button type="button" data-news-date-order="desc" title="Newest date first">
+                                <span aria-hidden="true">&darr;</span>
+                                Descending
+                            </button>
+                        </div>
                     </div>
                 </div>
 
@@ -458,16 +470,16 @@
                 <div class="collaboration-grid">
 
                     <a
-                        class="collaboration-card collaboration-card--tmc hover-scale fade-up"
-                        href="https://tmc.gov.in/"
+                        class="collaboration-card collaboration-card--odisha hover-scale fade-up"
+                        href="https://health.odisha.gov.in/"
                         target="_blank"
                         rel="noopener noreferrer"
-                        aria-label="Visit Tata Memorial Centre website"
+                        aria-label="Visit Department of Health and Family Welfare, Government of Odisha website"
                     >
                         <div class="collaboration-card-content">
-                            <h3 class="tmc-title">Tata Memorial Centre</h3>
-                            <p class="collaboration-slogan">Excellence in Service, Education, and Research.</p>
-                            <p>Providing comprehensive, affordable, and world-class cancer care to all.</p>
+                            <h3>Department of Health &amp; Family Welfare, Government of Odisha</h3>
+                            <p class="collaboration-slogan">Health for All</p>
+                            <p>Prioritizing affordable healthcare for tribal, rural, and economically vulnerable populations.</p>
                         </div>
                     </a>
 
@@ -486,16 +498,16 @@
                     </a>
 
                     <a
-                        class="collaboration-card collaboration-card--odisha hover-scale fade-up"
-                        href="https://health.odisha.gov.in/"
+                        class="collaboration-card collaboration-card--tmc hover-scale fade-up"
+                        href="https://tmc.gov.in/"
                         target="_blank"
                         rel="noopener noreferrer"
-                        aria-label="Visit Department of Health and Family Welfare, Government of Odisha website"
+                        aria-label="Visit Tata Memorial Centre website"
                     >
                         <div class="collaboration-card-content">
-                            <h3>Department of Health &amp; Family Welfare, Government of Odisha</h3>
-                            <p class="collaboration-slogan">Health for All</p>
-                            <p>Prioritizing affordable healthcare for tribal, rural, and economically vulnerable populations.</p>
+                            <h3 class="tmc-title">Tata Memorial Centre</h3>
+                            <p class="collaboration-slogan">Excellence in Service, Education, and Research.</p>
+                            <p>Providing comprehensive, affordable, and world-class cancer care to all.</p>
                         </div>
                     </a>
 
@@ -519,11 +531,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
     <!-- JS -->
-    <script src="assets/js/core/i18n.js?v=20260728-translation-audit-v3"></script>
+    <script src="assets/js/core/i18n.js?v=20260813-translation-completion-v2"></script>
     <script src="assets/js/core/loader.js?v=20260723-dashboard-nav"></script>
     <script src="assets/js/core/animations.js"></script>
     <script src="assets/js/core/count-up.js"></script>
-    <script src="assets/js/pages/home.js?v=20260801-trending-news-cards"></script>
+    <script src="assets/js/pages/home.js?v=20260807-gallery-2s"></script>
 
 </body>
 

@@ -1,0 +1,21 @@
+Communication job
+By the end, government, public-health, research, clinical, and administrative audiences should understand how the OSPBCR Portal centralizes credible cancer-registry information, district analytics, downloadable resources, and controlled publishing workflows for Odisha.
+
+Source-deck audit
+- Source: reference-source.pptx, 40 slides, 16:9, 960 x 540 px.
+- Visual system: warm ivory canvas (#FCF9F3), sage green (#CAD6CA / #748165), periwinkle blue (#8E9FE5), black text (#161614), pale cream accents (#F0E4C2).
+- Character: formal but approachable public-health illustration system with rounded corner fields, dotted patterns, medical line art, compact icons, generous margins, and asymmetrical balance.
+- Reusable patterns selected: slide 1 title; slide 3 four-part overview; slide 6 text + image; slide 9 full-bleed image + caption; slide 12 chart/image + legend; slide 14 systems framework; slide 17 table + narrative; slide 19 three-part synthesis.
+- Master/layout hierarchy is preserved through duplicate-slide mapping.
+- Structural placeholders: none detected in the selected source slides. Slide-local text, images, table, and decorative elements are retained or explicitly edited.
+- Typography departure: the source uses Montserrat/Barlow; the user explicitly requires Cambria throughout. All audience-facing edited text is therefore restyled to Cambria, with headings and slide-number prefixes bold and body copy regular.
+- Slide numbers are integrated into the inherited slide heading or caption as a bold two-digit prefix, avoiding extra overlay furniture.
+- Screenshots are local, high-resolution captures of the portal and are placed only in inherited image frames.
+- Source template contains no slide transitions or object animations. Artifact-tool exposes no transition/animation authoring API; no unsupported OOXML mutation is used.
+
+Insertion contract
+- Use template-starter.pptx as the only authoring base.
+- Rewrite inherited text boxes, table cells, and image frames identified in template-frame-map.json.
+- Keep all decorative template shapes unless explicitly targeted.
+- Add only three small institutional logos on the title slide and two small factual/closing footers in unused zones, as documented in the map.
+- Add [Sources] speaker-note blocks to every output slide.

@@ -1,0 +1,206 @@
+{
+  "outputSlides": [
+    {
+      "outputSlide": 1,
+      "sourceSlide": 1,
+      "narrativeRole": "opening thesis",
+      "reuseMode": "duplicate-slide",
+      "editTargets": [
+        { "sourceElementId": "sh/ridkry1s", "action": "rewrite-and-reposition", "role": "deck title" },
+        { "sourceElementId": "sh/gnmlo32p", "action": "rewrite", "role": "subtitle" },
+        { "action": "add", "newPrimitiveAllowed": true, "mustNotOverlapInherited": true, "reason": "Add authentic Government of Odisha logo requested by the user.", "zone": { "left": 75, "top": 410, "width": 125, "height": 54 } },
+        { "action": "add", "newPrimitiveAllowed": true, "mustNotOverlapInherited": true, "reason": "Add authentic NISER logo requested by the user.", "zone": { "left": 215, "top": 410, "width": 54, "height": 54 } },
+        { "action": "add", "newPrimitiveAllowed": true, "mustNotOverlapInherited": true, "reason": "Add authentic TMC logo requested by the user.", "zone": { "left": 285, "top": 410, "width": 75, "height": 54 } }
+      ]
+    },
+    {
+      "outputSlide": 2,
+      "sourceSlide": 3,
+      "narrativeRole": "reason for developing the website",
+      "reuseMode": "duplicate-slide",
+      "editTargets": [
+        { "sourceElementIds": ["sh/qd4n6p0j", "sh/bed4fu14", "sh/cfm58zi9", "sh/dgv6h4ju", "sh/29kn2p07", "sh/3at4bu1s", "sh/ob254zid", "sh/pcvmdkjy", "sh/elkny50b", "sh/fmt47a1w", "sh/jqpkf6ho", "sh/ipgj61g3", "sh/5s72hgze"], "action": "rewrite", "role": "four-part rationale" },
+        { "action": "add", "newPrimitiveAllowed": true, "mustNotOverlapInherited": true, "reason": "Add a small local-source caption below the inherited content frame.", "zone": { "left": 75, "top": 505, "width": 700, "height": 20 } }
+      ]
+    },
+    {
+      "outputSlide": 3,
+      "sourceSlide": 19,
+      "narrativeRole": "uses by key audiences",
+      "reuseMode": "duplicate-slide",
+      "editTargets": [
+        { "sourceElementIds": ["sh/3i14v29k", "sh/s7a5s7q1", "sh/d8jm1crm", "sh/qlsnqx8b", "sh/r614z29g", "sh/8bqlgnax", "sh/tczmp8ri"], "action": "rewrite", "role": "audience use groups" }
+      ]
+    },
+    {
+      "outputSlide": 4,
+      "sourceSlide": 17,
+      "narrativeRole": "advantages of the website",
+      "reuseMode": "duplicate-slide",
+      "editTargets": [
+        { "sourceElementId": "sh/fux0n2lg", "action": "rewrite", "role": "slide title" },
+        { "sourceElementId": "tb/l4b2tcna", "action": "rewrite", "role": "benefit table" },
+        { "sourceElementIds": ["sh/hwfipc3m", "sh/axkzid4r", "sh/vyd0bilc", "sh/fm1snyxc"], "action": "rewrite", "role": "advantage summaries" }
+      ]
+    },
+    {
+      "outputSlide": 5,
+      "sourceSlide": 9,
+      "narrativeRole": "home page explanation",
+      "reuseMode": "duplicate-slide",
+      "editTargets": [
+        { "sourceElementId": "im/zqtsfmp0", "action": "replace", "role": "home screenshot" },
+        { "sourceElementId": "sh/xo72d4vq", "action": "rewrite", "role": "page heading and purpose" }
+      ]
+    },
+    {
+      "outputSlide": 6,
+      "sourceSlide": 6,
+      "narrativeRole": "about page explanation",
+      "reuseMode": "duplicate-slide",
+      "editTargets": [
+        { "sourceElementId": "sh/6h4behcf", "action": "rewrite", "role": "page heading" },
+        { "sourceElementId": "sh/wn29onad", "action": "rewrite", "role": "page explanation" },
+        { "sourceElementId": "im/6pczi1wn", "action": "rewrite-and-reposition", "role": "retire shared template photo" },
+        { "action": "add", "newPrimitiveAllowed": true, "mustNotOverlapInherited": true, "reason": "Insert a unique About-page screenshot in the vacated inherited image frame because duplicated template slides share their original media relationship.", "zone": { "left": 573, "top": 71, "width": 342, "height": 398 } }
+      ]
+    },
+    {
+      "outputSlide": 7,
+      "sourceSlide": 6,
+      "narrativeRole": "training page explanation",
+      "reuseMode": "duplicate-slide",
+      "editTargets": [
+        { "sourceElementId": "sh/6h4behcf", "action": "rewrite", "role": "page heading" },
+        { "sourceElementId": "sh/wn29onad", "action": "rewrite", "role": "page explanation" },
+        { "sourceElementId": "im/6pczi1wn", "action": "rewrite-and-reposition", "role": "retire shared template photo" },
+        { "action": "add", "newPrimitiveAllowed": true, "mustNotOverlapInherited": true, "reason": "Insert a unique Training-page screenshot in the vacated inherited image frame because duplicated template slides share their original media relationship.", "zone": { "left": 573, "top": 71, "width": 342, "height": 398 } }
+      ]
+    },
+    {
+      "outputSlide": 8,
+      "sourceSlide": 12,
+      "narrativeRole": "interactive map page explanation",
+      "reuseMode": "duplicate-slide",
+      "editTargets": [
+        { "sourceElementIds": ["sh/yl0r618n", "sh/zm9sz698", "sh/kni98rqt", "sh/lora1wry", "sh/mpkba18j", "sh/7qts3694"], "action": "rewrite", "role": "map title callouts and benefit" },
+        { "sourceElementId": "im/ipkvapob", "action": "replace", "role": "district map dashboard screenshot" }
+      ]
+    },
+    {
+      "outputSlide": 9,
+      "sourceSlide": 6,
+      "narrativeRole": "population projection page explanation",
+      "reuseMode": "duplicate-slide",
+      "editTargets": [
+        { "sourceElementId": "sh/6h4behcf", "action": "rewrite", "role": "page heading" },
+        { "sourceElementId": "sh/wn29onad", "action": "rewrite", "role": "page explanation" },
+        { "sourceElementId": "im/6pczi1wn", "action": "rewrite-and-reposition", "role": "retire shared template photo" },
+        { "action": "add", "newPrimitiveAllowed": true, "mustNotOverlapInherited": true, "reason": "Insert a unique Population-page screenshot in the vacated inherited image frame because duplicated template slides share their original media relationship.", "zone": { "left": 573, "top": 71, "width": 342, "height": 398 } }
+      ]
+    },
+    {
+      "outputSlide": 10,
+      "sourceSlide": 6,
+      "narrativeRole": "cancer burden page explanation",
+      "reuseMode": "duplicate-slide",
+      "editTargets": [
+        { "sourceElementId": "sh/6h4behcf", "action": "rewrite", "role": "page heading" },
+        { "sourceElementId": "sh/wn29onad", "action": "rewrite", "role": "page explanation" },
+        { "sourceElementId": "im/6pczi1wn", "action": "rewrite-and-reposition", "role": "retire shared template photo" },
+        { "action": "add", "newPrimitiveAllowed": true, "mustNotOverlapInherited": true, "reason": "Insert a unique Cancer-Burden screenshot in the vacated inherited image frame because duplicated template slides share their original media relationship.", "zone": { "left": 573, "top": 71, "width": 342, "height": 398 } }
+      ]
+    },
+    {
+      "outputSlide": 11,
+      "sourceSlide": 6,
+      "narrativeRole": "news and circulars page explanation",
+      "reuseMode": "duplicate-slide",
+      "editTargets": [
+        { "sourceElementId": "sh/6h4behcf", "action": "rewrite", "role": "page heading" },
+        { "sourceElementId": "sh/wn29onad", "action": "rewrite", "role": "page explanation" },
+        { "sourceElementId": "im/6pczi1wn", "action": "rewrite-and-reposition", "role": "retire shared template photo" },
+        { "action": "add", "newPrimitiveAllowed": true, "mustNotOverlapInherited": true, "reason": "Insert a unique Trending-page screenshot in the vacated inherited image frame because duplicated template slides share their original media relationship.", "zone": { "left": 573, "top": 71, "width": 342, "height": 398 } }
+      ]
+    },
+    {
+      "outputSlide": 12,
+      "sourceSlide": 6,
+      "narrativeRole": "reports and downloads page explanation",
+      "reuseMode": "duplicate-slide",
+      "editTargets": [
+        { "sourceElementId": "sh/6h4behcf", "action": "rewrite", "role": "page heading" },
+        { "sourceElementId": "sh/wn29onad", "action": "rewrite", "role": "page explanation" },
+        { "sourceElementId": "im/6pczi1wn", "action": "rewrite-and-reposition", "role": "retire shared template photo" },
+        { "action": "add", "newPrimitiveAllowed": true, "mustNotOverlapInherited": true, "reason": "Insert a unique Resource-library screenshot in the vacated inherited image frame because duplicated template slides share their original media relationship.", "zone": { "left": 573, "top": 71, "width": 342, "height": 398 } }
+      ]
+    },
+    {
+      "outputSlide": 13,
+      "sourceSlide": 6,
+      "narrativeRole": "cms administration explanation",
+      "reuseMode": "duplicate-slide",
+      "editTargets": [
+        { "sourceElementId": "sh/6h4behcf", "action": "rewrite", "role": "page heading" },
+        { "sourceElementId": "sh/wn29onad", "action": "rewrite", "role": "page explanation" },
+        { "sourceElementId": "im/6pczi1wn", "action": "rewrite-and-reposition", "role": "retire shared template photo" },
+        { "action": "add", "newPrimitiveAllowed": true, "mustNotOverlapInherited": true, "reason": "Insert a unique Admin-dashboard screenshot in the vacated inherited image frame because duplicated template slides share their original media relationship.", "zone": { "left": 573, "top": 71, "width": 342, "height": 398 } }
+      ]
+    },
+    {
+      "outputSlide": 14,
+      "sourceSlide": 14,
+      "narrativeRole": "website and database architecture",
+      "reuseMode": "duplicate-slide",
+      "editTargets": [
+        { "sourceElementIds": ["sh/x4vat836", "sh/ahkrit4v", "sh/b2tsrylg", "sh/s7i98zmh", "sh/d8rqh432", "sh/9szypwbu", "sh/8rqxwra9", "sh/hwjytgrq", "sh/wvah0ba5", "sh/vuhgr6tk", "sh/4zah4bah", "sh/254vid8j", "sh/n6dcri94", "sh/o7mdknqp", "sh/p8vetsra", "sh/a94vmx8v", "sh/budwv29g", "sh/cvmdo7q1"], "action": "rewrite", "role": "architecture labels" },
+        { "action": "add", "newPrimitiveAllowed": true, "mustNotOverlapInherited": true, "reason": "Add a concise local database-profile caption beneath the inherited framework.", "zone": { "left": 75, "top": 500, "width": 810, "height": 24 } }
+      ]
+    },
+    {
+      "outputSlide": 15,
+      "sourceSlide": 19,
+      "narrativeRole": "conclusion and key takeaways",
+      "reuseMode": "duplicate-slide",
+      "editTargets": [
+        { "sourceElementIds": ["sh/3i14v29k", "sh/s7a5s7q1", "sh/d8jm1crm", "sh/qlsnqx8b", "sh/r614z29g", "sh/8bqlgnax", "sh/tczmp8ri"], "action": "rewrite", "role": "conclusion groups" },
+        { "action": "add", "newPrimitiveAllowed": true, "mustNotOverlapInherited": true, "reason": "Add the requested professional closing statement below the inherited conclusion groups.", "zone": { "left": 125, "top": 494, "width": 760, "height": 22 } },
+        { "action": "add", "newPrimitiveAllowed": true, "mustNotOverlapInherited": true, "reason": "Retain visible attribution for the user-supplied Slidesgo visual reference and its credited resource providers.", "zone": { "left": 125, "top": 520, "width": 760, "height": 14 } }
+      ]
+    }
+  ],
+  "omittedSourceSlides": [
+    { "sourceSlide": 2, "reason": "Template instructions are not audience content." },
+    { "sourceSlide": 4, "reason": "Section bumper not required in a 15-slide explanatory deck." },
+    { "sourceSlide": 5, "reason": "Two-column prose layout is denser than needed." },
+    { "sourceSlide": 7, "reason": "Long list layout is less visual than selected alternatives." },
+    { "sourceSlide": 8, "reason": "Quote bumper replaced by a structured conclusion." },
+    { "sourceSlide": 10, "reason": "Single-metric layout does not support the required page explanation." },
+    { "sourceSlide": 11, "reason": "World-map layout is not appropriate for Odisha-specific geography." },
+    { "sourceSlide": 13, "reason": "Eight-stage process is not required." },
+    { "sourceSlide": 15, "reason": "Two-item application layout omitted in favor of screenshot-led page slides." },
+    { "sourceSlide": 16, "reason": "Rubric table is not relevant to the website narrative." },
+    { "sourceSlide": 18, "reason": "Case-study instruction layout is not relevant." },
+    { "sourceSlide": 20, "reason": "Attribution/thanks slide is not the requested conclusion." },
+    { "sourceSlide": 21, "reason": "Template resource gallery is not audience content." },
+    { "sourceSlide": 22, "reason": "Template resource links are not audience content." },
+    { "sourceSlide": 23, "reason": "Template licensing instructions are not audience content." },
+    { "sourceSlide": 24, "reason": "Template licensing instructions are not audience content." },
+    { "sourceSlide": 25, "reason": "Template font/color documentation is not audience content." },
+    { "sourceSlide": 26, "reason": "Storyset resource slide is not audience content." },
+    { "sourceSlide": 27, "reason": "Generic graphic resources are not audience content." },
+    { "sourceSlide": 28, "reason": "Generic world-map assets are not used." },
+    { "sourceSlide": 29, "reason": "Generic diagram resources are not audience content." },
+    { "sourceSlide": 30, "reason": "Generic table/timeline resources are not audience content." },
+    { "sourceSlide": 31, "reason": "Generic infographic resources are not audience content." },
+    { "sourceSlide": 32, "reason": "Generic chart resources are not audience content." },
+    { "sourceSlide": 33, "reason": "Generic icon resource slide is not audience content." },
+    { "sourceSlide": 34, "reason": "Generic icon resource slide is not audience content." },
+    { "sourceSlide": 35, "reason": "Generic icon resource slide is not audience content." },
+    { "sourceSlide": 36, "reason": "Generic icon resource slide is not audience content." },
+    { "sourceSlide": 37, "reason": "Generic icon resource slide is not audience content." },
+    { "sourceSlide": 38, "reason": "Generic icon resource slide is not audience content." },
+    { "sourceSlide": 39, "reason": "Generic icon resource slide is not audience content." },
+    { "sourceSlide": 40, "reason": "Slidesgo end card is not audience content." }
+  ]
+}

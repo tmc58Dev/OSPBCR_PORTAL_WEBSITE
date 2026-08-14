@@ -212,20 +212,6 @@
     background: #d9f99d;
 }
 
-.gis-swatch-subcentre {
-    border-radius: 50%;
-    border: 2px solid #ffffff;
-    background: #2563eb;
-    box-shadow: 0 0 0 1px #2563eb;
-}
-
-.gis-swatch-medical {
-    border-radius: 50%;
-    border: 2px solid #ffffff;
-    background: #dc2626;
-    box-shadow: 0 0 0 1px #dc2626;
-}
-
 .gis-reset-button {
     min-height: 44px;
     padding: 9px 17px;
@@ -267,6 +253,12 @@
     min-height: 566px;
     border-radius: 10px;
     background: #dcecf2;
+}
+
+#populationGisMap.gis-block-cursor,
+#populationGisMap.gis-block-cursor .leaflet-map-pane,
+#populationGisMap.gis-block-cursor canvas {
+    cursor: pointer !important;
 }
 
 #populationGisMap .leaflet-popup-content {

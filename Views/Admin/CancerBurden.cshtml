@@ -1,0 +1,36 @@
+@model IReadOnlyList<CancerBurdenRecord>
+@{
+    Layout = "_CmsLayout";
+    ViewData["Title"] = "Cancer Burden PDFs";
+}
+<header class="cms-page-header cms-page-header-actions">
+    <div>
+        <span class="cms-eyebrow">Public Cancer Burden page</span>
+        <h1>Cancer Burden PDFs</h1>
+        <p>Manage district factsheets, descriptions, PDF documents, and preview images.</p>
+    </div>
+    <a class="cms-button cms-button-primary" asp-action="CreateCancerBurden">Add Cancer Burden PDF</a>
+</header>
+<div class="cms-content-grid">
+@foreach (var record in Model)
+{
+    <article class="cms-content-card">
+        <img src="@record.PreviewPath" alt="@record.District cancer burden PDF preview" />
+        <div class="cms-content-card-body">
+            <span class="cms-badge">@record.District</span>
+            <h2>@record.Title</h2>
+            <p>@record.Description</p>
+            <div class="content-inline-actions">
+                <a class="cms-button cms-button-secondary cms-button-small" href="@record.PdfPath" target="_blank" rel="noopener">View PDF</a>
+                <a class="cms-button cms-button-secondary cms-button-small" asp-action="EditCancerBurden" asp-route-id="@record.Id">Update</a>
+                <form asp-action="DeleteCancerBurden" asp-route-id="@record.Id" method="post" data-confirm="Delete this cancer burden record and its uploaded files?">
+                    <button class="cms-button cms-button-danger cms-button-small" type="submit">Delete</button>
+                </form>
+            </div>
+        </div>
+    </article>
+}
+</div>
+@section Scripts {
+    <script>document.querySelectorAll("[data-confirm]").forEach(form => form.addEventListener("submit", event => { if (!confirm(form.dataset.confirm)) event.preventDefault(); }));</script>
+}

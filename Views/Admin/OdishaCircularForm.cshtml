@@ -1,0 +1,52 @@
+@model OdishaCircularFormViewModel
+@{
+    Layout = "_CmsLayout";
+    var editing = Model.Id.HasValue;
+    ViewData["Title"] = editing ? "Update Odisha State Circular" : "Add Odisha State Circular";
+    var districts = (IReadOnlyList<string>)ViewBag.Districts;
+}
+<header class="cms-page-header">
+    <div>
+        <span class="cms-eyebrow">Three-language About Us document</span>
+        <h1>@(editing ? "Update Odisha State Circular" : "Add Odisha State Circular")</h1>
+        <p>Enter the title and description in English, Hindi, and Odia. The PDF and preview image are shared across all languages.</p>
+    </div>
+</header>
+<form asp-action="@(editing ? "EditOdishaCircular" : "CreateOdishaCircular")" method="post" enctype="multipart/form-data" class="cms-form">
+    <input asp-for="Id" type="hidden" />
+    <input asp-for="ExistingPdfPath" type="hidden" />
+    <input asp-for="ExistingPreviewPath" type="hidden" />
+    <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+    <section class="cms-card shared-photo-panel">
+    <header><div><span class="cms-eyebrow">Shared across all languages</span><h2>District and files</h2><p>PDF documents may be up to 25 MB. Preview images may be WebP, JPEG, or PNG files up to 5 MB.</p></div></header>
+    <div class="form-field">
+        <label asp-for="District"></label>
+        <select asp-for="District">
+            <option value="">Select a district</option>
+            @foreach (var district in districts) { <option value="@district">@district</option> }
+        </select>
+        <span asp-validation-for="District"></span>
+    </div>
+    <div class="form-field">
+        <label asp-for="PdfFile">PDF File @(editing ? "(leave blank to keep current)" : "")</label>
+        <input asp-for="PdfFile" type="file" accept=".pdf,application/pdf" />
+        <span asp-validation-for="PdfFile"></span>
+        @if (editing) { <a class="current-file" href="@Model.ExistingPdfPath" target="_blank" rel="noopener">View current PDF</a> }
+    </div>
+    <div class="form-field">
+        <label asp-for="PreviewImage">Preview Image @(editing ? "(leave blank to keep current)" : "")</label>
+        <input asp-for="PreviewImage" type="file" accept=".webp,.jpg,.jpeg,.png,image/webp,image/jpeg,image/png" />
+        <span asp-validation-for="PreviewImage"></span>
+        @if (editing) { <img class="form-preview" src="@Model.ExistingPreviewPath" alt="Current PDF preview" /> }
+    </div>
+    </section>
+    <div class="language-grid">
+        <section class="language-card"><header><span class="language-code">EN</span><div><h2>English</h2><p>English website content</p></div></header><div class="form-field"><label asp-for="English.Title">Circular Title</label><input asp-for="English.Title" /><span asp-validation-for="English.Title"></span></div><div class="form-field"><label asp-for="English.Description"></label><textarea asp-for="English.Description" rows="5"></textarea><span asp-validation-for="English.Description"></span></div></section>
+        <section class="language-card" lang="hi"><header><span class="language-code">HI</span><div><h2>हिन्दी</h2><p>Hindi website content</p></div></header><div class="form-field"><label asp-for="Hindi.Title">शीर्षक / Title</label><input asp-for="Hindi.Title" /><span asp-validation-for="Hindi.Title"></span></div><div class="form-field"><label asp-for="Hindi.Description">विवरण / Description</label><textarea asp-for="Hindi.Description" rows="5"></textarea><span asp-validation-for="Hindi.Description"></span></div></section>
+        <section class="language-card" lang="or"><header><span class="language-code">OR</span><div><h2>ଓଡ଼ିଆ</h2><p>Odia website content</p></div></header><div class="form-field"><label asp-for="Odia.Title">ଶୀର୍ଷକ / Title</label><input asp-for="Odia.Title" /><span asp-validation-for="Odia.Title"></span></div><div class="form-field"><label asp-for="Odia.Description">ବର୍ଣ୍ଣନା / Description</label><textarea asp-for="Odia.Description" rows="5"></textarea><span asp-validation-for="Odia.Description"></span></div></section>
+    </div>
+    <div class="sticky-form-actions">
+        <a class="cms-button cms-button-secondary" asp-action="OdishaCirculars">Cancel</a>
+        <button class="cms-button cms-button-primary" type="submit">@(editing ? "Save changes" : "Add Odisha State Circular")</button>
+    </div>
+</form>

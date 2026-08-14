@@ -1,0 +1,8 @@
+- All slides: source fonts are intentionally replaced with Cambria because the user explicitly requires Cambria throughout.
+- Slides 2-15: inherited title/caption text is prefixed with a bold two-digit slide number to satisfy the slide-number requirement without introducing extra footer furniture.
+- Slide 1: three authentic local institutional logos are added in a bounded lower-left zone that does not overlap inherited content.
+- Slides 6, 7, 9, 10, 11, 12, 13: duplicated source slides share one media relationship in artifact-tool. Each inherited photo is moved to a 1 px inactive frame and a unique local website screenshot is inserted into the vacated inherited image zone with contain-fit; this avoids cross-slide media replacement while preserving the source layout.
+- Slide 8: the inherited chart image is replaced by the interactive district dashboard screenshot; the four legend entries become coverage/usage callouts.
+- Slide 14: inherited framework labels are rewritten to show the portal application and persistence layers; a small database-profile caption is added below the inherited diagram.
+- Slide 15: a short professional closing statement and a compact visible attribution line are added below the inherited conclusion groups.
+- Transitions/animations: the supplied template has none and the required artifact-tool workflow has no supported animation or transition surface; no direct OOXML mutation is used.

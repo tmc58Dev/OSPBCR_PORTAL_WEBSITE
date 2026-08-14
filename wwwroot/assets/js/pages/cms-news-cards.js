@@ -12,7 +12,7 @@
         if (!rotatingCards.length) return;
 
         const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-        const rotationDelay = 1500;
+        const rotationDelay = 2000;
         let rotationTimer = 0;
         let interactionPaused = false;
 

@@ -1,0 +1,44 @@
+01 Odisha State Population-Based Cancer Registry Portal
+   Subtitle: A digital platform for cancer information, district intelligence, public resources and registry operations in Odisha.
+
+02 Why a centralized portal is needed
+   Trusted information; statewide visibility; digital access; better decisions.
+
+03 How the portal is used
+   Public/patients; researchers/clinicians; programme/CMS teams.
+
+04 The advantages of one connected platform
+   One source; faster access; transparent reach; operational control; digital record; professional and planning value.
+
+05 Home
+   Guided entry point to registry purpose, current updates and major public modules.
+
+06 About OSPBCR
+   Mandate, institutional partnerships, objectives, team/gallery/circular context.
+
+07 Training & Training Materials
+   District training activities, participant information, downloadable learning resources.
+
+08 Interactive Map & District Coverage
+   30 districts, facilities/sources, case status and district statistics.
+
+09 Population Projection
+   District/year population views for denominators, comparison and planning.
+
+10 Cancer Burden & Registry Statistics
+   Site/age incidence and mortality views backed by registry APIs.
+
+11 Trending, News & Circulars
+   Current institutional communication and localized public updates.
+
+12 Reports, PDFs & Downloads
+   Training PDFs, district cancer-burden resources and Odisha circulars.
+
+13 CMS Administration
+   Role-based publishing, localized content, managed uploads and operational control.
+
+14 How the website and databases connect
+   ASP.NET Core/public UI/API/CMS linked to Setu_Odisha SQL, OSPBCR_PORTAL SQL, JSON and upload storage.
+
+15 A digital foundation for cancer intelligence
+   Accessible by design; data with purpose; built to evolve.
