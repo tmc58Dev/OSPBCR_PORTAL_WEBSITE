@@ -12,8 +12,16 @@ namespace OSPBCR_PORTAL.Controllers;
 public sealed class ContentController(
     ICmsRepository repository,
     IDistrictTrainingStore trainingStore,
+    IWebHostEnvironment environment,
     ILogger<ContentController> logger) : ControllerBase
 {
+    private readonly string _cancerBurdenPdfRoot = Path.GetFullPath(Path.Combine(
+        environment.WebRootPath,
+        "assets",
+        "IMAGES_PDF_PPT_EXCEL",
+        "CANCER BURDEN",
+        "PDF"));
+
     [HttpGet("news")]
     [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
     public async Task<IActionResult> News([FromQuery] string language = "en", CancellationToken cancellationToken = default)
@@ -49,10 +57,13 @@ public sealed class ContentController(
     {
         try
         {
-            return Ok((await repository.GetCancerBurdenRecordsAsync(cancellationToken)).Select(record => Localize(
-                record.Id, record.District, record.Title, record.Description,
-                record.TitleHi, record.DescriptionHi, record.TitleOr, record.DescriptionOr,
-                record.PdfPath, record.PreviewPath, language)));
+            var records = await repository.GetCancerBurdenRecordsAsync(cancellationToken);
+            return Ok(records
+                .Where(record => IsCancerBurdenPdfPresent(record.PdfPath))
+                .Select(record => Localize(
+                    record.Id, record.District, record.Title, record.Description,
+                    record.TitleHi, record.DescriptionHi, record.TitleOr, record.DescriptionOr,
+                    record.PdfPath, record.PreviewPath, language)));
         }
         catch (Exception exception)
         {
@@ -60,6 +71,31 @@ public sealed class ContentController(
             return StatusCode(
                 StatusCodes.Status503ServiceUnavailable,
                 new { message = "Cancer burden PDFs are temporarily unavailable." });
+        }
+    }
+
+    private bool IsCancerBurdenPdfPresent(string publicPath)
+    {
+        if (string.IsNullOrWhiteSpace(publicPath))
+        {
+            return false;
+        }
+
+        try
+        {
+            var pathWithoutQuery = publicPath.Split('?', '#')[0];
+            var relativePath = Uri.UnescapeDataString(pathWithoutQuery)
+                .TrimStart('/', '\\')
+                .Replace('/', Path.DirectorySeparatorChar);
+            var fullPath = Path.GetFullPath(Path.Combine(environment.WebRootPath, relativePath));
+
+            return string.Equals(Path.GetExtension(fullPath), ".pdf", StringComparison.OrdinalIgnoreCase) &&
+                fullPath.StartsWith(_cancerBurdenPdfRoot + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase) &&
+                System.IO.File.Exists(fullPath);
+        }
+        catch (Exception exception) when (exception is ArgumentException or NotSupportedException or PathTooLongException or UriFormatException)
+        {
+            return false;
         }
     }
 

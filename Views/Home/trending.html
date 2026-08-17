@@ -7,10 +7,25 @@
     <meta name="description" content="Latest multilingual news and updates from the Odisha State Population-Based Cancer Registry.">
     <title>OSPBCR | Trending</title>
 
+    <script>
+        (function redirectLegacyNewsPreview() {
+            const query = new URLSearchParams(window.location.search);
+            const newsId = query.get("news");
+            if (!/^\d+$/.test(newsId || "")) return;
+
+            const language = ["en", "hi", "or"].includes(query.get("language"))
+                ? query.get("language")
+                : "en";
+            const dateOrder = query.get("dateOrder") === "asc" ? "asc" : "desc";
+            const detailQuery = new URLSearchParams({ news: newsId, language, dateOrder });
+            window.location.replace(`news-detail.html?${detailQuery.toString()}`);
+        })();
+    </script>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/main.css?v=20260801-site-80-percent">
     <link rel="stylesheet" href="assets/css/design-system.css?v=20260802-navbar-plus-3px">
-    <link rel="stylesheet" href="assets/css/pages/trending.css?v=20260727-gallery-controls">
+    <link rel="stylesheet" href="assets/css/pages/trending.css?v=20260817-no-preview">
 </head>
 
 <body>
@@ -69,25 +84,11 @@
         </section>
     </main>
 
-    <dialog class="trending-preview-dialog" data-trending-preview aria-labelledby="trending-preview-heading">
-        <div class="trending-preview-shell">
-            <header class="trending-preview-header">
-                <div>
-                    <span class="trending-kicker">Complete News Card</span>
-                    <h2 id="trending-preview-heading">News Card Preview</h2>
-                </div>
-                <button type="button" class="trending-preview-close" data-trending-preview-close
-                        aria-label="Close News Card preview">&times;</button>
-            </header>
-            <div data-trending-preview-content></div>
-        </div>
-    </dialog>
-
     <div id="footer-container"></div>
 
     <script src="assets/js/core/i18n.js?v=20260813-translation-completion-v2"></script>
     <script src="assets/js/core/loader.js?v=20260725-trending"></script>
-    <script src="assets/js/pages/trending.js?v=20260807-gallery-2s"></script>
+    <script src="assets/js/pages/trending.js?v=20260817-full-news-page-v2"></script>
 </body>
 
 </html>

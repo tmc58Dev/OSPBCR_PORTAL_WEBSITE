@@ -468,6 +468,7 @@
     box-shadow: 0 10px 24px rgba(0, 91, 150, 0.2);
     font-family: var(--font-family-base);
     font-weight: 800;
+    text-decoration: none;
     cursor: pointer;
     transition: var(--transition);
 }
@@ -513,87 +514,6 @@
     background: linear-gradient(135deg, var(--primary), var(--secondary));
     font-size: 9px;
     font-weight: 900;
-}
-
-body.trending-preview-open {
-    overflow: hidden;
-}
-
-.trending-preview-dialog {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    width: min(1120px, calc(100% - 32px));
-    max-width: none;
-    max-height: calc(100dvh - 32px);
-    margin: 0;
-    padding: 0;
-    overflow: auto;
-    color: var(--text);
-    border: 0;
-    border-radius: 24px;
-    background: #f5f9fc;
-    box-shadow: 0 34px 90px rgba(0, 37, 64, 0.34);
-    transform: translate(-50%, -50%);
-}
-
-.trending-preview-dialog::backdrop {
-    background: rgba(0, 27, 48, 0.72);
-    backdrop-filter: blur(8px);
-}
-
-.trending-preview-shell {
-    min-height: 100%;
-}
-
-.trending-preview-header {
-    position: sticky;
-    top: 0;
-    z-index: 5;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
-    padding: 18px 22px;
-    border-bottom: 1px solid rgba(0, 91, 150, 0.14);
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(14px);
-}
-
-.trending-preview-header h2,
-.trending-preview-header .trending-kicker {
-    margin: 0;
-}
-
-.trending-preview-header h2 {
-    font-size: clamp(22px, 3vw, 30px);
-}
-
-.trending-preview-close {
-    display: grid;
-    place-items: center;
-    flex: 0 0 44px;
-    width: 44px;
-    height: 44px;
-    padding: 0;
-    color: var(--primary-dark);
-    border: 1px solid rgba(0, 91, 150, 0.2);
-    border-radius: 50%;
-    background: #fff;
-    font-size: 30px;
-    line-height: 1;
-    cursor: pointer;
-}
-
-.trending-preview-close:hover,
-.trending-preview-close:focus-visible {
-    color: #fff;
-    border-color: var(--primary);
-    background: var(--primary);
-}
-
-[data-trending-preview-content] {
-    padding: clamp(16px, 3vw, 30px);
 }
 
 .trending-detail-card {
@@ -735,20 +655,6 @@ body.trending-preview-open {
 
     .trending-card-footer {
         padding: 17px;
-    }
-
-    .trending-preview-dialog {
-        width: calc(100% - 16px);
-        max-height: calc(100dvh - 16px);
-        border-radius: 18px;
-    }
-
-    .trending-preview-header {
-        padding: 14px 16px;
-    }
-
-    [data-trending-preview-content] {
-        padding: 8px;
     }
 
     .trending-detail-card {

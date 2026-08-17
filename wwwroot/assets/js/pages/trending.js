@@ -50,28 +50,19 @@
         const status = document.querySelector("[data-trending-status]");
         const filters = Array.from(document.querySelectorAll("[data-trending-language]"));
         const dateOrderFilters = Array.from(document.querySelectorAll("[data-trending-date-order]"));
-        const preview = document.querySelector("[data-trending-preview]");
-        const previewContent = document.querySelector("[data-trending-preview-content]");
-        const previewClose = document.querySelector("[data-trending-preview-close]");
 
-        if (!list || !status || !filters.length || !dateOrderFilters.length ||
-            !preview || !previewContent || !previewClose) {
+        if (!list || !status || !filters.length || !dateOrderFilters.length) {
             return;
         }
 
         const query = new URLSearchParams(window.location.search);
-        let requestedId = Number.parseInt(query.get("news") || "", 10);
         const requestedLanguage = normalizeLanguage(query.get("language"));
         const requestedDateOrder = normalizeDateOrder(query.get("dateOrder"));
         let activeLanguage = requestedLanguage || currentWebsiteLanguage();
         let activeDateOrder = requestedDateOrder || "desc";
-        let preferredCardLanguage = activeLanguage;
         let loadedItems = [];
         let requestVersion = 0;
         let imageTimer = 0;
-        let previewImageTimer = 0;
-        let previewPaused = false;
-        let previewMotionOverride = false;
         let interactionPaused = false;
         let ignoreInitialWebsiteLanguage = Boolean(requestedLanguage);
         const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -134,13 +125,6 @@
             }
         }
 
-        function stopPreviewImageRotation() {
-            if (previewImageTimer) {
-                window.clearInterval(previewImageTimer);
-                previewImageTimer = 0;
-            }
-        }
-
         function showCardImage(card, index) {
             const imageTrack = card?.querySelector("[data-trending-image-track]");
             const images = Array.from(card?.querySelectorAll("[data-trending-card-image]") || []);
@@ -167,19 +151,6 @@
             showCardImage(card, currentImage + direction);
         }
 
-        function syncPreviewPlaybackControl(card) {
-            const control = card?.querySelector("[data-trending-preview-playback]");
-            if (!control) return;
-
-            const copy = messages[card.lang] || messages.en;
-            const label = previewPaused ? copy.playSlideshow : copy.pauseSlideshow;
-            control.setAttribute("aria-label", `${label} automatic photo slideshow`);
-            control.setAttribute("aria-pressed", String(previewPaused));
-            control.title = `${label} automatic photo slideshow`;
-            control.querySelector("[data-playback-icon]").textContent = previewPaused ? "▶" : "❚❚";
-            control.querySelector("[data-playback-label]").textContent = label;
-        }
-
         function startImageRotation() {
             stopImageRotation();
             const rotatingCards = Array.from(list.querySelectorAll(".trending-card"))
@@ -195,18 +166,6 @@
             }
         }
 
-        function startPreviewImageRotation(card) {
-            stopPreviewImageRotation();
-            const imageCount = card?.querySelectorAll("[data-trending-card-image]").length || 0;
-            syncPreviewPlaybackControl(card);
-            if (imageCount > 1 && !previewPaused && (!reduceMotion.matches || previewMotionOverride) &&
-                !document.hidden) {
-                previewImageTimer = window.setInterval(() => {
-                    moveCardImage(card, 1);
-                }, imageRotationDelay);
-            }
-        }
-
         function pauseImageRotation() {
             interactionPaused = true;
             stopImageRotation();
@@ -217,9 +176,9 @@
             startImageRotation();
         }
 
-        function createMedia(item, detailed) {
+        function createMedia(item) {
             const media = document.createElement("div");
-            media.className = detailed ? "trending-detail-media" : "trending-card-media";
+            media.className = "trending-card-media";
 
             const imagePaths = imagePathsFor(item);
             const gallery = document.createElement("div");
@@ -285,16 +244,6 @@
                     media.appendChild(dots);
                 }
 
-                if (detailed) {
-                    const playback = document.createElement("button");
-                    playback.type = "button";
-                    playback.className = "trending-image-playback";
-                    playback.dataset.trendingPreviewPlayback = "";
-                    playback.innerHTML =
-                        '<span class="trending-playback-icon" data-playback-icon aria-hidden="true">❚❚</span>' +
-                        `<span data-playback-label>${copy.pauseSlideshow}</span>`;
-                    media.appendChild(playback);
-                }
             }
 
             return media;
@@ -318,92 +267,20 @@
             date.textContent = item.publishDate;
             date.dateTime = toIsoDate(item.publishDate);
 
-            const viewMore = document.createElement("button");
-            viewMore.type = "button";
+            const viewMore = document.createElement("a");
             viewMore.className = "trending-learn-more";
-            viewMore.dataset.learnMore = "";
-            viewMore.dataset.newsId = String(item.id);
-            viewMore.dataset.newsLanguage = item.language;
+            const detailQuery = new URLSearchParams({
+                news: String(item.id),
+                language: item.language,
+                dateOrder: activeDateOrder
+            });
+            viewMore.href = `news-detail.html?${detailQuery.toString()}`;
             viewMore.textContent = viewMoreLabels[item.language] || viewMoreLabels.en;
             viewMore.setAttribute("aria-label", `${viewMore.textContent}: ${item.title}`);
 
             content.append(title, date, viewMore);
-            article.append(createMedia(item, false), content);
+            article.append(createMedia(item), content);
             return article;
-        }
-
-        function createDetailedCard(item) {
-            const article = document.createElement("article");
-            article.className = "trending-detail-card";
-            article.lang = item.language;
-            article.dataset.activeImage = "0";
-
-            const content = document.createElement("div");
-            content.className = "trending-detail-content";
-
-            const meta = document.createElement("div");
-            meta.className = "trending-card-meta";
-            const published = document.createElement("span");
-            published.textContent = messages[item.language]?.published || messages.en.published;
-            const date = document.createElement("time");
-            date.textContent = item.publishDate;
-            date.dateTime = toIsoDate(item.publishDate);
-            meta.append(published, date);
-
-            const title = document.createElement("h2");
-            title.textContent = item.title;
-
-            const note = document.createElement("p");
-            note.className = "trending-card-note";
-            note.textContent = item.textNote;
-
-            const footer = document.createElement("footer");
-            footer.className = "trending-card-footer";
-            const footerText = document.createElement("span");
-            footerText.textContent = item.footer;
-            footer.appendChild(footerText);
-
-            content.append(meta, title, note, footer);
-            article.append(createMedia(item, true), content);
-            return article;
-        }
-
-        function openPreview(item, updateAddress = true) {
-            stopPreviewImageRotation();
-            previewPaused = reduceMotion.matches;
-            previewMotionOverride = false;
-            const detailedCard = createDetailedCard(item);
-            previewContent.replaceChildren(detailedCard);
-
-            if (!preview.open) {
-                preview.showModal();
-            }
-            document.body.classList.add("trending-preview-open");
-
-            if (updateAddress) {
-                const nextQuery = new URLSearchParams(window.location.search);
-                nextQuery.set("news", String(item.id));
-                nextQuery.set("language", item.language);
-                nextQuery.set("dateOrder", activeDateOrder);
-                window.history.replaceState(null, "", `${window.location.pathname}?${nextQuery.toString()}`);
-            }
-
-            startPreviewImageRotation(detailedCard);
-            previewClose.focus();
-        }
-
-        function closePreview(clearAddress = true) {
-            stopPreviewImageRotation();
-            if (preview.open) {
-                preview.close();
-            }
-            document.body.classList.remove("trending-preview-open");
-
-            if (clearAddress) {
-                const nextQuery = new URLSearchParams(window.location.search);
-                nextQuery.delete("news");
-                window.history.replaceState(null, "", `${window.location.pathname}?${nextQuery.toString()}`);
-            }
         }
 
         function newsDateValue(value) {
@@ -428,19 +305,6 @@
             startImageRotation();
         }
 
-        function openRequestedCard() {
-            if (!Number.isInteger(requestedId)) return;
-
-            const selected =
-                loadedItems.find((item) => Number(item.id) === requestedId && item.language === preferredCardLanguage) ||
-                loadedItems.find((item) => Number(item.id) === requestedId);
-
-            requestedId = Number.NaN;
-            if (selected) {
-                window.requestAnimationFrame(() => openPreview(selected, false));
-            }
-        }
-
         async function loadNews() {
             const version = ++requestVersion;
             syncFilters();
@@ -448,7 +312,6 @@
             list.setAttribute("aria-busy", "true");
             setStatus(currentMessages().loading);
             stopImageRotation();
-            closePreview(false);
 
             try {
                 const response = await fetch(`/api/content/news?language=${encodeURIComponent(activeLanguage)}`, {
@@ -462,7 +325,6 @@
 
                 loadedItems = items;
                 renderNews();
-                openRequestedCard();
             } catch (error) {
                 console.error("Trending News Cards could not be loaded.", error);
                 if (version !== requestVersion) return;
@@ -482,8 +344,6 @@
                 const language = normalizeLanguage(button.dataset.trendingLanguage);
                 if (!language || language === activeLanguage) return;
                 activeLanguage = language;
-                preferredCardLanguage = language;
-                closePreview();
                 loadNews();
             });
         });
@@ -505,58 +365,7 @@
             if (previousImage || nextImage) {
                 const card = (previousImage || nextImage).closest(".trending-card");
                 moveCardImage(card, previousImage ? -1 : 1);
-                return;
             }
-
-            const learnMore = event.target.closest?.("[data-learn-more]");
-            if (!learnMore) return;
-
-            const newsId = Number.parseInt(learnMore.dataset.newsId || "", 10);
-            const language = learnMore.dataset.newsLanguage;
-            const selected = loadedItems.find(
-                (item) => Number(item.id) === newsId && item.language === language
-            );
-            if (selected) {
-                openPreview(selected);
-            }
-        });
-
-        previewContent.addEventListener("click", (event) => {
-            const playback = event.target.closest?.("[data-trending-preview-playback]");
-            if (playback) {
-                const detailedCard = playback.closest(".trending-detail-card");
-                previewPaused = !previewPaused;
-                if (previewPaused) {
-                    stopPreviewImageRotation();
-                    syncPreviewPlaybackControl(detailedCard);
-                } else {
-                    previewMotionOverride = true;
-                    startPreviewImageRotation(detailedCard);
-                }
-                return;
-            }
-
-            const previousImage = event.target.closest?.("[data-trending-image-previous]");
-            const nextImage = event.target.closest?.("[data-trending-image-next]");
-            if (previousImage || nextImage) {
-                const detailedCard = (previousImage || nextImage).closest(".trending-detail-card");
-                moveCardImage(detailedCard, previousImage ? -1 : 1);
-            }
-        });
-
-        previewClose.addEventListener("click", () => closePreview());
-        preview.addEventListener("click", (event) => {
-            if (event.target === preview) {
-                closePreview();
-            }
-        });
-        preview.addEventListener("cancel", (event) => {
-            event.preventDefault();
-            closePreview();
-        });
-        preview.addEventListener("close", () => {
-            stopPreviewImageRotation();
-            document.body.classList.remove("trending-preview-open");
         });
         list.addEventListener("mouseenter", pauseImageRotation);
         list.addEventListener("mouseleave", resumeImageRotation);
@@ -571,22 +380,12 @@
         document.addEventListener("visibilitychange", () => {
             if (document.hidden) {
                 stopImageRotation();
-                stopPreviewImageRotation();
             } else {
                 startImageRotation();
-                const detailedCard = previewContent.querySelector(".trending-detail-card");
-                if (preview.open && detailedCard) startPreviewImageRotation(detailedCard);
             }
         });
         reduceMotion.addEventListener?.("change", () => {
             startImageRotation();
-            const detailedCard = previewContent.querySelector(".trending-detail-card");
-            if (preview.open && detailedCard) {
-                if (reduceMotion.matches && !previewMotionOverride) {
-                    previewPaused = true;
-                }
-                startPreviewImageRotation(detailedCard);
-            }
         });
 
         document.addEventListener("languagechange", (event) => {
@@ -597,8 +396,6 @@
             const language = normalizeLanguage(event.detail?.language);
             if (!language || language === activeLanguage) return;
             activeLanguage = language;
-            preferredCardLanguage = language;
-            closePreview();
             loadNews();
         });
 

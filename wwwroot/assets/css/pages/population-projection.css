@@ -266,6 +266,14 @@
     margin: 14px 16px;
 }
 
+#populationGisMap .leaflet-popup-pane {
+    z-index: 750;
+}
+
+#populationGisMap .leaflet-popup {
+    pointer-events: auto;
+}
+
 #populationGisMap .gis-district-name-label {
     margin: 0;
     padding: 4px 7px;

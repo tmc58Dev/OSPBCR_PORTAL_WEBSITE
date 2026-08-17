@@ -428,6 +428,7 @@
         blockLabels: null,
         villages: null,
         villageRequestId: 0,
+        activePopup: null,
         selectedDistrict: "",
         selectedBlock: "",
         selectedBlockDisplayName: "",
@@ -597,12 +598,6 @@
             : mapBlock;
     };
 
-    const namesApproximatelyMatch = (left, right, threshold) => {
-        if (!left || !right) return false;
-        return compactBlockName(left) === compactBlockName(right) ||
-            blockNameSimilarity(left, right) >= threshold;
-    };
-
     const makePopup = (title, rows) => {
         const wrapper = document.createElement("div");
         wrapper.className = "gis-popup";
@@ -621,6 +616,38 @@
         });
         wrapper.appendChild(list);
         return wrapper;
+    };
+
+    const closeActivePopup = () => {
+        if (!layerState.activePopup) return;
+        const popup = layerState.activePopup;
+        layerState.activePopup = null;
+        if (map.hasLayer(popup)) map.removeLayer(popup);
+    };
+
+    const openPersistentPopup = (latLng, content, onCloseButton) => {
+        closeActivePopup();
+
+        const popup = L.popup({
+            closeButton: true,
+            autoPan: true,
+            autoClose: false,
+            closeOnClick: false
+        })
+            .setLatLng(latLng)
+            .setContent(content);
+
+        layerState.activePopup = popup;
+        popup.once("remove", () => {
+            if (layerState.activePopup === popup) layerState.activePopup = null;
+        });
+        popup.once("add", () => {
+            const closeButton = popup.getElement()?.querySelector(".leaflet-popup-close-button");
+            if (!closeButton || !onCloseButton) return;
+            closeButton.addEventListener("click", onCloseButton, { once: true });
+        });
+        popup.openOn(map);
+        return popup;
     };
 
     const updateSummary = metadata => {
@@ -788,17 +815,17 @@
                 district !== layerState.selectedDistrict ||
                 !villageToggle.checked) return;
 
+            if (layerState.selectedBlock && layerState.projectionBlockNames.length) {
+                buildBlockCrosswalk(district, layerState.projectionBlockNames);
+            }
             const visibleVillageData = layerState.selectedBlock
                 ? {
                     ...data,
                     features: data.features.filter(feature =>
-                        [layerState.selectedBlock, layerState.selectedBlockDisplayName]
-                            .filter(Boolean)
-                            .some(selectedName => namesApproximatelyMatch(
-                                feature.properties.BLOCK,
-                                selectedName,
-                                0.55
-                            ))
+                        normalizeBlockName(resolveMapBlockName(
+                            district,
+                            feature.properties.BLOCK
+                        )) === layerState.selectedBlock
                     )
                 }
                 : data;
@@ -812,14 +839,24 @@
                     fillOpacity: 0.13
                 },
                 onEachFeature: (feature, featureLayer) => {
-                    featureLayer.bindPopup(makePopup(feature.properties.LOCATION, [
-                        ["Type", feature.properties.V_TYPE],
-                        ["Block", feature.properties.BLOCK],
-                        ["Village code", feature.properties.LCODE]
-                    ]));
-                    featureLayer.on("click", () =>
-                        selectBlockFromOverlay(district, feature.properties.BLOCK)
-                    );
+                    featureLayer.on("click", async event => {
+                        L.DomEvent.stopPropagation(event);
+                        await selectBlockFromOverlay(district, feature.properties.BLOCK);
+
+                        if (district !== layerState.selectedDistrict) return;
+                        const parentDistrict = layerState.selectedDistrict;
+                        const parentBlock = layerState.selectedBlock;
+                        openPersistentPopup(event.latlng, makePopup(feature.properties.LOCATION, [
+                            ["Type", feature.properties.V_TYPE],
+                            ["Block", feature.properties.BLOCK],
+                            ["District", feature.properties.DISTRICT || district],
+                            ["Village code", feature.properties.LCODE]
+                        ]), () => {
+                            if (parentDistrict !== layerState.selectedDistrict ||
+                                parentBlock !== layerState.selectedBlock) return;
+                            openSelectedBlockPopup(parentDistrict, parentBlock);
+                        });
+                    });
                 }
             }).addTo(map);
             layerState.villages.bringToFront();
@@ -836,23 +873,30 @@
         if (!featureLayer) return false;
 
         const properties = featureLayer.feature.properties;
-        const popup = L.popup({ closeButton: true, autoPan: true })
-            .setLatLng(featureLayer.getBounds().getCenter())
-            .setContent(makePopup(properties.T_NAME, [
+        openPersistentPopup(
+            featureLayer.getBounds().getCenter(),
+            makePopup(properties.T_NAME, [
                 ["District", properties.DISTRICT],
                 ["Block code", properties.T_CODE]
-            ]));
+            ]),
+            () => showAllBlocksForDistrict(district, true)
+        );
+        return true;
+    };
 
-        popup.once("add", () => {
-            const closeButton = popup.getElement()?.querySelector(".leaflet-popup-close-button");
-            if (!closeButton) return;
-            closeButton.addEventListener(
-                "click",
-                () => showAllBlocksForDistrict(district),
-                { once: true }
-            );
-        });
-        popup.openOn(map);
+    const openSelectedDistrictPopup = district => {
+        const featureLayer = districtFeatureLayers.get(district);
+        if (!featureLayer) return false;
+
+        openPersistentPopup(
+            featureLayer.getBounds().getCenter(),
+            makePopup(district, [
+                ["Area", "District"],
+                ["Blocks", numberFormatter.format(districtBlockCount(district))],
+                ["Villages", numberFormatter.format(layerState.metadata.villageFiles[district]?.count || 0)]
+            ]),
+            () => selectDistrict("")
+        );
         return true;
     };
 
@@ -907,10 +951,19 @@
         if (layerState.selectedBlock && selectedBlockLayer) {
             openSelectedBlockPopup(layerState.selectedDistrict, layerState.selectedBlock);
         } else {
-            map.closePopup();
+            closeActivePopup();
         }
 
-        if (villageToggle.checked) await loadVillageLayer();
+        if (villageToggle.checked) {
+            const requestedDistrict = layerState.selectedDistrict;
+            const requestedBlock = layerState.selectedBlock;
+            await loadVillageLayer();
+            if (requestedBlock &&
+                requestedDistrict === layerState.selectedDistrict &&
+                requestedBlock === layerState.selectedBlock) {
+                openSelectedBlockPopup(requestedDistrict, requestedBlock);
+            }
+        }
         else setStatus(layerState.selectedBlock
             ? selectedBlockLayer
                 ? `${layerState.selectedBlockDisplayName} block selected in ${layerState.selectedDistrict}.`
@@ -960,7 +1013,7 @@
         selectDistrict(requestedDistrict, true, requestedBlock, false, projectionBlockNames);
     });
 
-    const selectBlockFromMap = (district, mapBlock) => {
+    const selectBlockFromMap = async (district, mapBlock) => {
         layerState.selectedDistrict = district;
         document.dispatchEvent(new CustomEvent("population:mapdistrictchange", {
             detail: { mapKey: district }
@@ -971,7 +1024,7 @@
             mapBlock,
             layerState.projectionBlockNames
         );
-        selectDistrict(
+        await selectDistrict(
             district,
             true,
             projectionBlock,
@@ -986,17 +1039,16 @@
         }));
     };
 
-    const selectBlockFromOverlay = (district, rawBlock) => {
+    const selectBlockFromOverlay = async (district, rawBlock) => {
         if (!district || !rawBlock) return;
         if (layerState.selectedDistrict !== district) {
-            selectDistrict(district);
-            return;
+            await selectDistrict(district);
         }
-        selectBlockFromMap(district, rawBlock);
+        await selectBlockFromMap(district, rawBlock);
     };
 
-    const showAllBlocksForDistrict = district => {
-        selectDistrict(
+    const showAllBlocksForDistrict = (district, showDistrictPopup = false) => {
+        const selection = selectDistrict(
             district,
             true,
             "",
@@ -1009,6 +1061,10 @@
                 block: ""
             }
         }));
+        if (showDistrictPopup && district === layerState.selectedDistrict) {
+            openSelectedDistrictPopup(district);
+        }
+        return selection;
     };
 
     const handleLayerToggle = async event => {
@@ -1159,21 +1215,10 @@
     };
 
     districtSelect.addEventListener("change", event => selectDistrict(event.target.value));
-    blockSelect.addEventListener("change", event => {
+    blockSelect.addEventListener("change", async event => {
         const requestedBlock = event.target.value;
-        selectDistrict(
-            layerState.selectedDistrict,
-            true,
-            requestedBlock,
-            false,
-            layerState.projectionBlockNames
-        );
-        document.dispatchEvent(new CustomEvent("population:mapblockchange", {
-            detail: {
-                mapKey: layerState.selectedDistrict,
-                block: requestedBlock
-            }
-        }));
+        if (requestedBlock) await selectBlockFromMap(layerState.selectedDistrict, requestedBlock);
+        else showAllBlocksForDistrict(layerState.selectedDistrict);
     });
     document.querySelectorAll("[data-gis-layer]").forEach(checkbox => {
         checkbox.addEventListener("change", handleLayerToggle);

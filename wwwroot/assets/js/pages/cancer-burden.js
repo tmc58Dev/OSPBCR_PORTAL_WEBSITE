@@ -26,45 +26,36 @@ async function initializeCancerBurdenPdfCarousel() {
     if (!carousel || !track || !select) return;
 
     try {
-        const [districtResponse, recordsResponse] = await Promise.all([
-            fetch("assets/data/district-trainings.json", {
-                headers: { "Accept": "application/json" }
-            }),
-            fetch(`/api/content/cancer-burden-pdfs?language=${encodeURIComponent(cancerBurdenLanguageAtLoad)}`, {
-                headers: { "Accept": "application/json" }
-            })
-        ]);
-        if (!districtResponse.ok) throw new Error(`Districts HTTP ${districtResponse.status}`);
+        const recordsResponse = await fetch(
+            `/api/content/cancer-burden-pdfs?language=${encodeURIComponent(cancerBurdenLanguageAtLoad)}`,
+            { headers: { "Accept": "application/json" } }
+        );
         if (!recordsResponse.ok) throw new Error(`Cancer burden PDFs HTTP ${recordsResponse.status}`);
 
-        const districtPayload = await districtResponse.json();
         const districtCollator = new Intl.Collator("en", {
             sensitivity: "base",
             numeric: true
         });
-        const districts = (districtPayload.districts || [])
-            .map((item) => String(item.name || "").trim())
-            .filter(Boolean)
-            .sort((left, right) => districtCollator.compare(left, right));
-        const records = (await recordsResponse.json()).sort((left, right) =>
-            left.district.localeCompare(right.district) || left.title.localeCompare(right.title)
-        );
+        const records = (await recordsResponse.json())
+            .filter((record) => record.district && record.pdfPath)
+            .sort((left, right) =>
+                districtCollator.compare(left.district, right.district) ||
+                districtCollator.compare(left.title, right.title)
+            );
 
-        if (districts.length === 0) {
-            select.innerHTML = `<option>${cancerBurdenTranslate("Districts unavailable")}</option>`;
+        if (records.length === 0) {
+            select.innerHTML = `<option>${cancerBurdenTranslate("No PDFs available")}</option>`;
             select.disabled = true;
             track.innerHTML = emptyCancerBurdenSlide(
-                cancerBurdenTranslate("District data could not be loaded.")
+                cancerBurdenTranslate("No district cancer burden PDFs are currently available.")
             );
             return;
         }
 
-        const recordByDistrict = new Map(
-            records.map((record) => [record.district.toLocaleLowerCase(), record])
-        );
-        const slidesData = districts.map((district) => ({
-            district,
-            record: recordByDistrict.get(district.toLocaleLowerCase()) || null
+        select.disabled = false;
+        const slidesData = records.map((record) => ({
+            district: record.district,
+            record
         }));
 
         select.innerHTML = slidesData.map((item, index) => `
@@ -73,25 +64,6 @@ async function initializeCancerBurdenPdfCarousel() {
 
         track.innerHTML = slidesData.map((item) => {
             const district = escapeCancerBurdenHtml(cancerBurdenTranslate(item.district));
-
-            if (!item.record) {
-                return `
-                    <article class="district-pdf-slide">
-                        <div class="district-pdf-meta">
-                            <span class="district-pdf-label">${district}</span>
-                            <h4>${cancerBurdenTranslate("District Cancer Burden PDF")}</h4>
-                            <p>${cancerBurdenTranslate("{{district}} district factsheet will be added soon.", { district })}</p>
-                        </div>
-                        <div class="district-pdf-frame-shell district-pdf-placeholder">
-                            <div class="district-pdf-placeholder-copy">
-                                <h4>${district}</h4>
-                                <p>${cancerBurdenTranslate("PDF not available yet.")}</p>
-                            </div>
-                        </div>
-                    </article>
-                `;
-            }
-
             const title = escapeCancerBurdenHtml(item.record.title);
             const description = escapeCancerBurdenHtml(item.record.description);
             const pdfPath = escapeCancerBurdenHtml(encodeURI(item.record.pdfPath));
@@ -122,7 +94,7 @@ async function initializeCancerBurdenPdfCarousel() {
 
         const slides = Array.from(track.querySelectorAll(".district-pdf-slide"));
         const controls = Array.from(carousel.querySelectorAll(".gallery-nav"));
-        // Always begin with the first district alphabetically, even when its PDF is unavailable.
+        // Always begin with the first available district alphabetically.
         let currentIndex = 0;
         let autoSlideTimer = null;
 

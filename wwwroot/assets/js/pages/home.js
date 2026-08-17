@@ -323,7 +323,11 @@ document.addEventListener("DOMContentLoaded", () => {
         date.dateTime = toIsoDate(item.publishDate);
         const link = document.createElement("a");
         link.className = "trending-learn-more";
-        link.href = `trending.html?news=${encodeURIComponent(item.id)}&language=${encodeURIComponent(item.language)}&dateOrder=${encodeURIComponent(newsDateOrder)}&view=20260726-auto-image-slider`;
+        const trendingQuery = new URLSearchParams({
+            language: item.language,
+            dateOrder: newsDateOrder
+        });
+        link.href = `trending.html?${trendingQuery.toString()}`;
         link.textContent = viewMoreLabels[item.language] || viewMoreLabels.en;
         link.setAttribute("aria-label", `${link.textContent}: ${item.title}`);
         copy.append(title, date, link);
