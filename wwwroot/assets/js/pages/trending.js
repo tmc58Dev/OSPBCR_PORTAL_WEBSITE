@@ -365,10 +365,9 @@
             if (previousImage || nextImage) {
                 const card = (previousImage || nextImage).closest(".trending-card");
                 moveCardImage(card, previousImage ? -1 : 1);
+                startImageRotation();
             }
         });
-        list.addEventListener("mouseenter", pauseImageRotation);
-        list.addEventListener("mouseleave", resumeImageRotation);
         list.addEventListener("focusin", pauseImageRotation);
         list.addEventListener("focusout", (event) => {
             if (!list.contains(event.relatedTarget)) {

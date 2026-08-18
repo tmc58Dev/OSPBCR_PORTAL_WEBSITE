@@ -17,14 +17,18 @@ body { margin: 0; color: var(--cms-ink); font: 15px/1.55 Inter, "Segoe UI", Aria
 a { color: inherit; }
 button, input, select, textarea { font: inherit; }
 .cms-header { position: sticky; top: 0; z-index: 20; min-height: 78px; display: flex; align-items: center; gap: 28px; padding: 12px clamp(18px, 4vw, 64px); color: #fff; background: linear-gradient(110deg, var(--cms-primary-dark), var(--cms-primary)); box-shadow: 0 8px 28px rgba(0,63,107,.18); }
+.cms-brand-group { display: flex; align-items: center; gap: 14px; min-width: max-content; }
 .cms-brand { display: flex; align-items: center; gap: 11px; text-decoration: none; min-width: max-content; }
 .cms-brand-mark { display: grid; place-items: center; width: 44px; height: 44px; border: 1px solid rgba(255,255,255,.44); border-radius: 13px; font-weight: 800; background: rgba(255,255,255,.12); }
+.cms-brand-mark svg { width: 32px; height: 32px; fill: none; stroke: currentColor; stroke-width: 2.8; stroke-linecap: round; stroke-linejoin: round; }
 .cms-brand strong, .cms-brand small, .cms-user strong, .cms-user small { display: block; }
 .cms-brand strong { font-size: 18px; letter-spacing: .04em; }
 .cms-brand small, .cms-user small { color: rgba(255,255,255,.72); }
 .cms-nav { display: flex; gap: 5px; margin-left: auto; }
 .cms-nav a { padding: 9px 12px; border-radius: 9px; text-decoration: none; font-weight: 600; }
 .cms-nav a:hover { background: rgba(255,255,255,.12); }
+.cms-public-site-link { padding: 9px 12px; border: 1px solid rgba(255,255,255,.4); border-radius: 9px; text-decoration: none; font-weight: 600; background: rgba(255,255,255,.1); }
+.cms-public-site-link:hover { background: rgba(255,255,255,.2); }
 .cms-user { display: flex; align-items: center; gap: 14px; padding-left: 20px; border-left: 1px solid rgba(255,255,255,.25); }
 .cms-link-button { padding: 7px 10px; color: #fff; border: 1px solid rgba(255,255,255,.4); border-radius: 9px; background: transparent; cursor: pointer; }
 .cms-main { width: min(1440px, calc(100% - 36px)); min-height: calc(100vh - 150px); margin: 0 auto; padding: clamp(34px, 5vw, 70px) 0; }

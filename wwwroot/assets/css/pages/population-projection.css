@@ -255,10 +255,16 @@
     background: #dcecf2;
 }
 
-#populationGisMap.gis-block-cursor,
-#populationGisMap.gis-block-cursor .leaflet-map-pane,
-#populationGisMap.gis-block-cursor canvas {
+#populationGisMap.gis-selection-ready,
+#populationGisMap.gis-selection-ready .leaflet-map-pane,
+#populationGisMap.gis-selection-ready canvas {
     cursor: pointer !important;
+}
+
+body.leaflet-dragging #populationGisMap.gis-selection-ready,
+body.leaflet-dragging #populationGisMap.gis-selection-ready .leaflet-map-pane,
+body.leaflet-dragging #populationGisMap.gis-selection-ready canvas {
+    cursor: grabbing !important;
 }
 
 #populationGisMap .leaflet-popup-content {

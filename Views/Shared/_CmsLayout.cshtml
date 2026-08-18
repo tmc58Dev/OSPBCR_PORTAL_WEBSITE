@@ -8,10 +8,22 @@
 </head>
 <body class="cms-body">
     <header class="cms-header">
-        <a class="cms-brand" href="~/home.html" aria-label="OSPBCR public home">
-            <span class="cms-brand-mark" aria-hidden="true">OS</span>
-            <span><strong>OSPBCR</strong><small>Content Management</small></span>
-        </a>
+        <div class="cms-brand-group">
+            <div class="cms-brand" role="img" aria-label="OSPBCR Content Management System">
+                <span class="cms-brand-mark" aria-hidden="true">
+                    <svg viewBox="0 0 48 48" focusable="false">
+                        <rect x="11" y="8" width="26" height="32" rx="6"></rect>
+                        <path d="M17 17h14M17 23h14"></path>
+                        <path d="m17 31 4 4 10-10"></path>
+                    </svg>
+                </span>
+                <span><strong>OSPBCR CMS</strong><small>Content Management</small></span>
+            </div>
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                <a class="cms-public-site-link" href="~/home.html">View Public Website</a>
+            }
+        </div>
         @if (User.Identity?.IsAuthenticated == true)
         {
             <nav class="cms-nav" aria-label="Content management">
@@ -46,7 +58,6 @@
     </main>
     <footer class="cms-footer">
         <span>Odisha State Population-Based Cancer Registry</span>
-        <a href="~/home.html">Return to public website</a>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
