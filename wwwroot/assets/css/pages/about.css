@@ -825,6 +825,28 @@ REGISTRY OBJECTIVES
 
 }
 
+.overview-card.overview-card--static {
+
+    min-height: 0;
+
+    padding: 32px;
+
+    background: linear-gradient(135deg, #ffffff 0%, #edf5fb 100%);
+
+    transition: none;
+
+}
+
+.overview-card.overview-card--static:hover {
+
+    transform: none;
+
+    border-color: var(--border);
+
+    box-shadow: var(--shadow-sm);
+
+}
+
 .overview-face {
 
     position: absolute;
