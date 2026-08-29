@@ -62,11 +62,7 @@
         let activeDateOrder = requestedDateOrder || "desc";
         let loadedItems = [];
         let requestVersion = 0;
-        let imageTimer = 0;
-        let interactionPaused = false;
         let ignoreInitialWebsiteLanguage = Boolean(requestedLanguage);
-        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-        const imageRotationDelay = 2000;
 
         function currentWebsiteLanguage() {
             const language = window.i18n?.getLanguage?.() || localStorage.getItem("ospbcr-language") || "en";
@@ -118,13 +114,6 @@
             status.hidden = false;
         }
 
-        function stopImageRotation() {
-            if (imageTimer) {
-                window.clearInterval(imageTimer);
-                imageTimer = 0;
-            }
-        }
-
         function showCardImage(card, index) {
             const imageTrack = card?.querySelector("[data-trending-image-track]");
             const images = Array.from(card?.querySelectorAll("[data-trending-card-image]") || []);
@@ -149,31 +138,6 @@
             if (!card) return;
             const currentImage = Number.parseInt(card.dataset.activeImage || "0", 10);
             showCardImage(card, currentImage + direction);
-        }
-
-        function startImageRotation() {
-            stopImageRotation();
-            const rotatingCards = Array.from(list.querySelectorAll(".trending-card"))
-                .filter((card) => card.querySelectorAll("[data-trending-card-image]").length > 1);
-
-            if (rotatingCards.length && !interactionPaused && !reduceMotion.matches && !document.hidden) {
-                imageTimer = window.setInterval(() => {
-                    rotatingCards.forEach((card) => {
-                        const currentImage = Number.parseInt(card.dataset.activeImage || "0", 10);
-                        showCardImage(card, currentImage + 1);
-                    });
-                }, imageRotationDelay);
-            }
-        }
-
-        function pauseImageRotation() {
-            interactionPaused = true;
-            stopImageRotation();
-        }
-
-        function resumeImageRotation() {
-            interactionPaused = false;
-            startImageRotation();
         }
 
         function createMedia(item) {
@@ -302,7 +266,6 @@
             status.hidden = loadedItems.length > 0;
             status.classList.remove("is-error");
             if (!loadedItems.length) setStatus(currentMessages().empty);
-            startImageRotation();
         }
 
         async function loadNews() {
@@ -311,7 +274,6 @@
             updateUrl();
             list.setAttribute("aria-busy", "true");
             setStatus(currentMessages().loading);
-            stopImageRotation();
 
             try {
                 const response = await fetch(`/api/content/news?language=${encodeURIComponent(activeLanguage)}`, {
@@ -330,7 +292,6 @@
                 if (version !== requestVersion) return;
                 loadedItems = [];
                 list.replaceChildren();
-                stopImageRotation();
                 setStatus(currentMessages().error, true);
             } finally {
                 if (version === requestVersion) {
@@ -365,26 +326,7 @@
             if (previousImage || nextImage) {
                 const card = (previousImage || nextImage).closest(".trending-card");
                 moveCardImage(card, previousImage ? -1 : 1);
-                startImageRotation();
             }
-        });
-        list.addEventListener("focusin", pauseImageRotation);
-        list.addEventListener("focusout", (event) => {
-            if (!list.contains(event.relatedTarget)) {
-                resumeImageRotation();
-            }
-        });
-        list.addEventListener("touchstart", pauseImageRotation, { passive: true });
-        list.addEventListener("touchend", resumeImageRotation, { passive: true });
-        document.addEventListener("visibilitychange", () => {
-            if (document.hidden) {
-                stopImageRotation();
-            } else {
-                startImageRotation();
-            }
-        });
-        reduceMotion.addEventListener?.("change", () => {
-            startImageRotation();
         });
 
         document.addEventListener("languagechange", (event) => {

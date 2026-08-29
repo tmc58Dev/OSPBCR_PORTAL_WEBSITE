@@ -10,7 +10,7 @@
     };
     const catalogs = new Map();
     const catalogIndexes = new Map();
-    const catalogCacheVersion = "20260813-translation-completion-v2";
+    const catalogCacheVersion = "20260823-popup-toggle";
     const originalText = new WeakMap();
     const originalAttributes = new WeakMap();
     let currentLanguage = getSavedLanguage();

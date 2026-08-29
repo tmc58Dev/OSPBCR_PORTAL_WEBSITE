@@ -597,10 +597,8 @@
             const controls = Array.from(carousel.querySelectorAll(".gallery-nav"));
             const visibleSlides = 2;
             const step = 2;
-            const autoSlideDelay = 2000;
             const maxIndex = Math.max(0, slides.length - visibleSlides);
             let currentIndex = 0;
-            let autoSlideTimer;
 
             const moveCarousel = (direction) => {
                 if (direction > 0) {
@@ -616,29 +614,13 @@
                 track.style.transform = `translateX(-${currentIndex * 50}%)`;
             };
 
-            const startAutoSlide = () => {
-                autoSlideTimer = window.setInterval(() => {
-                    moveCarousel(1);
-                }, autoSlideDelay);
-            };
-
-            const stopAutoSlide = () => {
-                window.clearInterval(autoSlideTimer);
-            };
-
             controls.forEach((button) => {
                 button.addEventListener("click", () => {
-                    stopAutoSlide();
                     moveCarousel(Number(button.dataset.direction));
-                    startAutoSlide();
                 });
             });
 
-            carousel.addEventListener("mouseenter", stopAutoSlide);
-            carousel.addEventListener("mouseleave", startAutoSlide);
-
             updateCarousel();
-            startAutoSlide();
         })();
     </script>
 

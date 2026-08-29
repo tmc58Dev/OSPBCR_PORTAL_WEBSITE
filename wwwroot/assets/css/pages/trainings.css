@@ -400,6 +400,13 @@
 
 }
 
+#districtTrainingExpandableContent .summary-copy p,
+#privateTrainingExpandableContent .summary-copy p {
+
+    text-align: justify;
+
+}
+
 .training-report-actions {
 
     display: flex;

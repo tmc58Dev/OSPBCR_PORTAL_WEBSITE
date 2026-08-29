@@ -212,7 +212,14 @@
     background: #d9f99d;
 }
 
-.gis-reset-button {
+.gis-toolbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.gis-reset-button,
+.gis-popup-toggle-button {
     min-height: 44px;
     padding: 9px 17px;
     border: 1px solid #075985;
@@ -224,9 +231,23 @@
     transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
+.gis-popup-toggle-button {
+    background: #ffffff;
+    color: #075985;
+}
+
+.gis-popup-toggle-button[aria-pressed="false"] {
+    border-color: #8096a1;
+    background: #eef3f5;
+    color: #405966;
+}
+
 .gis-reset-button:hover,
-.gis-reset-button:focus-visible {
+.gis-reset-button:focus-visible,
+.gis-popup-toggle-button:hover,
+.gis-popup-toggle-button:focus-visible {
     background: #034b70;
+    color: #ffffff;
     transform: translateY(-1px);
 }
 
@@ -1044,8 +1065,13 @@ body.leaflet-dragging #populationGisMap.gis-selection-ready canvas {
         border-radius: 8px;
     }
 
-    .gis-reset-button {
+    .gis-toolbar-actions {
         width: 100%;
+    }
+
+    .gis-reset-button,
+    .gis-popup-toggle-button {
+        flex: 1 1 0;
     }
 
     .gis-map-shell {

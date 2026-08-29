@@ -367,11 +367,11 @@
     const districtSelect = document.getElementById("gisDistrictSelect");
     const blockSelect = document.getElementById("gisBlockSelect");
     const blockToggle = document.querySelector('[data-gis-layer="blocks"]');
-    const villageToggle = document.querySelector('[data-gis-layer="villages"]');
-    const villageToggleLabel = document.getElementById("gisVillageToggleLabel");
+    const popupToggleButton = document.getElementById("gisPopupToggleButton");
     const resetButton = document.getElementById("gisResetButton");
     const numberFormatter = new Intl.NumberFormat("en-IN");
     const dataRoot = "assets/data/nhm-gis/";
+    const dataVersion = "20260822-spatial-village-block-alignment-v2";
     const requestCache = new Map();
 
     if (typeof L === "undefined") {
@@ -387,7 +387,7 @@
 
     const loadJson = file => {
         if (!requestCache.has(file)) {
-            requestCache.set(file, fetch(`${dataRoot}${file}`).then(response => {
+            requestCache.set(file, fetch(`${dataRoot}${file}?v=${dataVersion}`).then(response => {
                 if (!response.ok) throw new Error(`${file}: ${response.status}`);
                 return response.json();
             }));
@@ -412,7 +412,6 @@
     createPane("blockPane", 420);
     createPane("districtLabelPane", 425);
     createPane("blockLabelPane", 426);
-    createPane("villagePane", 430);
 
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         maxZoom: 19,
@@ -426,9 +425,9 @@
         districtLabels: null,
         blocks: null,
         blockLabels: null,
-        villages: null,
-        villageRequestId: 0,
         activePopup: null,
+        lastPopupDescriptor: null,
+        popupsEnabled: true,
         selectedDistrict: "",
         selectedBlock: "",
         selectedBlockDisplayName: "",
@@ -683,7 +682,9 @@
     };
 
     const openPersistentPopup = (latLng, content, onCloseButton) => {
+        layerState.lastPopupDescriptor = { latLng, content, onCloseButton };
         closeActivePopup();
+        if (!layerState.popupsEnabled) return null;
 
         const popup = L.popup({
             closeButton: true,
@@ -707,6 +708,28 @@
         return popup;
     };
 
+    const setPopupsEnabled = enabled => {
+        layerState.popupsEnabled = enabled;
+        popupToggleButton.setAttribute("aria-pressed", String(enabled));
+        popupToggleButton.textContent = enabled ? "Hide popups" : "Show popups";
+
+        if (!enabled) {
+            closeActivePopup();
+            setStatus("Map popups are turned off. District, block, and village selection remains available.");
+            return;
+        }
+
+        const descriptor = layerState.lastPopupDescriptor;
+        if (descriptor) {
+            openPersistentPopup(
+                descriptor.latLng,
+                descriptor.content,
+                descriptor.onCloseButton
+            );
+        }
+        setStatus("Map popups are turned on.");
+    };
+
     const updateSummary = metadata => {
         document.getElementById("gisDistrictCount").textContent = numberFormatter.format(metadata.counts.districts);
         document.getElementById("gisBlockCount").textContent = numberFormatter.format(metadata.counts.blocks);
@@ -728,11 +751,6 @@
         const block = layerState.selectedBlock;
         const blockDisplayName = layerState.selectedBlockDisplayName || block;
         const hasBlockGeometry = !block || blockFeatureLayers.has(blockLayerKey(district, block));
-        const villageCount = block
-            ? layerState.villages?.toGeoJSON().features.length ?? null
-            : district
-                ? layerState.metadata.villageFiles[district]?.count || 0
-            : layerState.metadata.counts.villages;
 
         document.getElementById("gisDetailsTitle").textContent = block ? `${blockDisplayName} Block` : district || "Odisha";
         document.getElementById("gisDetailsDescription").textContent = block
@@ -740,18 +758,11 @@
                 ? `Showing only ${blockDisplayName} block within ${district} district.`
                 : `No block boundary is available in the GIS source for ${blockDisplayName}.`
             : district
-            ? layerState.villages
-                ? `Showing ${district} district with its detailed village boundaries.`
-                : villageToggle.checked
-                    ? `Loading detailed village boundaries for ${district}...`
-                    : `Showing ${district} district. Turn on Villages to load its detailed village boundaries.`
-            : "Select a district on the map or from the list to explore blocks and villages.";
+                ? `Showing ${district} district and its block boundaries.`
+                : "Select a district on the map or from the list to explore blocks.";
         document.getElementById("gisSelectedBlocks").textContent = numberFormatter.format(
             block ? Number(hasBlockGeometry) : districtBlockCount(district)
         );
-        document.getElementById("gisSelectedVillages").textContent = villageCount === null
-            ? "Not loaded"
-            : numberFormatter.format(villageCount);
     };
 
     const styleDistrictSelection = () => {
@@ -851,66 +862,6 @@
         });
     };
 
-    const removeVillageLayer = () => {
-        if (layerState.villages) {
-            map.removeLayer(layerState.villages);
-            layerState.villages = null;
-        }
-    };
-
-    const loadVillageLayer = async () => {
-        const district = layerState.selectedDistrict;
-        const villageFile = layerState.metadata.villageFiles[district]?.file;
-        const requestId = ++layerState.villageRequestId;
-        removeVillageLayer();
-        if (!district || !villageFile || !villageToggle.checked) return;
-
-        setStatus(`Loading village boundaries for ${district}...`);
-        try {
-            const data = await loadJson(villageFile);
-            if (requestId !== layerState.villageRequestId ||
-                district !== layerState.selectedDistrict ||
-                !villageToggle.checked) return;
-
-            if (layerState.selectedBlock && layerState.projectionBlockNames.length) {
-                buildBlockCrosswalk(district, layerState.projectionBlockNames);
-            }
-            const visibleVillageData = layerState.selectedBlock
-                ? {
-                    ...data,
-                    features: data.features.filter(feature =>
-                        normalizeBlockName(resolveMapBlockName(
-                            district,
-                            feature.properties.BLOCK
-                        )) === layerState.selectedBlock
-                    )
-                }
-                : data;
-
-            layerState.villages = L.geoJSON(visibleVillageData, {
-                pane: "villagePane",
-                style: {
-                    color: "#5b6d24",
-                    weight: 0.55,
-                    fillColor: "#bef264",
-                    fillOpacity: 0.13
-                },
-                onEachFeature: (feature, featureLayer) => {
-                    featureLayer.on("click", async event => {
-                        markSelectionEventHandled(event);
-                        await selectVillageFeature(featureLayer, event.latlng, district);
-                    });
-                }
-            }).addTo(map);
-            layerState.villages.bringToFront();
-            updateDetails();
-            setStatus(`${numberFormatter.format(visibleVillageData.features.length)} village boundaries loaded for ${layerState.selectedBlock ? `${layerState.selectedBlockDisplayName} block` : district}.`);
-        } catch (error) {
-            console.error("Village GIS data error:", error);
-            setStatus("Village boundaries could not be loaded. Please try again.", true);
-        }
-    };
-
     const openSelectedBlockPopup = (district, block) => {
         const featureLayer = blockFeatureLayers.get(blockLayerKey(district, block));
         if (!featureLayer) return false;
@@ -935,8 +886,7 @@
             makePopup("Odisha", [
                 ["Area", "State"],
                 ["Districts", numberFormatter.format(layerState.metadata.counts.districts)],
-                ["Blocks", numberFormatter.format(layerState.metadata.counts.blocks)],
-                ["Villages", numberFormatter.format(layerState.metadata.counts.villages)]
+                ["Blocks", numberFormatter.format(layerState.metadata.counts.blocks)]
             ])
         );
         return true;
@@ -950,8 +900,7 @@
             featureLayer.getBounds().getCenter(),
             makePopup(district, [
                 ["Area", "District"],
-                ["Blocks", numberFormatter.format(districtBlockCount(district))],
-                ["Villages", numberFormatter.format(layerState.metadata.villageFiles[district]?.count || 0)]
+                ["Blocks", numberFormatter.format(districtBlockCount(district))]
             ]),
             () => selectDistrict("")
         );
@@ -980,13 +929,6 @@
             }));
         }
         districtSelect.value = layerState.selectedDistrict;
-        villageToggle.disabled = !layerState.selectedDistrict;
-        villageToggleLabel.classList.toggle("is-disabled", !layerState.selectedDistrict);
-
-        if (!layerState.selectedDistrict) {
-            villageToggle.checked = false;
-            removeVillageLayer();
-        }
 
         styleDistrictSelection();
         styleBlockSelection();
@@ -1013,22 +955,12 @@
             openStatePopup();
         }
 
-        if (villageToggle.checked) {
-            const requestedDistrict = layerState.selectedDistrict;
-            const requestedBlock = layerState.selectedBlock;
-            await loadVillageLayer();
-            if (requestedBlock &&
-                requestedDistrict === layerState.selectedDistrict &&
-                requestedBlock === layerState.selectedBlock) {
-                openSelectedBlockPopup(requestedDistrict, requestedBlock);
-            }
-        }
-        else setStatus(layerState.selectedBlock
+        setStatus(layerState.selectedBlock
             ? selectedBlockLayer
                 ? `${layerState.selectedBlockDisplayName} block selected in ${layerState.selectedDistrict}.`
                 : `No GIS block boundary is available for ${layerState.selectedBlockDisplayName} in ${layerState.selectedDistrict}.`
             : layerState.selectedDistrict
-                ? `${layerState.selectedDistrict} selected. Turn on Villages for village-level detail.`
+                ? `${layerState.selectedDistrict} district and block boundaries selected.`
             : "Statewide district and block boundaries are ready.");
     };
 
@@ -1106,25 +1038,6 @@
         await selectBlockFromMap(district, rawBlock);
     };
 
-    const selectVillageFeature = async (featureLayer, latLng, district) => {
-        const properties = featureLayer.feature.properties;
-        await selectBlockFromOverlay(district, properties.BLOCK);
-
-        if (district !== layerState.selectedDistrict) return;
-        const parentDistrict = layerState.selectedDistrict;
-        const parentBlock = layerState.selectedBlock;
-        openPersistentPopup(latLng, makePopup(properties.LOCATION, [
-            ["Type", properties.V_TYPE],
-            ["Block", properties.BLOCK],
-            ["District", properties.DISTRICT || district],
-            ["Village code", properties.LCODE]
-        ]), () => {
-            if (parentDistrict !== layerState.selectedDistrict ||
-                parentBlock !== layerState.selectedBlock) return;
-            openSelectedBlockPopup(parentDistrict, parentBlock);
-        });
-    };
-
     const showAllBlocksForDistrict = (district, showDistrictPopup = false) => {
         const selection = selectDistrict(
             district,
@@ -1148,18 +1061,6 @@
     map.on("click", async event => {
         if (!mapElement.classList.contains("gis-selection-ready") ||
             handledSelectionEvents.has(event.originalEvent)) return;
-
-        if (layerState.villages && map.hasLayer(layerState.villages)) {
-            const villageLayer = featureLayerAtLatLng(layerState.villages, event.latlng);
-            if (villageLayer) {
-                await selectVillageFeature(
-                    villageLayer,
-                    event.latlng,
-                    layerState.selectedDistrict
-                );
-            }
-            return;
-        }
 
         const blockLayer = featureLayerAtLatLng(
             layerState.blocks,
@@ -1198,15 +1099,6 @@
             return;
         }
 
-        if (layerName === "villages") {
-            if (checkbox.checked) await loadVillageLayer();
-            else {
-                removeVillageLayer();
-                updateDetails();
-                setStatus("Village boundaries hidden.");
-            }
-            return;
-        }
     };
 
     const initialize = async () => {
@@ -1219,7 +1111,11 @@
             layerState.metadata = metadata;
             updateSummary(metadata);
 
-            Object.keys(metadata.villageFiles).sort().forEach(district => {
+            const districtNames = districtData.features
+                .map(feature => normalizeDistrictName(feature.properties.DISTRICT))
+                .filter(Boolean)
+                .sort();
+            [...new Set(districtNames)].forEach(district => {
                 const option = document.createElement("option");
                 option.value = district;
                 option.textContent = district;
@@ -1336,6 +1232,9 @@
     });
     document.querySelectorAll("[data-gis-layer]").forEach(checkbox => {
         checkbox.addEventListener("change", handleLayerToggle);
+    });
+    popupToggleButton.addEventListener("click", () => {
+        setPopupsEnabled(!layerState.popupsEnabled);
     });
     resetButton.addEventListener("click", () => {
         blockToggle.checked = true;

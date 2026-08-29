@@ -114,13 +114,10 @@ document.addEventListener("DOMContentLoaded", () => {
     let cards = [];
     let pages = [];
     let activeIndex = 0;
-    let imageTimer = 0;
     let requestVersion = 0;
     let newsLanguage = currentLanguage();
     let newsDateOrder = "desc";
     let touchStartX = 0;
-    let interactionPaused = false;
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     const languageNames = {
         en: "English",
         hi: "हिन्दी",
@@ -157,13 +154,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    function stopImageRotation() {
-        if (imageTimer) {
-            window.clearInterval(imageTimer);
-            imageTimer = 0;
-        }
-    }
-
     function showCardImage(card, index) {
         const imageTrack = card?.querySelector("[data-news-image-track]");
         const images = Array.from(card?.querySelectorAll("[data-news-card-image]") || []);
@@ -190,31 +180,6 @@ document.addEventListener("DOMContentLoaded", () => {
         showCardImage(card, currentImage + direction);
     }
 
-    function startImageRotation() {
-        stopImageRotation();
-        const activeCards = Array.from(
-            pages[activeIndex]?.querySelectorAll(".news-card") || []
-        ).filter((card) => card.querySelectorAll("[data-news-card-image]").length > 1);
-        if (activeCards.length && !interactionPaused && !reduceMotion.matches && !document.hidden) {
-            imageTimer = window.setInterval(() => {
-                activeCards.forEach((card) => {
-                    const currentImage = Number.parseInt(card.dataset.activeImage || "0", 10);
-                    showCardImage(card, currentImage + 1);
-                });
-            }, 2000);
-        }
-    }
-
-    function pauseCarousels() {
-        interactionPaused = true;
-        stopImageRotation();
-    }
-
-    function resumeCarousels() {
-        interactionPaused = false;
-        startImageRotation();
-    }
-
     function show(index) {
         if (!pages.length) return;
         activeIndex = (index + pages.length) % pages.length;
@@ -231,7 +196,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const firstCard = (activeIndex * cardsPerPage) + 1;
         const lastCard = Math.min(firstCard + cardsPerPage - 1, cards.length);
         position.textContent = `${firstCard}–${lastCard} / ${cards.length}`;
-        startImageRotation();
     }
 
     function createMedia(item) {
@@ -341,7 +305,6 @@ document.addEventListener("DOMContentLoaded", () => {
         syncLanguageFilter();
         syncDateOrderFilter();
         carousel.setAttribute("aria-busy", "true");
-        stopImageRotation();
         try {
             const response = await fetch(`/api/content/news?language=${encodeURIComponent(language)}`, {
                 cache: "no-store",
@@ -392,7 +355,6 @@ document.addEventListener("DOMContentLoaded", () => {
             console.error("News Cards could not be loaded.", error);
             if (version === requestVersion) {
                 section.hidden = true;
-                stopImageRotation();
             }
         } finally {
             if (version === requestVersion) {
@@ -406,14 +368,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     next.addEventListener("click", () => {
         show(activeIndex + 1);
-    });
-    carousel.addEventListener("mouseenter", pauseCarousels);
-    carousel.addEventListener("mouseleave", resumeCarousels);
-    carousel.addEventListener("focusin", pauseCarousels);
-    carousel.addEventListener("focusout", (event) => {
-        if (!carousel.contains(event.relatedTarget)) {
-            resumeCarousels();
-        }
     });
     carousel.addEventListener("keydown", (event) => {
         if (event.key === "ArrowLeft") {
@@ -434,7 +388,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     carousel.addEventListener("touchstart", (event) => {
         touchStartX = event.changedTouches[0]?.clientX || 0;
-        pauseCarousels();
     }, { passive: true });
     carousel.addEventListener("touchend", (event) => {
         const touchEndX = event.changedTouches[0]?.clientX || 0;
@@ -442,7 +395,6 @@ document.addEventListener("DOMContentLoaded", () => {
         if (Math.abs(distance) > 45) {
             show(activeIndex + (distance < 0 ? 1 : -1));
         }
-        resumeCarousels();
     }, { passive: true });
     languageButtons.forEach((button) => {
         button.addEventListener("click", () => {
@@ -459,21 +411,10 @@ document.addEventListener("DOMContentLoaded", () => {
             loadNews();
         });
     });
-    document.addEventListener("visibilitychange", () => {
-        if (document.hidden) {
-            stopImageRotation();
-        } else {
-            startImageRotation();
-        }
-    });
     document.addEventListener("languagechange", (event) => {
         newsLanguage = event.detail?.language || currentLanguage();
         loadNews();
     });
-    reduceMotion.addEventListener?.("change", () => {
-        startImageRotation();
-    });
-
     syncLanguageFilter();
     syncDateOrderFilter();
     loadNews();

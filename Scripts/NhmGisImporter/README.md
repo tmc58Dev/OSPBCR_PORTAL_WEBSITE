@@ -20,9 +20,19 @@ Run the import from the repository root:
 dotnet run --project Scripts\NhmGisImporter\NhmGisImporter.csproj
 ```
 
-By default, the extracted files are read from
-`.codex-work\gis-source\GIS files NHM`. To use another extracted directory,
-pass its path as the first argument.
+By default, the source files are read from
+`wwwroot\assets\IMAGES_PDF_PPT_EXCEL\POPULATION PROJECTION\GIS files NHM`.
+To use another extracted directory, pass its path as the first argument.
+
+Generate the browser-ready GeoJSON used by the Population Projection map:
+
+```powershell
+python .codex-work\convert_nhm_gis.py
+```
+
+The exporter reads the same default source directory and writes the district,
+block, village, subcentre, medical-facility, and index files to
+`wwwroot\assets\data\nhm-gis`.
 
 Inspect the target tables without changing data:
 
@@ -38,8 +48,9 @@ dotnet run --project Scripts\NhmGisImporter\NhmGisImporter.csproj -- --sync-bloc
 ```
 
 Synchronize each village's block and district attributes from
-`dbo.NhmGisBlocks`. Location-code prefixes are used when available; remaining
-villages are matched against the block boundary polygons:
+`dbo.NhmGisBlocks`. Village polygons are matched to the supplied block
+boundaries first. A location-code prefix is used only when a source village
+polygon falls outside every supplied block boundary:
 
 ```powershell
 dotnet run --project Scripts\NhmGisImporter\NhmGisImporter.csproj -- --sync-village-blocks

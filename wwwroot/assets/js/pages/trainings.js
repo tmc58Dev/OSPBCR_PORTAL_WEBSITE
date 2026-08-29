@@ -217,6 +217,7 @@ function initializeTrainingCarousel() {
         let visibleSlides = window.innerWidth <= 767 ? 1 : 2;
         let currentIndex = 0;
         let autoSlideTimer = null;
+        const autoSlideEnabled = carousel.dataset.autoSlide !== "false";
 
         function getMaxIndex() {
             return Math.max(0, slides.length - visibleSlides);
@@ -255,7 +256,10 @@ function initializeTrainingCarousel() {
             button.addEventListener("click", () => {
                 stopAutoSlide();
                 moveCarousel(Number(button.dataset.direction));
-                startAutoSlide();
+
+                if (autoSlideEnabled) {
+                    startAutoSlide();
+                }
             });
         });
 
@@ -271,11 +275,16 @@ function initializeTrainingCarousel() {
             updateCarousel();
         });
 
-        carousel.addEventListener("mouseenter", stopAutoSlide);
-        carousel.addEventListener("mouseleave", startAutoSlide);
+        if (autoSlideEnabled) {
+            carousel.addEventListener("mouseenter", stopAutoSlide);
+            carousel.addEventListener("mouseleave", startAutoSlide);
+        }
 
         updateCarousel();
-        startAutoSlide();
+
+        if (autoSlideEnabled) {
+            startAutoSlide();
+        }
     });
 
 }

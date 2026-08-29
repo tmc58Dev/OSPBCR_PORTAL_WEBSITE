@@ -319,21 +319,21 @@ public sealed class RegistryDataService(
                                 ''),
                             3))
                         AS Icd10
-                FROM dbo.TumourTable tumour
-                INNER JOIN dbo.PatientTable patient
-                    ON LTRIM(RTRIM(patient.REGNO)) =
-                       LTRIM(RTRIM(tumour.REGNO))
-                INNER JOIN dbo.DistrictList district
-                    ON LTRIM(RTRIM(CONVERT(nvarchar(100), district.DistrictId))) =
-                       LTRIM(RTRIM(CONVERT(nvarchar(100), patient.District)))
-                WHERE YEAR(
-                    TRY_CONVERT(
-                        date,
-                        NULLIF(LTRIM(RTRIM(patient.DateOfDeath)), ''))) = @Year
-                  AND LOWER(LTRIM(RTRIM(tumour.RECS))) = 'true'
-                  AND NULLIF(LTRIM(RTRIM(tumour.REGNO)), '') IS NOT NULL
+                FROM dbo.PatientTable patient
+                INNER JOIN dbo.TumourTable tumour
+                    ON tumour.REGNO = patient.REGNO
+                WHERE patient.YearDateOfDeath = CONVERT(nvarchar(4), @Year)
+                  AND tumour.RECS = 'true'
+                  AND NULLIF(tumour.REGNO, '') IS NOT NULL
                   AND (@Sex IS NULL OR patient.Sex = @Sex)
-                  AND (@District IS NULL OR LTRIM(RTRIM(district.DistrictName)) = @District)
+                  AND (
+                      @District IS NULL
+                      OR patient.District =
+                         (
+                             SELECT TOP (1) district.DistrictId
+                             FROM dbo.DistrictList district
+                             WHERE LTRIM(RTRIM(district.DistrictName)) = @District
+                         ))
             ),
             IcdLookup AS
             (
@@ -352,7 +352,8 @@ public sealed class RegistryDataService(
                 ON lookup.Icd10 = tumour.Icd10
             WHERE tumour.Icd10 LIKE 'C[0-9][0-9]'
             GROUP BY tumour.Icd10, lookup.CancerSite
-            ORDER BY DeathCount DESC, tumour.Icd10;
+            ORDER BY DeathCount DESC, tumour.Icd10
+            OPTION (RECOMPILE);
             """;
 
         await using var connection = await connectionFactory.OpenConnectionAsync(cancellationToken);
@@ -509,7 +510,7 @@ public sealed class RegistryDataService(
             (
                 SELECT
                     LTRIM(RTRIM(patient.REGNO)) AS RegNo,
-                    TRY_CONVERT(int, LTRIM(RTRIM(patient.AgeAtDeath))) AS PatientAge,
+                    patient.AgeAtDeath AS PatientAge,
                     UPPER(
                         LEFT(
                             REPLACE(
@@ -520,23 +521,19 @@ public sealed class RegistryDataService(
                         AS Icd10
                 FROM dbo.PatientTable patient
                 INNER JOIN dbo.TumourTable tumour
-                    ON LTRIM(RTRIM(tumour.REGNO)) =
-                       LTRIM(RTRIM(patient.REGNO))
-                INNER JOIN dbo.DistrictList district
-                    ON LTRIM(RTRIM(CONVERT(nvarchar(100), district.DistrictId))) =
-                       LTRIM(RTRIM(CONVERT(nvarchar(100), patient.District)))
-                WHERE COALESCE(
-                    TRY_CONVERT(
-                        int,
-                        NULLIF(LTRIM(RTRIM(patient.YearDateOfDeath)), '')),
-                    YEAR(
-                        TRY_CONVERT(
-                            date,
-                            NULLIF(LTRIM(RTRIM(patient.DateOfDeath)), '')))) = @Year
-                  AND LOWER(LTRIM(RTRIM(tumour.RECS))) = 'true'
-                  AND NULLIF(LTRIM(RTRIM(patient.REGNO)), '') IS NOT NULL
-                  AND (@Sex IS NULL OR TRY_CONVERT(int, patient.Sex) = @Sex)
-                  AND (@District IS NULL OR LTRIM(RTRIM(district.DistrictName)) = @District)
+                    ON tumour.REGNO = patient.REGNO
+                WHERE patient.YearDateOfDeath = CONVERT(nvarchar(4), @Year)
+                  AND tumour.RECS = 'true'
+                  AND NULLIF(patient.REGNO, '') IS NOT NULL
+                  AND (@Sex IS NULL OR patient.Sex = @Sex)
+                  AND (
+                      @District IS NULL
+                      OR patient.District =
+                         (
+                             SELECT TOP (1) district.DistrictId
+                             FROM dbo.DistrictList district
+                             WHERE LTRIM(RTRIM(district.DistrictName)) = @District
+                         ))
             ),
             IcdLookup AS
             (
@@ -586,7 +583,8 @@ public sealed class RegistryDataService(
                 SiteCount
             FROM RankedSites
             WHERE SiteRank <= 5
-            ORDER BY SortOrder, SiteRank;
+            ORDER BY SortOrder, SiteRank
+            OPTION (RECOMPILE);
             """;
 
         return await QueryCancerAgeSitesAsync(

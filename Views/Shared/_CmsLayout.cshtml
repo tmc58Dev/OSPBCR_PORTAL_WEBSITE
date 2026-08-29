@@ -19,10 +19,7 @@
                 </span>
                 <span><strong>OSPBCR CMS</strong><small>Content Management</small></span>
             </div>
-            @if (User.Identity?.IsAuthenticated == true)
-            {
-                <a class="cms-public-site-link" href="~/home.html">View Public Website</a>
-            }
+            <a class="cms-public-site-link" href="~/home.html">View Public Website</a>
         </div>
         @if (User.Identity?.IsAuthenticated == true)
         {

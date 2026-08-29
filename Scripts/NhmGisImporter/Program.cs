@@ -8,7 +8,9 @@ using Microsoft.Data.SqlClient;
 Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
 var repositoryRoot = FindRepositoryRoot(AppContext.BaseDirectory);
-var defaultSource = Path.Combine(repositoryRoot, ".codex-work", "gis-source", "GIS files NHM");
+var defaultSource = Path.Combine(
+    repositoryRoot,
+    "wwwroot", "assets", "IMAGES_PDF_PPT_EXCEL", "POPULATION PROJECTION", "GIS files NHM");
 var sourceDirectory = Path.GetFullPath(args.FirstOrDefault(argument => !argument.StartsWith("--", StringComparison.Ordinal)) ?? defaultSource);
 var inspectOnly = args.Contains("--inspect", StringComparer.OrdinalIgnoreCase);
 var syncBlockDistrictCodes = args.Contains("--sync-block-district-codes", StringComparer.OrdinalIgnoreCase);
@@ -271,6 +273,9 @@ static async Task PrintVillageBlockVerificationAsync(SqlConnection connection)
         SELECT COUNT_BIG(*) AS VillageCount,
                SUM(CASE WHEN villages.BlockCode IS NULL OR villages.BlockName IS NULL OR villages.DistrictCode IS NULL OR villages.DistrictName IS NULL THEN CAST(1 AS BIGINT) ELSE 0 END) AS MissingAssignments,
                SUM(CASE WHEN matching.BlockId IS NULL THEN CAST(1 AS BIGINT) ELSE 0 END) AS IncorrectAssignments,
+               SUM(CASE WHEN villages.Shape IS NOT NULL AND matching.BlockShape IS NOT NULL
+                              AND villages.Shape.STIntersects(matching.BlockShape) = 0
+                        THEN CAST(1 AS BIGINT) ELSE 0 END) AS SpatiallyDisjointAssignments,
                (SELECT COUNT_BIG(*) FROM (SELECT BlockCode, BlockName FROM dbo.NhmGisVillages GROUP BY BlockCode, BlockName) assignedBlocks) AS AssignedBlockCount,
                SUM(CASE WHEN villages.Shape IS NOT NULL AND villages.Shape.STIsValid() = 0 THEN CAST(1 AS BIGINT) ELSE 0 END) AS InvalidGeometries,
                (SELECT column_id FROM sys.columns WHERE object_id = OBJECT_ID(N'dbo.NhmGisVillages') AND name = N'VillageType') AS VillageTypeOrdinal,
@@ -282,7 +287,7 @@ static async Task PrintVillageBlockVerificationAsync(SqlConnection connection)
         FROM dbo.NhmGisVillages villages
         OUTER APPLY
         (
-            SELECT TOP (1) blocks.BlockId
+            SELECT TOP (1) blocks.BlockId, blocks.Shape AS BlockShape
             FROM dbo.NhmGisBlocks blocks
             WHERE blocks.BlockCode = villages.BlockCode AND blocks.BlockName = villages.BlockName
               AND blocks.DistrictCode = villages.DistrictCode AND blocks.DistrictName = villages.DistrictName
@@ -290,8 +295,8 @@ static async Task PrintVillageBlockVerificationAsync(SqlConnection connection)
         """;
     await using var result = await verification.ExecuteReaderAsync();
     await result.ReadAsync();
-    Console.WriteLine($"dbo.NhmGisVillages: {result.GetInt64(0):N0} rows; {result.GetInt64(1):N0} missing assignments; {result.GetInt64(2):N0} incorrect assignments; {result.GetInt64(3):N0} blocks; {result.GetInt64(4):N0} invalid geometries");
-    Console.WriteLine($"Column order: VillageType #{result.GetInt32(5)}, LocationName #{result.GetInt32(6)}, BlockCode #{result.GetInt32(7)}, BlockName #{result.GetInt32(8)}, DistrictCode #{result.GetInt32(9)}, DistrictName #{result.GetInt32(10)}");
+    Console.WriteLine($"dbo.NhmGisVillages: {result.GetInt64(0):N0} rows; {result.GetInt64(1):N0} missing assignments; {result.GetInt64(2):N0} incorrect assignments; {result.GetInt64(3):N0} spatially disjoint source polygons; {result.GetInt64(4):N0} blocks; {result.GetInt64(5):N0} invalid geometries");
+    Console.WriteLine($"Column order: VillageType #{result.GetInt32(6)}, LocationName #{result.GetInt32(7)}, BlockCode #{result.GetInt32(8)}, BlockName #{result.GetInt32(9)}, DistrictCode #{result.GetInt32(10)}, DistrictName #{result.GetInt32(11)}");
 }
 
 static object ConvertValue(object? value, Type targetType)
@@ -858,6 +863,10 @@ internal readonly record struct ShapeBounds(double MinimumX, double MinimumY, do
 {
     public bool Contains(Coordinate point) =>
         MinimumX <= point.X && point.X <= MaximumX && MinimumY <= point.Y && point.Y <= MaximumY;
+
+    public bool Intersects(ShapeBounds other) =>
+        MinimumX <= other.MaximumX && other.MinimumX <= MaximumX &&
+        MinimumY <= other.MaximumY && other.MinimumY <= MaximumY;
 }
 
 internal sealed record VillageBlockAssignment(int SourceRecordNumber, int BlockSourceRecordNumber);
@@ -890,8 +899,8 @@ internal static class VillageBlockMatcher
         }
 
         var assignments = new List<VillageBlockAssignment>(villageRows.Count);
-        var directMatches = 0;
         var spatialMatches = 0;
+        var codeFallbacks = 0;
         for (var index = 0; index < villageRows.Count; index++)
         {
             var locationCode = Value(villageRows[index], "LCODE");
@@ -902,28 +911,20 @@ internal static class VillageBlockMatcher
                 blocksByCode.TryGetValue(locationCode[..6], out codeCandidates);
             }
 
-            if (codeCandidates is { Count: 1 })
+            if (villageShapes[index] is PolygonShape villagePolygon)
             {
-                block = codeCandidates[0];
-                directMatches++;
-            }
-            else if (villageShapes[index] is PolygonShape villagePolygon)
-            {
-                var representativePoints = RepresentativePoints(villagePolygon);
-                var spatialCandidates = codeCandidates is { Count: > 1 } ? codeCandidates : blocks;
-                block = spatialCandidates.FirstOrDefault(candidate =>
-                    representativePoints.Any(candidate.Bounds.Contains) &&
-                    representativePoints.Any(point => Contains(candidate.Shape, point)));
-                if (block is null && codeCandidates is { Count: > 1 })
-                {
-                    block = blocks.FirstOrDefault(candidate =>
-                        representativePoints.Any(candidate.Bounds.Contains) &&
-                        representativePoints.Any(point => Contains(candidate.Shape, point)));
-                }
+                var preferredBlock = codeCandidates?.Count == 1 ? codeCandidates[0] : null;
+                block = BestSpatialMatch(villagePolygon, blocks, preferredBlock);
                 if (block is not null)
                 {
                     spatialMatches++;
                 }
+            }
+
+            if (block is null && codeCandidates is { Count: > 0 })
+            {
+                block = codeCandidates[0];
+                codeFallbacks++;
             }
 
             if (block is null)
@@ -933,8 +934,84 @@ internal static class VillageBlockMatcher
             assignments.Add(new VillageBlockAssignment(index + 1, block.SourceRecordNumber));
         }
 
-        Console.WriteLine($"Village/block matching: {directMatches:N0} location-code matches; {spatialMatches:N0} spatial matches; 0 unmatched");
+        Console.WriteLine($"Village/block matching: {spatialMatches:N0} spatial matches; {codeFallbacks:N0} source-code fallbacks; 0 unmatched");
         return assignments;
+    }
+
+    private static BlockBoundary? BestSpatialMatch(
+        PolygonShape village,
+        IReadOnlyList<BlockBoundary> blocks,
+        BlockBoundary? preferredBlock)
+    {
+        var villageBounds = Bounds(village);
+        var candidates = blocks.Where(block => block.Bounds.Intersects(villageBounds)).ToList();
+        if (candidates.Count == 0)
+        {
+            return null;
+        }
+
+        var scores = ScoreCandidates(village, villageBounds, candidates, 5);
+        if (scores.Count == 0 || scores[0].Score == 0)
+        {
+            return null;
+        }
+        if (scores.Count > 1 &&
+            (scores[0].Score == scores[1].Score || scores[1].Score >= scores[0].Score * 0.8))
+        {
+            scores = ScoreCandidates(village, villageBounds, candidates, 11);
+        }
+
+        var bestScore = scores[0].Score;
+        var bestCandidates = scores.Where(result => result.Score == bestScore).ToList();
+        var preferredResult = preferredBlock is null
+            ? null
+            : bestCandidates.FirstOrDefault(result =>
+                result.Block.SourceRecordNumber == preferredBlock.SourceRecordNumber);
+        return preferredResult?.Block ?? bestCandidates[0].Block;
+    }
+
+    private static List<BlockMatchScore> ScoreCandidates(
+        PolygonShape village,
+        ShapeBounds villageBounds,
+        IReadOnlyList<BlockBoundary> candidates,
+        int gridSize)
+    {
+        var samplePoints = InteriorSamplePoints(village, villageBounds, gridSize);
+        return candidates
+            .Select(candidate => new BlockMatchScore(
+                candidate,
+                samplePoints.Count(point => Contains(candidate.Shape, point))))
+            .OrderByDescending(result => result.Score)
+            .ThenBy(result => result.Block.SourceRecordNumber)
+            .ToList();
+    }
+
+    private static IReadOnlyList<Coordinate> InteriorSamplePoints(
+        PolygonShape village,
+        ShapeBounds bounds,
+        int gridSize)
+    {
+        var points = RepresentativePoints(village).Where(point => Contains(village, point)).ToList();
+        if (bounds.MaximumX <= bounds.MinimumX || bounds.MaximumY <= bounds.MinimumY)
+        {
+            return points;
+        }
+
+        var stepX = (bounds.MaximumX - bounds.MinimumX) / gridSize;
+        var stepY = (bounds.MaximumY - bounds.MinimumY) / gridSize;
+        for (var row = 0; row < gridSize; row++)
+        {
+            var y = bounds.MinimumY + (row + 0.5) * stepY;
+            for (var column = 0; column < gridSize; column++)
+            {
+                var point = new Coordinate(bounds.MinimumX + (column + 0.5) * stepX, y);
+                if (Contains(village, point))
+                {
+                    points.Add(point);
+                }
+            }
+        }
+        return points;
     }
 
     private static string Value(IReadOnlyDictionary<string, object?> row, string name) =>
@@ -986,6 +1063,7 @@ internal static class VillageBlockMatcher
         return inside;
     }
 
+    private sealed record BlockMatchScore(BlockBoundary Block, int Score);
     private sealed record BlockBoundary(int SourceRecordNumber, string BlockCode, PolygonShape Shape, ShapeBounds Bounds);
 }
 

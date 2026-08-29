@@ -6,10 +6,12 @@ import re
 import struct
 from collections import Counter, defaultdict
 from pathlib import Path
+import argparse
 
 
-SOURCE = Path(r"D:\VINAY\PROJECTS\OSPBCR_PORTAL\.codex-work\gis-source\GIS files NHM")
-OUTPUT = Path(r"D:\VINAY\PROJECTS\OSPBCR_PORTAL\wwwroot\assets\data\nhm-gis")
+REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
+SOURCE = REPOSITORY_ROOT / "wwwroot" / "assets" / "IMAGES_PDF_PPT_EXCEL" / "POPULATION PROJECTION" / "GIS files NHM"
+OUTPUT = REPOSITORY_ROOT / "wwwroot" / "assets" / "data" / "nhm-gis"
 
 
 def read_dbf(path: Path):
@@ -172,6 +174,13 @@ def point_in_parts(point, parts):
     return sum(1 for ring in parts if point_in_ring(point, ring)) % 2 == 1
 
 
+def bounds_intersect(left, right):
+    return (
+        left[0] <= right[2] and right[0] <= left[2] and
+        left[1] <= right[3] and right[1] <= left[3]
+    )
+
+
 def representative_points(parts):
     largest_ring = max(parts, key=len)
     min_x, min_y, max_x, max_y = parts_bounds(parts)
@@ -185,19 +194,72 @@ def representative_points(parts):
     ]
 
 
-def spatial_match(parts, candidates):
-    points = representative_points(parts)
-    for candidate in candidates:
-        min_x, min_y, max_x, max_y = candidate["bounds"]
-        if not any(min_x <= point[0] <= max_x and min_y <= point[1] <= max_y for point in points):
-            continue
-        if any(point_in_parts(point, candidate["parts"]) for point in points):
-            return candidate
-    return None
+def interior_sample_points(parts, bounds, grid_size):
+    min_x, min_y, max_x, max_y = bounds
+    points = [
+        point for point in representative_points(parts)
+        if point_in_parts(point, parts)
+    ]
+    if max_x <= min_x or max_y <= min_y:
+        return points
+
+    step_x = (max_x - min_x) / grid_size
+    step_y = (max_y - min_y) / grid_size
+    for row in range(grid_size):
+        y = min_y + (row + 0.5) * step_y
+        for column in range(grid_size):
+            point = [min_x + (column + 0.5) * step_x, y]
+            if point_in_parts(point, parts):
+                points.append(point)
+    return points
+
+
+def spatial_match(parts, candidates, preferred=None):
+    source_bounds = parts_bounds(parts)
+    spatial_candidates = [
+        candidate for candidate in candidates
+        if bounds_intersect(source_bounds, candidate["bounds"])
+    ]
+    if not spatial_candidates:
+        return None
+
+    def scores_for(grid_size):
+        points = interior_sample_points(parts, source_bounds, grid_size)
+        return sorted(
+            ((sum(point_in_parts(point, candidate["parts"]) for point in points), candidate)
+             for candidate in spatial_candidates),
+            key=lambda item: item[0],
+            reverse=True
+        )
+
+    scores = scores_for(5)
+    if not scores or scores[0][0] == 0:
+        return None
+    if len(scores) > 1 and (scores[0][0] == scores[1][0] or scores[1][0] >= scores[0][0] * 0.8):
+        scores = scores_for(11)
+
+    best_score = scores[0][0]
+    best_candidates = [candidate for score, candidate in scores if score == best_score]
+    if preferred:
+        preferred_match = next((
+            candidate for candidate in best_candidates
+            if candidate["district"] == preferred["district"] and
+            candidate["block"] == preferred["block"]
+        ), None)
+        if preferred_match:
+            return preferred_match
+    return best_candidates[0]
 
 
 def polygon_geometry(parts, tolerance):
-    rings = [simplify_ring(part, tolerance) for part in parts]
+    rings = []
+    for part in parts:
+        ring = simplify_ring(part, tolerance)
+        if not ring and tolerance:
+            # Very small but valid source polygons can collapse at the web-map
+            # simplification tolerance. Preserve their original geometry.
+            ring = simplify_ring(part, 0)
+        rings.append(ring)
     rings = [ring for ring in rings if ring]
     if not rings:
         return None
@@ -258,7 +320,28 @@ def convert_layer(name, property_names, tolerance=0):
 
 
 def main():
+    global SOURCE, OUTPUT
+    parser = argparse.ArgumentParser(description="Convert the NHM shapefiles to browser-ready GeoJSON.")
+    parser.add_argument("source", nargs="?", type=Path, default=SOURCE)
+    parser.add_argument("--output", type=Path, default=OUTPUT)
+    arguments = parser.parse_args()
+    SOURCE = arguments.source.resolve()
+    OUTPUT = arguments.output.resolve()
+
+    required_files = [
+        "district boundary.dbf", "district boundary.shp",
+        "block boundary.dbf", "block boundary.shp",
+        "village layer.dbf", "village layer.shp",
+        "subcentre odisha.dbf", "subcentre odisha.shp",
+        "medical facility.dbf", "medical facility.shp"
+    ]
+    missing_files = [name for name in required_files if not (SOURCE / name).is_file()]
+    if missing_files:
+        raise FileNotFoundError(f"Missing NHM GIS source files in {SOURCE}: {', '.join(missing_files)}")
+
     OUTPUT.mkdir(parents=True, exist_ok=True)
+    for stale_village_file in OUTPUT.glob("villages-*.geojson"):
+        stale_village_file.unlink()
 
     districts = convert_layer("district boundary", ["DISTRICT", "CODE"], tolerance=0.00045)
     blocks = convert_layer("block boundary", ["T_CODE", "T_NAME", "DISTRICT"], tolerance=0.00035)
@@ -273,17 +356,11 @@ def main():
     write_json(OUTPUT / "subcentres.geojson", feature_collection(subcentres))
     write_json(OUTPUT / "medical-facilities.geojson", feature_collection(medical_facilities))
 
-    block_lookup = {
-        str(feature["properties"]["T_CODE"]).zfill(6): {
-            "district": str(feature["properties"]["DISTRICT"]).strip(),
-            "block": str(feature["properties"]["T_NAME"]).strip()
-        }
-        for feature in blocks
-    }
     block_rows = read_dbf(SOURCE / "block boundary.dbf")
     block_shapes = list(read_shapes(SOURCE / "block boundary.shp"))
     spatial_blocks = [
         {
+            "code": str(row.get("T_CODE", "")).strip().zfill(6),
             "district": str(row.get("DISTRICT", "")).strip(),
             "block": str(row.get("T_NAME", "")).strip(),
             "parts": parts,
@@ -292,6 +369,7 @@ def main():
         for row, parts in zip(block_rows, block_shapes)
         if row and parts
     ]
+    block_lookup = {block["code"]: block for block in spatial_blocks}
     district_rows = read_dbf(SOURCE / "district boundary.dbf")
     district_shapes = list(read_shapes(SOURCE / "district boundary.shp"))
     spatial_districts = [
@@ -308,33 +386,42 @@ def main():
     village_shapes = read_shapes(SOURCE / "village layer.shp")
     villages_by_district = defaultdict(list)
     unmatched = Counter()
+    code_fallbacks = Counter()
+    spatially_matched = 0
 
     for row, parts in zip(village_rows, village_shapes):
         if not row or not parts:
             continue
         local_code = str(row.get("LCODE", "")).strip()
-        block_info = block_lookup.get(local_code[:6])
-        if not block_info:
-            matched_area = spatial_match(parts, spatial_blocks) or spatial_match(parts, spatial_districts)
-            if matched_area:
-                block_info = {
-                    "district": matched_area["district"],
-                    "block": matched_area["block"]
-                }
+        code_block = block_lookup.get(local_code[:6])
+        matched_block = spatial_match(parts, spatial_blocks, code_block)
+        if matched_block:
+            district = matched_block["district"]
+            block = matched_block["block"]
+            spatially_matched += 1
+        elif code_block:
+            district = code_block["district"]
+            block = code_block["block"]
+            code_fallbacks[block] += 1
+        else:
+            matched_district = spatial_match(parts, spatial_districts)
+            if matched_district:
+                district = matched_district["district"]
+                block = ""
+                code_fallbacks[f"{district} (no block code)"] += 1
             else:
                 unmatched[local_code[:6] or "missing"] += 1
                 continue
         geometry = polygon_geometry(parts, tolerance=0.00018)
         if not geometry:
             continue
-        district = block_info["district"]
         villages_by_district[district].append({
             "type": "Feature",
             "properties": {
                 "LCODE": local_code,
                 "LOCATION": row.get("LOCATION", ""),
                 "V_TYPE": row.get("V_TYPE", ""),
-                "BLOCK": block_info["block"],
+                "BLOCK": block,
                 "DISTRICT": district
             },
             "geometry": geometry
@@ -347,21 +434,25 @@ def main():
         district_files[district] = {"file": filename, "count": len(features)}
 
     metadata = {
-        "source": "GIS files NHM.rar",
+        "source": "GIS files NHM",
         "counts": {
             "districts": len(districts),
             "blocks": len(blocks),
             "villages": sum(len(features) for features in villages_by_district.values()),
             "subcentres": len(subcentres),
             "medicalFacilities": len(medical_facilities),
-            "unmatchedVillages": sum(unmatched.values())
+            "unmatchedVillages": sum(unmatched.values()),
+            "villagesOutsideBlockCoverage": sum(code_fallbacks.values())
         },
         "villageFiles": district_files
     }
     write_json(OUTPUT / "index.json", metadata)
     print(json.dumps(metadata["counts"], indent=2))
+    print(f"Village/block matching: {spatially_matched:,} spatial matches; {sum(code_fallbacks.values()):,} source-code fallbacks")
     if unmatched:
         print("Unmatched village block prefixes:", dict(unmatched.most_common()))
+    if code_fallbacks:
+        print("Villages outside supplied block boundaries:", dict(code_fallbacks.most_common()))
 
 
 if __name__ == "__main__":
