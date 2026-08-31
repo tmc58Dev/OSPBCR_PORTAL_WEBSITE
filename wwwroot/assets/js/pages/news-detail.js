@@ -303,6 +303,15 @@
             startRotation();
         });
 
+        document.addEventListener("languagechange", (event) => {
+            const nextLanguage = normalizeLanguage(event.detail?.language);
+            if (!nextLanguage || nextLanguage === language) return;
+
+            const nextQuery = new URLSearchParams(window.location.search);
+            nextQuery.set("language", nextLanguage);
+            window.location.search = nextQuery.toString();
+        });
+
         loadNews();
     });
 

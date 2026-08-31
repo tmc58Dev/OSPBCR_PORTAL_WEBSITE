@@ -10,7 +10,7 @@
     };
     const catalogs = new Map();
     const catalogIndexes = new Map();
-    const catalogCacheVersion = "20260823-popup-toggle";
+    const catalogCacheVersion = "20260831-translation-audit";
     const originalText = new WeakMap();
     const originalAttributes = new WeakMap();
     let currentLanguage = getSavedLanguage();

@@ -1,8 +1,9 @@
 """Build the browser data model for the Population Projection page.
 
-The source workbooks are never modified. This script reads the normalized
-Block_overview worksheet from every district workbook and writes a compact,
-indexed JSON file for fast filtering in the browser.
+The source workbooks are never modified. This script reads the authoritative
+Block worksheet from every district workbook and writes a compact, indexed
+JSON file for fast filtering in the browser. The Block_overview helper sheet
+is intentionally ignored because it may contain stale cached values.
 """
 
 from __future__ import annotations
@@ -31,6 +32,7 @@ GENDERS = ["Male", "Female"]
 
 MAP_KEYS = {
     "Angul": "ANUGUL",
+    "Anugul": "ANUGUL",
     "Balangir": "BOLANGIR",
     "Baleshwar": "BALESWAR",
     "Bargarh": "BARAGARH",
@@ -144,73 +146,167 @@ def round_population(value: float) -> int:
     return int(math.floor(value + 0.5))
 
 
-def block_overview_part(zf: zipfile.ZipFile) -> str:
+def worksheet_part(zf: zipfile.ZipFile, sheet_name: str) -> str:
     workbook = ET.fromstring(zf.read("xl/workbook.xml"))
     workbook_relationships = relationships(zf, "xl/workbook.xml")
     for sheet in workbook.findall("x:sheets/x:sheet", NS):
-        if sheet.attrib.get("name") == "Block_overview":
+        if sheet.attrib.get("name") == sheet_name:
             return workbook_relationships[sheet.attrib[q("r", "id")]]
-    raise ValueError("Block_overview worksheet is missing")
+    raise ValueError(f"{sheet_name} worksheet is missing")
+
+
+def read_sheet_rows(
+    zf: zipfile.ZipFile,
+    sheet_name: str,
+    shared_strings: list[str],
+) -> dict[int, dict[int, object]]:
+    rows: dict[int, dict[int, object]] = {}
+    with zf.open(worksheet_part(zf, sheet_name)) as source:
+        for _, row in ET.iterparse(source, events=("end",)):
+            if row.tag != q("x", "row"):
+                continue
+            row_number = int(row.attrib.get("r", "0"))
+            values = {}
+            for cell in row.findall("x:c", NS):
+                column = cell_column(cell.attrib.get("r", ""))
+                value = cell_value(cell, shared_strings)
+                if column > 0 and value is not None:
+                    values[column] = value
+            if values:
+                rows[row_number] = values
+            row.clear()
+    return rows
+
+
+def require_number(value, path: Path, sheet: str, row: int, column: int) -> float:
+    if not isinstance(value, (int, float)):
+        raise ValueError(
+            f"Nonnumeric population at {path.name} / {sheet} "
+            f"row {row}, column {column}"
+        )
+    return float(value)
+
+
+def district_name_from_path(path: Path) -> str:
+    return re.sub(r"\d+$", "", path.stem).strip()
+
+
+def read_district_overall(
+    path: Path,
+    rows: dict[int, dict[int, object]],
+) -> list[float]:
+    values = [0.0] * VALUE_COUNT
+    year_row = rows.get(1, {})
+    gender_row = rows.get(2, {})
+
+    for year_index, year in enumerate(YEARS):
+        base_column = 2 + year_index * 2
+        if int(year_row.get(base_column, 0)) != year:
+            raise ValueError(f"Unexpected District year header in {path.name}: {year}")
+        for gender_index, gender in enumerate(GENDERS):
+            column = base_column + gender_index
+            if str(gender_row.get(column, "")).strip() != gender:
+                raise ValueError(
+                    f"Unexpected District gender header in {path.name}: "
+                    f"row 2, column {column}"
+                )
+            for age_index, age_group in enumerate(AGE_GROUPS):
+                row_number = 3 + age_index
+                row = rows.get(row_number, {})
+                if str(row.get(1, "")).strip() != age_group:
+                    raise ValueError(
+                        f"Unexpected District age group in {path.name}: row {row_number}"
+                    )
+                values[value_offset(year, age_group, "Overall", gender)] = require_number(
+                    row.get(column), path, "District", row_number, column
+                )
+    return values
 
 
 def read_workbook(path: Path) -> tuple[str, list[dict], list[float], int]:
     with zipfile.ZipFile(path) as zf:
         shared_strings = read_shared_strings(zf)
-        sheet_part = block_overview_part(zf)
-        block_values: dict[str, list[float]] = {}
-        block_offsets: dict[str, set[int]] = {}
-        district_name = ""
-        rows_read = 0
+        block_rows = read_sheet_rows(zf, "Block", shared_strings)
+        district_rows = read_sheet_rows(zf, "District", shared_strings)
 
-        with zf.open(sheet_part) as source:
-            for _, row in ET.iterparse(source, events=("end",)):
-                if row.tag != q("x", "row"):
-                    continue
-                row_number = int(row.attrib.get("r", "0"))
-                if row_number == 1:
-                    row.clear()
-                    continue
+    district_name = district_name_from_path(path)
+    district_overall = read_district_overall(path, district_rows)
+    block_header_rows = sorted(
+        row_number
+        for row_number, row in block_rows.items()
+        if isinstance(row.get(1), str) and row.get(2) == YEARS[0]
+    )
+    if not block_header_rows:
+        raise ValueError(f"No block sections found in {path.name} / Block")
 
-                values = [None] * 7
-                for cell in row.findall("x:c", NS):
-                    column = cell_column(cell.attrib.get("r", ""))
-                    if 1 <= column <= 7:
-                        values[column - 1] = cell_value(cell, shared_strings)
-
-                if any(value is not None for value in values):
-                    district, block, year, age_group, category, gender, population = values
-                    if not all((district, block, year, age_group, category, gender)):
-                        raise ValueError(f"Incomplete filter key at {path.name} row {row_number}")
-                    if not isinstance(population, (int, float)):
-                        raise ValueError(f"Nonnumeric population at {path.name} row {row_number}")
-
-                    district_name = str(district)
-                    block_name = str(block)
-                    data = block_values.setdefault(block_name, [0.0] * VALUE_COUNT)
-                    populated_offsets = block_offsets.setdefault(block_name, set())
-                    offset = value_offset(int(year), str(age_group), str(category), str(gender))
-                    if offset in populated_offsets:
-                        raise ValueError(f"Duplicate filter key at {path.name} row {row_number}")
-                    data[offset] = float(population)
-                    populated_offsets.add(offset)
-                    rows_read += 1
-                row.clear()
-
-    district_values = [0.0] * VALUE_COUNT
     blocks = []
-    for name, values in block_values.items():
-        if len(block_offsets[name]) != VALUE_COUNT:
-            raise ValueError(
-                f"Unexpected populated value count for {district_name} / {name}: "
-                f"{len(block_offsets[name])} of {VALUE_COUNT}"
-            )
+    district_values = [0.0] * VALUE_COUNT
+    for header_row_number in block_header_rows:
+        header_row = block_rows[header_row_number]
+        category_row = block_rows.get(header_row_number + 1, {})
+        gender_row = block_rows.get(header_row_number + 2, {})
+        block_name = str(header_row[1]).strip()
+        values = [0.0] * VALUE_COUNT
+
+        for year_index, year in enumerate(YEARS):
+            year_column = 2 + year_index * len(CATEGORIES) * len(GENDERS)
+            if int(header_row.get(year_column, 0)) != year:
+                raise ValueError(
+                    f"Unexpected Block year header in {path.name} / {block_name}: {year}"
+                )
+            for category_index, category in enumerate(CATEGORIES):
+                category_column = year_column + category_index * len(GENDERS)
+                if str(category_row.get(category_column, "")).strip() != category:
+                    raise ValueError(
+                        f"Unexpected category in {path.name} / {block_name}: "
+                        f"row {header_row_number + 1}, column {category_column}"
+                    )
+                for gender_index, gender in enumerate(GENDERS):
+                    column = category_column + gender_index
+                    if str(gender_row.get(column, "")).strip() != gender:
+                        raise ValueError(
+                            f"Unexpected gender in {path.name} / {block_name}: "
+                            f"row {header_row_number + 2}, column {column}"
+                        )
+                    for age_index, age_group in enumerate(AGE_GROUPS):
+                        row_number = header_row_number + 3 + age_index
+                        row = block_rows.get(row_number, {})
+                        if str(row.get(1, "")).strip() != age_group:
+                            raise ValueError(
+                                f"Unexpected age group in {path.name} / {block_name}: "
+                                f"row {row_number}"
+                            )
+                        offset = value_offset(year, age_group, category, gender)
+                        values[offset] = require_number(
+                            row.get(column), path, "Block", row_number, column
+                        )
+
+        for year in YEARS:
+            for age_group in AGE_GROUPS:
+                for gender in GENDERS:
+                    overall = values[value_offset(year, age_group, "Overall", gender)]
+                    rural = values[value_offset(year, age_group, "Rural", gender)]
+                    urban = values[value_offset(year, age_group, "Urban", gender)]
+                    if not math.isclose(overall, rural + urban, rel_tol=1e-9, abs_tol=0.05):
+                        raise ValueError(
+                            f"Overall does not equal Rural + Urban in {path.name} / "
+                            f"{block_name} / {year} / {age_group} / {gender}"
+                        )
+
         for index, value in enumerate(values):
             district_values[index] += value
-        blocks.append({"name": name, "values": [round_population(value) for value in values]})
+        blocks.append({"name": block_name, "values": [round_population(value) for value in values]})
 
-    expected_rows = len(blocks) * VALUE_COUNT
-    if rows_read != expected_rows:
-        raise ValueError(f"{path.name}: expected {expected_rows} rows but read {rows_read}")
+    # District-level Overall values come from the workbook's District sheet.
+    # Category-specific district values come from summing the Block sheet,
+    # because the District sheet contains only Overall by age and gender.
+    for year in YEARS:
+        for age_group in AGE_GROUPS:
+            for gender in GENDERS:
+                offset = value_offset(year, age_group, "Overall", gender)
+                district_values[offset] = district_overall[offset]
+
+    rows_read = len(blocks) * VALUE_COUNT
 
     return district_name, blocks, district_values, rows_read
 
@@ -246,9 +342,10 @@ def main() -> None:
 
     districts.sort(key=lambda district: district["name"])
     model = {
-        "version": 1,
+        "version": 2,
         "source": {
             "label": "Odisha Block Population Projection workbooks",
+            "worksheets": ["District", "Block"],
             "workbooks": len(workbook_paths),
             "rows": total_rows,
             "districts": len(districts),

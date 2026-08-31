@@ -18,6 +18,8 @@ public interface ICmsRepository
     Task<bool> UpdateNewsCardAsync(NewsCard card, CancellationToken cancellationToken = default);
     Task<bool> DeleteNewsCardAsync(int id, CancellationToken cancellationToken = default);
     Task<IReadOnlyList<PublicNewsCard>> GetPublishedNewsAsync(string language, CancellationToken cancellationToken = default);
+    Task<long> GetWebsiteVisitCountAsync(CancellationToken cancellationToken = default);
+    Task<long> IncrementWebsiteVisitCountAsync(CancellationToken cancellationToken = default);
     Task<IReadOnlyList<CancerBurdenRecord>> GetCancerBurdenRecordsAsync(CancellationToken cancellationToken = default);
     Task<CancerBurdenRecord?> GetCancerBurdenRecordAsync(int id, CancellationToken cancellationToken = default);
     Task<int> CountCancerBurdenRecordsAsync(CancellationToken cancellationToken = default);

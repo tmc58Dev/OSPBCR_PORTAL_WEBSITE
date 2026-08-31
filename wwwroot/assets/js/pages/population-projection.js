@@ -254,7 +254,10 @@
 
     const initialize = async () => {
         try {
-            const response = await fetch("assets/data/population-data.json", { cache: "no-store" });
+            const response = await fetch(
+                "assets/data/population-data.json?v=20260831-excel-refresh",
+                { cache: "no-store" }
+            );
             if (!response.ok) throw new Error(`population-data.json: ${response.status}`);
             state.model = await response.json();
 
@@ -371,7 +374,7 @@
     const resetButton = document.getElementById("gisResetButton");
     const numberFormatter = new Intl.NumberFormat("en-IN");
     const dataRoot = "assets/data/nhm-gis/";
-    const dataVersion = "20260822-spatial-village-block-alignment-v2";
+    const dataVersion = "20260831-district-block-only";
     const requestCache = new Map();
 
     if (typeof L === "undefined") {
@@ -715,7 +718,7 @@
 
         if (!enabled) {
             closeActivePopup();
-            setStatus("Map popups are turned off. District, block, and village selection remains available.");
+            setStatus("Map popups are turned off. District and block selection remains available.");
             return;
         }
 
@@ -733,7 +736,6 @@
     const updateSummary = metadata => {
         document.getElementById("gisDistrictCount").textContent = numberFormatter.format(metadata.counts.districts);
         document.getElementById("gisBlockCount").textContent = numberFormatter.format(metadata.counts.blocks);
-        document.getElementById("gisVillageCount").textContent = numberFormatter.format(metadata.counts.villages);
         document.getElementById("gisHealthCount").textContent = numberFormatter.format(
             metadata.counts.subcentres + metadata.counts.medicalFacilities
         );

@@ -15,6 +15,8 @@ public sealed class ContentController(
     IWebHostEnvironment environment,
     ILogger<ContentController> logger) : ControllerBase
 {
+    private const string WebsiteVisitCookieName = "OSPBCR.WebsiteVisited";
+
     private readonly string _cancerBurdenPdfRoot = Path.GetFullPath(Path.Combine(
         environment.WebRootPath,
         "assets",
@@ -36,6 +38,41 @@ public sealed class ContentController(
         {
             logger.LogError(exception, "Published News Cards could not be loaded.");
             return StatusCode(StatusCodes.Status503ServiceUnavailable, new { message = "News Cards are temporarily unavailable." });
+        }
+    }
+
+    [HttpPost("website-visits")]
+    [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
+    public async Task<IActionResult> WebsiteVisits(CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var isReturningBrowser = Request.Cookies.ContainsKey(WebsiteVisitCookieName);
+            var count = isReturningBrowser
+                ? await repository.GetWebsiteVisitCountAsync(cancellationToken)
+                : await repository.IncrementWebsiteVisitCountAsync(cancellationToken);
+
+            if (!isReturningBrowser)
+            {
+                Response.Cookies.Append(WebsiteVisitCookieName, "1", new CookieOptions
+                {
+                    HttpOnly = true,
+                    IsEssential = true,
+                    MaxAge = TimeSpan.FromDays(3650),
+                    Path = "/",
+                    SameSite = SameSiteMode.Lax,
+                    Secure = Request.IsHttps
+                });
+            }
+
+            return Ok(new { count, counted = !isReturningBrowser });
+        }
+        catch (Exception exception)
+        {
+            logger.LogError(exception, "Website visit count could not be updated.");
+            return StatusCode(
+                StatusCodes.Status503ServiceUnavailable,
+                new { message = "Website visit count is temporarily unavailable." });
         }
     }
 

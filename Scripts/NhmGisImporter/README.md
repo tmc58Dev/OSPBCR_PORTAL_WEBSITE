@@ -21,7 +21,8 @@ dotnet run --project Scripts\NhmGisImporter\NhmGisImporter.csproj
 ```
 
 By default, the source files are read from
-`wwwroot\assets\IMAGES_PDF_PPT_EXCEL\POPULATION PROJECTION\GIS files NHM`.
+`App_Data\GIS files NHM`. This location is outside
+`wwwroot`, so raw GIS source files cannot be downloaded from the public site.
 To use another extracted directory, pass its path as the first argument.
 
 Generate the browser-ready GeoJSON used by the Population Projection map:
@@ -31,7 +32,7 @@ python .codex-work\convert_nhm_gis.py
 ```
 
 The exporter reads the same default source directory and writes the district,
-block, village, subcentre, medical-facility, and index files to
+block, subcentre, medical-facility, and index files to
 `wwwroot\assets\data\nhm-gis`.
 
 Inspect the target tables without changing data:

@@ -69,6 +69,32 @@ app.UseHttpsRedirection();
 var contentTypeProvider = new FileExtensionContentTypeProvider();
 contentTypeProvider.Mappings[".geojson"] = "application/geo+json";
 
+// Village geometry is intentionally not published. Keep this deny rule ahead
+// of static-file middleware as defense in depth if a stale file is ever copied
+// into wwwroot by a deployment or maintenance process.
+app.Use(async (context, next) =>
+{
+    var requestPath = (context.Request.Path.Value ?? string.Empty)
+        .Replace("%20", " ", StringComparison.OrdinalIgnoreCase);
+    var isVillageGeometryRequest = requestPath.StartsWith(
+        "/assets/data/nhm-gis/village",
+        StringComparison.OrdinalIgnoreCase);
+    var isRawVillageSourceRequest = requestPath.Contains(
+        "/GIS files NHM/village layer",
+        StringComparison.OrdinalIgnoreCase);
+    var isRawGisArchiveRequest = requestPath.EndsWith(
+        "/GIS files NHM.rar",
+        StringComparison.OrdinalIgnoreCase);
+
+    if (isVillageGeometryRequest || isRawVillageSourceRequest || isRawGisArchiveRequest)
+    {
+        context.Response.StatusCode = StatusCodes.Status404NotFound;
+        return;
+    }
+
+    await next(context);
+});
+
 app.UseStaticFiles(new StaticFileOptions
 {
     ContentTypeProvider = contentTypeProvider

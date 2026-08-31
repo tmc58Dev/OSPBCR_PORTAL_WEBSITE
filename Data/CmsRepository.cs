@@ -290,6 +290,24 @@ public sealed class CmsRepository(
                        SYSDATETIMEOFFSET(), SYSDATETIMEOFFSET()
                 FROM CircularSeed;
             END;
+
+            IF OBJECT_ID(N'dbo.SiteMetrics', N'U') IS NULL
+            BEGIN
+                CREATE TABLE dbo.SiteMetrics
+                (
+                    MetricName NVARCHAR(80) NOT NULL CONSTRAINT PK_SiteMetrics PRIMARY KEY,
+                    MetricValue BIGINT NOT NULL CONSTRAINT DF_SiteMetrics_MetricValue DEFAULT (0),
+                    UpdatedAt DATETIMEOFFSET(0) NOT NULL
+                        CONSTRAINT DF_SiteMetrics_UpdatedAt DEFAULT (SYSDATETIMEOFFSET()),
+                    CONSTRAINT CK_SiteMetrics_MetricValue CHECK (MetricValue >= 0)
+                );
+            END;
+
+            IF NOT EXISTS (SELECT 1 FROM dbo.SiteMetrics WHERE MetricName = N'WebsiteVisits')
+            BEGIN
+                INSERT INTO dbo.SiteMetrics (MetricName, MetricValue)
+                VALUES (N'WebsiteVisits', 0);
+            END;
             """;
         await command.ExecuteNonQueryAsync(cancellationToken);
 
@@ -551,6 +569,28 @@ public sealed class CmsRepository(
                 reader.GetFieldValue<DateTimeOffset>(8)));
         }
         return result;
+    }
+
+    public async Task<long> GetWebsiteVisitCountAsync(CancellationToken cancellationToken = default)
+    {
+        await using var connection = await connectionFactory.OpenConnectionAsync(cancellationToken);
+        await using var command = connection.CreateCommand();
+        command.CommandText = "SELECT MetricValue FROM dbo.SiteMetrics WHERE MetricName = N'WebsiteVisits';";
+        return Convert.ToInt64(await command.ExecuteScalarAsync(cancellationToken));
+    }
+
+    public async Task<long> IncrementWebsiteVisitCountAsync(CancellationToken cancellationToken = default)
+    {
+        await using var connection = await connectionFactory.OpenConnectionAsync(cancellationToken);
+        await using var command = connection.CreateCommand();
+        command.CommandText = """
+            UPDATE dbo.SiteMetrics WITH (UPDLOCK, ROWLOCK)
+            SET MetricValue = MetricValue + 1,
+                UpdatedAt = SYSDATETIMEOFFSET()
+            OUTPUT INSERTED.MetricValue
+            WHERE MetricName = N'WebsiteVisits';
+            """;
+        return Convert.ToInt64(await command.ExecuteScalarAsync(cancellationToken));
     }
 
     public async Task<IReadOnlyList<CancerBurdenRecord>> GetCancerBurdenRecordsAsync(

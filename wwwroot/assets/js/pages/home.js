@@ -2,6 +2,91 @@ console.log("OS-PBCR Home Page Loaded");
 
 document.addEventListener("DOMContentLoaded", () => {
 
+    const footerContainer = document.getElementById("footer-container");
+
+    if (!footerContainer) {
+        return;
+    }
+
+    let observer = null;
+
+    const initializeVisitCount = () => {
+        const footerContent = footerContainer.querySelector(".footer-content");
+
+        if (!footerContent || footerContent.querySelector("[data-website-visit-count]")) {
+            return;
+        }
+
+        observer?.disconnect();
+
+        const counter = document.createElement("div");
+        counter.className = "footer-visit-count";
+        counter.setAttribute("role", "status");
+        counter.setAttribute("aria-label", "Website visit count");
+        counter.innerHTML = `
+            <span class="footer-visit-count-label">Website Visits</span>
+            <strong class="footer-visit-count-value" data-website-visit-count aria-live="polite">&mdash;</strong>
+            <span class="footer-visit-count-note">Counted once per browser</span>
+        `;
+
+        const footerBottom = footerContent.querySelector(".footer-bottom");
+        footerContent.insertBefore(counter, footerBottom);
+
+        const visitCount = counter.querySelector("[data-website-visit-count]");
+        let totalVisits = null;
+
+        const displayVisitCount = () => {
+            if (!Number.isSafeInteger(totalVisits) || totalVisits < 0) {
+                return;
+            }
+
+            const language = window.i18n?.getLanguage() || document.documentElement.lang || "en";
+            visitCount.textContent = totalVisits.toLocaleString(language);
+        };
+
+        const loadVisitCount = async () => {
+            try {
+                const response = await fetch("/api/content/website-visits", {
+                    method: "POST",
+                    cache: "no-store",
+                    credentials: "same-origin",
+                    headers: { "Accept": "application/json" }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Website visit request failed with status ${response.status}.`);
+                }
+
+                const payload = await response.json();
+                const count = Number(payload.count);
+
+                if (!Number.isSafeInteger(count) || count < 0) {
+                    throw new Error("Website visit response contained an invalid count.");
+                }
+
+                totalVisits = count;
+                displayVisitCount();
+            } catch (error) {
+                console.error("Website visit count could not be loaded.", error);
+                visitCount.textContent = "Unavailable";
+            }
+        };
+
+        document.addEventListener("languagechange", displayVisitCount);
+        loadVisitCount();
+    };
+
+    initializeVisitCount();
+
+    if (!footerContainer.querySelector(".footer-content")) {
+        observer = new MutationObserver(initializeVisitCount);
+        observer.observe(footerContainer, { childList: true });
+    }
+
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+
     const hero = document.querySelector(".hero-section");
 
     if (!hero) {

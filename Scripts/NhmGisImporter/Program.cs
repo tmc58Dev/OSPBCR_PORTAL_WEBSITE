@@ -10,7 +10,7 @@ Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 var repositoryRoot = FindRepositoryRoot(AppContext.BaseDirectory);
 var defaultSource = Path.Combine(
     repositoryRoot,
-    "wwwroot", "assets", "IMAGES_PDF_PPT_EXCEL", "POPULATION PROJECTION", "GIS files NHM");
+    "App_Data", "GIS files NHM");
 var sourceDirectory = Path.GetFullPath(args.FirstOrDefault(argument => !argument.StartsWith("--", StringComparison.Ordinal)) ?? defaultSource);
 var inspectOnly = args.Contains("--inspect", StringComparer.OrdinalIgnoreCase);
 var syncBlockDistrictCodes = args.Contains("--sync-block-district-codes", StringComparer.OrdinalIgnoreCase);

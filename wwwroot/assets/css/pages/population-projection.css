@@ -57,7 +57,7 @@
 
 .gis-summary-grid {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .gis-summary-item {
@@ -205,11 +205,6 @@
 .gis-swatch-block {
     border: 2px solid #be123c;
     background: rgba(251, 113, 133, 0.18);
-}
-
-.gis-swatch-village {
-    border: 1px solid #5b6d24;
-    background: #d9f99d;
 }
 
 .gis-toolbar-actions {
