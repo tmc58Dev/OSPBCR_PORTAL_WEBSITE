@@ -96,9 +96,10 @@ public sealed class NewsCardFormViewModel
 {
     public int Id { get; set; }
     public bool IsPublished { get; set; } = true;
-    public List<IFormFile> Photos { get; set; } = [];
+    public List<IFormFile>? Photos { get; set; }
     public List<string> ExistingPhotoPaths { get; set; } = [];
     public List<string> RemovePhotoPaths { get; set; } = [];
+    public List<string> PhotoOrder { get; set; } = [];
     public NewsLanguageInput English { get; set; } = new();
     public NewsLanguageInput Hindi { get; set; } = new();
     public NewsLanguageInput Odia { get; set; } = new();

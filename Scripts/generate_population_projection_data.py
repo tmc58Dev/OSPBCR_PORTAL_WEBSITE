@@ -263,7 +263,13 @@ def read_workbook(path: Path) -> tuple[str, list[dict], list[float], int]:
                     )
                 for gender_index, gender in enumerate(GENDERS):
                     column = category_column + gender_index
-                    if str(gender_row.get(column, "")).strip() != gender:
+                    observed_gender = str(gender_row.get(column, "")).strip()
+                    # Some supplied workbooks contain an isolated blank gender
+                    # heading even though the surrounding category/year headers
+                    # and the complete numeric column are present. Treat that as
+                    # an omitted label, while still rejecting a conflicting label
+                    # so a shifted worksheet cannot be imported silently.
+                    if observed_gender and observed_gender != gender:
                         raise ValueError(
                             f"Unexpected gender in {path.name} / {block_name}: "
                             f"row {header_row_number + 2}, column {column}"

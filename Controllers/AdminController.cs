@@ -185,7 +185,8 @@ public sealed class AdminController(
     [RequestFormLimits(MultipartBodyLengthLimit = MaxNewsRequestBytes)]
     public async Task<IActionResult> CreateNews(NewsCardFormViewModel model, CancellationToken cancellationToken)
     {
-        await ValidateNewsPhotosAsync(model.Photos, 0, cancellationToken);
+        var uploadedPhotos = model.Photos ?? [];
+        await ValidateNewsPhotosAsync(uploadedPhotos, 0, cancellationToken);
         var translations = ParseTranslations(model);
         if (!ModelState.IsValid)
         {
@@ -195,12 +196,13 @@ public sealed class AdminController(
         var saved = new List<string>();
         try
         {
-            foreach (var photo in model.Photos.Where(photo => photo.Length > 0))
+            foreach (var photo in uploadedPhotos.Where(photo => photo.Length > 0))
             {
                 var path = await files.SaveWebpAsync(photo, "news", cancellationToken);
                 saved.Add(path);
             }
-            var primaryImagePath = saved[0];
+            var orderedPaths = OrderNewsPhotos([], saved, model.PhotoOrder);
+            var primaryImagePath = orderedPaths[0];
             foreach (var translation in translations.Values)
             {
                 translation.ImagePath = primaryImagePath;
@@ -211,7 +213,7 @@ public sealed class AdminController(
                 Status = model.IsPublished ? "Published" : "Draft",
                 CreatedById = userId,
                 UpdatedById = userId,
-                ImagePaths = saved,
+                ImagePaths = orderedPaths,
                 Translations = translations
             };
             await repository.CreateNewsCardAsync(card, cancellationToken);
@@ -255,9 +257,10 @@ public sealed class AdminController(
         var retainedPaths = existingPaths
             .Where(path => !requestedRemovals.Contains(path, StringComparer.OrdinalIgnoreCase))
             .ToList();
-        model.ExistingPhotoPaths = existingPaths;
+        model.ExistingPhotoPaths = OrderNewsPhotos(existingPaths, [], model.PhotoOrder);
 
-        await ValidateNewsPhotosAsync(model.Photos, retainedPaths.Count, cancellationToken);
+        var uploadedPhotos = model.Photos ?? [];
+        await ValidateNewsPhotosAsync(uploadedPhotos, retainedPaths.Count, cancellationToken);
         var translations = ParseTranslations(model);
         if (!ModelState.IsValid)
         {
@@ -267,12 +270,12 @@ public sealed class AdminController(
         var newPaths = new List<string>();
         try
         {
-            foreach (var photo in model.Photos.Where(photo => photo.Length > 0))
+            foreach (var photo in uploadedPhotos.Where(photo => photo.Length > 0))
             {
                 var path = await files.SaveWebpAsync(photo, "news", cancellationToken);
                 newPaths.Add(path);
             }
-            var finalPaths = retainedPaths.Concat(newPaths).ToList();
+            var finalPaths = OrderNewsPhotos(retainedPaths, newPaths, model.PhotoOrder);
             var primaryImagePath = finalPaths[0];
             foreach (var translation in translations.Values)
             {
@@ -872,6 +875,7 @@ public sealed class AdminController(
             Id = card.Id,
             IsPublished = card.Status == "Published",
             ExistingPhotoPaths = ExistingNewsPaths(card),
+            PhotoOrder = ExistingNewsPaths(card),
             English = Map("en"),
             Hindi = Map("hi"),
             Odia = Map("or")
@@ -893,6 +897,49 @@ public sealed class AdminController(
             .Where(path => !string.IsNullOrWhiteSpace(path))
             .Distinct(StringComparer.OrdinalIgnoreCase)
             .ToList();
+    }
+
+    private static List<string> OrderNewsPhotos(
+        IReadOnlyList<string> existingPaths,
+        IReadOnlyList<string> newPaths,
+        IEnumerable<string> requestedOrder)
+    {
+        var result = new List<string>(existingPaths.Count + newPaths.Count);
+        var availableExisting = existingPaths.ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+        foreach (var token in requestedOrder.Where(value => !string.IsNullOrWhiteSpace(value)))
+        {
+            if (token.StartsWith("new:", StringComparison.OrdinalIgnoreCase) &&
+                int.TryParse(token.AsSpan(4), NumberStyles.None, CultureInfo.InvariantCulture, out var newIndex) &&
+                newIndex >= 0 && newIndex < newPaths.Count)
+            {
+                AddUnique(result, newPaths[newIndex]);
+                continue;
+            }
+
+            if (availableExisting.Contains(token))
+            {
+                AddUnique(result, token);
+            }
+        }
+
+        foreach (var path in existingPaths)
+        {
+            AddUnique(result, path);
+        }
+        foreach (var path in newPaths)
+        {
+            AddUnique(result, path);
+        }
+        return result;
+
+        static void AddUnique(List<string> paths, string path)
+        {
+            if (!paths.Contains(path, StringComparer.OrdinalIgnoreCase))
+            {
+                paths.Add(path);
+            }
+        }
     }
 
     private async Task ValidateTrainingAsync(

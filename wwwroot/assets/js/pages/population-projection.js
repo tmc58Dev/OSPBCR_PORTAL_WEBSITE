@@ -255,7 +255,7 @@
     const initialize = async () => {
         try {
             const response = await fetch(
-                "assets/data/population-data.json?v=20260831-excel-refresh",
+                "assets/data/population-data.json?v=20260901-sundargarh-refresh",
                 { cache: "no-store" }
             );
             if (!response.ok) throw new Error(`population-data.json: ${response.status}`);

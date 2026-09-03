@@ -25,7 +25,7 @@
             <div>
                 <span class="cms-eyebrow">Shared across all languages</span>
                 <h2>News Card Photos</h2>
-                <p>These photos are used for the English, Hindi, and Odia versions of this News Card.</p>
+                <p>These photos are used for all languages. Arrange them below; image 1 is the primary image.</p>
             </div>
             <span class="shared-photo-limit">1–100 photos</span>
         </header>
@@ -39,7 +39,7 @@
             {
                 <input asp-for="Photos" type="file" accept=".webp,image/webp" multiple required />
             }
-            <small>Select multiple files together. Previews appear immediately. Each file must be a genuine WebP image and no larger than 5 MB.</small>
+            <small>Select multiple files together. Then drag photos or use the arrow buttons to choose their display order. Each file must be a genuine WebP image and no larger than 5 MB.</small>
             <span asp-validation-for="Photos"></span>
         </div>
         <div class="photo-gallery-toolbar">
@@ -48,14 +48,16 @@
                     data-photo-undo hidden>Undo last removal</button>
         </div>
         <p class="photo-client-error" data-photo-error role="alert" hidden></p>
+        <div data-photo-order-inputs></div>
         <div class="existing-photo-gallery" data-photo-gallery data-max-photos="100"
-             aria-label="Shared News Card photo previews">
+             aria-label="Shared News Card photo previews in display order">
             @if (Model.ExistingPhotoPaths.Count > 0)
             {
                 @foreach (var path in Model.ExistingPhotoPaths)
                 {
                     <input type="hidden" name="ExistingPhotoPaths" value="@path" />
-                    <article class="existing-photo-item" data-existing-photo>
+                    <article class="existing-photo-item" data-existing-photo data-photo-path="@path" draggable="true">
+                        <span class="photo-order-number" data-photo-position aria-label="Image position"></span>
                         <img src="@path" alt="Current shared News Card photo" />
                         <div class="photo-preview-actions">
                             <span>Saved photo</span>
@@ -69,13 +71,17 @@
                                 <input type="checkbox" name="RemovePhotoPaths" value="@path"
                                        data-remove-photo-checkbox hidden />
                             }
-                            <button type="button" data-remove-existing-photo>Remove</button>
+                            <div class="photo-order-actions">
+                                <button type="button" data-move-photo="-1" aria-label="Move photo earlier" title="Move earlier">←</button>
+                                <button type="button" data-move-photo="1" aria-label="Move photo later" title="Move later">→</button>
+                                <button class="photo-remove-button" type="button" data-remove-existing-photo>Remove</button>
+                            </div>
                         </div>
                     </article>
                 }
             }
         </div>
-        <small class="photo-save-note">Photo additions and removals are previewed instantly and are permanently applied when you save the News Card.</small>
+        <small class="photo-save-note">The numbered order shown here is saved with the News Card and used by the public gallery.</small>
     </section>
 
     <div class="language-grid">
