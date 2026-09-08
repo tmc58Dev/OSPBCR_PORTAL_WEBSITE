@@ -1,0 +1,644 @@
+@{
+    Layout = null;
+}
+
+
+    
+<!-- home.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Resolve page assets, links, and component requests from the application root. -->
+    <base href="@Url.Content("~/")">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>OSPBCR | Home</title>
+
+    <!-- Bootstrap -->
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="assets/css/main.css?v=20260801-site-80-percent">
+
+    <!-- Registry overview, objectives, and workflow styles -->
+    <link rel="stylesheet" href="assets/css/pages/about.css?v=20260819-static-overview-card">
+
+    <!-- Home CSS -->
+    <link rel="stylesheet" href="assets/css/pages/home.css?v=20260905-black-bold-objectives">
+    <link rel="stylesheet" href="assets/css/design-system.css?v=20260803-home-slider-height">
+    <link rel="stylesheet" href="assets/css/pages/trending.css?v=20260801-shared-news-cards">
+
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <div id="navbar-container"></div>
+
+    <main>
+
+        <!-- Hero Section -->
+        <section class="hero-section">
+
+            <div class="hero-background" aria-hidden="true">
+
+                <div class="hero-background-slide is-active">
+                    <img src="assets/IMAGES_PDF_PPT_EXCEL/HOME PAGE/Homepage_Slider_Images/HP1.webp?v=20260831-updated" alt="">
+                </div>
+
+                <div class="hero-background-slide">
+                    <img src="assets/IMAGES_PDF_PPT_EXCEL/HOME PAGE/Homepage_Slider_Images/HP2.jpg?v=20260817-2" alt="">
+                </div>
+
+                <div class="hero-background-slide">
+                    <img src="assets/IMAGES_PDF_PPT_EXCEL/HOME PAGE/Homepage_Slider_Images/HP3.jpg?v=20260817-2" alt="">
+                </div>
+
+                <div class="hero-background-slide">
+                    <img src="assets/IMAGES_PDF_PPT_EXCEL/HOME PAGE/Homepage_Slider_Images/HP4.jpg?v=20260817-2" alt="">
+                </div>
+
+                <div class="hero-background-slide">
+                    <img src="assets/IMAGES_PDF_PPT_EXCEL/HOME PAGE/Homepage_Slider_Images/HP5.jpg?v=20260817-2" alt="">
+                </div>
+
+                <div class="hero-background-slide">
+                    <img src="assets/IMAGES_PDF_PPT_EXCEL/HOME PAGE/Homepage_Slider_Images/HP6.webp?v=20260817-2" alt="">
+                </div>
+
+                <div class="hero-background-slide">
+                    <img src="assets/IMAGES_PDF_PPT_EXCEL/HOME PAGE/Homepage_Slider_Images/HP7.jpg?v=20260817-2" alt="">
+                </div>
+
+                <div class="hero-background-slide">
+                    <img src="assets/IMAGES_PDF_PPT_EXCEL/HOME PAGE/Homepage_Slider_Images/HP8.webp?v=20260817-2" alt="">
+                </div>
+
+                <div class="hero-background-slide">
+                    <img src="assets/IMAGES_PDF_PPT_EXCEL/HOME PAGE/Homepage_Slider_Images/HP9.jpg?v=20260817-2" alt="">
+                </div>
+
+                <div class="hero-background-slide">
+                    <img src="assets/IMAGES_PDF_PPT_EXCEL/HOME PAGE/Homepage_Slider_Images/HP10.jpg?v=20260817-2" alt="">
+                </div>
+
+            </div>
+
+            <div>
+
+                <div class="hero-text fade-up">
+
+
+                    <h1>
+                        <span>Odisha State</span>
+                        <span>Population-Based</span>
+                        <span>Cancer Registry</span>
+                    </h1>
+
+                    <p>
+                        A state-wide initiative dedicated to collecting, analyzing,<br>
+                        and strengthening cancer surveillance data across Odisha<br>
+                        To support evidence-based public health planning and policy decisions.
+                    </p>
+
+                    <div class="hero-buttons">
+
+                        <a href="map.html" class="btn-primary-custom">
+                            Explore Interactive Map
+                        </a>
+
+                        <a href="about.html" class="btn-outline-custom">
+                            Learn More
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="hero-controls" aria-label="Hero slideshow controls">
+
+                <button class="hero-control hero-prev" type="button" aria-label="Previous slide">
+                    <span aria-hidden="true">&larr;</span>
+                </button>
+
+                <button class="hero-control hero-next" type="button" aria-label="Next slide">
+                    <span aria-hidden="true">&rarr;</span>
+                </button>
+
+            </div>
+
+        </section>
+
+        <!-- Mission Section -->
+        <section class="section mission-section">
+
+            <div class="container-custom">
+
+                <div class="section-heading text-center fade-up">
+
+                    <h2>Our Mission</h2>
+
+                    <p>
+                        Building a robust statewide cancer registry framework
+                        to improve cancer surveillance, epidemiological research,
+                        and healthcare planning.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- Statistics Section -->
+        <section class="section stats-section">
+
+            <div class="container-custom">
+
+                <div class="stats-grid">
+
+                    <div class="stat-card fade-up">
+                        <h2 data-count-to="30" data-count-suffix="">30</h2>
+                        <p>Districts Covered</p>
+                    </div>
+
+                    <div class="stat-card fade-up">
+                        <h2 data-count-to="100" data-count-suffix="+">100+</h2>
+                        <p>Healthcare Facilities</p>
+                    </div>
+
+                    <div class="stat-card fade-up">
+                        <h2 data-count-to="1000" data-count-suffix="+">1000+</h2>
+                        <p>Trained Participants</p>
+                    </div>
+
+                    <div class="stat-card fade-up">
+                        <h2>Statewide</h2>
+                        <p>Coverage Goal</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- Registry Overview -->
+        <section class="section registry-overview-section" aria-labelledby="registry-overview-heading">
+
+            <div class="container-custom">
+
+                <div class="registry-overview-panel">
+
+                    <div class="section-heading registry-overview-heading fade-up">
+                        <span class="registry-overview-eyebrow">Statewide Cancer Intelligence</span>
+                        <h2 id="registry-overview-heading">Registry Overview</h2>
+                        <p>
+                            OSPBCR is a statewide system for understanding where, when, and among whom
+                            cancer occurs in Odisha. It brings information from healthcare facilities and
+                            reporting centres into a consistent population-based record.
+                        </p>
+                    </div>
+
+                    <div class="registry-overview-layout">
+
+                        <article class="registry-overview-story fade-up">
+                            <h3>From consistent reporting to a clearer picture of cancer</h3>
+                            <p>
+                                Through systematic case finding, validation, coding, de-duplication, and
+                                analysis, the registry builds reliable evidence that can be compared across
+                                locations and over time.
+                            </p>
+                            <p>
+                                This shared evidence helps public-health leaders, clinicians, and researchers
+                                recognise patterns, identify information gaps, and plan responses that reflect
+                                the needs of Odisha's communities.
+                            </p>
+
+                            <div class="registry-capabilities" aria-label="How the registry works">
+                                <div class="registry-capability">
+                                    <span class="registry-capability-number" aria-hidden="true">01</span>
+                                    <div>
+                                        <h4>Connected reporting</h4>
+                                        <p>Coordinates information from participating healthcare and reporting centres across the state.</p>
+                                    </div>
+                                </div>
+
+                                <div class="registry-capability">
+                                    <span class="registry-capability-number" aria-hidden="true">02</span>
+                                    <div>
+                                        <h4>Quality-assured records</h4>
+                                        <p>Uses standard definitions, verification, coding, and duplicate checks to improve consistency.</p>
+                                    </div>
+                                </div>
+
+                                <div class="registry-capability">
+                                    <span class="registry-capability-number" aria-hidden="true">03</span>
+                                    <div>
+                                        <h4>Locally useful insight</h4>
+                                        <p>Turns case records into meaningful patterns and trends for research, prevention, and planning.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+
+                        <aside class="registry-purpose-card fade-up" aria-labelledby="core-purpose-heading">
+                            <span class="registry-purpose-kicker">Why the registry exists</span>
+                            <h3 id="core-purpose-heading">Core Purpose</h3>
+                            <p class="registry-purpose-intro">
+                                To create an accurate, continuous, and population-based picture of cancer in
+                                Odisha so important decisions are guided by dependable evidence.
+                            </p>
+
+                            <ul class="registry-purpose-list">
+                                <li>
+                                    <span class="registry-purpose-check" aria-hidden="true">&#10003;</span>
+                                    <div><strong>Measure cancer burden</strong><span>Describe incidence and patterns across populations and locations.</span></div>
+                                </li>
+                                <li>
+                                    <span class="registry-purpose-check" aria-hidden="true">&#10003;</span>
+                                    <div><strong>Monitor change over time</strong><span>Track emerging trends and long-term shifts in cancer occurrence.</span></div>
+                                </li>
+                                <li>
+                                    <span class="registry-purpose-check" aria-hidden="true">&#10003;</span>
+                                    <div><strong>Strengthen data quality</strong><span>Promote complete, comparable, and consistently reported records.</span></div>
+                                </li>
+                                <li>
+                                    <span class="registry-purpose-check" aria-hidden="true">&#10003;</span>
+                                    <div><strong>Enable research</strong><span>Provide a sound evidence base for epidemiological investigation.</span></div>
+                                </li>
+                                <li>
+                                    <span class="registry-purpose-check" aria-hidden="true">&#10003;</span>
+                                    <div><strong>Inform action and planning</strong><span>Support prevention priorities, healthcare planning, and policy development.</span></div>
+                                </li>
+                            </ul>
+                        </aside>
+
+                    </div>
+
+                    <div class="registry-evidence-path fade-up" aria-label="Registry evidence pathway">
+                        <div class="registry-evidence-label">
+                            <span>Evidence pathway</span>
+                            <strong>One shared evidence base</strong>
+                            <p>Information progresses through three connected evidence stages.</p>
+                        </div>
+
+                        <div class="registry-evidence-flow">
+                            <article class="registry-evidence-step">
+                                <span class="registry-evidence-index" aria-hidden="true">01</span>
+                                <div>
+                                    <strong>Reliable records</strong>
+                                    <span>Captured, standardised, and quality-checked case information.</span>
+                                </div>
+                            </article>
+
+                            <div class="registry-evidence-connector" aria-hidden="true">
+                                <span class="registry-evidence-arrow">&rarr;</span>
+                            </div>
+
+                            <article class="registry-evidence-step">
+                                <span class="registry-evidence-index" aria-hidden="true">02</span>
+                                <div>
+                                    <strong>Comparable trends</strong>
+                                    <span>Patterns evaluated across populations, locations, and time.</span>
+                                </div>
+                            </article>
+
+                            <div class="registry-evidence-connector" aria-hidden="true">
+                                <span class="registry-evidence-arrow">&rarr;</span>
+                            </div>
+
+                            <article class="registry-evidence-step">
+                                <span class="registry-evidence-index" aria-hidden="true">03</span>
+                                <div>
+                                    <strong>Evidence-led decisions</strong>
+                                    <span>Findings prepared for research, planning, and policy support.</span>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+
+                    <section class="registry-objectives-collaboration strategy-objectives" aria-labelledby="key-objectives-heading">
+                        <div class="registry-objectives-divider fade-up">
+                            <span>Registry foundation</span>
+                            <i aria-hidden="true"></i>
+                            <span>Strategic priorities</span>
+                        </div>
+
+                        <div class="strategy-subsection-heading registry-objectives-heading fade-up">
+                            <div>
+                                <span class="strategy-subsection-label">What the registry is designed to achieve</span>
+                                <h2 id="key-objectives-heading">Key Objectives</h2>
+                            </div>
+                            <p>
+                                <strong>Registry Overview describes the statewide evidence system and its core purpose.
+                                These four objectives remain distinct by defining the measurable capabilities and
+                                public-health value that OSPBCR is working to strengthen.</strong>
+                            </p>
+                        </div>
+
+                        <div class="strategy-objectives-grid">
+                            <article class="strategy-objective-card strategy-objective-card--network fade-up hover-scale">
+                                <div class="strategy-objective-topline">
+                                    <span class="strategy-objective-number" data-count-to="1" data-count-prefix="0">01</span>
+                                    <span class="strategy-objective-tag">Coverage</span>
+                                </div>
+                                <h3>Statewide surveillance framework</h3>
+                                <p>Establish a robust statewide cancer surveillance framework.</p>
+                                <div class="strategy-objective-detail">
+                                    <strong>Expanded focus</strong>
+                                    <span>Connect participating facilities and reporting centres, strengthen district reach, and support continuous population-based case capture.</span>
+                                </div>
+                                <ul class="strategy-objective-points">
+                                    <li>Coordinated reporting network</li>
+                                    <li>Broad geographic representation</li>
+                                </ul>
+                            </article>
+
+                            <article class="strategy-objective-card strategy-objective-card--quality fade-up hover-scale">
+                                <div class="strategy-objective-topline">
+                                    <span class="strategy-objective-number" data-count-to="2" data-count-prefix="0">02</span>
+                                    <span class="strategy-objective-tag">Quality</span>
+                                </div>
+                                <h3>Consistent, comparable records</h3>
+                                <p>Improve data quality and reporting consistency across districts.</p>
+                                <div class="strategy-objective-detail">
+                                    <strong>Expanded focus</strong>
+                                    <span>Promote shared definitions, standard coding, validation practices, timely feedback, and trained reporting teams.</span>
+                                </div>
+                                <ul class="strategy-objective-points">
+                                    <li>Common quality standards</li>
+                                    <li>Comparable district information</li>
+                                </ul>
+                            </article>
+
+                            <article class="strategy-objective-card strategy-objective-card--research fade-up hover-scale">
+                                <div class="strategy-objective-topline">
+                                    <span class="strategy-objective-number" data-count-to="3" data-count-prefix="0">03</span>
+                                    <span class="strategy-objective-tag">Knowledge</span>
+                                </div>
+                                <h3>Research-ready cancer evidence</h3>
+                                <p>Support epidemiological and clinical cancer research.</p>
+                                <div class="strategy-objective-detail">
+                                    <strong>Expanded focus</strong>
+                                    <span>Provide documented population-level evidence for studying cancer burden, geographic patterns, trends, and locally relevant research questions.</span>
+                                </div>
+                                <ul class="strategy-objective-points">
+                                    <li>Pattern and trend analysis</li>
+                                    <li>Evidence for new research</li>
+                                </ul>
+                            </article>
+
+                            <article class="strategy-objective-card strategy-objective-card--action fade-up hover-scale">
+                                <div class="strategy-objective-topline">
+                                    <span class="strategy-objective-number" data-count-to="4" data-count-prefix="0">04</span>
+                                    <span class="strategy-objective-tag">Action</span>
+                                </div>
+                                <h3>Evidence-led public-health decisions</h3>
+                                <p>Enable evidence-based public health decision-making.</p>
+                                <div class="strategy-objective-detail">
+                                    <strong>Expanded focus</strong>
+                                    <span>Translate registry findings into useful intelligence for prevention priorities, service planning, resource allocation, and policy review.</span>
+                                </div>
+                                <ul class="strategy-objective-points">
+                                    <li>Planning and priority setting</li>
+                                    <li>Policy and programme support</li>
+                                </ul>
+                            </article>
+                        </div>
+                    </section>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- Operational Workflow -->
+        <section class="section workflow-delivery-section" aria-labelledby="operational-workflow-heading">
+
+            <div class="container-custom">
+
+                <div class="section-heading text-center workflow-delivery-heading fade-up">
+                    <span class="workflow-delivery-eyebrow">From Source to Statewide Insight</span>
+                    <h2 id="operational-workflow-heading">Operational Workflow</h2>
+                    <p>
+                        A traceable four-stage process moves cancer information from case identification to
+                        quality-assured analysis and reporting. Each stage has a distinct responsibility and
+                        a defined output for the next stage.
+                    </p>
+                </div>
+
+                <div class="workflow-delivery-panel">
+
+                    <div class="workflow-card-grid strategy-workflow-grid">
+                        <article class="workflow-card workflow-card-collection fade-up hover-scale">
+                            <div class="workflow-card-header">
+                                <span class="workflow-step-number" data-count-to="1" data-count-prefix="0">01</span>
+                                <h3>Data collection</h3>
+                            </div>
+                            <p class="workflow-stage-purpose">Identify eligible cases and build a structured record from recognised reporting sources.</p>
+                            <ul class="workflow-points">
+                                <li>Prepare and maintain source lists</li>
+                                <li>Retrieve cancer patient information from the source</li>
+                                <li>Abstract essential details for cancer cases</li>
+                                <li>Record source and case information consistently</li>
+                            </ul>
+                            <div class="workflow-stage-output"><span>Stage output</span><strong>Structured case record ready for verification</strong></div>
+                        </article>
+
+                        <div class="workflow-sequence-arrow" aria-hidden="true">&#8594;</div>
+
+                        <article class="workflow-card workflow-card-validation fade-up hover-scale">
+                            <div class="workflow-card-header">
+                                <span class="workflow-step-number" data-count-to="2" data-count-prefix="0">02</span>
+                                <h3>Validation</h3>
+                            </div>
+                            <p class="workflow-stage-purpose">Confirm that collected information is accurate, complete, consistent, and suitable for analysis.</p>
+                            <ul class="workflow-points">
+                                <li>Cross-verify cancer patient information</li>
+                                <li>Perform completeness and data-quality checks</li>
+                                <li>Resolve duplicate or conflicting entries</li>
+                                <li>Complete quality control by a cancer registry expert</li>
+                            </ul>
+                            <div class="workflow-stage-output"><span>Stage output</span><strong>Quality-assured registry dataset</strong></div>
+                        </article>
+
+                        <div class="workflow-sequence-arrow" aria-hidden="true">&#8594;</div>
+
+                        <article class="workflow-card workflow-card-analysis fade-up hover-scale">
+                            <div class="workflow-card-header">
+                                <span class="workflow-step-number" data-count-to="3" data-count-prefix="0">03</span>
+                                <h3>Analysis</h3>
+                            </div>
+                            <p class="workflow-stage-purpose">Convert verified records into population-level measures, comparisons, and interpretable patterns.</p>
+                            <ul class="workflow-points">
+                                <li>Conduct district-wise and block-wise data analysis</li>
+                                <li>Calculate appropriate cancer registry rates</li>
+                                <li>Compare patterns across place and time</li>
+                                <li>Identify notable trends and information gaps</li>
+                            </ul>
+                            <div class="workflow-stage-output"><span>Stage output</span><strong>Evidence on cancer burden, distribution, and trends</strong></div>
+                        </article>
+
+                        <div class="workflow-sequence-arrow" aria-hidden="true">&#8594;</div>
+
+                        <article class="workflow-card workflow-card-reporting fade-up hover-scale">
+                            <div class="workflow-card-header">
+                                <span class="workflow-step-number" data-count-to="4" data-count-prefix="0">04</span>
+                                <h3>Reporting</h3>
+                            </div>
+                            <p class="workflow-stage-purpose">Communicate findings in clear formats that support review, planning, and public-health action.</p>
+                            <ul class="workflow-points">
+                                <li>Report findings to the State of Odisha</li>
+                                <li>Present cancer patterns at state and district levels</li>
+                                <li>Share evidence for programme and service planning</li>
+                                <li>Provide suggestions and recommendations to the Government of Odisha</li>
+                            </ul>
+                            <div class="workflow-stage-output"><span>Stage output</span><strong>Actionable summaries and recommendations</strong></div>
+                        </article>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- News Card Section -->
+        <section class="section news-section" id="latest-news" data-news-section hidden>
+
+            <div class="container-custom">
+
+                <div class="news-section-header">
+                    <div class="section-heading fade-up">
+                        <span class="news-kicker">Registry Updates</span>
+                        <h2>Latest News</h2>
+                        <p>Recent announcements, activities, and milestones from the Odisha State Population-Based Cancer Registry.</p>
+                    </div>
+
+                    <div class="news-filter-controls">
+                        <div class="news-language-filter" role="group" aria-label="Filter News Cards by language">
+                            <button type="button" data-news-language="en" data-i18n-skip>English</button>
+                            <button type="button" data-news-language="hi" data-i18n-skip>हिन्दी</button>
+                            <button type="button" data-news-language="or" data-i18n-skip>ଓଡ଼ିଆ</button>
+                        </div>
+                        <div class="news-date-filter" role="group" aria-label="Arrange News Cards by date">
+                            <button type="button" data-news-date-order="asc" title="Oldest date first">
+                                <span aria-hidden="true">&uarr;</span>
+                                Ascending
+                            </button>
+                            <button type="button" data-news-date-order="desc" title="Newest date first">
+                                <span aria-hidden="true">&darr;</span>
+                                Descending
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="news-slider-shell fade-up">
+                    <button class="news-control news-control-previous" type="button" data-news-previous aria-label="Previous News Card">
+                        <span aria-hidden="true">&larr;</span>
+                    </button>
+                    <div class="news-carousel" data-news-carousel aria-label="Latest News Cards" aria-roledescription="carousel" tabindex="0">
+                        <div class="news-track" data-news-track></div>
+                    </div>
+                    <button class="news-control news-control-next" type="button" data-news-next aria-label="Next News Card">
+                        <span aria-hidden="true">&rarr;</span>
+                    </button>
+                </div>
+
+                <div class="news-position" data-news-position aria-live="polite" data-i18n-skip></div>
+
+            </div>
+
+        </section>
+
+        <!-- Collaboration Section -->
+        <section class="section collaboration-section">
+
+            <div class="container-custom">
+
+                <div class="section-heading text-center fade-up">
+
+                    <h2>Institutional Collaboration</h2>
+
+                    <p>
+                        A coordinated partnership between ACTREC,
+                        NISER, and the Government of Odisha.
+                    </p>
+
+                </div>
+
+                <div class="collaboration-grid">
+
+                    <a class="collaboration-card collaboration-card--odisha hover-scale fade-up"
+                       href="https://health.odisha.gov.in/"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       aria-label="Visit Department of Health and Family Welfare, Government of Odisha website">
+                        <div class="collaboration-card-content">
+                            <h3>Department of Health &amp; Family Welfare, Government of Odisha</h3>
+                            <p class="collaboration-slogan">Health for All</p>
+                            <p>Prioritizing affordable healthcare for tribal, rural, and economically vulnerable populations.</p>
+                        </div>
+                    </a>
+
+                    <a class="collaboration-card collaboration-card--niser hover-scale fade-up"
+                       href="https://www.niser.ac.in/"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       aria-label="Visit National Institute of Science Education and Research website">
+                        <div class="collaboration-card-content">
+                            <h3>National Institute of Science Education and Research</h3>
+                            <p class="collaboration-slogan">Knowledge Imparts Immortality</p>
+                            <p>Cultivating world-class research capabilities in core and interdisciplinary sciences.</p>
+                        </div>
+                    </a>
+
+                    <a class="collaboration-card collaboration-card--tmc hover-scale fade-up"
+                       href="https://tmc.gov.in/"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       aria-label="Visit Tata Memorial Centre website">
+                        <div class="collaboration-card-content">
+                            <h3 class="tmc-title">Tata Memorial Centre</h3>
+                            <p class="collaboration-slogan">Excellence in Service, Education, and Research.</p>
+                            <p>Providing comprehensive, affordable, and world-class cancer care to all.</p>
+                        </div>
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <div id="footer-container"></div>
+
+    <!-- Bootstrap -->
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- GSAP -->
+    <script src="~/lib/gsap/dist/gsap.min.js"></script>
+
+    <script src="~/lib/gsap/dist/ScrollTrigger.min.js"></script>
+
+    <!-- JS -->
+    <script src="assets/js/core/i18n.js?v=20260831-translation-audit"></script>
+    <script src="assets/js/core/loader.js?v=20260723-dashboard-nav"></script>
+    <script src="assets/js/core/animations.js"></script>
+    <script src="assets/js/core/count-up.js"></script>
+    <script src="assets/js/pages/home.js?v=20260904-subpath"></script>
+
+</body>
+
+</html>

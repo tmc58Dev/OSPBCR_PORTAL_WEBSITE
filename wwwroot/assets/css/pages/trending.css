@@ -454,30 +454,65 @@
     font-weight: 750;
 }
 
-.trending-learn-more {
+.trending-card-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    width: 100%;
+    margin-top: auto;
+}
+
+.trending-learn-more,
+.trending-download {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-height: 42px;
-    margin-top: auto;
-    padding: 9px 17px;
+    gap: 9px;
+    min-height: 46px;
+    padding: 10px 18px;
     color: #fff;
     border: 0;
-    border-radius: 11px;
+    border-radius: 12px;
     background: linear-gradient(135deg, var(--primary), var(--secondary));
     box-shadow: 0 10px 24px rgba(0, 91, 150, 0.2);
     font-family: var(--font-family-base);
+    font-size: 15px;
     font-weight: 800;
+    line-height: 1.2;
     text-decoration: none;
     cursor: pointer;
     transition: var(--transition);
 }
 
+.trending-card-actions .trending-learn-more,
+.trending-card-actions .trending-download {
+    flex: 1 1 132px;
+}
+
 .trending-learn-more:hover,
-.trending-learn-more:focus-visible {
+.trending-learn-more:focus-visible,
+.trending-download:hover,
+.trending-download:focus-visible {
     color: #fff;
     transform: translateY(-2px);
     box-shadow: 0 14px 30px rgba(0, 91, 150, 0.28);
+}
+
+.trending-learn-more:focus-visible,
+.trending-download:focus-visible {
+    outline: 3px solid rgba(0, 166, 166, 0.28);
+    outline-offset: 3px;
+}
+
+.trending-download::before {
+    content: "";
+    width: 18px;
+    height: 18px;
+    flex: 0 0 18px;
+    background: currentColor;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3v11m0 0 4-4m-4 4-4-4M5 17v2a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-2'/%3E%3C/svg%3E") center / contain no-repeat;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3v11m0 0 4-4m-4 4-4-4M5 17v2a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-2'/%3E%3C/svg%3E") center / contain no-repeat;
 }
 
 .trending-card-note {
@@ -578,6 +613,277 @@
     overflow-wrap: anywhere;
 }
 
+.trending-detail-download { width: fit-content; min-width: 210px; }
+
+.news-download-dialog {
+    position: fixed;
+    inset: 0;
+    width: min(620px, calc(100% - 32px));
+    max-width: none;
+    max-height: calc(100dvh - 32px);
+    margin: auto;
+    padding: 0;
+    overflow: visible;
+    color: var(--text);
+    border: 0;
+    border-radius: 26px;
+    background: transparent;
+    box-shadow: 0 34px 100px rgba(0, 37, 64, 0.42);
+}
+
+.news-download-dialog[open] {
+    animation: news-download-dialog-in 0.24s ease-out both;
+}
+
+.news-download-dialog::backdrop {
+    background: rgba(0, 37, 64, 0.68);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+}
+
+.news-download-dialog-card {
+    position: relative;
+    display: grid;
+    gap: 20px;
+    max-height: calc(100dvh - 32px);
+    padding: clamp(26px, 5vw, 42px);
+    overflow-y: auto;
+    border: 1px solid rgba(0, 119, 182, 0.16);
+    border-radius: 26px;
+    background:
+        radial-gradient(circle at 100% 0, rgba(0, 166, 166, 0.14), transparent 18rem),
+        #fff;
+}
+
+.news-download-dialog-card::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto;
+    height: 5px;
+    border-radius: 26px 26px 0 0;
+    background: linear-gradient(90deg, var(--primary), var(--secondary));
+}
+
+.news-download-dialog-heading {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    gap: 16px;
+    padding-right: 34px;
+}
+
+.news-download-dialog-heading .trending-kicker {
+    margin-bottom: 5px;
+}
+
+.news-download-dialog-heading h2,
+.news-download-story p {
+    margin: 0;
+}
+
+.news-download-dialog-heading h2 {
+    color: var(--text);
+    font-size: clamp(26px, 4vw, 34px);
+    line-height: 1.15;
+    letter-spacing: -0.025em;
+}
+
+.news-download-dialog-icon {
+    display: grid;
+    place-items: center;
+    width: 58px;
+    height: 58px;
+    color: #fff;
+    border-radius: 18px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    box-shadow: 0 12px 26px rgba(0, 91, 150, 0.24);
+}
+
+.news-download-dialog-icon svg {
+    width: 27px;
+    height: 27px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.9;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.news-download-story {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    gap: 12px;
+    min-height: 66px;
+    padding: 13px 16px;
+    border: 1px solid rgba(0, 91, 150, 0.12);
+    border-radius: 16px;
+    background: rgba(238, 247, 251, 0.82);
+}
+
+.news-download-story-mark {
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    color: var(--primary-dark);
+    border-radius: 11px;
+    background: #fff;
+    box-shadow: 0 5px 14px rgba(0, 63, 107, 0.1);
+    font-size: 13px;
+    font-weight: 900;
+}
+
+.news-download-story p {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    color: var(--text-body);
+    font-size: 15px;
+    font-weight: 750;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+}
+
+.news-download-close {
+    position: absolute;
+    z-index: 2;
+    top: 16px;
+    right: 16px;
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    color: var(--primary-dark);
+    border: 1px solid rgba(0, 119, 182, 0.18);
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 7px 18px rgba(0, 63, 107, 0.1);
+    cursor: pointer;
+    font-size: 27px;
+    line-height: 1;
+    transition: var(--transition);
+}
+
+.news-download-close:hover,
+.news-download-close:focus-visible {
+    color: #fff;
+    border-color: transparent;
+    background: var(--primary);
+    transform: rotate(6deg);
+}
+
+.news-download-close:focus-visible {
+    outline: 3px solid rgba(0, 166, 166, 0.28);
+    outline-offset: 3px;
+}
+
+.news-download-language-options {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.news-download-language-options button {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 9px;
+    min-height: 62px;
+    padding: 9px 11px;
+    color: var(--primary-dark);
+    border: 1px solid rgba(0, 119, 182, 0.18);
+    border-radius: 15px;
+    background: #fff;
+    box-shadow: 0 8px 20px rgba(0, 63, 107, 0.08);
+    font-family: "Noto Sans Devanagari", "Noto Sans Oriya", var(--font-family-base);
+    font-size: 14px;
+    font-weight: 800;
+    text-align: left;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.news-download-language-code {
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    color: #fff;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.02em;
+}
+
+.news-download-language-arrow {
+    color: var(--secondary);
+    font-size: 18px;
+    font-weight: 900;
+    transition: transform 0.2s ease;
+}
+
+.news-download-language-options button:hover, .news-download-language-options button:focus-visible {
+    color: #fff;
+    border-color: transparent;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    transform: translateY(-3px);
+    box-shadow: 0 14px 30px rgba(0, 91, 150, 0.25);
+}
+
+.news-download-language-options button:hover .news-download-language-code,
+.news-download-language-options button:focus-visible .news-download-language-code {
+    color: var(--primary-dark);
+    background: #fff;
+}
+
+.news-download-language-options button:hover .news-download-language-arrow,
+.news-download-language-options button:focus-visible .news-download-language-arrow {
+    color: #fff;
+    transform: translateY(2px);
+}
+
+.news-download-language-options button:focus-visible {
+    outline: 3px solid rgba(0, 166, 166, 0.28);
+    outline-offset: 3px;
+}
+
+.news-download-help {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: start;
+    gap: 9px;
+    color: var(--text-body);
+}
+
+.news-download-help > span {
+    display: grid;
+    place-items: center;
+    width: 20px;
+    height: 20px;
+    margin-top: 1px;
+    color: #fff;
+    border-radius: 50%;
+    background: var(--secondary);
+    font-family: Georgia, serif;
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.news-download-help small {
+    color: inherit;
+    font-size: 13px;
+    line-height: 1.55;
+}
+
+@keyframes news-download-dialog-in {
+    from { opacity: 0; transform: translateY(12px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
 @media (max-width: 1000px) {
     .trending-list {
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -665,6 +971,41 @@
         gap: 17px;
         padding: 24px 20px 26px;
     }
+
+    .news-download-dialog {
+        width: min(100% - 20px, 620px);
+        max-height: calc(100dvh - 20px);
+    }
+
+    .news-download-dialog-card {
+        gap: 17px;
+        max-height: calc(100dvh - 20px);
+        padding: 28px 20px 22px;
+        border-radius: 21px;
+    }
+
+    .news-download-dialog-heading {
+        gap: 12px;
+        padding-right: 34px;
+    }
+
+    .news-download-dialog-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 15px;
+    }
+
+    .news-download-dialog-heading h2 {
+        font-size: 24px;
+    }
+
+    .news-download-language-options {
+        grid-template-columns: 1fr;
+    }
+
+    .news-download-language-options button {
+        min-height: 56px;
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -675,5 +1016,9 @@
 
     .trending-card-gallery {
         transition: none;
+    }
+
+    .news-download-dialog[open] {
+        animation: none;
     }
 }

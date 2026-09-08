@@ -17,7 +17,7 @@ async function initializeOdishaCircularCarousel() {
     if (!carousel || !track || !select) return;
 
     try {
-        const response = await fetch(`/api/content/odisha-circulars?language=${encodeURIComponent(odishaCircularLanguageAtLoad)}`, {
+        const response = await fetch(`api/content/odisha-circulars?language=${encodeURIComponent(odishaCircularLanguageAtLoad)}`, {
             headers: { "Accept": "application/json" }
         });
         if (!response.ok) throw new Error(`Odisha circulars HTTP ${response.status}`);

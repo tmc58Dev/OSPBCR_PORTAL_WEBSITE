@@ -172,6 +172,11 @@ function updatePanel(districtName) {
             </div>
         </div>
     `;
+    const dataEntryNotice = `
+        <p class="text-danger text-center mt-3 mb-0">
+            <strong class="text-danger fw-bold">Data entry for 2025 is currently in progress; the figures shown do not represent the complete dataset for the year.</strong>
+        </p>
+    `;
     const bindDistrictFilter = () => {
         const districtSelect = panel.querySelector("#districtStatisticsFilter");
 
@@ -204,6 +209,7 @@ function updatePanel(districtName) {
                     <span>${unavailable}</span>
                 </div>
             </div>
+            ${dataEntryNotice}
         `;
 
         bindDistrictFilter();
@@ -235,6 +241,7 @@ function updatePanel(districtName) {
                 ${statValue(data.mortalityCancerCases, { count: true })}
             </div>
         </div>
+        ${dataEntryNotice}
     `;
 
     bindDistrictFilter();

@@ -80,7 +80,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 async function loadDistrictTrainingPdfs() {
     try {
         const language = window.i18n?.getLanguage() || "en";
-        const response = await fetch(`/api/content/training-pdfs?language=${encodeURIComponent(language)}`, {
+        const response = await fetch(`api/content/training-pdfs?language=${encodeURIComponent(language)}`, {
             headers: { "Accept": "application/json" }
         });
         if (!response.ok) throw new Error(`HTTP ${response.status}`);

@@ -6,6 +6,14 @@ public sealed class ManagedFileStorage(IWebHostEnvironment environment) : IManag
 {
     private const long MaxImageBytes = 5 * 1024 * 1024;
     private const long MaxPdfBytes = 25 * 1024 * 1024;
+    private const long MaxAttachmentBytes = 25 * 1024 * 1024;
+    private static readonly HashSet<string> BlockedAttachmentExtensions = new(StringComparer.OrdinalIgnoreCase)
+    {
+        ".ade", ".adp", ".app", ".bat", ".chm", ".cmd", ".com", ".cpl", ".dll", ".exe",
+        ".hta", ".inf", ".ins", ".isp", ".jar", ".js", ".jse", ".lnk", ".mde", ".msc",
+        ".msi", ".msp", ".mst", ".pif", ".ps1", ".reg", ".scr", ".sct", ".sh", ".sys",
+        ".vb", ".vbe", ".vbs", ".ws", ".wsc", ".wsf", ".wsh"
+    };
     private readonly string _uploadRoot = Path.GetFullPath(Path.Combine(environment.WebRootPath, "uploads"));
 
     public Task<string?> ValidateWebpAsync(
@@ -54,6 +62,27 @@ public sealed class ManagedFileStorage(IWebHostEnvironment environment) : IManag
     public Task<string> SavePdfAsync(IFormFile file, string category, CancellationToken cancellationToken = default) =>
         SaveAsync(file, category, ".pdf", cancellationToken);
 
+    public Task<string?> ValidateAttachmentAsync(
+        IFormFile? file,
+        CancellationToken cancellationToken = default)
+    {
+        if (file is null || file.Length == 0)
+        {
+            return Task.FromResult<string?>(null);
+        }
+        if (file.Length > MaxAttachmentBytes)
+        {
+            return Task.FromResult<string?>($"Each attachment must be no larger than {MaxAttachmentBytes / 1024 / 1024} MB.");
+        }
+
+        var extension = Path.GetExtension(file.FileName);
+        if (string.IsNullOrWhiteSpace(extension) || BlockedAttachmentExtensions.Contains(extension))
+        {
+            return Task.FromResult<string?>("This attachment type is not allowed for security reasons.");
+        }
+        return Task.FromResult<string?>(null);
+    }
+
     public Task<string> SavePreviewImageAsync(
         IFormFile file,
         string category,
@@ -67,6 +96,30 @@ public sealed class ManagedFileStorage(IWebHostEnvironment environment) : IManag
         return SaveAsync(file, category, extension, cancellationToken);
     }
 
+    public Task<string> SaveAttachmentAsync(
+        IFormFile file,
+        string category,
+        CancellationToken cancellationToken = default)
+    {
+        var extension = Path.GetExtension(file.FileName).ToLowerInvariant();
+        return SaveAsync(file, category, extension, cancellationToken);
+    }
+
+    public string? ResolveManagedPath(string? publicPath)
+    {
+        if (string.IsNullOrWhiteSpace(publicPath) ||
+            !publicPath.StartsWith("/uploads/", StringComparison.OrdinalIgnoreCase))
+        {
+            return null;
+        }
+
+        var relative = publicPath.TrimStart('/').Replace('/', Path.DirectorySeparatorChar);
+        var fullPath = Path.GetFullPath(Path.Combine(environment.WebRootPath, relative));
+        return fullPath.StartsWith(_uploadRoot + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase)
+            ? fullPath
+            : null;
+    }
+
     public Task DeleteIfManagedAsync(string? publicPath, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(publicPath) ||
@@ -75,9 +128,8 @@ public sealed class ManagedFileStorage(IWebHostEnvironment environment) : IManag
             return Task.CompletedTask;
         }
 
-        var relative = publicPath.TrimStart('/').Replace('/', Path.DirectorySeparatorChar);
-        var fullPath = Path.GetFullPath(Path.Combine(environment.WebRootPath, relative));
-        if (!fullPath.StartsWith(_uploadRoot + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase))
+        var fullPath = ResolveManagedPath(publicPath);
+        if (fullPath is null)
         {
             return Task.CompletedTask;
         }

@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const loadVisitCount = async () => {
             try {
-                const response = await fetch("/api/content/website-visits", {
+                const response = await fetch("api/content/website-visits", {
                     method: "POST",
                     cache: "no-store",
                     credentials: "same-origin",
@@ -391,7 +391,7 @@ document.addEventListener("DOMContentLoaded", () => {
         syncDateOrderFilter();
         carousel.setAttribute("aria-busy", "true");
         try {
-            const response = await fetch(`/api/content/news?language=${encodeURIComponent(language)}`, {
+            const response = await fetch(`api/content/news?language=${encodeURIComponent(language)}`, {
                 cache: "no-store",
                 headers: { "Accept": "application/json" }
             });

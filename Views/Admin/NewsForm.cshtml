@@ -8,7 +8,7 @@
     <div>
         <span class="cms-eyebrow">Three-language content</span>
         <h1>@(editing ? "Update News Card" : "Create a New News Card")</h1>
-        <p>Every language section is required. Title, Text Note, and Footer accept letters, numbers, and special characters up to 100,000 characters each. Add one shared gallery of up to 100 valid WebP photos, no larger than 5 MB each.</p>
+        <p>Every language section is required. Add one shared WebP gallery and, when needed, upload multiple PDF documents for the News Card.</p>
     </div>
     <a class="cms-button cms-button-secondary" asp-action="News">Update existing card</a>
 </header>
@@ -17,7 +17,7 @@
     <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
     <label class="publish-toggle">
         <input asp-for="IsPublished" />
-        <span><strong>Published</strong><small>Published cards appear automatically on the home page.</small></span>
+        <span><strong>Published</strong><small>Published cards appear automatically on the Trending page.</small></span>
     </label>
 
     <section class="shared-photo-panel">
@@ -58,7 +58,7 @@
                     <input type="hidden" name="ExistingPhotoPaths" value="@path" />
                     <article class="existing-photo-item" data-existing-photo data-photo-path="@path" draggable="true">
                         <span class="photo-order-number" data-photo-position aria-label="Image position"></span>
-                        <img src="@path" alt="Current shared News Card photo" />
+                        <img src="@Url.ApplicationContent(path)" alt="Current shared News Card photo" />
                         <div class="photo-preview-actions">
                             <span>Saved photo</span>
                             @if (Model.RemovePhotoPaths.Contains(path))
@@ -82,6 +82,70 @@
             }
         </div>
         <small class="photo-save-note">The numbered order shown here is saved with the News Card and used by the public gallery.</small>
+    </section>
+
+    <section class="shared-photo-panel news-attachment-panel">
+        <header>
+            <div>
+                <span class="cms-eyebrow">Shared across all languages</span>
+                <h2>News Card PDFs</h2>
+                <p>Select PDFs in one or more batches, then add them to this News Card before saving.</p>
+            </div>
+            <span class="shared-photo-limit">Up to 100 files / 250 MB</span>
+        </header>
+        <div class="form-field pdf-picker-field">
+            <label for="news-attachment-picker">Select PDF files for this News Card</label>
+            <div class="pdf-picker-row">
+                <input id="news-attachment-picker" name="Attachments" type="file"
+                       accept=".pdf,application/pdf" multiple data-attachment-picker data-attachment-input />
+                <button class="pdf-upload-button" type="button" data-attachment-add disabled>
+                    <span aria-hidden="true">↑</span>
+                    Upload PDFs
+                </button>
+            </div>
+            <small>You can choose several PDFs together or add more in another selection. Each PDF can be up to 25 MB; the card limit is 100 PDFs / 250 MB.</small>
+        </div>
+        <span asp-validation-for="Attachments"></span>
+        <p class="photo-client-error" data-attachment-error role="alert" hidden></p>
+        <div class="attachment-selection-summary" data-attachment-selection aria-live="polite">
+            No new PDFs added to this card.
+        </div>
+        <ul class="selected-pdf-list" data-selected-pdf-list hidden></ul>
+        @if (Model.ExistingAttachments.Count > 0)
+        {
+            <div class="existing-attachment-list">
+                <h3>Uploaded PDFs</h3>
+                @foreach (var attachment in Model.ExistingAttachments)
+                {
+                    var isRemoved = Model.RemoveAttachmentIds.Contains(attachment.Id);
+                    <article class="existing-attachment-item @(isRemoved ? "is-removed" : "")"
+                             data-existing-attachment data-attachment-size="@attachment.FileSize">
+                        @if (isRemoved)
+                        {
+                            <input type="checkbox" name="RemoveAttachmentIds" value="@attachment.Id"
+                                   data-remove-attachment-checkbox hidden checked />
+                        }
+                        else
+                        {
+                            <input type="checkbox" name="RemoveAttachmentIds" value="@attachment.Id"
+                                   data-remove-attachment-checkbox hidden />
+                        }
+                        <span class="pdf-file-icon" aria-hidden="true">PDF</span>
+                        <span class="pdf-file-details">
+                            <strong>@attachment.RelativePath</strong>
+                            <small>@((attachment.FileSize / 1024d / 1024d).ToString("0.##")) MB · Saved on this News Card</small>
+                        </span>
+                        <span class="pdf-file-actions">
+                            <a class="cms-button cms-button-secondary cms-button-small"
+                               href="@Url.ApplicationContent(attachment.StoredPath)" target="_blank" rel="noopener">View PDF</a>
+                            <button class="cms-button cms-button-danger cms-button-small" type="button"
+                                    data-remove-existing-attachment>Delete PDF</button>
+                        </span>
+                    </article>
+                }
+            </div>
+        }
+        <small class="photo-save-note">PDFs shown as ready or marked for deletion are applied to this News Card when you save the card.</small>
     </section>
 
     <div class="language-grid">

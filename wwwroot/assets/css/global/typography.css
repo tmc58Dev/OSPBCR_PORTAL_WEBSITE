@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Noto+Sans+Oriya:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap');
+@import url('../../../lib/fonts/fonts.css');
 
 :root {
     --font-family-base: 'Manrope', 'Noto Sans Devanagari', 'Noto Sans Oriya', sans-serif;

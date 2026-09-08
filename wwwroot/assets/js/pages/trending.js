@@ -21,7 +21,11 @@
             previousPhoto: "Previous photo",
             nextPhoto: "Next photo",
             pauseSlideshow: "Pause",
-            playSlideshow: "Play"
+            playSlideshow: "Play",
+            download: "Download",
+            downloadKicker: "Download News Card",
+            chooseLanguage: "Choose a language",
+            downloadHelp: "The ZIP includes the styled story, every photo, and its attachment folders."
         },
         hi: {
             loading: "प्रकाशित समाचार कार्ड लोड हो रहे हैं…",
@@ -31,7 +35,11 @@
             previousPhoto: "पिछला चित्र",
             nextPhoto: "अगला चित्र",
             pauseSlideshow: "रोकें",
-            playSlideshow: "चलाएँ"
+            playSlideshow: "चलाएँ",
+            download: "डाउनलोड",
+            downloadKicker: "समाचार कार्ड डाउनलोड करें",
+            chooseLanguage: "भाषा चुनें",
+            downloadHelp: "ZIP में स्टाइल किया गया समाचार, सभी चित्र और संलग्न फ़ोल्डर शामिल हैं।"
         },
         or: {
             loading: "ପ୍ରକାଶିତ ସମ୍ବାଦ କାର୍ଡଗୁଡ଼ିକ ଲୋଡ୍ ହେଉଛି…",
@@ -41,7 +49,11 @@
             previousPhoto: "ପୂର୍ବ ଫଟୋ",
             nextPhoto: "ପରବର୍ତ୍ତୀ ଫଟୋ",
             pauseSlideshow: "ବିରତ କରନ୍ତୁ",
-            playSlideshow: "ଚଲାନ୍ତୁ"
+            playSlideshow: "ଚଲାନ୍ତୁ",
+            download: "ଡାଉନଲୋଡ୍",
+            downloadKicker: "ସମ୍ବାଦ କାର୍ଡ ଡାଉନଲୋଡ୍ କରନ୍ତୁ",
+            chooseLanguage: "ଭାଷା ବାଛନ୍ତୁ",
+            downloadHelp: "ZIP ରେ ଷ୍ଟାଇଲ୍ ହୋଇଥିବା ସମ୍ବାଦ, ସମସ୍ତ ଫଟୋ ଏବଂ ସଂଲଗ୍ନ ଫୋଲ୍ଡର ରହିଛି।"
         }
     };
 
@@ -50,6 +62,11 @@
         const status = document.querySelector("[data-trending-status]");
         const filters = Array.from(document.querySelectorAll("[data-trending-language]"));
         const dateOrderFilters = Array.from(document.querySelectorAll("[data-trending-date-order]"));
+        const downloadDialog = document.querySelector("[data-news-download-dialog]");
+        const downloadTitle = downloadDialog?.querySelector("[data-news-download-title]");
+        const downloadKicker = downloadDialog?.querySelector("[data-download-kicker]");
+        const downloadHeading = downloadDialog?.querySelector("[data-download-heading]");
+        const downloadHelp = downloadDialog?.querySelector("[data-download-help]");
 
         if (!list || !status || !filters.length || !dateOrderFilters.length) {
             return;
@@ -63,6 +80,7 @@
         let loadedItems = [];
         let requestVersion = 0;
         let ignoreInitialWebsiteLanguage = Boolean(requestedLanguage);
+        let selectedDownloadId = 0;
 
         function currentWebsiteLanguage() {
             const language = window.i18n?.getLanguage?.() || localStorage.getItem("ospbcr-language") || "en";
@@ -242,9 +260,35 @@
             viewMore.textContent = viewMoreLabels[item.language] || viewMoreLabels.en;
             viewMore.setAttribute("aria-label", `${viewMore.textContent}: ${item.title}`);
 
-            content.append(title, date, viewMore);
+            const download = document.createElement("button");
+            download.type = "button";
+            download.className = "trending-download";
+            download.dataset.newsDownload = "";
+            download.dataset.newsId = String(item.id);
+            download.dataset.newsTitle = item.title;
+            download.dataset.newsLanguage = item.language;
+            download.textContent = (messages[item.language] || messages.en).download;
+            download.setAttribute("aria-label", download.textContent + ": " + item.title);
+
+            const actions = document.createElement("div");
+            actions.className = "trending-card-actions";
+            actions.append(viewMore, download);
+
+            content.append(title, date, actions);
             article.append(createMedia(item), content);
             return article;
+        }
+
+        function openDownloadDialog(button) {
+            if (!downloadDialog) return;
+            selectedDownloadId = Number.parseInt(button.dataset.newsId || "", 10);
+            const language = normalizeLanguage(button.dataset.newsLanguage) || activeLanguage;
+            const labels = messages[language] || messages.en;
+            if (downloadTitle) downloadTitle.textContent = button.dataset.newsTitle || "";
+            if (downloadKicker) downloadKicker.textContent = labels.downloadKicker;
+            if (downloadHeading) downloadHeading.textContent = labels.chooseLanguage;
+            if (downloadHelp) downloadHelp.textContent = labels.downloadHelp;
+            downloadDialog.showModal();
         }
 
         function newsDateValue(value) {
@@ -276,7 +320,7 @@
             setStatus(currentMessages().loading);
 
             try {
-                const response = await fetch(`/api/content/news?language=${encodeURIComponent(activeLanguage)}`, {
+                const response = await fetch(`api/content/news?language=${encodeURIComponent(activeLanguage)}`, {
                     cache: "no-store",
                     headers: { "Accept": "application/json" }
                 });
@@ -321,12 +365,30 @@
         });
 
         list.addEventListener("click", (event) => {
+            const download = event.target.closest?.("[data-news-download]");
+            if (download) {
+                openDownloadDialog(download);
+                return;
+            }
+
             const previousImage = event.target.closest?.("[data-trending-image-previous]");
             const nextImage = event.target.closest?.("[data-trending-image-next]");
             if (previousImage || nextImage) {
                 const card = (previousImage || nextImage).closest(".trending-card");
                 moveCardImage(card, previousImage ? -1 : 1);
             }
+        });
+
+        downloadDialog?.addEventListener("click", (event) => {
+            if (event.target === downloadDialog) downloadDialog.close();
+            const languageButton = event.target.closest?.("[data-download-language]");
+            if (!languageButton || !selectedDownloadId) return;
+            const language = normalizeLanguage(languageButton.dataset.downloadLanguage) || "en";
+            downloadDialog.close();
+            window.location.assign(
+                "api/content/news/" + encodeURIComponent(selectedDownloadId) +
+                "/download?language=" + encodeURIComponent(language)
+            );
         });
 
         document.addEventListener("languagechange", (event) => {

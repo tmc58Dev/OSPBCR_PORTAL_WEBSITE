@@ -102,7 +102,7 @@ function getCancerAgeEndpoint(kind, district, sex) {
         parameters.set("sex", sex);
     }
 
-    return `/api/registry/cancer-age-${kind}?${parameters.toString()}`;
+    return `api/registry/cancer-age-${kind}?${parameters.toString()}`;
 }
 
 function getCancerAgeDefinitions(kind) {

@@ -12,6 +12,7 @@ namespace OSPBCR_PORTAL.Controllers;
 public sealed class ContentController(
     ICmsRepository repository,
     IDistrictTrainingStore trainingStore,
+    INewsDownloadService newsDownloads,
     IWebHostEnvironment environment,
     ILogger<ContentController> logger) : ControllerBase
 {
@@ -32,12 +33,60 @@ public sealed class ContentController(
         language = language is "all" or "en" or "hi" or "or" ? language : "en";
         try
         {
-            return Ok(await repository.GetPublishedNewsAsync(language, cancellationToken));
+            var cards = await repository.GetPublishedNewsAsync(language, cancellationToken);
+            return Ok(cards.Select(card => card with
+            {
+                ImagePath = Url.ApplicationContent(card.ImagePath),
+                ImagePaths = card.ImagePaths.Select(path => Url.ApplicationContent(path)).ToArray()
+            }));
         }
         catch (Exception exception)
         {
             logger.LogError(exception, "Published News Cards could not be loaded.");
             return StatusCode(StatusCodes.Status503ServiceUnavailable, new { message = "News Cards are temporarily unavailable." });
+        }
+    }
+
+    [HttpGet("news/{id:int}/download")]
+    [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
+    public async Task<IActionResult> DownloadNews(
+        int id,
+        [FromQuery] string language = "en",
+        CancellationToken cancellationToken = default)
+    {
+        language = language.ToLowerInvariant();
+        language = language is "en" or "hi" or "or" ? language : "en";
+        try
+        {
+            var card = await repository.GetNewsCardAsync(id, cancellationToken);
+            if (card is null || card.Status != "Published" || !card.Translations.ContainsKey(language))
+            {
+                return NotFound();
+            }
+
+            var package = await newsDownloads.CreateAsync(card, language, cancellationToken);
+            Response.OnCompleted(() =>
+            {
+                try
+                {
+                    System.IO.File.Delete(package.FilePath);
+                }
+                catch (IOException)
+                {
+                }
+                catch (UnauthorizedAccessException)
+                {
+                }
+                return Task.CompletedTask;
+            });
+            return PhysicalFile(package.FilePath, "application/zip", package.DownloadName);
+        }
+        catch (Exception exception)
+        {
+            logger.LogError(exception, "News Card {NewsCardId} could not be prepared for download.", id);
+            return StatusCode(
+                StatusCodes.Status503ServiceUnavailable,
+                new { message = "This News Card download is temporarily unavailable." });
         }
     }
 
@@ -59,7 +108,7 @@ public sealed class ContentController(
                     HttpOnly = true,
                     IsEssential = true,
                     MaxAge = TimeSpan.FromDays(3650),
-                    Path = "/",
+                    Path = Request.PathBase.HasValue ? Request.PathBase.Value : "/",
                     SameSite = SameSiteMode.Lax,
                     Secure = Request.IsHttps
                 });
@@ -158,7 +207,7 @@ public sealed class ContentController(
         }
     }
 
-    private static PublicPdfResource Localize(
+    private PublicPdfResource Localize(
         object id,
         string district,
         string title,
@@ -182,7 +231,7 @@ public sealed class ContentController(
             district,
             string.IsNullOrWhiteSpace(localized.Item1) ? title : localized.Item1,
             string.IsNullOrWhiteSpace(localized.Item2) ? description : localized.Item2,
-            pdfPath,
-            previewPath);
+            Url.ApplicationContent(pdfPath),
+            Url.ApplicationContent(previewPath));
     }
 }

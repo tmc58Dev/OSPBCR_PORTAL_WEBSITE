@@ -1974,6 +1974,12 @@ main > section.section.workflow-delivery-section {
     margin-bottom: 34px;
 }
 
+.strategy-subsection-heading.registry-objectives-heading > p,
+.strategy-subsection-heading.registry-objectives-heading > p strong {
+    color: #000;
+    font-weight: 700;
+}
+
 .strategy-subsection-heading {
     display: grid;
     grid-template-columns: minmax(0, 0.8fr) minmax(320px, 1.2fr);

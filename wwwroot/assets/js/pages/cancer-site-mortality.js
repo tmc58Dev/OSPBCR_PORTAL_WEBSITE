@@ -86,7 +86,7 @@ function getMortalityEndpoint(sex, district) {
         parameters.set("district", district);
     }
 
-    return `/api/registry/cancer-site-mortality?${parameters.toString()}`;
+    return `api/registry/cancer-site-mortality?${parameters.toString()}`;
 }
 
 function getMortalitySexLabel(sex) {

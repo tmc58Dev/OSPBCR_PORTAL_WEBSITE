@@ -19,12 +19,13 @@ builder.Services.AddScoped<IRegistryDataService, RegistryDataService>();
 builder.Services.AddScoped<ICmsRepository, CmsRepository>();
 builder.Services.AddSingleton<IPasswordHasher<CmsUser>, PasswordHasher<CmsUser>>();
 builder.Services.AddSingleton<IManagedFileStorage, ManagedFileStorage>();
+builder.Services.AddSingleton<INewsDownloadService, NewsDownloadService>();
 builder.Services.AddSingleton<IDistrictTrainingStore, DistrictTrainingStore>();
 builder.Services.AddHostedService<CmsDatabaseInitializer>();
 
 builder.Services.Configure<FormOptions>(options =>
 {
-    options.MultipartBodyLengthLimit = 525L * 1024 * 1024;
+    options.MultipartBodyLengthLimit = 800L * 1024 * 1024;
 });
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -55,6 +56,23 @@ builder.Services.AddRateLimiter(options =>
 builder.Services.AddRazorPages();
 
 var app = builder.Build();
+
+// IIS supplies PathBase for a sub-application. The configured value also supports
+// reverse proxies that preserve or strip the public /ospbcr prefix.
+var configuredPathBase = builder.Configuration["PathBase"]?.TrimEnd('/');
+if (!string.IsNullOrEmpty(configuredPathBase))
+{
+    app.UsePathBase(configuredPathBase);
+    app.Use(async (context, next) =>
+    {
+        if (!context.Request.PathBase.HasValue)
+        {
+            context.Request.PathBase = configuredPathBase;
+        }
+        await next(context);
+    });
+}
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -151,13 +169,18 @@ app.UseRateLimiter();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapGet("/", () => Results.Redirect("/home.html"))
+// Use the canonical static page so relative assets resolve correctly even when
+// visitors enter /ospbcr without a trailing slash or use /Home/Home.
+app.MapGet("/", (HttpContext context) =>
+    Results.LocalRedirect($"{context.Request.PathBase}/home.html{context.Request.QueryString}"))
     .AllowAnonymous();
 
-app.MapGet("/trending", () => Results.Redirect("/trending.html?dateOrder=desc&view=20260726-auto-image-slider"))
+app.MapGet("/trending", (HttpContext context) =>
+    Results.LocalRedirect($"{context.Request.PathBase}/trending.html?dateOrder=desc&view=20260726-auto-image-slider"))
     .AllowAnonymous();
 
-app.MapGet("/population-projection", () => Results.Redirect("/population-projection.html"))
+app.MapGet("/population-projection", (HttpContext context) =>
+    Results.LocalRedirect($"{context.Request.PathBase}/population-projection.html"))
     .AllowAnonymous();
 
 app.MapStaticAssets();
@@ -167,6 +190,5 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
-
 
 app.Run();

@@ -86,7 +86,7 @@ function getIncidenceEndpoint(sex, district) {
         parameters.set("district", district);
     }
 
-    return `/api/registry/cancer-site-incidence?${parameters.toString()}`;
+    return `api/registry/cancer-site-incidence?${parameters.toString()}`;
 }
 
 function getSexLabel(sex) {

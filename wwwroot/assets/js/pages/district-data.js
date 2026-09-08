@@ -182,7 +182,7 @@ let districtData = {
 
 window.loadDistrictDataFromApi = async function loadDistrictDataFromApi() {
     try {
-        const response = await fetch("/api/registry/district-statistics", {
+        const response = await fetch("api/registry/district-statistics", {
             headers: {
                 "Accept": "application/json"
             }

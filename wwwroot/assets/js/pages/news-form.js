@@ -9,12 +9,22 @@
         const count = form?.querySelector("[data-photo-count]");
         const error = form?.querySelector("[data-photo-error]");
         const undo = form?.querySelector("[data-photo-undo]");
+        const attachmentInput = form?.querySelector("[data-attachment-input]");
+        const attachmentPicker = form?.querySelector("[data-attachment-picker]");
+        const attachmentAdd = form?.querySelector("[data-attachment-add]");
+        const attachmentSummary = form?.querySelector("[data-attachment-selection]");
+        const attachmentError = form?.querySelector("[data-attachment-error]");
+        const selectedPdfList = form?.querySelector("[data-selected-pdf-list]");
 
         if (!form || !input || !gallery || !orderInputs || !count || !error || !undo) return;
 
         const maxPhotos = Number.parseInt(gallery.dataset.maxPhotos || "100", 10);
         const maxPhotoBytes = 5 * 1024 * 1024;
+        const maxAttachmentFiles = 100;
+        const maxAttachmentBytes = 25 * 1024 * 1024;
+        const maxAllAttachmentBytes = 250 * 1024 * 1024;
         const newEntries = new Map();
+        const stagedAttachmentFiles = new Map();
         const previewUrls = new Set();
         const removalHistory = [];
         let draggedCard = null;
@@ -258,6 +268,196 @@
             showError("");
         });
 
+        function selectedAttachmentFiles() {
+            return Array.from(stagedAttachmentFiles.values());
+        }
+
+        function formatMegabytes(bytes) {
+            return (bytes / 1024 / 1024).toFixed(2);
+        }
+
+        function retainedAttachments() {
+            return Array.from(form.querySelectorAll("[data-existing-attachment]"))
+                .filter((item) => !item.querySelector("[data-remove-attachment-checkbox]")?.checked);
+        }
+
+        function syncAttachmentInput() {
+            if (!attachmentInput) return;
+            const transfer = new DataTransfer();
+            selectedAttachmentFiles().forEach((file) => transfer.items.add(file));
+            attachmentInput.files = transfer.files;
+        }
+
+        function createSelectedPdfItem(file) {
+            const item = document.createElement("li");
+            item.className = "selected-pdf-item";
+
+            const icon = document.createElement("span");
+            icon.className = "pdf-file-icon";
+            icon.setAttribute("aria-hidden", "true");
+            icon.textContent = "PDF";
+
+            const details = document.createElement("span");
+            details.className = "pdf-file-details";
+            const name = document.createElement("strong");
+            name.textContent = file.name;
+            const status = document.createElement("small");
+            status.textContent = `${formatMegabytes(file.size)} MB · Ready to upload to this News Card`;
+            details.append(name, status);
+
+            const remove = document.createElement("button");
+            remove.type = "button";
+            remove.className = "cms-button cms-button-danger cms-button-small";
+            remove.textContent = "Delete PDF";
+            remove.setAttribute("aria-label", `Delete ${file.name} from the upload list`);
+            remove.addEventListener("click", () => {
+                stagedAttachmentFiles.delete(fileKey(file));
+                syncAttachments();
+                showAttachmentError("");
+            });
+
+            item.append(icon, details, remove);
+            return item;
+        }
+
+        function showAttachmentError(message) {
+            if (!attachmentError) return;
+            attachmentError.textContent = message;
+            attachmentError.hidden = !message;
+        }
+
+        function syncAttachments() {
+            const files = selectedAttachmentFiles();
+            const retained = retainedAttachments();
+            const totalBytes = retained.reduce(
+                (sum, item) => sum + Number.parseInt(item.dataset.attachmentSize || "0", 10),
+                files.reduce((sum, file) => sum + file.size, 0)
+            );
+
+            syncAttachmentInput();
+            if (selectedPdfList) {
+                selectedPdfList.replaceChildren(...files.map(createSelectedPdfItem));
+                selectedPdfList.hidden = files.length === 0;
+            }
+            if (attachmentSummary) {
+                attachmentSummary.textContent = files.length
+                    ? `${files.length} new PDF(s) ready; ${retained.length + files.length} total PDF(s), ${formatMegabytes(totalBytes)} MB.`
+                    : `No new PDFs added; ${retained.length} saved PDF(s) kept.`;
+            }
+        }
+
+        function validateAttachments() {
+            if (!attachmentSummary || !attachmentError) return true;
+            const files = selectedAttachmentFiles();
+            const retained = retainedAttachments();
+            const totalCount = retained.length + files.length;
+            const totalBytes = retained.reduce(
+                (sum, item) => sum + Number.parseInt(item.dataset.attachmentSize || "0", 10),
+                files.reduce((sum, file) => sum + file.size, 0)
+            );
+            const problems = [];
+
+            if (totalCount > maxAttachmentFiles) {
+                problems.push("Keep no more than 100 PDF files.");
+            }
+            if (totalBytes > maxAllAttachmentBytes) {
+                problems.push("All PDFs together must be no larger than 250 MB.");
+            }
+            if (attachmentPicker?.files?.length && !attachmentAdd?.disabled) {
+                problems.push("Click Upload PDFs to add the selected files before saving.");
+            }
+            files.forEach((file) => {
+                if (file.size > maxAttachmentBytes) {
+                    problems.push(file.name + " is larger than 25 MB.");
+                }
+                if (!file.name.toLowerCase().endsWith(".pdf") ||
+                    (file.type && file.type.toLowerCase() !== "application/pdf")) {
+                    problems.push(file.name + " is not a PDF file.");
+                }
+            });
+
+            const megabytes = totalBytes / 1024 / 1024;
+            attachmentSummary.textContent = files.length
+                ? files.length + " new PDF(s) ready; " + totalCount + " total PDF(s), " + megabytes.toFixed(2) + " MB."
+                : "No new PDFs added; " + retained.length + " saved PDF(s) kept.";
+            showAttachmentError(problems.join(" "));
+            return problems.length === 0;
+        }
+
+        if (attachmentPicker && attachmentAdd) {
+            attachmentPicker.addEventListener("change", () => {
+                attachmentAdd.disabled = !attachmentPicker.files?.length;
+                showAttachmentError("");
+            });
+
+            attachmentAdd.addEventListener("click", () => {
+                const incomingFiles = Array.from(attachmentPicker.files || []);
+                const knownFiles = new Set(stagedAttachmentFiles.keys());
+                const retained = retainedAttachments();
+                let totalCount = retained.length + stagedAttachmentFiles.size;
+                let totalBytes = retained.reduce(
+                    (sum, item) => sum + Number.parseInt(item.dataset.attachmentSize || "0", 10),
+                    selectedAttachmentFiles().reduce((sum, file) => sum + file.size, 0)
+                );
+                const rejected = [];
+
+                incomingFiles.forEach((file) => {
+                    const key = fileKey(file);
+                    if (knownFiles.has(key)) {
+                        rejected.push(`${file.name} is already in the upload list.`);
+                        return;
+                    }
+                    if (!file.name.toLowerCase().endsWith(".pdf") ||
+                        (file.type && file.type.toLowerCase() !== "application/pdf")) {
+                        rejected.push(`${file.name} is not a PDF file.`);
+                        return;
+                    }
+                    if (file.size > maxAttachmentBytes) {
+                        rejected.push(`${file.name} is larger than 25 MB.`);
+                        return;
+                    }
+                    if (totalCount >= maxAttachmentFiles) {
+                        rejected.push("Only 100 PDFs can be kept on one News Card.");
+                        return;
+                    }
+                    if (totalBytes + file.size > maxAllAttachmentBytes) {
+                        rejected.push("All PDFs together must be no larger than 250 MB.");
+                        return;
+                    }
+
+                    stagedAttachmentFiles.set(key, file);
+                    knownFiles.add(key);
+                    totalCount += 1;
+                    totalBytes += file.size;
+                });
+
+                // Keep the merged FileList on the visible, named form field. This makes
+                // every accepted batch part of the same eventual News Card submission.
+                syncAttachments();
+                attachmentAdd.disabled = true;
+                showAttachmentError(rejected.join(" "));
+            });
+        }
+
+        form.querySelectorAll("[data-existing-attachment]").forEach((item) => {
+            const checkbox = item.querySelector("[data-remove-attachment-checkbox]");
+            const button = item.querySelector("[data-remove-existing-attachment]");
+            if (!checkbox || !button) return;
+
+            const updateRemovalState = () => {
+                item.classList.toggle("is-removed", checkbox.checked);
+                button.textContent = checkbox.checked ? "Undo delete" : "Delete PDF";
+                button.setAttribute("aria-pressed", checkbox.checked ? "true" : "false");
+                syncAttachments();
+                validateAttachments();
+            };
+            button.addEventListener("click", () => {
+                checkbox.checked = !checkbox.checked;
+                updateRemovalState();
+            });
+            updateRemovalState();
+        });
+
         form.addEventListener("submit", (event) => {
             syncPhotoState();
             const total = activeCards().length;
@@ -265,9 +465,14 @@
                 event.preventDefault();
                 input.reportValidity();
             }
+            if (!validateAttachments()) {
+                event.preventDefault();
+            }
         });
 
         window.addEventListener("beforeunload", clearPreviewUrls);
         syncPhotoState();
+        syncAttachments();
+        validateAttachments();
     });
 })();

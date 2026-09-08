@@ -18,7 +18,9 @@ public sealed class AdminController(
     IDistrictTrainingStore trainingStore) : Controller
 {
     private const int MaxNewsPhotos = 100;
-    private const long MaxNewsRequestBytes = 525L * 1024 * 1024;
+    private const int MaxNewsAttachments = 100;
+    private const long MaxNewsAttachmentBytes = 250L * 1024 * 1024;
+    private const long MaxNewsRequestBytes = 800L * 1024 * 1024;
 
     public static readonly IReadOnlyList<string> Districts =
     [
@@ -186,7 +188,9 @@ public sealed class AdminController(
     public async Task<IActionResult> CreateNews(NewsCardFormViewModel model, CancellationToken cancellationToken)
     {
         var uploadedPhotos = model.Photos ?? [];
+        var uploadedAttachments = model.Attachments ?? [];
         await ValidateNewsPhotosAsync(uploadedPhotos, 0, cancellationToken);
+        await ValidateNewsAttachmentsAsync(uploadedAttachments, 0, 0, cancellationToken);
         var translations = ParseTranslations(model);
         if (!ModelState.IsValid)
         {
@@ -194,12 +198,24 @@ public sealed class AdminController(
         }
 
         var saved = new List<string>();
+        var savedAttachments = new List<NewsCardAttachment>();
         try
         {
             foreach (var photo in uploadedPhotos.Where(photo => photo.Length > 0))
             {
                 var path = await files.SaveWebpAsync(photo, "news", cancellationToken);
                 saved.Add(path);
+            }
+            foreach (var attachment in uploadedAttachments.Where(attachment => attachment.Length > 0))
+            {
+                var path = await files.SavePdfAsync(attachment, "news-attachments", cancellationToken);
+                savedAttachments.Add(new NewsCardAttachment
+                {
+                    StoredPath = path,
+                    RelativePath = SafeAttachmentRelativePath(attachment.FileName),
+                    ContentType = "application/pdf",
+                    FileSize = attachment.Length
+                });
             }
             var orderedPaths = OrderNewsPhotos([], saved, model.PhotoOrder);
             var primaryImagePath = orderedPaths[0];
@@ -214,10 +230,12 @@ public sealed class AdminController(
                 CreatedById = userId,
                 UpdatedById = userId,
                 ImagePaths = orderedPaths,
+                Attachments = savedAttachments,
                 Translations = translations
             };
             await repository.CreateNewsCardAsync(card, cancellationToken);
-            TempData["Success"] = $"The multilingual News Card was created with {saved.Count} shared photo(s).";
+            TempData["Success"] =
+                $"The multilingual News Card was created with {saved.Count} shared photo(s) and {savedAttachments.Count} PDF(s).";
             return RedirectToAction(nameof(News));
         }
         catch
@@ -225,6 +243,10 @@ public sealed class AdminController(
             foreach (var path in saved)
             {
                 await files.DeleteIfManagedAsync(path, cancellationToken);
+            }
+            foreach (var attachment in savedAttachments)
+            {
+                await files.DeleteIfManagedAsync(attachment.StoredPath, cancellationToken);
             }
             throw;
         }
@@ -250,6 +272,7 @@ public sealed class AdminController(
         }
 
         var existingPaths = ExistingNewsPaths(existing);
+        var existingAttachments = existing.Attachments;
         var requestedRemovals = model.RemovePhotoPaths
             .Where(path => existingPaths.Contains(path, StringComparer.OrdinalIgnoreCase))
             .Distinct(StringComparer.OrdinalIgnoreCase)
@@ -258,9 +281,23 @@ public sealed class AdminController(
             .Where(path => !requestedRemovals.Contains(path, StringComparer.OrdinalIgnoreCase))
             .ToList();
         model.ExistingPhotoPaths = OrderNewsPhotos(existingPaths, [], model.PhotoOrder);
+        var requestedAttachmentRemovals = model.RemoveAttachmentIds
+            .Where(id => existingAttachments.Any(attachment => attachment.Id == id))
+            .Distinct()
+            .ToHashSet();
+        var retainedAttachments = existingAttachments
+            .Where(attachment => !requestedAttachmentRemovals.Contains(attachment.Id))
+            .ToList();
+        model.ExistingAttachments = existingAttachments;
 
         var uploadedPhotos = model.Photos ?? [];
+        var uploadedAttachments = model.Attachments ?? [];
         await ValidateNewsPhotosAsync(uploadedPhotos, retainedPaths.Count, cancellationToken);
+        await ValidateNewsAttachmentsAsync(
+            uploadedAttachments,
+            retainedAttachments.Count,
+            retainedAttachments.Sum(attachment => attachment.FileSize),
+            cancellationToken);
         var translations = ParseTranslations(model);
         if (!ModelState.IsValid)
         {
@@ -268,12 +305,24 @@ public sealed class AdminController(
         }
 
         var newPaths = new List<string>();
+        var newAttachments = new List<NewsCardAttachment>();
         try
         {
             foreach (var photo in uploadedPhotos.Where(photo => photo.Length > 0))
             {
                 var path = await files.SaveWebpAsync(photo, "news", cancellationToken);
                 newPaths.Add(path);
+            }
+            foreach (var attachment in uploadedAttachments.Where(attachment => attachment.Length > 0))
+            {
+                var path = await files.SavePdfAsync(attachment, "news-attachments", cancellationToken);
+                newAttachments.Add(new NewsCardAttachment
+                {
+                    StoredPath = path,
+                    RelativePath = SafeAttachmentRelativePath(attachment.FileName),
+                    ContentType = "application/pdf",
+                    FileSize = attachment.Length
+                });
             }
             var finalPaths = OrderNewsPhotos(retainedPaths, newPaths, model.PhotoOrder);
             var primaryImagePath = finalPaths[0];
@@ -287,6 +336,7 @@ public sealed class AdminController(
                 Status = model.IsPublished ? "Published" : "Draft",
                 UpdatedById = GetCurrentUserId(),
                 ImagePaths = finalPaths,
+                Attachments = [.. retainedAttachments, .. newAttachments],
                 Translations = translations
             };
             if (!await repository.UpdateNewsCardAsync(card, cancellationToken))
@@ -295,14 +345,22 @@ public sealed class AdminController(
                 {
                     await files.DeleteIfManagedAsync(path, cancellationToken);
                 }
+                foreach (var attachment in newAttachments)
+                {
+                    await files.DeleteIfManagedAsync(attachment.StoredPath, cancellationToken);
+                }
                 return NotFound();
             }
             foreach (var path in requestedRemovals)
             {
                 await files.DeleteIfManagedAsync(path, cancellationToken);
             }
+            foreach (var attachment in existingAttachments.Where(item => requestedAttachmentRemovals.Contains(item.Id)))
+            {
+                await files.DeleteIfManagedAsync(attachment.StoredPath, cancellationToken);
+            }
             TempData["Success"] =
-                $"The News Card was updated with {finalPaths.Count} shared photo(s), and the public pages now reflect the changes.";
+                $"The News Card was updated with {finalPaths.Count} shared photo(s) and {card.Attachments.Count} PDF(s).";
             return RedirectToAction(nameof(News));
         }
         catch
@@ -310,6 +368,10 @@ public sealed class AdminController(
             foreach (var path in newPaths)
             {
                 await files.DeleteIfManagedAsync(path, cancellationToken);
+            }
+            foreach (var attachment in newAttachments)
+            {
+                await files.DeleteIfManagedAsync(attachment.StoredPath, cancellationToken);
             }
             throw;
         }
@@ -332,7 +394,11 @@ public sealed class AdminController(
         {
             await files.DeleteIfManagedAsync(imagePath, cancellationToken);
         }
-        TempData["Success"] = "The News Card and its managed images were deleted.";
+        foreach (var attachment in card.Attachments)
+        {
+            await files.DeleteIfManagedAsync(attachment.StoredPath, cancellationToken);
+        }
+        TempData["Success"] = "The News Card and its managed files were deleted.";
         return RedirectToAction(nameof(News));
     }
 
@@ -822,6 +888,37 @@ public sealed class AdminController(
         }
     }
 
+    private async Task ValidateNewsAttachmentsAsync(
+        IReadOnlyCollection<IFormFile> attachments,
+        int retainedAttachmentCount,
+        long retainedAttachmentBytes,
+        CancellationToken cancellationToken)
+    {
+        var uploaded = attachments.Where(attachment => attachment.Length > 0).ToList();
+        if (retainedAttachmentCount + uploaded.Count > MaxNewsAttachments)
+        {
+            ModelState.AddModelError(
+                nameof(NewsCardFormViewModel.Attachments),
+                $"A News Card can contain up to {MaxNewsAttachments} PDF files.");
+        }
+        if (retainedAttachmentBytes + uploaded.Sum(attachment => attachment.Length) > MaxNewsAttachmentBytes)
+        {
+            ModelState.AddModelError(
+                nameof(NewsCardFormViewModel.Attachments),
+                $"All News Card PDFs together must be no larger than {MaxNewsAttachmentBytes / 1024 / 1024} MB.");
+        }
+        foreach (var attachment in uploaded)
+        {
+            var error = await files.ValidatePdfAsync(attachment, false, cancellationToken);
+            if (error is not null)
+            {
+                ModelState.AddModelError(
+                    nameof(NewsCardFormViewModel.Attachments),
+                    $"{Path.GetFileName(attachment.FileName)}: {error}");
+            }
+        }
+    }
+
     private Dictionary<string, NewsCardTranslation> ParseTranslations(NewsCardFormViewModel model)
     {
         var result = new Dictionary<string, NewsCardTranslation>(StringComparer.OrdinalIgnoreCase);
@@ -876,10 +973,33 @@ public sealed class AdminController(
             IsPublished = card.Status == "Published",
             ExistingPhotoPaths = ExistingNewsPaths(card),
             PhotoOrder = ExistingNewsPaths(card),
+            ExistingAttachments = card.Attachments,
             English = Map("en"),
             Hindi = Map("hi"),
             Odia = Map("or")
         };
+    }
+
+    private static string SafeAttachmentRelativePath(string value)
+    {
+        var normalized = value.Replace('\\', '/');
+        if (normalized.StartsWith("C:/fakepath/", StringComparison.OrdinalIgnoreCase))
+        {
+            normalized = normalized["C:/fakepath/".Length..];
+        }
+
+        var invalid = Path.GetInvalidFileNameChars().ToHashSet();
+        var segments = normalized
+            .Split('/', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+            .Where(segment => segment is not "." and not "..")
+            .Select(segment => new string(segment
+                .Where(character => !invalid.Contains(character) && !char.IsControl(character))
+                .ToArray())
+                .Trim())
+            .Where(segment => !string.IsNullOrWhiteSpace(segment))
+            .Select(segment => segment.Length > 120 ? segment[..120] : segment)
+            .ToList();
+        return segments.Count > 0 ? string.Join('/', segments) : "attachment";
     }
 
     private static List<string> ExistingNewsPaths(NewsCard card)

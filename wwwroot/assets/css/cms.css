@@ -84,6 +84,26 @@ button, input, select, textarea { font: inherit; }
 .publish-toggle strong, .publish-toggle small { display: block; }
 .publish-toggle small { color: var(--cms-muted); }
 .shared-photo-panel { display: grid; gap: 20px; padding: 24px; border: 1px solid #b9d8d7; border-radius: 18px; background: linear-gradient(135deg, #f3fbfb, #f7fbfe); box-shadow: 0 12px 32px rgba(18,52,77,.06); }
+.news-attachment-panel { border-color: #c9d8e4; background: linear-gradient(135deg, #f7fbfe, #f4fbfa); }
+.pdf-picker-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: stretch; gap: 12px; }
+.pdf-picker-row input[type=file] { min-width: 0; }
+.pdf-upload-button { display: inline-flex; align-items: center; justify-content: center; gap: 9px; min-height: 46px; padding: 10px 18px; color: #fff; border: 0; border-radius: 12px; background: linear-gradient(135deg, var(--cms-primary), var(--cms-accent)); box-shadow: 0 10px 24px rgba(0,91,150,.2); font-size: 15px; font-weight: 800; line-height: 1.2; cursor: pointer; transition: .2s ease; }
+.pdf-upload-button:hover, .pdf-upload-button:focus-visible { color: #fff; transform: translateY(-2px); box-shadow: 0 14px 30px rgba(0,91,150,.28); outline: none; }
+.pdf-upload-button:focus-visible { outline: 3px solid rgba(0,166,166,.28); outline-offset: 3px; }
+.pdf-upload-button:disabled { transform: none; background: #9fb1bd; box-shadow: none; cursor: not-allowed; opacity: .75; }
+.selected-pdf-list { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.selected-pdf-list[hidden] { display: none; }
+.existing-attachment-list { display: grid; gap: 10px; }
+.existing-attachment-list h3 { margin: 0; font-size: 16px; }
+.selected-pdf-item, .existing-attachment-item { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border: 1px solid var(--cms-line); border-radius: 11px; background: #fff; transition: .18s ease; }
+.selected-pdf-item { border-color: #91cbc7; box-shadow: 0 0 0 3px rgba(0,166,166,.06); }
+.existing-attachment-item.is-removed { border-color: #efb4af; background: #fff5f4; opacity: .72; }
+.existing-attachment-item.is-removed .pdf-file-details { text-decoration: line-through; }
+.pdf-file-icon { display: grid; place-items: center; flex: 0 0 42px; height: 42px; color: #fff; border-radius: 11px; background: linear-gradient(135deg, var(--cms-primary), var(--cms-accent)); font-size: 10px; font-weight: 900; letter-spacing: .04em; }
+.pdf-file-details { display: grid; min-width: 0; flex: 1; gap: 2px; overflow-wrap: anywhere; }
+.pdf-file-details strong { color: var(--cms-ink); }
+.pdf-file-details small { color: var(--cms-muted); }
+.pdf-file-actions { display: flex; flex: 0 0 auto; align-items: center; gap: 8px; }
 .shared-photo-panel > header { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; }
 .shared-photo-panel h2, .shared-photo-panel p { margin: 0; }
 .shared-photo-panel h2 { margin-top: 4px; }
@@ -166,6 +186,11 @@ button, input, select, textarea { font: inherit; }
 .cms-news-card-meta time { width: fit-content; padding: 7px 12px; color: var(--cms-primary-dark); border-radius: 999px; background: rgba(0,119,182,.1); font-size: 13px; font-weight: 750; }
 .cms-news-card .content-inline-actions { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); width: 100%; margin-top: auto; padding-top: 4px; }
 .cms-news-card .content-inline-actions form, .cms-news-card .content-inline-actions .cms-button { width: 100%; }
+.cms-attachment-count { margin-left: auto; font-size: 12px; }
+.cms-news-card-pdfs { display: grid; width: 100%; gap: 6px; padding: 11px 13px; border: 1px solid #d5e1e8; border-radius: 11px; background: #f7fafc; font-size: 13px; }
+.cms-news-card-pdfs > strong { color: var(--cms-ink); }
+.cms-news-card-pdfs ul { display: grid; gap: 4px; max-height: 112px; margin: 0; padding-left: 19px; overflow-y: auto; }
+.cms-news-card-pdfs a { color: var(--cms-primary-dark); font-weight: 700; overflow-wrap: anywhere; }
 .cms-alert { margin-bottom: 22px; padding: 14px 18px; border-radius: 11px; font-weight: 650; }
 .cms-alert-success { color: #075f3c; border: 1px solid #a8dcc2; background: #eaf8f0; }
 .cms-alert-error { color: #8f241c; border: 1px solid #efb4af; background: #fff1ef; }
@@ -186,10 +211,15 @@ button, input, select, textarea { font: inherit; }
     .cms-nav a { padding: 8px; font-size: 13px; }
     .cms-page-header, .cms-page-header-actions { display: grid; align-items: start; }
     .shared-photo-panel > header { display: grid; }
+    .pdf-picker-row { grid-template-columns: 1fr; }
+    .pdf-upload-button { width: 100%; }
+    .selected-pdf-item, .existing-attachment-item { align-items: flex-start; flex-wrap: wrap; }
+    .pdf-file-actions { width: 100%; padding-left: 54px; }
     .photo-gallery-toolbar { align-items: flex-start; flex-direction: column; }
     .dashboard-actions, .cms-stats, .language-grid, .cms-content-grid, .login-shell { grid-template-columns: 1fr; }
     .dashboard-action-card { min-height: 190px; grid-template-columns: auto 1fr; }
     .dashboard-arrow { display: none; }
+    .cms-news-card .content-inline-actions { grid-template-columns: 1fr; }
     .login-shell { min-height: auto; }
     .login-intro { display: none; }
     .cms-footer { display: grid; }

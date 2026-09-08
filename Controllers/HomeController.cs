@@ -10,7 +10,12 @@ namespace OSPBCR_PORTAL.Controllers
         [AllowAnonymous]
         public IActionResult Index()
         {
-            return Redirect("~/home.html");
+            return LocalRedirect(Url.Content("~/home.html") + Request.QueryString);
+        }
+
+        public IActionResult Home()
+        {
+            return LocalRedirect(Url.Content("~/home.html") + Request.QueryString);
         }
 
         public IActionResult Privacy()

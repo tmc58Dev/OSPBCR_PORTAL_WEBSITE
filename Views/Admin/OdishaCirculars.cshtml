@@ -15,13 +15,13 @@
 @foreach (var record in Model)
 {
     <article class="cms-content-card">
-        <img src="@record.PreviewPath" alt="@record.District Odisha State circular PDF preview" />
+        <img src="@Url.ApplicationContent(record.PreviewPath)" alt="@record.District Odisha State circular PDF preview" />
         <div class="cms-content-card-body">
             <span class="cms-badge">@record.District</span>
             <h2>@record.Title</h2>
             <p>@record.Description</p>
             <div class="content-inline-actions">
-                <a class="cms-button cms-button-secondary cms-button-small" href="@record.PdfPath" target="_blank" rel="noopener">View PDF</a>
+                <a class="cms-button cms-button-secondary cms-button-small" href="@Url.ApplicationContent(record.PdfPath)" target="_blank" rel="noopener">View PDF</a>
                 <a class="cms-button cms-button-secondary cms-button-small" asp-action="EditOdishaCircular" asp-route-id="@record.Id">Update</a>
                 <form asp-action="DeleteOdishaCircular" asp-route-id="@record.Id" method="post" data-confirm="Delete this Odisha State circular record and its uploaded files?">
                     <button class="cms-button cms-button-danger cms-button-small" type="submit">Delete</button>

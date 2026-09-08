@@ -111,6 +111,25 @@ public sealed class CmsRepository(
                 );
             END;
 
+            IF OBJECT_ID(N'dbo.NewsCardAttachments', N'U') IS NULL
+            BEGIN
+                CREATE TABLE dbo.NewsCardAttachments
+                (
+                    NewsCardAttachmentId INT IDENTITY(1,1) NOT NULL
+                        CONSTRAINT PK_NewsCardAttachments PRIMARY KEY,
+                    NewsCardId INT NOT NULL,
+                    StoredPath NVARCHAR(500) NOT NULL,
+                    RelativePath NVARCHAR(1000) NOT NULL,
+                    ContentType NVARCHAR(200) NOT NULL,
+                    FileSize BIGINT NOT NULL,
+                    SortOrder INT NOT NULL,
+                    CONSTRAINT FK_NewsCardAttachments_NewsCard FOREIGN KEY (NewsCardId)
+                        REFERENCES dbo.NewsCards(NewsCardId) ON DELETE CASCADE,
+                    CONSTRAINT UX_NewsCardAttachments_StoredPath UNIQUE (NewsCardId, StoredPath),
+                    CONSTRAINT UX_NewsCardAttachments_SortOrder UNIQUE (NewsCardId, SortOrder)
+                );
+            END;
+
             ;WITH LegacyImages AS
             (
                 SELECT t.NewsCardId, t.ImagePath,
@@ -422,11 +441,14 @@ public sealed class CmsRepository(
         await using var command = connection.CreateCommand();
         command.CommandText = NewsSelectSql +
             " ORDER BY n.UpdatedAt DESC, n.NewsCardId DESC, i.SortOrder, t.LanguageCode;";
-        await using var reader = await command.ExecuteReaderAsync(cancellationToken);
-        while (await reader.ReadAsync(cancellationToken))
+        await using (var reader = await command.ExecuteReaderAsync(cancellationToken))
         {
-            ReadNewsRow(reader, cards);
+            while (await reader.ReadAsync(cancellationToken))
+            {
+                ReadNewsRow(reader, cards);
+            }
         }
+        await ReadNewsAttachmentsAsync(connection, cards, null, cancellationToken);
         return cards.Values.ToList();
     }
 
@@ -441,11 +463,14 @@ public sealed class CmsRepository(
         command.CommandText = NewsSelectSql +
             " WHERE n.NewsCardId = @NewsCardId ORDER BY i.SortOrder, t.LanguageCode;";
         command.Parameters.AddWithValue("@NewsCardId", id);
-        await using var reader = await command.ExecuteReaderAsync(cancellationToken);
-        while (await reader.ReadAsync(cancellationToken))
+        await using (var reader = await command.ExecuteReaderAsync(cancellationToken))
         {
-            ReadNewsRow(reader, cards);
+            while (await reader.ReadAsync(cancellationToken))
+            {
+                ReadNewsRow(reader, cards);
+            }
         }
+        await ReadNewsAttachmentsAsync(connection, cards, id, cancellationToken);
         return cards.Values.SingleOrDefault();
     }
 
@@ -467,6 +492,7 @@ public sealed class CmsRepository(
             cardCommand.Parameters.AddWithValue("@UpdatedBy", card.UpdatedById);
             var id = Convert.ToInt32(await cardCommand.ExecuteScalarAsync(cancellationToken));
             await ReplaceImagesAsync(connection, transaction, id, card.ImagePaths, cancellationToken);
+            await ReplaceAttachmentsAsync(connection, transaction, id, card.Attachments, cancellationToken);
             await UpsertTranslationsAsync(connection, transaction, id, card.Translations.Values, cancellationToken);
             await transaction.CommitAsync(cancellationToken);
             return id;
@@ -500,6 +526,7 @@ public sealed class CmsRepository(
                 return false;
             }
             await ReplaceImagesAsync(connection, transaction, card.Id, card.ImagePaths, cancellationToken);
+            await ReplaceAttachmentsAsync(connection, transaction, card.Id, card.Attachments, cancellationToken);
             await UpsertTranslationsAsync(connection, transaction, card.Id, card.Translations.Values, cancellationToken);
             await transaction.CommitAsync(cancellationToken);
             return true;
@@ -534,7 +561,9 @@ public sealed class CmsRepository(
             SELECT n.NewsCardId, t.LanguageCode, t.Title, t.PublishDate, t.ImagePath,
                    STRING_AGG(CAST(i.ImagePath AS NVARCHAR(MAX)), N'|')
                        WITHIN GROUP (ORDER BY i.SortOrder) AS ImagePaths,
-                   t.TextNote, t.Footer, n.UpdatedAt
+                   t.TextNote, t.Footer,
+                   (SELECT COUNT(*) FROM dbo.NewsCardAttachments a WHERE a.NewsCardId = n.NewsCardId) AS AttachmentCount,
+                   n.UpdatedAt
             FROM dbo.NewsCards n
             INNER JOIN dbo.NewsCardTranslations t ON t.NewsCardId = n.NewsCardId
             LEFT JOIN dbo.NewsCardImages i ON i.NewsCardId = n.NewsCardId
@@ -566,7 +595,8 @@ public sealed class CmsRepository(
                 imagePaths,
                 reader.GetString(6),
                 reader.GetString(7),
-                reader.GetFieldValue<DateTimeOffset>(8)));
+                reader.GetInt32(8),
+                reader.GetFieldValue<DateTimeOffset>(9)));
         }
         return result;
     }
@@ -917,6 +947,48 @@ public sealed class CmsRepository(
         };
     }
 
+    private static async Task ReadNewsAttachmentsAsync(
+        SqlConnection connection,
+        IDictionary<int, NewsCard> cards,
+        int? newsCardId,
+        CancellationToken cancellationToken)
+    {
+        if (cards.Count == 0)
+        {
+            return;
+        }
+
+        await using var command = connection.CreateCommand();
+        command.CommandText = """
+            SELECT NewsCardAttachmentId, NewsCardId, StoredPath, RelativePath, ContentType, FileSize
+            FROM dbo.NewsCardAttachments
+            """ + (newsCardId.HasValue ? " WHERE NewsCardId = @NewsCardId" : "") +
+            " ORDER BY NewsCardId, SortOrder;";
+        if (newsCardId.HasValue)
+        {
+            command.Parameters.AddWithValue("@NewsCardId", newsCardId.Value);
+        }
+
+        await using var reader = await command.ExecuteReaderAsync(cancellationToken);
+        while (await reader.ReadAsync(cancellationToken))
+        {
+            var ownerId = reader.GetInt32(reader.GetOrdinal("NewsCardId"));
+            if (!cards.TryGetValue(ownerId, out var card))
+            {
+                continue;
+            }
+
+            card.Attachments.Add(new NewsCardAttachment
+            {
+                Id = reader.GetInt32(reader.GetOrdinal("NewsCardAttachmentId")),
+                StoredPath = reader.GetString(reader.GetOrdinal("StoredPath")),
+                RelativePath = reader.GetString(reader.GetOrdinal("RelativePath")),
+                ContentType = reader.GetString(reader.GetOrdinal("ContentType")),
+                FileSize = reader.GetInt64(reader.GetOrdinal("FileSize"))
+            });
+        }
+    }
+
     private static async Task ReplaceImagesAsync(
         SqlConnection connection,
         SqlTransaction transaction,
@@ -983,6 +1055,47 @@ public sealed class CmsRepository(
             command.Parameters.Add("@TextNote", SqlDbType.NVarChar, -1).Value = translation.TextNote;
             command.Parameters.Add("@Footer", SqlDbType.NVarChar, -1).Value = translation.Footer;
             await command.ExecuteNonQueryAsync(cancellationToken);
+        }
+    }
+
+    private static async Task ReplaceAttachmentsAsync(
+        SqlConnection connection,
+        SqlTransaction transaction,
+        int newsCardId,
+        IEnumerable<NewsCardAttachment> attachments,
+        CancellationToken cancellationToken)
+    {
+        await using (var deleteCommand = connection.CreateCommand())
+        {
+            deleteCommand.Transaction = transaction;
+            deleteCommand.CommandText = "DELETE FROM dbo.NewsCardAttachments WHERE NewsCardId = @NewsCardId;";
+            deleteCommand.Parameters.AddWithValue("@NewsCardId", newsCardId);
+            await deleteCommand.ExecuteNonQueryAsync(cancellationToken);
+        }
+
+        var items = attachments
+            .Where(attachment =>
+                !string.IsNullOrWhiteSpace(attachment.StoredPath) &&
+                !string.IsNullOrWhiteSpace(attachment.RelativePath))
+            .ToList();
+        for (var index = 0; index < items.Count; index++)
+        {
+            var attachment = items[index];
+            await using var insertCommand = connection.CreateCommand();
+            insertCommand.Transaction = transaction;
+            insertCommand.CommandText = """
+                INSERT INTO dbo.NewsCardAttachments
+                    (NewsCardId, StoredPath, RelativePath, ContentType, FileSize, SortOrder)
+                VALUES
+                    (@NewsCardId, @StoredPath, @RelativePath, @ContentType, @FileSize, @SortOrder);
+                """;
+            insertCommand.Parameters.AddWithValue("@NewsCardId", newsCardId);
+            insertCommand.Parameters.AddWithValue("@StoredPath", attachment.StoredPath);
+            insertCommand.Parameters.AddWithValue("@RelativePath", attachment.RelativePath);
+            insertCommand.Parameters.AddWithValue("@ContentType", attachment.ContentType);
+            insertCommand.Parameters.AddWithValue("@FileSize", attachment.FileSize);
+            insertCommand.Parameters.AddWithValue("@SortOrder", index);
+            await insertCommand.ExecuteNonQueryAsync(cancellationToken);
         }
     }
 

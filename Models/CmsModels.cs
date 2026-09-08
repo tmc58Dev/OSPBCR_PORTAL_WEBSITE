@@ -61,7 +61,17 @@ public sealed class NewsCard
     public string UpdatedByName { get; set; } = "";
     public DateTimeOffset UpdatedAt { get; set; }
     public List<string> ImagePaths { get; set; } = [];
+    public List<NewsCardAttachment> Attachments { get; set; } = [];
     public Dictionary<string, NewsCardTranslation> Translations { get; set; } = new(StringComparer.OrdinalIgnoreCase);
+}
+
+public sealed class NewsCardAttachment
+{
+    public int Id { get; set; }
+    public string StoredPath { get; set; } = "";
+    public string RelativePath { get; set; } = "";
+    public string ContentType { get; set; } = "application/octet-stream";
+    public long FileSize { get; set; }
 }
 
 public sealed class NewsCardTranslation
@@ -100,6 +110,9 @@ public sealed class NewsCardFormViewModel
     public List<string> ExistingPhotoPaths { get; set; } = [];
     public List<string> RemovePhotoPaths { get; set; } = [];
     public List<string> PhotoOrder { get; set; } = [];
+    public List<IFormFile>? Attachments { get; set; }
+    public List<NewsCardAttachment> ExistingAttachments { get; set; } = [];
+    public List<int> RemoveAttachmentIds { get; set; } = [];
     public NewsLanguageInput English { get; set; } = new();
     public NewsLanguageInput Hindi { get; set; } = new();
     public NewsLanguageInput Odia { get; set; } = new();
@@ -114,6 +127,7 @@ public sealed record PublicNewsCard(
     IReadOnlyList<string> ImagePaths,
     string TextNote,
     string Footer,
+    int AttachmentCount,
     DateTimeOffset UpdatedAt);
 
 public sealed class PdfResourceLanguageInput

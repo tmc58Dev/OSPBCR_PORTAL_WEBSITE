@@ -5,7 +5,7 @@
 }
 <header class="cms-page-header cms-page-header-actions">
     <div>
-        <span class="cms-eyebrow">Public home page</span>
+        <span class="cms-eyebrow">Public Trending page</span>
         <h1>News Cards</h1>
         <p>Create a new multilingual card or update any existing card.</p>
     </div>
@@ -15,7 +15,7 @@
 {
     <section class="cms-empty">
         <h2>No News Cards yet</h2>
-        <p>Create the first English, Hindi, and Odia update for the home-page slider.</p>
+        <p>Create the first English, Hindi, and Odia update for the Trending page.</p>
         <a class="cms-button cms-button-primary" asp-action="CreateNews">Create News Card</a>
     </section>
 }
@@ -39,7 +39,7 @@ else
                     <div class="cms-news-card-gallery" data-cms-news-image-track>
                         @for (var imageIndex = 0; imageIndex < imagePaths.Length; imageIndex++)
                         {
-                            <img src="@imagePaths[imageIndex]"
+                            <img src="@Url.ApplicationContent(imagePaths[imageIndex])"
                                  alt="@(imageIndex == 0 ? english?.Title ?? "News Card image" : $"News Card image {imageIndex + 1}")"
                                  loading="lazy"
                                  decoding="async"
@@ -80,10 +80,27 @@ else
                 <div class="cms-card-meta cms-news-card-meta">
                     <span class="cms-status @(card.Status == "Published" ? "is-published" : "is-draft")">@card.Status</span>
                     <time datetime="@(publishDate?.ToString("yyyy-MM-dd"))">@(publishDate?.ToString("dd/MM/yyyy") ?? "—")</time>
+                    <span class="cms-attachment-count">@card.Attachments.Count PDF@(card.Attachments.Count == 1 ? "" : "s")</span>
                 </div>
+                @if (card.Attachments.Count > 0)
+                {
+                    <div class="cms-news-card-pdfs">
+                        <strong>Uploaded PDFs</strong>
+                        <ul>
+                            @foreach (var pdf in card.Attachments)
+                            {
+                                <li>
+                                    <a href="@Url.ApplicationContent(pdf.StoredPath)" target="_blank" rel="noopener">
+                                        @pdf.RelativePath
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                }
                 <div class="content-inline-actions">
                     <a class="cms-button cms-button-primary" asp-action="EditNews" asp-route-id="@card.Id">Update card</a>
-                    <form asp-action="DeleteNews" asp-route-id="@card.Id" method="post" data-confirm="Delete this multilingual News Card and its uploaded images?">
+                    <form asp-action="DeleteNews" asp-route-id="@card.Id" method="post" data-confirm="Delete this multilingual News Card and all its managed images and PDFs?">
                         <button class="cms-button cms-button-danger" type="submit">Delete</button>
                     </form>
                 </div>

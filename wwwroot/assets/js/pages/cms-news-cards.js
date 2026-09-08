@@ -4,7 +4,6 @@
     function initializeCmsNewsCards() {
         const grid = document.querySelector(".cms-content-grid");
         if (!grid) return;
-
         const cards = Array.from(grid.querySelectorAll("[data-cms-news-card]"));
         const rotatingCards = cards.filter(
             (card) => card.querySelectorAll("[data-cms-news-card-image]").length > 1

@@ -27,7 +27,7 @@ async function initializeCancerBurdenPdfCarousel() {
 
     try {
         const recordsResponse = await fetch(
-            `/api/content/cancer-burden-pdfs?language=${encodeURIComponent(cancerBurdenLanguageAtLoad)}`,
+            `api/content/cancer-burden-pdfs?language=${encodeURIComponent(cancerBurdenLanguageAtLoad)}`,
             { headers: { "Accept": "application/json" } }
         );
         if (!recordsResponse.ok) throw new Error(`Cancer burden PDFs HTTP ${recordsResponse.status}`);
