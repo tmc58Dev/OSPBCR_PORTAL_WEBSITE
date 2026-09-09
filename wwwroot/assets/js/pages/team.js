@@ -13,8 +13,8 @@ const teamSections = [
                 image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Dr. Rabindra Nath Mishra.webp"
             },
             {
-                name: "Dr. Pramila Baral",
-                designation: "Senior Administrative Grade",
+                name: "Dr. Pameela",
+                designation: "Senior Adminitrative Grade, Directorate of Public Health",
                 image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Dr. Pramila Baral.webp"
             },
             {
@@ -28,9 +28,19 @@ const teamSections = [
                 image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Dr. Roma Rattan.webp"
             },
             {
+                name: "Dr. Deepak Routray",
+                designation: "Director, Acharya Harihar Regional Cancer Centre, Cuttack",
+                image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Dr. Deepak Routray.webp"
+            },
+            {
                 name: "Dr. Nilakantha Mishra",
                 designation: "Former DPH",
                 image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Dr. Nilakantha Mishra.webp"
+            },
+            {
+                name: "Sushanta Swain",
+                designation: "Former ADNCD In charge",
+                image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Sushanta Swain.webp"
             },
             {
                 name: "Chief District Medical Officers (CDMOs) of all districts",
@@ -53,7 +63,7 @@ const teamSections = [
             },
             {
                 name: "Dr. Rajesh Dikshit",
-                designation: "Director, CCE, TMC",
+                designation: "Ex Director, CCE, TMC",
                 image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Dr.Dikshit.jpg"
             },
             {
@@ -160,6 +170,11 @@ const teamSections = [
                 name: "Dr. Priyanka Swain",
                 designation: "Zonal Co-ordinator",
                 image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Dr. Priyanka Swain.webp"
+            },
+            {
+                name: "Gyanaranjan Sarangi",
+                designation: "Social Researcher (Supporting staff)",
+                image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Gyanaranjan Sarangi.webp"
             }
         ]
     },
@@ -168,17 +183,17 @@ const teamSections = [
         members: [
             {
                 name: "Dr. Suvarna Gore",
-                designation: "Scientific Officer",
+                designation: "Scientific Officer - D",
                 image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Suvarna Gore.webp"
             },
             {
                 name: "Ms. Sushama Saoba",
-                designation: "Scientific Assistant",
+                designation: "Scientific Assistant - E",
                 image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Sushma.webp"
             },
             {
                 name: "Mrs. Deepali Lokhande",
-                designation: "Scientific Assistant",
+                designation: "Scientific Assistant - E",
                 image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Deepali.webp"
             },
             {
@@ -198,7 +213,7 @@ const teamSections = [
             },
             {
                 name: "Mr. Narpat R. Padvi",
-                designation: "Scientific Assistant D",
+                designation: "Scientific Assistant - D",
                 image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Mr. Narpat R. Padvi.webp"
             },
             {

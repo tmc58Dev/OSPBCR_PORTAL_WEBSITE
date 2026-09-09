@@ -74,7 +74,8 @@
 
         const query = new URLSearchParams(window.location.search);
         const newsId = Number.parseInt(query.get("news") || "", 10);
-        const language = normalizeLanguage(query.get("language")) || currentWebsiteLanguage();
+        const requestedLanguage = normalizeLanguage(query.get("language"));
+        const language = requestedLanguage || currentWebsiteLanguage();
         const dateOrder = query.get("dateOrder") === "asc" ? "asc" : "desc";
         const labels = copy[language] || copy.en;
         const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -83,6 +84,7 @@
         let rotationTimer = 0;
         let paused = reduceMotion.matches;
         let motionOverride = false;
+        let ignoreInitialWebsiteLanguage = Boolean(requestedLanguage);
 
         document.documentElement.lang = language;
         back.href = `trending.html?${new URLSearchParams({ language, dateOrder }).toString()}`;
@@ -345,6 +347,14 @@
         });
 
         document.addEventListener("languagechange", (event) => {
+            // The i18n module announces the saved website language when the page
+            // initializes. Keep the explicit language carried by the View More
+            // link instead of letting that first event replace it with English.
+            if (ignoreInitialWebsiteLanguage) {
+                ignoreInitialWebsiteLanguage = false;
+                return;
+            }
+
             const nextLanguage = normalizeLanguage(event.detail?.language);
             if (!nextLanguage || nextLanguage === language) return;
 
