@@ -576,29 +576,71 @@ public sealed class CmsRepository(
             """;
         command.Parameters.Add("@LanguageCode", SqlDbType.Char, 2).Value =
             languageCode is null ? DBNull.Value : languageCode;
-        await using var reader = await command.ExecuteReaderAsync(cancellationToken);
-        while (await reader.ReadAsync(cancellationToken))
+        await using (var reader = await command.ExecuteReaderAsync(cancellationToken))
         {
-            var legacyImagePath = reader.GetString(4);
-            var imagePaths = reader.IsDBNull(5)
-                ? new List<string> { legacyImagePath }
-                : reader.GetString(5)
-                    .Split('|', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
-                    .Distinct(StringComparer.OrdinalIgnoreCase)
-                    .ToList();
-            result.Add(new PublicNewsCard(
-                reader.GetInt32(0),
-                reader.GetString(1).Trim(),
-                reader.GetString(2),
-                DateOnly.FromDateTime(reader.GetDateTime(3)).ToString("dd/MM/yyyy"),
-                imagePaths.FirstOrDefault() ?? legacyImagePath,
-                imagePaths,
-                reader.GetString(6),
-                reader.GetString(7),
-                reader.GetInt32(8),
-                reader.GetFieldValue<DateTimeOffset>(9)));
+            while (await reader.ReadAsync(cancellationToken))
+            {
+                var legacyImagePath = reader.GetString(4);
+                var imagePaths = reader.IsDBNull(5)
+                    ? new List<string> { legacyImagePath }
+                    : reader.GetString(5)
+                        .Split('|', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+                        .Distinct(StringComparer.OrdinalIgnoreCase)
+                        .ToList();
+                result.Add(new PublicNewsCard(
+                    reader.GetInt32(0),
+                    reader.GetString(1).Trim(),
+                    reader.GetString(2),
+                    DateOnly.FromDateTime(reader.GetDateTime(3)).ToString("dd/MM/yyyy"),
+                    imagePaths.FirstOrDefault() ?? legacyImagePath,
+                    imagePaths,
+                    reader.GetString(6),
+                    reader.GetString(7),
+                    [],
+                    reader.GetInt32(8),
+                    reader.GetFieldValue<DateTimeOffset>(9)));
+            }
         }
-        return result;
+
+        if (result.Count == 0)
+        {
+            return result;
+        }
+
+        var attachmentsByCard = result
+            .Select(card => card.Id)
+            .Distinct()
+            .ToDictionary(id => id, _ => new List<PublicNewsAttachment>());
+        await using var attachmentCommand = connection.CreateCommand();
+        attachmentCommand.CommandText = """
+            SELECT a.NewsCardAttachmentId, a.NewsCardId, a.RelativePath, a.ContentType
+            FROM dbo.NewsCardAttachments a
+            INNER JOIN dbo.NewsCards n ON n.NewsCardId = a.NewsCardId
+            WHERE n.Status = N'Published'
+            ORDER BY a.NewsCardId, a.SortOrder;
+            """;
+        await using (var attachmentReader = await attachmentCommand.ExecuteReaderAsync(cancellationToken))
+        {
+            while (await attachmentReader.ReadAsync(cancellationToken))
+            {
+                var newsCardId = attachmentReader.GetInt32(1);
+                if (!attachmentsByCard.TryGetValue(newsCardId, out var attachments))
+                {
+                    continue;
+                }
+
+                attachments.Add(new PublicNewsAttachment(
+                    attachmentReader.GetInt32(0),
+                    Path.GetFileName(attachmentReader.GetString(2).Replace('\\', '/')),
+                    attachmentReader.GetString(3),
+                    ""));
+            }
+        }
+
+        return result.Select(card => card with
+        {
+            Attachments = attachmentsByCard.GetValueOrDefault(card.Id) ?? []
+        }).ToList();
     }
 
     public async Task<long> GetWebsiteVisitCountAsync(CancellationToken cancellationToken = default)

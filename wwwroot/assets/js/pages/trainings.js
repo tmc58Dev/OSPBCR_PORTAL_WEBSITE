@@ -485,7 +485,7 @@ async function initializeDistrictPdfCarousel() {
                     <div class="district-pdf-meta">
                         <span class="district-pdf-label">${districtLabel}</span>
                         <h4>${escapeHtml(item.pdf.title)}</h4>
-                        <p>${escapeHtml(item.pdf.description)}</p>
+                        <div class="district-pdf-rich-text">${window.OSPBCRRichText?.sanitize(item.pdf.description) || escapeHtml(item.pdf.description)}</div>
                         <div class="district-pdf-actions">
                             <a class="view-btn training-report-btn" href="${pdfPath}" target="_blank" rel="noopener noreferrer">${t("View PDF")}</a>
                             <a class="download-btn training-report-btn" href="${pdfPath}" download>${t("Download PDF")}</a>

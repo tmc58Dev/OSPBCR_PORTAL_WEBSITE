@@ -196,6 +196,22 @@ button, input, select, textarea { font: inherit; }
 .cms-alert-error { color: #8f241c; border: 1px solid #efb4af; background: #fff1ef; }
 .cms-empty { text-align: center; }
 .cms-empty p { color: var(--cms-muted); }
+.wysiwyg-source { position: absolute !important; width: 1px !important; height: 1px !important; padding: 0 !important; overflow: hidden !important; opacity: 0 !important; pointer-events: none; }
+.wysiwyg-editor { overflow: hidden; border: 1px solid #b9c8d5; border-radius: 12px; background: #fff; box-shadow: 0 5px 16px rgba(18,52,77,.05); transition: border-color .18s ease, box-shadow .18s ease; }
+.wysiwyg-editor:focus-within { border-color: var(--cms-primary); box-shadow: 0 0 0 3px rgba(0,91,150,.11); }
+.wysiwyg-toolbar { display: flex; align-items: center; flex-wrap: wrap; gap: 5px; padding: 8px; border-bottom: 1px solid #d6e0e8; background: #f4f8fb; }
+.wysiwyg-control, .wysiwyg-select, .wysiwyg-color-control { min-height: 34px; color: var(--cms-ink); border: 1px solid #c5d3dd; border-radius: 7px; background: #fff; font: 700 12px/1 var(--font-family-base, Arial, sans-serif); }
+.wysiwyg-control { min-width: 34px; padding: 7px 9px; cursor: pointer; }
+.wysiwyg-control:hover, .wysiwyg-control:focus-visible, .wysiwyg-select:hover, .wysiwyg-select:focus-visible, .wysiwyg-color-control:hover, .wysiwyg-color-control:focus-within { color: #fff; border-color: var(--cms-primary); outline: none; background: var(--cms-primary); }
+.wysiwyg-select { max-width: 144px; padding: 6px 8px; cursor: pointer; }
+.wysiwyg-color-control { display: inline-flex; align-items: center; gap: 4px; padding: 5px 7px; cursor: pointer; }
+.wysiwyg-color-control input { width: 21px !important; height: 21px; padding: 0 !important; border: none !important; border-radius: 4px !important; cursor: pointer; }
+.wysiwyg-surface { min-height: 150px; max-height: 520px; padding: 14px; overflow: auto; color: var(--cms-ink); outline: none; font: 400 15px/1.65 Arial, sans-serif; overflow-wrap: anywhere; }
+.wysiwyg-surface:empty::before { content: "Start typing…"; color: #8998a5; pointer-events: none; }
+.wysiwyg-surface p, .wysiwyg-surface h1, .wysiwyg-surface h2, .wysiwyg-surface h3, .wysiwyg-surface h4, .wysiwyg-surface blockquote, .wysiwyg-surface pre { margin: 0 0 .75em; }
+.wysiwyg-surface blockquote { padding-left: 14px; border-left: 4px solid var(--cms-primary); color: var(--cms-muted); }
+.wysiwyg-surface pre { padding: 12px; overflow-x: auto; border-radius: 8px; background: #eef3f6; font-family: Consolas, monospace; white-space: pre-wrap; }
+.wysiwyg-surface hr { border: 0; border-top: 1px solid #b9c8d5; }
 @media (max-width: 1100px) {
     .cms-header { flex-wrap: wrap; }
     .cms-nav { order: 3; width: 100%; overflow-x: auto; }
@@ -224,4 +240,6 @@ button, input, select, textarea { font: inherit; }
     .login-intro { display: none; }
     .cms-footer { display: grid; }
     .sticky-form-actions { bottom: 8px; width: 100%; }
+    .wysiwyg-toolbar { max-height: 172px; overflow-y: auto; }
+    .wysiwyg-select { max-width: 126px; }
 }

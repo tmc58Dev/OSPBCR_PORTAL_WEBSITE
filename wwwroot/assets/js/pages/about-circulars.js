@@ -42,7 +42,8 @@ async function initializeOdishaCircularCarousel() {
         track.innerHTML = records.map((record) => {
             const district = escapeOdishaCircularHtml(record.district);
             const title = escapeOdishaCircularHtml(record.title);
-            const description = escapeOdishaCircularHtml(record.description);
+            const description = window.OSPBCRRichText?.sanitize(record.description) ||
+                escapeOdishaCircularHtml(record.description);
             const pdfPath = escapeOdishaCircularHtml(encodeURI(record.pdfPath));
             const previewPath = escapeOdishaCircularHtml(encodeURI(record.previewPath));
 
@@ -51,7 +52,7 @@ async function initializeOdishaCircularCarousel() {
                     <div class="district-pdf-meta">
                         <span class="district-pdf-label">${district}</span>
                         <h4>${title}</h4>
-                        <p>${description}</p>
+                        <div class="district-pdf-rich-text">${description}</div>
                         <div class="district-pdf-actions">
                             <a class="view-btn training-report-btn" href="${pdfPath}" target="_blank" rel="noopener noreferrer">View PDF</a>
                             <a class="download-btn training-report-btn" href="${pdfPath}" download>Download PDF</a>

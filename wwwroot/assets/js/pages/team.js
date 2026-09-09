@@ -19,7 +19,7 @@ const teamSections = [
             },
             {
                 name: "Dr. Binay Kumar Dasmohapatra",
-                designation: "ADNCD",
+                designation: "ADNCD In Charge",
                 image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Dr. Binay Kumar Dasmohapatra.webp"
             },
             {
@@ -192,14 +192,14 @@ const teamSections = [
                 image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Sushma.webp"
             },
             {
+                name: "Mrs. Monika Sarade",
+                designation: "Social Investigator",
+                image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Mrs. Monika Sarade_.webp"
+            },
+            {
                 name: "Mrs. Deepali Lokhande",
                 designation: "Scientific Assistant - E",
                 image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Deepali.webp"
-            },
-            {
-                name: "Ms. Sonali Bagal",
-                designation: "Research Co-ordinator",
-                image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Sonali.webp"
             },
             {
                 name: "Mrs. Suvarna Kolekar",
@@ -207,14 +207,14 @@ const teamSections = [
                 image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Mrs. Suvarna Kolekar.webp"
             },
             {
-                name: "Mrs. Monika Sarade",
-                designation: "Social Investigator",
-                image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Mrs. Monika Sarade_.webp"
-            },
-            {
                 name: "Mr. Narpat R. Padvi",
                 designation: "Scientific Assistant - D",
                 image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Mr. Narpat R. Padvi.webp"
+            },
+            {
+                name: "Ms. Sonali Bagal",
+                designation: "Research Co-ordinator",
+                image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Sonali.webp"
             },
             {
                 name: "Mr. Pratik Sawant",

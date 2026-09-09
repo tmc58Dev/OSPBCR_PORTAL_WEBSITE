@@ -19,7 +19,6 @@ builder.Services.AddScoped<IRegistryDataService, RegistryDataService>();
 builder.Services.AddScoped<ICmsRepository, CmsRepository>();
 builder.Services.AddSingleton<IPasswordHasher<CmsUser>, PasswordHasher<CmsUser>>();
 builder.Services.AddSingleton<IManagedFileStorage, ManagedFileStorage>();
-builder.Services.AddSingleton<INewsDownloadService, NewsDownloadService>();
 builder.Services.AddSingleton<IDistrictTrainingStore, DistrictTrainingStore>();
 builder.Services.AddHostedService<CmsDatabaseInitializer>();
 

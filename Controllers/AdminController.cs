@@ -18,8 +18,8 @@ public sealed class AdminController(
     IDistrictTrainingStore trainingStore) : Controller
 {
     private const int MaxNewsPhotos = 100;
-    private const int MaxNewsAttachments = 100;
-    private const long MaxNewsAttachmentBytes = 250L * 1024 * 1024;
+    private const int MaxNewsAttachments = 5;
+    private const long MaxNewsAttachmentBytes = 125L * 1024 * 1024;
     private const long MaxNewsRequestBytes = 800L * 1024 * 1024;
 
     public static readonly IReadOnlyList<string> Districts =
@@ -208,12 +208,12 @@ public sealed class AdminController(
             }
             foreach (var attachment in uploadedAttachments.Where(attachment => attachment.Length > 0))
             {
-                var path = await files.SavePdfAsync(attachment, "news-attachments", cancellationToken);
+                var path = await files.SaveAttachmentAsync(attachment, "news-attachments", cancellationToken);
                 savedAttachments.Add(new NewsCardAttachment
                 {
                     StoredPath = path,
                     RelativePath = SafeAttachmentRelativePath(attachment.FileName),
-                    ContentType = "application/pdf",
+                    ContentType = AttachmentContentType(attachment),
                     FileSize = attachment.Length
                 });
             }
@@ -235,7 +235,7 @@ public sealed class AdminController(
             };
             await repository.CreateNewsCardAsync(card, cancellationToken);
             TempData["Success"] =
-                $"The multilingual News Card was created with {saved.Count} shared photo(s) and {savedAttachments.Count} PDF(s).";
+                $"The multilingual News Card was created with {saved.Count} shared photo(s) and {savedAttachments.Count} attachment(s).";
             return RedirectToAction(nameof(News));
         }
         catch
@@ -315,12 +315,12 @@ public sealed class AdminController(
             }
             foreach (var attachment in uploadedAttachments.Where(attachment => attachment.Length > 0))
             {
-                var path = await files.SavePdfAsync(attachment, "news-attachments", cancellationToken);
+                var path = await files.SaveAttachmentAsync(attachment, "news-attachments", cancellationToken);
                 newAttachments.Add(new NewsCardAttachment
                 {
                     StoredPath = path,
                     RelativePath = SafeAttachmentRelativePath(attachment.FileName),
-                    ContentType = "application/pdf",
+                    ContentType = AttachmentContentType(attachment),
                     FileSize = attachment.Length
                 });
             }
@@ -360,7 +360,7 @@ public sealed class AdminController(
                 await files.DeleteIfManagedAsync(attachment.StoredPath, cancellationToken);
             }
             TempData["Success"] =
-                $"The News Card was updated with {finalPaths.Count} shared photo(s) and {card.Attachments.Count} PDF(s).";
+                $"The News Card was updated with {finalPaths.Count} shared photo(s) and {card.Attachments.Count} attachment(s).";
             return RedirectToAction(nameof(News));
         }
         catch
@@ -899,17 +899,22 @@ public sealed class AdminController(
         {
             ModelState.AddModelError(
                 nameof(NewsCardFormViewModel.Attachments),
-                $"A News Card can contain up to {MaxNewsAttachments} PDF files.");
+                $"A News Card can contain up to {MaxNewsAttachments} attachments in total.");
         }
         if (retainedAttachmentBytes + uploaded.Sum(attachment => attachment.Length) > MaxNewsAttachmentBytes)
         {
             ModelState.AddModelError(
                 nameof(NewsCardFormViewModel.Attachments),
-                $"All News Card PDFs together must be no larger than {MaxNewsAttachmentBytes / 1024 / 1024} MB.");
+                $"All News Card attachments together must be no larger than {MaxNewsAttachmentBytes / 1024 / 1024} MB.");
         }
         foreach (var attachment in uploaded)
         {
-            var error = await files.ValidatePdfAsync(attachment, false, cancellationToken);
+            var extension = Path.GetExtension(attachment.FileName);
+            var error = extension.Equals(".pdf", StringComparison.OrdinalIgnoreCase)
+                ? await files.ValidatePdfAsync(attachment, false, cancellationToken)
+                : extension.Equals(".webp", StringComparison.OrdinalIgnoreCase)
+                    ? await files.ValidateWebpAsync(attachment, false, cancellationToken)
+                    : "Only valid PDF or WebP files are accepted.";
             if (error is not null)
             {
                 ModelState.AddModelError(
@@ -918,6 +923,11 @@ public sealed class AdminController(
             }
         }
     }
+
+    private static string AttachmentContentType(IFormFile attachment) =>
+        Path.GetExtension(attachment.FileName).Equals(".webp", StringComparison.OrdinalIgnoreCase)
+            ? "image/webp"
+            : "application/pdf";
 
     private Dictionary<string, NewsCardTranslation> ParseTranslations(NewsCardFormViewModel model)
     {

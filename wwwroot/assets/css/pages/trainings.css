@@ -1231,7 +1231,8 @@
 
 }
 
-.district-pdf-meta p {
+.district-pdf-meta p,
+.district-pdf-rich-text {
 
     margin-bottom: 0;
     color: var(--text);
@@ -1239,6 +1240,13 @@
     line-height: 1.7;
 
 }
+
+.district-pdf-rich-text > :first-child { margin-top: 0; }
+.district-pdf-rich-text > :last-child { margin-bottom: 0; }
+.district-pdf-rich-text ul,
+.district-pdf-rich-text ol { padding-left: 24px; text-align: left; }
+.district-pdf-rich-text blockquote { margin-left: 0; padding-left: 14px; border-left: 4px solid var(--primary); }
+.district-pdf-rich-text pre { padding: 10px; overflow-x: auto; border-radius: 8px; background: #edf3f7; text-align: left; white-space: pre-wrap; }
 
 .district-pdf-actions {
 

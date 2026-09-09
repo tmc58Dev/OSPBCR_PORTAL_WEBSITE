@@ -490,6 +490,22 @@
     flex: 1 1 132px;
 }
 
+.trending-attachment-notice {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1 1 160px;
+    min-height: 46px;
+    padding: 10px 14px;
+    color: #b42318;
+    border: 1px solid rgba(180, 35, 24, 0.25);
+    border-radius: 12px;
+    background: #fff3f2;
+    font-size: 14px;
+    font-weight: 900;
+    text-align: center;
+}
+
 .trending-learn-more:hover,
 .trending-learn-more:focus-visible,
 .trending-download:hover,

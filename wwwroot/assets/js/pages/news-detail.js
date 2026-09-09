@@ -19,10 +19,7 @@
             playSlideshow: "Play",
             back: "Back to Trending News",
             kicker: "Trending News",
-            heading: "Full News Story",
-            download: "Download News Card",
-            chooseLanguage: "Choose a language",
-            downloadHelp: "The ZIP includes the styled story, every photo, and its attachment folders."
+            heading: "Full News Story"
         },
         hi: {
             loading: "\u0938\u092e\u093e\u091a\u093e\u0930 \u0932\u094b\u0921 \u0939\u094b \u0930\u0939\u093e \u0939\u0948\u2026",
@@ -35,10 +32,7 @@
             playSlideshow: "\u091a\u0932\u093e\u090f\u0901",
             back: "\u091f\u094d\u0930\u0947\u0902\u0921\u093f\u0902\u0917 \u0938\u092e\u093e\u091a\u093e\u0930 \u092a\u0930 \u0935\u093e\u092a\u0938 \u091c\u093e\u090f\u0901",
             kicker: "\u091f\u094d\u0930\u0947\u0902\u0921\u093f\u0902\u0917 \u0938\u092e\u093e\u091a\u093e\u0930",
-            heading: "\u092a\u0942\u0930\u093e \u0938\u092e\u093e\u091a\u093e\u0930",
-            download: "\u0938\u092e\u093e\u091a\u093e\u0930 \u0915\u093e\u0930\u094d\u0921 \u0921\u093e\u0909\u0928\u0932\u094b\u0921 \u0915\u0930\u0947\u0902",
-            chooseLanguage: "\u092d\u093e\u0937\u093e \u091a\u0941\u0928\u0947\u0902",
-            downloadHelp: "ZIP \u092e\u0947\u0902 \u0938\u094d\u091f\u093e\u0907\u0932 \u0915\u093f\u092f\u093e \u0917\u092f\u093e \u0938\u092e\u093e\u091a\u093e\u0930, \u0938\u092d\u0940 \u091a\u093f\u0924\u094d\u0930 \u0914\u0930 \u0938\u0902\u0932\u0917\u094d\u0928 \u092b\u093c\u094b\u0932\u094d\u0921\u0930 \u0936\u093e\u092e\u093f\u0932 \u0939\u0948\u0902\u0964"
+            heading: "\u092a\u0942\u0930\u093e \u0938\u092e\u093e\u091a\u093e\u0930"
         },
         or: {
             loading: "\u0b38\u0b2e\u0b4d\u0b2c\u0b3e\u0b26 \u0b32\u0b4b\u0b21\u0b4d \u0b39\u0b47\u0b09\u0b1b\u0b3f\u2026",
@@ -51,10 +45,7 @@
             playSlideshow: "\u0b1a\u0b32\u0b3e\u0b28\u0b4d\u0b24\u0b41",
             back: "\u0b1f\u0b4d\u0b30\u0b47\u0b23\u0b4d\u0b21\u0b3f\u0b02 \u0b38\u0b2e\u0b4d\u0b2c\u0b3e\u0b26\u0b15\u0b41 \u0b2b\u0b47\u0b30\u0b28\u0b4d\u0b24\u0b41",
             kicker: "\u0b1f\u0b4d\u0b30\u0b47\u0b23\u0b4d\u0b21\u0b3f\u0b02 \u0b38\u0b2e\u0b4d\u0b2c\u0b3e\u0b26",
-            heading: "\u0b38\u0b2e\u0b4d\u0b2a\u0b42\u0b30\u0b4d\u0b23\u0b4d\u0b23 \u0b38\u0b2e\u0b4d\u0b2c\u0b3e\u0b26",
-            download: "\u0b38\u0b2e\u0b4d\u0b2c\u0b3e\u0b26 \u0b15\u0b3e\u0b30\u0b4d\u0b21 \u0b21\u0b3e\u0b09\u0b28\u0b32\u0b4b\u0b21\u0b4d \u0b15\u0b30\u0b28\u0b4d\u0b24\u0b41",
-            chooseLanguage: "\u0b2d\u0b3e\u0b37\u0b3e \u0b2c\u0b3e\u0b1b\u0b28\u0b4d\u0b24\u0b41",
-            downloadHelp: "ZIP \u0b30\u0b47 \u0b36\u0b48\u0b33\u0b40\u0b2c\u0b26\u0b4d\u0b27 \u0b38\u0b2e\u0b4d\u0b2c\u0b3e\u0b26, \u0b38\u0b2e\u0b38\u0b4d\u0b24 \u0b2b\u0b1f\u0b4b \u0b0f\u0b2c\u0b02 \u0b38\u0b02\u0b32\u0b17\u0b4d\u0b28 \u0b2b\u0b4b\u0b32\u0b4d\u0b21\u0b30 \u0b30\u0b39\u0b3f\u0b1b\u0b3f\u0964"
+            heading: "\u0b38\u0b2e\u0b4d\u0b2a\u0b42\u0b30\u0b4d\u0b23\u0b4d\u0b23 \u0b38\u0b2e\u0b4d\u0b2c\u0b3e\u0b26"
         }
     };
 
@@ -65,11 +56,6 @@
         const backLabel = document.querySelector("[data-news-back-label]");
         const kicker = document.querySelector("[data-news-kicker]");
         const heading = document.querySelector("[data-news-heading]");
-        const downloadDialog = document.querySelector("[data-news-download-dialog]");
-        const downloadTitle = downloadDialog?.querySelector("[data-news-download-title]");
-        const downloadKicker = downloadDialog?.querySelector("[data-download-kicker]");
-        const downloadHeading = downloadDialog?.querySelector("[data-download-heading]");
-        const downloadHelp = downloadDialog?.querySelector("[data-download-help]");
         if (!status || !content || !back || !backLabel || !kicker || !heading) return;
 
         const query = new URLSearchParams(window.location.search);
@@ -92,9 +78,6 @@
         kicker.textContent = labels.kicker;
         heading.textContent = labels.heading;
         status.textContent = labels.loading;
-        if (downloadKicker) downloadKicker.textContent = labels.download;
-        if (downloadHeading) downloadHeading.textContent = labels.chooseLanguage;
-        if (downloadHelp) downloadHelp.textContent = labels.downloadHelp;
 
         function currentWebsiteLanguage() {
             const selected = window.i18n?.getLanguage?.() || localStorage.getItem("ospbcr-language") || "en";
@@ -235,6 +218,40 @@
             return button;
         }
 
+        function createAttachments(item) {
+            const attachments = Array.isArray(item.attachments) ? item.attachments : [];
+            if (!attachments.length) return null;
+
+            const section = document.createElement("section");
+            section.className = "news-attachments";
+            section.setAttribute("aria-labelledby", `news-${item.id}-attachments`);
+            const attachmentHeading = document.createElement("h3");
+            attachmentHeading.id = `news-${item.id}-attachments`;
+            attachmentHeading.textContent = "Attachments";
+            const attachmentList = document.createElement("ol");
+            attachmentList.className = "news-attachment-list";
+
+            attachments.forEach((attachment) => {
+                const listItem = document.createElement("li");
+                const link = document.createElement("a");
+                link.href = attachment.downloadPath;
+                link.download = attachment.fileName;
+                link.setAttribute("aria-label", `Download ${attachment.fileName}`);
+                const name = document.createElement("span");
+                name.textContent = attachment.fileName;
+                const icon = document.createElement("span");
+                icon.className = "news-attachment-download-icon";
+                icon.setAttribute("aria-hidden", "true");
+                icon.innerHTML = '<svg viewBox="0 0 24 24" focusable="false"><path d="M12 3v11m0 0 4-4m-4 4-4-4M5 17v2a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-2"/></svg>';
+                link.append(name, icon);
+                listItem.appendChild(link);
+                attachmentList.appendChild(listItem);
+            });
+
+            section.append(attachmentHeading, attachmentList);
+            return section;
+        }
+
         function createArticle(item) {
             const article = document.createElement("article");
             article.className = "trending-detail-card";
@@ -254,21 +271,19 @@
 
             const title = document.createElement("h2");
             title.textContent = item.title;
-            const note = document.createElement("p");
+            const note = document.createElement("div");
             note.className = "trending-card-note";
-            note.textContent = item.textNote;
+            note.innerHTML = window.OSPBCRRichText?.sanitize(item.textNote) || "";
             const footer = document.createElement("footer");
             footer.className = "trending-card-footer";
             const footerText = document.createElement("span");
-            footerText.textContent = item.footer;
+            footerText.innerHTML = window.OSPBCRRichText?.sanitize(item.footer) || "";
             footer.appendChild(footerText);
-            const download = document.createElement("button");
-            download.type = "button";
-            download.className = "trending-download trending-detail-download";
-            download.dataset.newsDownload = "";
-            download.textContent = labels.download;
+            const attachments = createAttachments(item);
 
-            detail.append(meta, title, note, footer, download);
+            detail.append(meta, title);
+            if (attachments) detail.appendChild(attachments);
+            detail.append(note, footer);
             article.append(createMedia(item), detail);
             return article;
         }
@@ -293,7 +308,6 @@
                     return;
                 }
 
-                if (downloadTitle) downloadTitle.textContent = selected.title;
                 content.replaceChildren(createArticle(selected));
                 status.hidden = true;
                 heading.textContent = selected.title;
@@ -306,12 +320,6 @@
         }
 
         content.addEventListener("click", (event) => {
-            const download = event.target.closest?.("[data-news-download]");
-            if (download) {
-                downloadDialog?.showModal();
-                return;
-            }
-
             const directionButton = event.target.closest?.("[data-news-image-direction]");
             if (directionButton) {
                 showImage(activeImage + (directionButton.dataset.newsImageDirection === "previous" ? -1 : 1));
@@ -323,18 +331,6 @@
             paused = !paused;
             if (!paused) motionOverride = true;
             startRotation();
-        });
-
-        downloadDialog?.addEventListener("click", (event) => {
-            if (event.target === downloadDialog) downloadDialog.close();
-            const languageButton = event.target.closest?.("[data-download-language]");
-            if (!languageButton) return;
-            const selectedLanguage = normalizeLanguage(languageButton.dataset.downloadLanguage) || "en";
-            downloadDialog.close();
-            window.location.assign(
-                "api/content/news/" + encodeURIComponent(newsId) +
-                "/download?language=" + encodeURIComponent(selectedLanguage)
-            );
         });
 
         document.addEventListener("visibilitychange", () => {

@@ -127,8 +127,15 @@ public sealed record PublicNewsCard(
     IReadOnlyList<string> ImagePaths,
     string TextNote,
     string Footer,
+    IReadOnlyList<PublicNewsAttachment> Attachments,
     int AttachmentCount,
     DateTimeOffset UpdatedAt);
+
+public sealed record PublicNewsAttachment(
+    int Id,
+    string FileName,
+    string ContentType,
+    string DownloadPath);
 
 public sealed class PdfResourceLanguageInput
 {

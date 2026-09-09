@@ -65,7 +65,8 @@ async function initializeCancerBurdenPdfCarousel() {
         track.innerHTML = slidesData.map((item) => {
             const district = escapeCancerBurdenHtml(cancerBurdenTranslate(item.district));
             const title = escapeCancerBurdenHtml(item.record.title);
-            const description = escapeCancerBurdenHtml(item.record.description);
+            const description = window.OSPBCRRichText?.sanitize(item.record.description) ||
+                escapeCancerBurdenHtml(item.record.description);
             const pdfPath = escapeCancerBurdenHtml(encodeURI(item.record.pdfPath));
             const previewPath = escapeCancerBurdenHtml(encodeURI(item.record.previewPath));
 
@@ -74,7 +75,7 @@ async function initializeCancerBurdenPdfCarousel() {
                     <div class="district-pdf-meta">
                         <span class="district-pdf-label">${district}</span>
                         <h4>${title}</h4>
-                        <p>${description}</p>
+                        <div class="district-pdf-rich-text">${description}</div>
                         <div class="district-pdf-actions">
                             <a class="view-btn training-report-btn" href="${pdfPath}" target="_blank" rel="noopener noreferrer">${cancerBurdenTranslate("View PDF")}</a>
                             <a class="download-btn training-report-btn" href="${pdfPath}" download>${cancerBurdenTranslate("Download PDF")}</a>

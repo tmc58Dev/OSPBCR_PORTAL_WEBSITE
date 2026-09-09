@@ -12,7 +12,7 @@ namespace OSPBCR_PORTAL.Controllers;
 public sealed class ContentController(
     ICmsRepository repository,
     IDistrictTrainingStore trainingStore,
-    INewsDownloadService newsDownloads,
+    IManagedFileStorage files,
     IWebHostEnvironment environment,
     ILogger<ContentController> logger) : ControllerBase
 {
@@ -37,7 +37,13 @@ public sealed class ContentController(
             return Ok(cards.Select(card => card with
             {
                 ImagePath = Url.ApplicationContent(card.ImagePath),
-                ImagePaths = card.ImagePaths.Select(path => Url.ApplicationContent(path)).ToArray()
+                ImagePaths = card.ImagePaths.Select(path => Url.ApplicationContent(path)).ToArray(),
+                Attachments = card.Attachments.Select(attachment => attachment with
+                {
+                    DownloadPath = Url.Action(
+                        nameof(DownloadNewsAttachment),
+                        values: new { id = card.Id, attachmentId = attachment.Id }) ?? ""
+                }).ToArray()
             }));
         }
         catch (Exception exception)
@@ -47,46 +53,45 @@ public sealed class ContentController(
         }
     }
 
-    [HttpGet("news/{id:int}/download")]
+    [HttpGet("news/{id:int}/attachments/{attachmentId:int}")]
     [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
-    public async Task<IActionResult> DownloadNews(
+    public async Task<IActionResult> DownloadNewsAttachment(
         int id,
-        [FromQuery] string language = "en",
+        int attachmentId,
         CancellationToken cancellationToken = default)
     {
-        language = language.ToLowerInvariant();
-        language = language is "en" or "hi" or "or" ? language : "en";
         try
         {
             var card = await repository.GetNewsCardAsync(id, cancellationToken);
-            if (card is null || card.Status != "Published" || !card.Translations.ContainsKey(language))
+            var attachment = card?.Attachments.SingleOrDefault(item => item.Id == attachmentId);
+            if (card is null || card.Status != "Published" || attachment is null)
             {
                 return NotFound();
             }
 
-            var package = await newsDownloads.CreateAsync(card, language, cancellationToken);
-            Response.OnCompleted(() =>
+            var fullPath = files.ResolveManagedPath(attachment.StoredPath);
+            if (fullPath is null || !System.IO.File.Exists(fullPath))
             {
-                try
-                {
-                    System.IO.File.Delete(package.FilePath);
-                }
-                catch (IOException)
-                {
-                }
-                catch (UnauthorizedAccessException)
-                {
-                }
-                return Task.CompletedTask;
-            });
-            return PhysicalFile(package.FilePath, "application/zip", package.DownloadName);
+                return NotFound();
+            }
+
+            var downloadName = Path.GetFileName(attachment.RelativePath.Replace('\\', '/'));
+            return PhysicalFile(
+                fullPath,
+                attachment.ContentType,
+                string.IsNullOrWhiteSpace(downloadName) ? $"attachment-{attachment.Id}" : downloadName,
+                enableRangeProcessing: true);
         }
         catch (Exception exception)
         {
-            logger.LogError(exception, "News Card {NewsCardId} could not be prepared for download.", id);
+            logger.LogError(
+                exception,
+                "Attachment {AttachmentId} for News Card {NewsCardId} could not be downloaded.",
+                attachmentId,
+                id);
             return StatusCode(
                 StatusCodes.Status503ServiceUnavailable,
-                new { message = "This News Card download is temporarily unavailable." });
+                new { message = "This attachment is temporarily unavailable." });
         }
     }
 
