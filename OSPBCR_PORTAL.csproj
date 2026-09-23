@@ -25,6 +25,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <!-- CMS binaries live outside the application and are served from CmsAssets:RootPath. -->
+    <Content Remove="wwwroot\assets\IMAGES_PDF_PPT_EXCEL\TRAININGS PAGE\DISTRICT\TRAINING PDFS\DISTRICT WISE TRAINING PDF\**\*" />
+    <Content Remove="wwwroot\assets\IMAGES_PDF_PPT_EXCEL\CANCER BURDEN\PDF\**\*" />
+    <Content Remove="wwwroot\assets\IMAGES_PDF_PPT_EXCEL\CANCER BURDEN\PREVIEW IMAGE\**\*" />
+    <Content Remove="wwwroot\assets\IMAGES_PDF_PPT_EXCEL\ABOUT US PAGE\Odisha Circular\PDF\**\*" />
+    <Content Remove="wwwroot\assets\IMAGES_PDF_PPT_EXCEL\ABOUT US PAGE\Odisha Circular\PREVIEW IMAGE\**\*" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="Views\Home\*.html">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>

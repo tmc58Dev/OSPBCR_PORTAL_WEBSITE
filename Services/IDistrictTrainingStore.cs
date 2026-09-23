@@ -5,13 +5,13 @@ namespace OSPBCR_PORTAL.Services;
 public interface IDistrictTrainingStore
 {
     Task<IReadOnlyList<DistrictTrainingRecord>> GetAllAsync(CancellationToken cancellationToken = default);
-    Task<DistrictTrainingRecord?> GetAsync(Guid id, CancellationToken cancellationToken = default);
+    Task<DistrictTrainingRecord?> GetAsync(int id, CancellationToken cancellationToken = default);
     Task<DistrictTrainingRecord> CreateAsync(
         DistrictTrainingFormViewModel form,
         CancellationToken cancellationToken = default);
     Task<DistrictTrainingRecord?> UpdateAsync(
-        Guid id,
+        int id,
         DistrictTrainingFormViewModel form,
         CancellationToken cancellationToken = default);
-    Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken = default);
+    Task<bool> DeleteAsync(int id, CancellationToken cancellationToken = default);
 }

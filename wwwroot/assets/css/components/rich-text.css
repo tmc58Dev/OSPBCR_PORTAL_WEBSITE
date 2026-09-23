@@ -1,0 +1,33 @@
+.rich-text-content {
+    max-width: 100%;
+    min-width: 0;
+    overflow-wrap: anywhere;
+    white-space: normal;
+}
+
+.rich-text-content * { max-width: 100%; }
+.rich-text-content p,
+.rich-text-content div,
+.rich-text-content h1,
+.rich-text-content h2,
+.rich-text-content h3,
+.rich-text-content h4,
+.rich-text-content h5,
+.rich-text-content h6,
+.rich-text-content li { white-space: normal; }
+.rich-text-title { color: var(--text); font-weight: inherit; }
+.rich-text-content a { color: var(--primary, #005b96); text-decoration: underline; text-underline-offset: .12em; }
+
+.district-pdf-rich-text.rich-text-content { font-weight: 400; }
+.rich-text-content > :first-child { margin-top: 0; }
+.rich-text-content > :last-child { margin-bottom: 0; }
+.rich-text-content ul, .rich-text-content ol { padding-inline-start: 2em; }
+.rich-text-content blockquote { padding-inline-start: 1em; border-inline-start: 4px solid var(--primary, #005b96); }
+.rich-text-content pre { max-width: 100%; overflow-x: auto; white-space: pre-wrap; }
+.rich-text-content table { display: block; width: max-content; max-width: 100%; overflow-x: auto; border-collapse: collapse; }
+.rich-text-content th, .rich-text-content td { padding: .35em .55em; border: 1px solid currentColor; vertical-align: top; }
+
+@media (max-width: 640px) {
+    .rich-text-content { overflow-wrap: anywhere; word-break: normal; }
+    .rich-text-content table { font-size: min(1em, 15px); }
+}

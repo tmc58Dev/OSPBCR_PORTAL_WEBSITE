@@ -6,6 +6,7 @@ public interface IManagedFileStorage
 {
     Task<string?> ValidateWebpAsync(IFormFile? file, bool required, CancellationToken cancellationToken = default);
     Task<string?> ValidatePdfAsync(IFormFile? file, bool required, CancellationToken cancellationToken = default);
+    Task<string?> ValidatePdfResourceAsync(IFormFile? file, bool required, CancellationToken cancellationToken = default);
     Task<string?> ValidatePreviewImageAsync(IFormFile? file, bool required, CancellationToken cancellationToken = default);
     Task<string?> ValidateAttachmentAsync(IFormFile? file, CancellationToken cancellationToken = default);
     Task<string> SaveWebpAsync(IFormFile file, string category, CancellationToken cancellationToken = default);

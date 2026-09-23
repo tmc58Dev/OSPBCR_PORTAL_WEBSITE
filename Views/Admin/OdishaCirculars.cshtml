@@ -18,8 +18,8 @@
         <img src="@Url.ApplicationContent(record.PreviewPath)" alt="@record.District Odisha State circular PDF preview" />
         <div class="cms-content-card-body">
             <span class="cms-badge">@record.District</span>
-            <h2>@record.Title</h2>
-            <p>@record.Description</p>
+            <div class="cms-rich-text-title" role="heading" aria-level="2" data-rich-text-display>@record.Title</div>
+            <div class="cms-card-rich-text" data-rich-text-display>@record.Description</div>
             <div class="content-inline-actions">
                 <a class="cms-button cms-button-secondary cms-button-small" href="@Url.ApplicationContent(record.PdfPath)" target="_blank" rel="noopener">View PDF</a>
                 <a class="cms-button cms-button-secondary cms-button-small" asp-action="EditOdishaCircular" asp-route-id="@record.Id">Update</a>

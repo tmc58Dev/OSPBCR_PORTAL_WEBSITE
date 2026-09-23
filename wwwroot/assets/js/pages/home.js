@@ -203,6 +203,8 @@ document.addEventListener("DOMContentLoaded", () => {
     let newsLanguage = currentLanguage();
     let newsDateOrder = "desc";
     let touchStartX = 0;
+    let imageSlideshowTimer = 0;
+    const imageSlideshowDelay = 4500;
     const languageNames = {
         en: "English",
         hi: "हिन्दी",
@@ -239,14 +241,8 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    function showCardImage(card, index) {
-        const imageTrack = card?.querySelector("[data-news-image-track]");
-        const images = Array.from(card?.querySelectorAll("[data-news-card-image]") || []);
-        if (!imageTrack || !images.length) return;
-
-        const activeImageIndex = (index + images.length) % images.length;
+    function updateCardImageStatus(card, activeImageIndex, images) {
         card.dataset.activeImage = String(activeImageIndex);
-        imageTrack.style.transform = `translateX(-${activeImageIndex * 100}%)`;
         images.forEach((image, imageIndex) => {
             image.setAttribute("aria-hidden", String(imageIndex !== activeImageIndex));
         });
@@ -259,10 +255,59 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    function moveCardImage(card, direction) {
+    function showCardImage(card, index, animate = true) {
+        const imageTrack = card?.querySelector("[data-news-image-track]");
+        const images = Array.from(card?.querySelectorAll("[data-news-card-image]") || []);
+        if (!imageTrack || !images.length || imageTrack.classList.contains("is-animating")) return;
+
+        const activeImageIndex = (index + images.length) % images.length;
+        const currentImageIndex = Number.parseInt(card.dataset.activeImage || "0", 10);
+        const currentImage = images[currentImageIndex];
+        const nextImage = images[activeImageIndex];
+        const shouldAnimate = animate && currentImage !== nextImage &&
+            !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+        updateCardImageStatus(card, activeImageIndex, images);
+
+        if (!shouldAnimate) {
+            images.forEach((image, imageIndex) => {
+                image.classList.toggle("is-active", imageIndex === activeImageIndex);
+                image.classList.remove("is-slider-incoming", "is-slider-outgoing");
+            });
+            return;
+        }
+
+        nextImage.classList.add("is-slider-incoming");
+        void imageTrack.offsetWidth;
+        imageTrack.classList.add("is-animating");
+        currentImage.classList.remove("is-active");
+        currentImage.classList.add("is-slider-outgoing");
+        nextImage.classList.add("is-active");
+
+        nextImage.addEventListener("transitionend", () => {
+            imageTrack.classList.remove("is-animating");
+            currentImage.classList.remove("is-slider-outgoing");
+            nextImage.classList.remove("is-slider-incoming");
+        }, { once: true });
+    }
+
+    function moveCardImage(card) {
         if (!card) return;
         const currentImage = Number.parseInt(card.dataset.activeImage || "0", 10);
-        showCardImage(card, currentImage + direction);
+        showCardImage(card, currentImage + 1);
+    }
+
+    function startImageSlideshows() {
+        window.clearInterval(imageSlideshowTimer);
+        imageSlideshowTimer = window.setInterval(() => {
+            cards.forEach((card) => {
+                const page = card.closest("[data-news-page]");
+                if (page?.getAttribute("aria-hidden") === "false" &&
+                    !card.matches(":hover") && !card.contains(document.activeElement)) {
+                    moveCardImage(card);
+                }
+            });
+        }, imageSlideshowDelay);
     }
 
     function show(index) {
@@ -289,21 +334,23 @@ document.addEventListener("DOMContentLoaded", () => {
         const imagePaths = Array.isArray(item.imagePaths) && item.imagePaths.length
             ? item.imagePaths
             : [item.imagePath].filter(Boolean);
+        const titleText = window.OSPBCRRichText?.toPlainText(item.title) || item.title;
         const imageTrack = document.createElement("div");
-        imageTrack.className = "trending-card-gallery";
+        imageTrack.className = "trending-card-gallery is-directional-slider";
         imageTrack.dataset.newsImageTrack = "";
         imageTrack.setAttribute(
             "aria-label",
-            `${item.title}: ${imagePaths.length} photo${imagePaths.length === 1 ? "" : "s"}`
+            `${titleText}: ${imagePaths.length} photo${imagePaths.length === 1 ? "" : "s"}`
         );
         imagePaths.forEach((path, imageIndex) => {
             const image = document.createElement("img");
             image.src = path;
-            image.alt = imageIndex === 0 ? item.title : `${item.title} — photo ${imageIndex + 1}`;
+            image.alt = imageIndex === 0 ? titleText : `${titleText} — photo ${imageIndex + 1}`;
             image.loading = "lazy";
             image.decoding = "async";
             image.dataset.newsCardImage = "";
             image.setAttribute("aria-hidden", String(imageIndex !== 0));
+            image.classList.toggle("is-active", imageIndex === 0);
             imageTrack.appendChild(image);
         });
         media.appendChild(imageTrack);
@@ -313,14 +360,6 @@ document.addEventListener("DOMContentLoaded", () => {
         media.appendChild(language);
         if (imagePaths.length > 1) {
             const labels = imageControlLabels[item.language] || imageControlLabels.en;
-            const previousImage = document.createElement("button");
-            previousImage.type = "button";
-            previousImage.className = "trending-image-control trending-image-previous";
-            previousImage.dataset.newsImagePrevious = "";
-            previousImage.setAttribute("aria-label", labels.previous);
-            previousImage.title = labels.previous;
-            previousImage.innerHTML = '<span aria-hidden="true">‹</span>';
-
             const nextImage = document.createElement("button");
             nextImage.type = "button";
             nextImage.className = "trending-image-control trending-image-next";
@@ -329,7 +368,7 @@ document.addEventListener("DOMContentLoaded", () => {
             nextImage.title = labels.next;
             nextImage.innerHTML = '<span aria-hidden="true">›</span>';
 
-            media.append(previousImage, nextImage);
+            media.append(nextImage);
 
             const photoCount = document.createElement("span");
             photoCount.className = "trending-card-photo-count";
@@ -364,21 +403,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const copy = document.createElement("div");
         copy.className = "trending-card-content";
-        const title = document.createElement("h2");
-        title.textContent = item.title;
-        const date = document.createElement("time");
+        const title = document.createElement("div");
+        title.className = "news-story-title rich-text-title rich-text-content";
+        title.setAttribute("role", "heading");
+        title.setAttribute("aria-level", "2");
+        title.innerHTML = window.OSPBCRRichText?.sanitize(item.title) || "";
+        const date = document.createElement("span");
         date.className = "trending-card-date";
         date.textContent = item.publishDate;
-        date.dateTime = toIsoDate(item.publishDate);
         const link = document.createElement("a");
         link.className = "trending-learn-more";
-        const trendingQuery = new URLSearchParams({
+        const detailQuery = new URLSearchParams({
+            news: String(item.id),
             language: item.language,
             dateOrder: newsDateOrder
         });
-        link.href = `trending.html?${trendingQuery.toString()}`;
+        link.href = `news-detail?${detailQuery.toString()}`;
         link.textContent = viewMoreLabels[item.language] || viewMoreLabels.en;
-        link.setAttribute("aria-label", `${link.textContent}: ${item.title}`);
+        link.setAttribute("aria-label", `${link.textContent}: ${window.OSPBCRRichText?.toPlainText(item.title) || item.title}`);
         copy.append(title, date, link);
         article.append(createMedia(item), copy);
         return article;
@@ -436,6 +478,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 page.setAttribute("aria-label", `${pageIndex + 1} of ${pages.length}`);
             });
             show(0);
+            startImageSlideshows();
         } catch (error) {
             console.error("News Cards could not be loaded.", error);
             if (version === requestVersion) {
@@ -464,12 +507,10 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
     carousel.addEventListener("click", (event) => {
-        const previousImage = event.target.closest("[data-news-image-previous]");
         const nextImage = event.target.closest("[data-news-image-next]");
-        if (!previousImage && !nextImage) return;
+        if (!nextImage) return;
 
-        const card = (previousImage || nextImage).closest(".news-card");
-        moveCardImage(card, previousImage ? -1 : 1);
+        moveCardImage(nextImage.closest(".news-card"));
     });
     carousel.addEventListener("touchstart", (event) => {
         touchStartX = event.changedTouches[0]?.clientX || 0;
@@ -515,7 +556,8 @@ function toIsoDate(value) {
 
 function newsDateValue(value) {
 
-    const [day, month, year] = String(value || "").split("/").map(Number);
+    const plainText = window.OSPBCRRichText?.toPlainText(value) || String(value || "");
+    const [day, month, year] = plainText.split("/").map(Number);
     return day && month && year ? Date.UTC(year, month - 1, day) : 0;
 
 }

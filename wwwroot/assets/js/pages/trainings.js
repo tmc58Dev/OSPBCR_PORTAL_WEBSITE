@@ -81,6 +81,7 @@ async function loadDistrictTrainingPdfs() {
     try {
         const language = window.i18n?.getLanguage() || "en";
         const response = await fetch(`api/content/training-pdfs?language=${encodeURIComponent(language)}`, {
+            cache: "no-store",
             headers: { "Accept": "application/json" }
         });
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
@@ -409,14 +410,20 @@ async function initializeDistrictPdfCarousel() {
         const response = await fetch("assets/data/district-trainings.json", {
             headers: { "Accept": "application/json" }
         });
-        if (!response.ok) {
-            throw new Error(`Districts HTTP ${response.status}`);
-        }
-
-        const payload = await response.json();
-        const districts = (payload.districts || [])
+        const payload = response.ok ? await response.json() : { districts: [] };
+        const staticDistricts = (payload.districts || [])
             .map((item) => String(item.name || "").trim())
             .filter(Boolean);
+
+        const cmsDistricts = districtTrainingPdfs
+            .map((item) => String(item.district || "").trim())
+            .filter(Boolean);
+        const districtNames = new Map();
+        [...staticDistricts, ...cmsDistricts].forEach((district) => {
+            const normalized = district.toLocaleLowerCase("en");
+            if (!districtNames.has(normalized)) districtNames.set(normalized, district);
+        });
+        const districts = Array.from(districtNames.values());
 
         if (districts.length === 0) {
             select.innerHTML = `<option>${t("Districts unavailable")}</option>`;
@@ -484,8 +491,8 @@ async function initializeDistrictPdfCarousel() {
                 <article class="district-pdf-slide">
                     <div class="district-pdf-meta">
                         <span class="district-pdf-label">${districtLabel}</span>
-                        <h4>${escapeHtml(item.pdf.title)}</h4>
-                        <div class="district-pdf-rich-text">${window.OSPBCRRichText?.sanitize(item.pdf.description) || escapeHtml(item.pdf.description)}</div>
+                        <div class="district-pdf-rich-title rich-text-title rich-text-content" role="heading" aria-level="4">${window.OSPBCRRichText?.sanitize(item.pdf.title) || escapeHtml(item.pdf.title)}</div>
+                        <div class="district-pdf-rich-text rich-text-content">${window.OSPBCRRichText?.sanitize(item.pdf.description) || escapeHtml(item.pdf.description)}</div>
                         <div class="district-pdf-actions">
                             <a class="view-btn training-report-btn" href="${pdfPath}" target="_blank" rel="noopener noreferrer">${t("View PDF")}</a>
                             <a class="download-btn training-report-btn" href="${pdfPath}" download>${t("Download PDF")}</a>

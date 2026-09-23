@@ -78,7 +78,7 @@ public sealed class NewsCardTranslation
 {
     public string LanguageCode { get; set; } = "";
     public string Title { get; set; } = "";
-    public DateOnly PublishDate { get; set; }
+    public string PublishDate { get; set; } = "";
     public string ImagePath { get; set; } = "";
     public string TextNote { get; set; } = "";
     public string Footer { get; set; } = "";
@@ -86,13 +86,13 @@ public sealed class NewsCardTranslation
 
 public sealed class NewsLanguageInput
 {
-    public const int MaxContentLength = 100_000;
+    public const int MaxContentLength = 9_999_999;
 
     [Required, StringLength(MaxContentLength)]
     public string Title { get; set; } = "";
 
-    [Required]
-    [RegularExpression(@"^(0[1-9]|[12]\d|3[01])/(0[1-9]|1[0-2])/\d{4}$", ErrorMessage = "Use DD/MM/YYYY format.")]
+    [Required, StringLength(MaxContentLength)]
+    [DataType(DataType.Date)]
     public string PublishDate { get; set; } = "";
 
     [Required, StringLength(MaxContentLength)]
@@ -139,10 +139,12 @@ public sealed record PublicNewsAttachment(
 
 public sealed class PdfResourceLanguageInput
 {
-    [Required, StringLength(250)]
+    public const int MaxContentLength = 9_999_999;
+
+    [Required, StringLength(MaxContentLength)]
     public string Title { get; set; } = "";
 
-    [Required, StringLength(2000)]
+    [Required, StringLength(MaxContentLength)]
     public string Description { get; set; } = "";
 }
 
@@ -156,7 +158,7 @@ public sealed record PublicPdfResource(
 
 public sealed class DistrictTrainingRecord
 {
-    public Guid Id { get; set; }
+    public int Id { get; set; }
     public string District { get; set; } = "";
     public string Title { get; set; } = "";
     public string Description { get; set; } = "";
@@ -166,13 +168,15 @@ public sealed class DistrictTrainingRecord
     public string DescriptionOr { get; set; } = "";
     public string PdfPath { get; set; } = "";
     public string PreviewPath { get; set; } = "";
+    public int? CreatedById { get; set; }
+    public int? UpdatedById { get; set; }
     public DateTimeOffset CreatedAt { get; set; }
     public DateTimeOffset UpdatedAt { get; set; }
 }
 
 public sealed class DistrictTrainingFormViewModel
 {
-    public Guid? Id { get; set; }
+    public int? Id { get; set; }
 
     [Required]
     public string District { get; set; } = "";

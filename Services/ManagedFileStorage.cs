@@ -1,11 +1,13 @@
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Options;
 
 namespace OSPBCR_PORTAL.Services;
 
-public sealed class ManagedFileStorage(IWebHostEnvironment environment) : IManagedFileStorage
+public sealed class ManagedFileStorage(IOptions<CmsAssetStorageOptions> options) : IManagedFileStorage
 {
     private const long MaxImageBytes = 5 * 1024 * 1024;
     private const long MaxPdfBytes = 25 * 1024 * 1024;
+    private const long MaxPdfResourceBytes = 853L * 1024 * 1024;
     private const long MaxAttachmentBytes = 25 * 1024 * 1024;
     private static readonly HashSet<string> BlockedAttachmentExtensions = new(StringComparer.OrdinalIgnoreCase)
     {
@@ -14,7 +16,18 @@ public sealed class ManagedFileStorage(IWebHostEnvironment environment) : IManag
         ".msi", ".msp", ".mst", ".pif", ".ps1", ".reg", ".scr", ".sct", ".sh", ".sys",
         ".vb", ".vbe", ".vbs", ".ws", ".wsc", ".wsf", ".wsh"
     };
-    private readonly string _uploadRoot = Path.GetFullPath(Path.Combine(environment.WebRootPath, "uploads"));
+    private static readonly IReadOnlyDictionary<string, string> CategoryDirectories =
+        new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["news"] = "NEWS_CARDS",
+            ["news-attachments"] = Path.Combine("NEWS_CARDS", "ATTACHMENTS"),
+            ["training"] = "DISTRICT_WISE_TRAININGS",
+            ["cancer-burden"] = "CANCER_BURDEN_FACTSHEETS",
+            ["odisha-circulars"] = "ODISHA_STATE_CIRCULARS"
+        };
+
+    private readonly string _assetRoot = ResolveAssetRoot(options.Value.RootPath);
+    private readonly string _requestPath = NormalizeRequestPath(options.Value.RequestPath);
 
     public Task<string?> ValidateWebpAsync(
         IFormFile? file,
@@ -27,6 +40,12 @@ public sealed class ManagedFileStorage(IWebHostEnvironment environment) : IManag
         bool required,
         CancellationToken cancellationToken = default) =>
         ValidateAsync(file, required, ".pdf", "application/pdf", MaxPdfBytes, IsPdfAsync, cancellationToken);
+
+    public Task<string?> ValidatePdfResourceAsync(
+        IFormFile? file,
+        bool required,
+        CancellationToken cancellationToken = default) =>
+        ValidateAsync(file, required, ".pdf", "application/pdf", MaxPdfResourceBytes, IsPdfAsync, cancellationToken);
 
     public async Task<string?> ValidatePreviewImageAsync(
         IFormFile? file,
@@ -107,27 +126,38 @@ public sealed class ManagedFileStorage(IWebHostEnvironment environment) : IManag
 
     public string? ResolveManagedPath(string? publicPath)
     {
-        if (string.IsNullOrWhiteSpace(publicPath) ||
-            !publicPath.StartsWith("/uploads/", StringComparison.OrdinalIgnoreCase))
+        if (string.IsNullOrWhiteSpace(publicPath))
         {
             return null;
         }
 
-        var relative = publicPath.TrimStart('/').Replace('/', Path.DirectorySeparatorChar);
-        var fullPath = Path.GetFullPath(Path.Combine(environment.WebRootPath, relative));
-        return fullPath.StartsWith(_uploadRoot + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase)
+        var pathWithoutQuery = publicPath.Split('?', '#')[0];
+        var prefix = _requestPath + "/";
+        if (!pathWithoutQuery.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
+        {
+            return null;
+        }
+
+        var encodedRelative = pathWithoutQuery[prefix.Length..];
+        string relative;
+        try
+        {
+            relative = Uri.UnescapeDataString(encodedRelative)
+                .Replace('/', Path.DirectorySeparatorChar);
+        }
+        catch (UriFormatException)
+        {
+            return null;
+        }
+
+        var fullPath = Path.GetFullPath(Path.Combine(_assetRoot, relative));
+        return fullPath.StartsWith(_assetRoot + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase)
             ? fullPath
             : null;
     }
 
     public Task DeleteIfManagedAsync(string? publicPath, CancellationToken cancellationToken = default)
     {
-        if (string.IsNullOrWhiteSpace(publicPath) ||
-            !publicPath.StartsWith("/uploads/", StringComparison.OrdinalIgnoreCase))
-        {
-            return Task.CompletedTask;
-        }
-
         var fullPath = ResolveManagedPath(publicPath);
         if (fullPath is null)
         {
@@ -147,19 +177,42 @@ public sealed class ManagedFileStorage(IWebHostEnvironment environment) : IManag
         string extension,
         CancellationToken cancellationToken)
     {
-        var safeCategory = new string(category.Where(character => char.IsLetterOrDigit(character) || character == '-').ToArray());
-        if (string.IsNullOrWhiteSpace(safeCategory))
+        if (!CategoryDirectories.TryGetValue(category, out var categoryDirectory))
         {
             throw new InvalidOperationException("The upload category is invalid.");
         }
 
-        var directory = Path.Combine(_uploadRoot, safeCategory);
+        var directory = Path.Combine(_assetRoot, categoryDirectory);
         Directory.CreateDirectory(directory);
         var fileName = $"{Guid.NewGuid():N}{extension}";
         var fullPath = Path.Combine(directory, fileName);
         await using var output = new FileStream(fullPath, FileMode.CreateNew, FileAccess.Write, FileShare.None, 81920, true);
         await file.CopyToAsync(output, cancellationToken);
-        return $"/uploads/{safeCategory}/{fileName}";
+        var publicDirectory = categoryDirectory.Replace(Path.DirectorySeparatorChar, '/');
+        return $"{_requestPath}/{publicDirectory}/{fileName}";
+    }
+
+    private static string ResolveAssetRoot(string configuredPath)
+    {
+        if (string.IsNullOrWhiteSpace(configuredPath))
+        {
+            throw new InvalidOperationException(
+                $"Configure {CmsAssetStorageOptions.SectionName}:RootPath with the CMS physical asset directory.");
+        }
+
+        return Path.GetFullPath(Environment.ExpandEnvironmentVariables(configuredPath.Trim()));
+    }
+
+    private static string NormalizeRequestPath(string configuredPath)
+    {
+        var requestPath = configuredPath.Trim();
+        if (string.IsNullOrWhiteSpace(requestPath) || requestPath == "/")
+        {
+            throw new InvalidOperationException(
+                $"{CmsAssetStorageOptions.SectionName}:RequestPath must be a non-root URL path.");
+        }
+
+        return "/" + requestPath.Trim('/');
     }
 
     private static async Task<string?> ValidateAsync(

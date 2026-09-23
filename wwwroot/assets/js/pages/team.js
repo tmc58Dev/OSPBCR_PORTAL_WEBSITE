@@ -8,13 +8,18 @@ const teamSections = [
                 image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Ms. Ashwathy S IAS.webp"
             },
             {
+                name: "Dr. Brundha D, IAS",
+                designation: "Mission Director, NHM",
+                image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Dr. Brundha D.webp"
+            },
+            {
                 name: "Dr. Rabindra Nath Mishra",
                 designation: "Director Public Health",
                 image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Dr. Rabindra Nath Mishra.webp"
             },
             {
-                name: "Dr. Pameela",
-                designation: "Senior Adminitrative Grade, Directorate of Public Health",
+                name: "Dr. Prameela Baral",
+                designation: "Senior Administrative Grade, Directorate of Public Health",
                 image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Dr. Pramila Baral.webp"
             },
             {
@@ -45,6 +50,11 @@ const teamSections = [
             {
                 name: "Chief District Medical Officers (CDMOs) of all districts",
                 designation: "District Health Leadership"
+            },
+            {
+                name: "Mr. Lalit Mohan Sahu",
+                designation: "State NCD Consultant",
+                image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Mr. Lalit Mohan Sahu.webp"
             }
         ]
     },
@@ -54,6 +64,7 @@ const teamSections = [
             {
                 name: "Dr. Sudeep Gupta",
                 designation: "Director, TMC",
+                subheading: "Directors and Deputy Directors",
                 image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Sudeep Gupta.webp"
             },
             {
@@ -73,12 +84,14 @@ const teamSections = [
             },
             {
                 name: "Dr. Atul Budukh",
-                designation: "Professor, Epidemiology",
+                designation: "Professor Epidemiology, CCE, TMC",
+                subheading: "Technical Lead and Principle Investigator",
+                boxedSubheading: true,
                 image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/ATUL B.webp"
             },
             {
                 name: "Dr. Lingaraj Nayak",
-                designation: "Professor, Medical Oncology",
+                designation: "Officer Incharge and Medical Oncologist<br>HBCH, Jatani, Khordha",
                 image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Dr Lingaraj.webp"
             }
         ]
@@ -124,22 +137,12 @@ const teamSections = [
         ]
     },
     {
-        title: "Odisha State PBCR Staff",
+        title: "Odisha State PBCR - Coordinators",
         members: [
             {
                 name: "Dr. Shubham Sritam Samantaray",
                 designation: "State Co-ordinator",
                 image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Dr. Shubham Sritam Samantaray.webp"
-            },
-            {
-                name: "Dr. Sourav Dey",
-                designation: "Statistician",
-                image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Dr. Sourav Dey.webp"
-            },
-            {
-                name: "Mr. Shantanu Rewatkar",
-                designation: "Programmer",
-                image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Mr. Shantanu Rewatkar.webp"
             },
             {
                 name: "Dr. Asutosh Pradhan",
@@ -173,58 +176,97 @@ const teamSections = [
             },
             {
                 name: "Gyanaranjan Sarangi",
-                designation: "Social Researcher (Supporting staff)",
+                designation: "Social Researcher, PBCR Khordha (Supporting Staff)",
                 image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Gyanaranjan Sarangi.webp"
+            },
+            {
+                name: "Subhalaxmi Baliarsingh",
+                designation: "Research Assistant, PBCR Khordha (Supporting Staff)",
+                image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Subhalaxmi Baliarsingh.webp"
             }
         ]
     },
     {
-        title: "Centre for Cancer Epidemiology (CCE), TMC, Mumbai",
+        title: "Quality Control Team",
         members: [
             {
                 name: "Dr. Suvarna Gore",
-                designation: "Scientific Officer - D",
+                designation: "Scientific Officer - D, CCE, TMC",
                 image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Suvarna Gore.webp"
             },
             {
                 name: "Ms. Sushama Saoba",
-                designation: "Scientific Assistant - E",
+                designation: "Scientific Assistant - E, CCE, TMC",
                 image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Sushma.webp"
             },
             {
-                name: "Mrs. Monika Sarade",
-                designation: "Social Investigator",
-                image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Mrs. Monika Sarade_.webp"
-            },
-            {
                 name: "Mrs. Deepali Lokhande",
-                designation: "Scientific Assistant - E",
+                designation: "Scientific Assistant - E, CCE, TMC",
                 image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Deepali.webp"
             },
             {
+                name: "Mrs. Monika Sarade",
+                designation: "Social Investigator, CCE, TMC",
+                image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Mrs. Monika Sarade_.webp"
+            },
+            {
                 name: "Mrs. Suvarna Kolekar",
-                designation: "Social Investigator",
+                designation: "Social Investigator, CCE, TMC",
                 image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Mrs. Suvarna Kolekar.webp"
             },
             {
                 name: "Mr. Narpat R. Padvi",
-                designation: "Scientific Assistant - D",
+                designation: "Scientific Assistant - D, CCE, TMC",
                 image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Mr. Narpat R. Padvi.webp"
             },
             {
-                name: "Ms. Sonali Bagal",
-                designation: "Research Co-ordinator",
-                image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Sonali.webp"
-            },
+                name: "Dr. Saswati Priyadarshini",
+                designation: "Medical Officer, EDP Khordha",
+                image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Dr. Saswati Priyadarshini.webp"
+            }
+        ]
+    },
+    {
+        title: "Data Management Team",
+        members: [
             {
                 name: "Mr. Pratik Sawant",
-                designation: "Senior Programmer",
+                designation: "Senior Programmer, CCE, TMC",
                 image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Pratik Sawant.webp"
             },
             {
+                name: "Mrs. Sonali Bagal",
+                designation: "Research Co-ordinator, CCE, TMC",
+                image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Sonali.webp"
+            },
+            {
+                name: "Dr. Sourav Dey",
+                designation: "Statistician, Odisha State PBCR",
+                image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Dr. Sourav Dey.webp"
+            },
+            {
+                name: "Mr. Shantanu Rewatkar",
+                designation: "Programmer, Odisha State PBCR",
+                image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Mr. Shantanu Rewatkar.webp"
+            },
+            {
                 name: "Mr. Vinay Tawde",
-                designation: "Programmer",
+                designation: "Programmer, CCE, TMC",
                 image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/VINAY TAWDE.webp"
+            }
+        ]
+    },
+    {
+        title: "Administrative Team",
+        members: [
+            {
+                name: "Prithviraj Kadam",
+                designation: "CCE, TMC"
+            },
+            {
+                name: "Sachin Patil",
+                designation: "Administrative Assistant, CCE, TMC",
+                image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Sachin Patil.webp"
             }
         ]
     }
@@ -271,28 +313,104 @@ function renderPortrait(member) {
     `;
 }
 
-function renderTeam() {
-
-    teamGrid.innerHTML = teamSections.map((section) => `
-        <section class="team-group fade-up">
-            <div class="team-group-heading">
-                <h2>${t(section.title)}</h2>
-            </div>
-
-            <div class="team-section-grid">
-                ${section.members.map((member) => `
-                    <article class="team-card fade-up">
-                        <div class="team-image">
+function renderBoxedTeamMember(member) {
+    return `
+        <tr class="team-table-boxed-row">
+            <td colspan="3">
+                <div class="team-table-boxed-group">
+                    <h3>${t(member.subheading)}</h3>
+                    <div class="team-table-boxed-member">
+                        <div class="team-table-photo">
                             ${renderPortrait(member)}
                         </div>
+                        <span class="team-table-name">${member.name}</span>
+                        <span class="team-table-designation">${t(member.designation)}</span>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    `;
+}
 
-                        <div class="team-content">
-                            <h3 class="team-name">${member.name}</h3>
-                            <p class="team-designation">${t(member.designation)}</p>
-                        </div>
-                    </article>
-                `).join("")}
+function renderDepartmentTable(section) {
+    return `
+        <div class="team-table-wrap">
+            <table class="team-table" aria-label="${t(section.title)}">
+                <colgroup>
+                    <col class="team-table-photo-column">
+                    <col class="team-table-name-column">
+                    <col class="team-table-designation-column">
+                </colgroup>
+                <tbody>
+                    ${section.members.map((member) => `
+                        ${member.boxedSubheading ? renderBoxedTeamMember(member) : `
+                        ${member.subheading ? `
+                            <tr class="team-table-subheading-row">
+                                <th colspan="3" scope="rowgroup">${t(member.subheading)}</th>
+                            </tr>
+                        ` : ""}
+                        <tr class="team-table-member-row">
+                            <td>
+                                <div class="team-table-photo">
+                                    ${renderPortrait(member)}
+                                </div>
+                            </td>
+                            <td>
+                                <span class="team-table-name">${member.name}</span>
+                            </td>
+                            <td>
+                                <span class="team-table-designation">${t(member.designation)}</span>
+                            </td>
+                        </tr>
+                        `}
+                    `).join("")}
+                </tbody>
+            </table>
+        </div>
+    `;
+}
+
+function renderTeamCards(section) {
+    return `
+        <div class="team-section-grid">
+            ${section.members.map((member) => `
+                <article class="team-card fade-up">
+                    <div class="team-image">
+                        ${renderPortrait(member)}
+                    </div>
+
+                    <div class="team-content">
+                        <h3 class="team-name">${member.name}</h3>
+                        <p class="team-designation">${t(member.designation)}</p>
+                    </div>
+                </article>
+            `).join("")}
+        </div>
+    `;
+}
+
+function renderSectionTitle(section, index) {
+    const title = t(section.title);
+
+    if (index === 2) {
+        return title.replace(
+            /,\s*Jatni,\s*Odisha$/,
+            '<br><span class="team-title-location">Jatni, Odisha</span>'
+        );
+    }
+
+    return title;
+}
+
+function renderTeam() {
+
+    teamGrid.innerHTML = teamSections.map((section, index) => `
+        <section class="team-group team-group--table${index === 2 ? " team-group--long-title" : ""} fade-up">
+            <div class="team-group-heading">
+                <h2>${renderSectionTitle(section, index)}</h2>
             </div>
+
+            ${renderDepartmentTable(section)}
         </section>
     `).join("");
 

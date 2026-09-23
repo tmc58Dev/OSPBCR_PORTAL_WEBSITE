@@ -5,7 +5,8 @@ namespace OSPBCR_PORTAL.Services;
 
 public sealed class DistrictTrainingStore(
     IWebHostEnvironment environment,
-    IManagedFileStorage files) : IDistrictTrainingStore
+    IManagedFileStorage files,
+    IRichTextSanitizer richTextSanitizer) : IDistrictTrainingStore
 {
     private readonly SemaphoreSlim _gate = new(1, 1);
     private readonly string _dataPath = Path.Combine(environment.ContentRootPath, "App_Data", "district-training-pdfs.json");
@@ -27,7 +28,7 @@ public sealed class DistrictTrainingStore(
         }
     }
 
-    public async Task<DistrictTrainingRecord?> GetAsync(Guid id, CancellationToken cancellationToken = default)
+    public async Task<DistrictTrainingRecord?> GetAsync(int id, CancellationToken cancellationToken = default)
     {
         await _gate.WaitAsync(cancellationToken);
         try
@@ -52,14 +53,14 @@ public sealed class DistrictTrainingStore(
             var now = DateTimeOffset.Now;
             var record = new DistrictTrainingRecord
             {
-                Id = Guid.NewGuid(),
+                Id = Random.Shared.Next(1, int.MaxValue),
                 District = form.District.Trim(),
-                Title = form.English.Title.Trim(),
-                Description = form.English.Description.Trim(),
-                TitleHi = form.Hindi.Title.Trim(),
-                DescriptionHi = form.Hindi.Description.Trim(),
-                TitleOr = form.Odia.Title.Trim(),
-                DescriptionOr = form.Odia.Description.Trim(),
+                Title = richTextSanitizer.Sanitize(form.English.Title),
+                Description = richTextSanitizer.Sanitize(form.English.Description),
+                TitleHi = richTextSanitizer.Sanitize(form.Hindi.Title),
+                DescriptionHi = richTextSanitizer.Sanitize(form.Hindi.Description),
+                TitleOr = richTextSanitizer.Sanitize(form.Odia.Title),
+                DescriptionOr = richTextSanitizer.Sanitize(form.Odia.Description),
                 PdfPath = pdfPath,
                 PreviewPath = previewPath,
                 CreatedAt = now,
@@ -88,7 +89,7 @@ public sealed class DistrictTrainingStore(
     }
 
     public async Task<DistrictTrainingRecord?> UpdateAsync(
-        Guid id,
+        int id,
         DistrictTrainingFormViewModel form,
         CancellationToken cancellationToken = default)
     {
@@ -120,12 +121,12 @@ public sealed class DistrictTrainingStore(
                 oldPdfPath = record.PdfPath;
                 oldPreviewPath = record.PreviewPath;
                 record.District = form.District.Trim();
-                record.Title = form.English.Title.Trim();
-                record.Description = form.English.Description.Trim();
-                record.TitleHi = form.Hindi.Title.Trim();
-                record.DescriptionHi = form.Hindi.Description.Trim();
-                record.TitleOr = form.Odia.Title.Trim();
-                record.DescriptionOr = form.Odia.Description.Trim();
+                record.Title = richTextSanitizer.Sanitize(form.English.Title);
+                record.Description = richTextSanitizer.Sanitize(form.English.Description);
+                record.TitleHi = richTextSanitizer.Sanitize(form.Hindi.Title);
+                record.DescriptionHi = richTextSanitizer.Sanitize(form.Hindi.Description);
+                record.TitleOr = richTextSanitizer.Sanitize(form.Odia.Title);
+                record.DescriptionOr = richTextSanitizer.Sanitize(form.Odia.Description);
                 record.PdfPath = newPdfPath ?? record.PdfPath;
                 record.PreviewPath = newPreviewPath ?? record.PreviewPath;
                 record.UpdatedAt = DateTimeOffset.Now;
@@ -154,7 +155,7 @@ public sealed class DistrictTrainingStore(
         }
     }
 
-    public async Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken = default)
+    public async Task<bool> DeleteAsync(int id, CancellationToken cancellationToken = default)
     {
         DistrictTrainingRecord? record;
         await _gate.WaitAsync(cancellationToken);
@@ -260,7 +261,7 @@ public sealed class DistrictTrainingStore(
         string preview,
         DateTimeOffset timestamp) => new()
         {
-            Id = Guid.Parse(id),
+            Id = BitConverter.ToInt32(Guid.Parse(id).ToByteArray(), 0) & int.MaxValue,
             District = district,
             Title = title,
             Description = description,

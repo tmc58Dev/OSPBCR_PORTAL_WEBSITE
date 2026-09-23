@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Options;
 using OSPBCR_PORTAL.Data;
 using OSPBCR_PORTAL.Models;
 using OSPBCR_PORTAL.Services;
@@ -17,14 +18,21 @@ builder.Services.AddScoped<ISetuOdishaConnectionFactory, SetuOdishaSqlConnection
 builder.Services.AddScoped<IOspbcrPortalConnectionFactory, OspbcrPortalSqlConnectionFactory>();
 builder.Services.AddScoped<IRegistryDataService, RegistryDataService>();
 builder.Services.AddScoped<ICmsRepository, CmsRepository>();
+builder.Services.Configure<CmsAssetStorageOptions>(
+    builder.Configuration.GetSection(CmsAssetStorageOptions.SectionName));
 builder.Services.AddSingleton<IPasswordHasher<CmsUser>, PasswordHasher<CmsUser>>();
 builder.Services.AddSingleton<IManagedFileStorage, ManagedFileStorage>();
-builder.Services.AddSingleton<IDistrictTrainingStore, DistrictTrainingStore>();
+builder.Services.AddSingleton<IRichTextSanitizer, RichTextSanitizer>();
 builder.Services.AddHostedService<CmsDatabaseInitializer>();
 
 builder.Services.Configure<FormOptions>(options =>
 {
-    options.MultipartBodyLengthLimit = 800L * 1024 * 1024;
+    // A CMS field may contain up to 9,999,999 Unicode characters. Allow for the
+    // largest UTF-8 representation while the model validators enforce the exact
+    // character limit.
+    options.ValueLengthLimit = NewsLanguageInput.MaxContentLength * 4;
+    // Leave room for an 853 MB PDF, its preview image, form fields, and multipart overhead.
+    options.MultipartBodyLengthLimit = 1024L * 1024 * 1024;
 });
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -56,6 +64,29 @@ builder.Services.AddRazorPages();
 
 var app = builder.Build();
 
+var publicPages = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+{
+    ["/about"] = "about.html",
+    ["/cancer-burden"] = "cancer-burden.html",
+    ["/data-sources"] = "data-sources.html",
+    ["/map"] = "map.html",
+    ["/news-detail"] = "news-detail.html",
+    ["/participants"] = "participants.html",
+    ["/population-projection"] = "population-projection.html",
+    ["/team"] = "team.html",
+    ["/training-materials"] = "training-materials.html",
+    ["/trainings"] = "trainings.html",
+    ["/trending"] = "trending.html"
+};
+
+var legacyPageRedirects = publicPages
+    .ToDictionary(
+        page => "/" + page.Value,
+        page => page.Key,
+        StringComparer.OrdinalIgnoreCase);
+legacyPageRedirects["/index.html"] = "/";
+legacyPageRedirects["/home.html"] = "/";
+
 // IIS supplies PathBase for a sub-application. The configured value also supports
 // reverse proxies that preserve or strip the public /ospbcr prefix.
 var configuredPathBase = builder.Configuration["PathBase"]?.TrimEnd('/');
@@ -82,6 +113,36 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+// Keep the HTML files as the implementation detail while exposing stable,
+// extensionless public URLs. Query strings pass through both redirects and
+// internal rewrites unchanged.
+app.Use(async (context, next) =>
+{
+    if (!context.Request.Path.HasValue && context.Request.PathBase.HasValue)
+    {
+        var homepage = $"{context.Request.PathBase}/{context.Request.QueryString}";
+        context.Response.Redirect(homepage, permanent: true, preserveMethod: true);
+        return;
+    }
+
+    var requestPath = context.Request.Path.HasValue ? context.Request.Path.Value! : "/";
+
+    if (legacyPageRedirects.TryGetValue(requestPath, out var cleanPath))
+    {
+        var destination = $"{context.Request.PathBase}{cleanPath}{context.Request.QueryString}";
+        context.Response.Redirect(destination, permanent: true, preserveMethod: true);
+        return;
+    }
+
+    if ((HttpMethods.IsGet(context.Request.Method) || HttpMethods.IsHead(context.Request.Method)) &&
+        publicPages.TryGetValue(requestPath, out var pageFile))
+    {
+        context.Request.Path = "/" + pageFile;
+    }
+
+    await next(context);
+});
 
 var contentTypeProvider = new FileExtensionContentTypeProvider();
 contentTypeProvider.Mappings[".geojson"] = "application/geo+json";
@@ -115,6 +176,22 @@ app.Use(async (context, next) =>
 app.UseStaticFiles(new StaticFileOptions
 {
     ContentTypeProvider = contentTypeProvider
+});
+
+var cmsAssetOptions = app.Services.GetRequiredService<IOptions<CmsAssetStorageOptions>>().Value;
+var cmsAssetRoot = Path.GetFullPath(
+    Environment.ExpandEnvironmentVariables(cmsAssetOptions.RootPath.Trim()));
+Directory.CreateDirectory(cmsAssetRoot);
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(cmsAssetRoot),
+    RequestPath = "/" + cmsAssetOptions.RequestPath.Trim('/'),
+    ContentTypeProvider = contentTypeProvider,
+    ServeUnknownFileTypes = false,
+    OnPrepareResponse = context =>
+    {
+        context.Context.Response.Headers["X-Content-Type-Options"] = "nosniff";
+    }
 });
 
 var homeViewsPath = Path.Combine(app.Environment.ContentRootPath, "Views", "Home");
@@ -168,19 +245,36 @@ app.UseRateLimiter();
 app.UseAuthentication();
 app.UseAuthorization();
 
-// Use the canonical static page so relative assets resolve correctly even when
-// visitors enter /ospbcr without a trailing slash or use /Home/Home.
-app.MapGet("/", (HttpContext context) =>
-    Results.LocalRedirect($"{context.Request.PathBase}/home.html{context.Request.QueryString}"))
-    .AllowAnonymous();
+app.MapGet("/", async (HttpContext context) =>
+{
+    context.Response.ContentType = "text/html";
+    context.Response.Headers.CacheControl = "no-store, no-cache, must-revalidate";
+    context.Response.Headers.Pragma = "no-cache";
+    context.Response.Headers.Expires = "0";
+    await context.Response.SendFileAsync(Path.Combine(homeViewsPath, "home.html"));
+}).AllowAnonymous();
 
-app.MapGet("/trending", (HttpContext context) =>
-    Results.LocalRedirect($"{context.Request.PathBase}/trending.html?dateOrder=desc&view=20260726-auto-image-slider"))
-    .AllowAnonymous();
+app.MapGet("/sitemap.xml", (HttpContext context) =>
+{
+    string[] indexedPaths =
+    [
+        "/", "/about", "/cancer-burden", "/data-sources", "/map",
+        "/population-projection", "/team", "/training-materials", "/trainings", "/trending"
+    ];
+    var siteRoot = $"{context.Request.Scheme}://{context.Request.Host}{context.Request.PathBase}";
+    var urls = string.Join(
+        Environment.NewLine,
+        indexedPaths.Select(path => $"  <url><loc>{System.Net.WebUtility.HtmlEncode(siteRoot + path)}</loc></url>"));
+    var sitemap = $"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+                  $"<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n{urls}\n</urlset>";
+    return Results.Text(sitemap, "application/xml");
+}).AllowAnonymous();
 
-app.MapGet("/population-projection", (HttpContext context) =>
-    Results.LocalRedirect($"{context.Request.PathBase}/population-projection.html"))
-    .AllowAnonymous();
+app.MapGet("/robots.txt", (HttpContext context) =>
+{
+    var sitemapUrl = $"{context.Request.Scheme}://{context.Request.Host}{context.Request.PathBase}/sitemap.xml";
+    return Results.Text($"User-agent: *\nAllow: /\nSitemap: {sitemapUrl}\n", "text/plain");
+}).AllowAnonymous();
 
 app.MapStaticAssets();
 app.MapControllers();

@@ -67,8 +67,7 @@
 
     border-radius: 28px;
 
-    background:
-        linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(241, 248, 252, 0.94));
+    background: #ffffff;
 
     box-shadow: var(--shadow-sm);
 
@@ -110,6 +109,191 @@
 
 }
 
+.team-group--table {
+    width: min(100%, 1080px);
+    margin-inline: auto;
+    border-color: rgba(0, 91, 150, 0.32);
+    background: #ffffff;
+}
+
+.team-group--table .team-group-heading h2 {
+    white-space: nowrap;
+    font-size: clamp(0.58rem, 3vw, calc(1.65rem + 5px));
+    letter-spacing: -0.02em;
+}
+
+.team-group--long-title .team-group-heading h2 {
+    max-width: 100%;
+    white-space: normal;
+}
+
+.team-title-location {
+    white-space: nowrap;
+}
+
+.team-table-wrap {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.team-table {
+    width: 100%;
+    border: 0;
+    border-collapse: separate;
+    border-spacing: 0 10px;
+    table-layout: fixed;
+}
+
+.team-table-photo-column {
+    width: 225px;
+}
+
+.team-table-name-column {
+    width: 32%;
+}
+
+.team-table th,
+.team-table td {
+    border: 0;
+}
+
+.team-table tbody tr {
+    background: #ffffff;
+    box-shadow: 0 8px 22px rgba(0, 63, 107, 0.07);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.team-table tbody tr:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 26px rgba(0, 63, 107, 0.12);
+}
+
+.team-table .team-table-member-row,
+.team-table .team-table-member-row:hover,
+.team-table .team-table-member-row > td,
+.team-table .team-table-boxed-member {
+    background: #ffffff;
+}
+
+.team-table .team-table-subheading-row,
+.team-table .team-table-subheading-row:hover {
+    background: transparent;
+    box-shadow: none;
+    transform: none;
+}
+
+.team-table-subheading-row th {
+    padding: 22px 20px 8px;
+    color: var(--primary-dark);
+    font-size: 1.2rem;
+    font-weight: 900;
+    line-height: 1.35;
+    text-align: center;
+}
+
+.team-table-subheading-row:first-child th {
+    padding-top: 4px;
+}
+
+.team-table .team-table-boxed-row,
+.team-table .team-table-boxed-row:hover {
+    background: transparent;
+    box-shadow: none;
+    transform: none;
+}
+
+.team-table-boxed-row > td {
+    padding: 12px 0;
+}
+
+.team-table-boxed-group {
+    overflow: hidden;
+    border: 2px solid rgba(0, 91, 150, 0.42);
+    border-radius: 18px;
+    background: #ffffff;
+    box-shadow: 0 10px 26px rgba(0, 63, 107, 0.1);
+}
+
+.team-table-boxed-group h3 {
+    margin: 0;
+    padding: 16px 20px;
+    background: #ffffff;
+    color: var(--primary-dark);
+    font-size: 1.2rem;
+    font-weight: 900;
+    line-height: 1.35;
+    text-align: center;
+}
+
+.team-table-boxed-member {
+    display: grid;
+    grid-template-columns: 205px minmax(0, 32%) minmax(0, 1fr);
+    align-items: center;
+    padding: 14px 20px;
+    text-align: left;
+}
+
+.team-table td {
+    padding: 14px 20px;
+    color: #0f172a;
+    text-align: left;
+    vertical-align: middle;
+}
+
+.team-table td:first-child {
+    border-radius: 14px 0 0 14px;
+    text-align: center;
+}
+
+.team-table td:last-child {
+    border-radius: 0 14px 14px 0;
+}
+
+.team-table-photo {
+    width: 155px;
+    height: 183px;
+    margin: 0 auto;
+    overflow: hidden;
+    border-radius: 14px;
+    background: #ffffff;
+    box-shadow: 0 6px 16px rgba(15, 23, 42, 0.12);
+}
+
+.team-table-photo img,
+.team-table-photo .team-image-placeholder {
+    width: 100%;
+    height: 100%;
+}
+
+.team-table-photo img {
+    display: block;
+    object-fit: cover;
+    object-position: center top;
+}
+
+.team-table-photo .team-initials {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    border-radius: 0;
+    font-size: 1.25rem;
+    box-shadow: none;
+}
+
+.team-table-name {
+    color: #0f172a;
+    font-size: calc(1.08rem + 5px);
+    font-weight: 800;
+    line-height: 1.35;
+}
+
+.team-table-designation {
+    color: #334155;
+    font-size: calc(1rem + 5px);
+    font-weight: 600;
+    line-height: 1.5;
+}
+
 .team-card {
 
     min-height: 430px;
@@ -124,8 +308,7 @@
 
     border-radius: 18px;
 
-    background:
-        linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(246, 250, 253, 0.96));
+    background: #ffffff;
 
     box-shadow: 0 12px 28px rgba(15, 23, 42, 0.08);
 
@@ -148,24 +331,7 @@
 
     overflow: hidden;
 
-    background:
-        linear-gradient(135deg, rgba(0, 91, 150, 0.14), rgba(0, 166, 166, 0.1));
-
-}
-
-.team-image::after {
-
-    content: "";
-
-    position: absolute;
-
-    inset: auto 0 0;
-
-    height: 36%;
-
-    background: linear-gradient(180deg, transparent, rgba(15, 23, 42, 0.2));
-
-    pointer-events: none;
+    background: #ffffff;
 
 }
 
@@ -213,7 +379,7 @@
 
     border-radius: 50%;
 
-    background: linear-gradient(135deg, #ffffff, #e8f3fa);
+    background: #ffffff;
 
     color: #003f6b;
 
@@ -312,6 +478,50 @@
         height: 220px;
 
         flex-basis: 220px;
+
+    }
+
+    .team-group--table {
+
+        padding: 18px 14px;
+
+    }
+
+    .team-table {
+
+        min-width: 620px;
+
+    }
+
+    .team-table-photo-column {
+
+        width: 193px;
+
+    }
+
+    .team-table-boxed-member {
+
+        grid-template-columns: 173px minmax(0, 32%) minmax(0, 1fr);
+
+        padding-right: 14px;
+
+        padding-left: 14px;
+
+    }
+
+    .team-table td {
+
+        padding-right: 14px;
+
+        padding-left: 14px;
+
+    }
+
+    .team-table-photo {
+
+        width: 145px;
+
+        height: 171px;
 
     }
 

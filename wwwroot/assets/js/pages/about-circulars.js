@@ -18,13 +18,15 @@ async function initializeOdishaCircularCarousel() {
 
     try {
         const response = await fetch(`api/content/odisha-circulars?language=${encodeURIComponent(odishaCircularLanguageAtLoad)}`, {
+            cache: "no-store",
             headers: { "Accept": "application/json" }
         });
         if (!response.ok) throw new Error(`Odisha circulars HTTP ${response.status}`);
 
         const records = (await response.json()).sort((left, right) =>
             left.district.localeCompare(right.district) ||
-            left.title.localeCompare(right.title) ||
+            (window.OSPBCRRichText?.toPlainText(left.title) || left.title)
+                .localeCompare(window.OSPBCRRichText?.toPlainText(right.title) || right.title) ||
             left.id - right.id
         );
 
@@ -36,12 +38,13 @@ async function initializeOdishaCircularCarousel() {
         }
 
         select.innerHTML = records.map((record, index) => `
-            <option value="${index}">${escapeOdishaCircularHtml(record.title)}</option>
+            <option value="${index}">${escapeOdishaCircularHtml(window.OSPBCRRichText?.toPlainText(record.title) || record.title)}</option>
         `).join("");
 
         track.innerHTML = records.map((record) => {
             const district = escapeOdishaCircularHtml(record.district);
-            const title = escapeOdishaCircularHtml(record.title);
+            const title = window.OSPBCRRichText?.sanitize(record.title) ||
+                escapeOdishaCircularHtml(record.title);
             const description = window.OSPBCRRichText?.sanitize(record.description) ||
                 escapeOdishaCircularHtml(record.description);
             const pdfPath = escapeOdishaCircularHtml(encodeURI(record.pdfPath));
@@ -51,8 +54,8 @@ async function initializeOdishaCircularCarousel() {
                 <article class="district-pdf-slide">
                     <div class="district-pdf-meta">
                         <span class="district-pdf-label">${district}</span>
-                        <h4>${title}</h4>
-                        <div class="district-pdf-rich-text">${description}</div>
+                        <div class="district-pdf-rich-title rich-text-title rich-text-content" role="heading" aria-level="4">${title}</div>
+                        <div class="district-pdf-rich-text rich-text-content">${description}</div>
                         <div class="district-pdf-actions">
                             <a class="view-btn training-report-btn" href="${pdfPath}" target="_blank" rel="noopener noreferrer">View PDF</a>
                             <a class="download-btn training-report-btn" href="${pdfPath}" download>Download PDF</a>

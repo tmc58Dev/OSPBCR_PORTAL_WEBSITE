@@ -26,45 +26,92 @@ async function initializeCancerBurdenPdfCarousel() {
     if (!carousel || !track || !select) return;
 
     try {
-        const recordsResponse = await fetch(
-            `api/content/cancer-burden-pdfs?language=${encodeURIComponent(cancerBurdenLanguageAtLoad)}`,
-            { headers: { "Accept": "application/json" } }
-        );
+        const [districtsResponse, recordsResponse] = await Promise.all([
+            fetch("assets/data/district-trainings.json", {
+                headers: { "Accept": "application/json" }
+            }).catch(() => null),
+            fetch(
+                `api/content/cancer-burden-pdfs?language=${encodeURIComponent(cancerBurdenLanguageAtLoad)}`,
+                { cache: "no-store", headers: { "Accept": "application/json" } }
+            )
+        ]);
+
         if (!recordsResponse.ok) throw new Error(`Cancer burden PDFs HTTP ${recordsResponse.status}`);
 
         const districtCollator = new Intl.Collator("en", {
             sensitivity: "base",
             numeric: true
         });
+        const normalizeDistrictName = (value) => String(value || "")
+            .trim()
+            .toLocaleLowerCase("en");
+        const districtsPayload = districtsResponse?.ok
+            ? await districtsResponse.json()
+            : { districts: [] };
+        const staticDistricts = (districtsPayload.districts || [])
+            .map((item) => String(item.name || "").trim())
+            .filter(Boolean);
         const records = (await recordsResponse.json())
             .filter((record) => record.district && record.pdfPath)
             .sort((left, right) =>
                 districtCollator.compare(left.district, right.district) ||
                 districtCollator.compare(left.title, right.title)
             );
+        const districtNames = new Map();
+        [...staticDistricts, ...records.map((record) => String(record.district).trim())]
+            .filter(Boolean)
+            .forEach((district) => {
+                const normalized = normalizeDistrictName(district);
+                if (!districtNames.has(normalized)) districtNames.set(normalized, district);
+            });
+        const districts = Array.from(districtNames.values()).sort(districtCollator.compare);
 
-        if (records.length === 0) {
-            select.innerHTML = `<option>${cancerBurdenTranslate("No PDFs available")}</option>`;
+        if (districts.length === 0) {
+            select.innerHTML = `<option>${cancerBurdenTranslate("Districts unavailable")}</option>`;
             select.disabled = true;
             track.innerHTML = emptyCancerBurdenSlide(
-                cancerBurdenTranslate("No district cancer burden PDFs are currently available.")
+                cancerBurdenTranslate("District cancer burden PDF records are not available right now.")
             );
             return;
         }
 
-        select.disabled = false;
-        const slidesData = records.map((record) => ({
-            district: record.district,
-            record
+        const recordsByDistrict = new Map(
+            records.map((record) => [normalizeDistrictName(record.district), record])
+        );
+        const slidesData = districts.map((district) => ({
+            district,
+            record: recordsByDistrict.get(normalizeDistrictName(district)) || null
         }));
 
+        select.disabled = false;
         select.innerHTML = slidesData.map((item, index) => `
             <option value="${index}">${escapeCancerBurdenHtml(cancerBurdenTranslate(item.district))}</option>
         `).join("");
 
         track.innerHTML = slidesData.map((item) => {
-            const district = escapeCancerBurdenHtml(cancerBurdenTranslate(item.district));
-            const title = escapeCancerBurdenHtml(item.record.title);
+            const translatedDistrict = cancerBurdenTranslate(item.district);
+            const district = escapeCancerBurdenHtml(translatedDistrict);
+
+            if (!item.record) {
+                return `
+                    <article class="district-pdf-slide">
+                        <div class="district-pdf-meta">
+                            <span class="district-pdf-label">${district}</span>
+                            <h4>${cancerBurdenTranslate("District Cancer Burden PDF")}</h4>
+                            <p>${escapeCancerBurdenHtml(cancerBurdenTranslate("{{district}} district PDF will be added soon.", { district: translatedDistrict }))}</p>
+                        </div>
+                        <div class="district-pdf-frame-shell district-pdf-placeholder">
+                            <div class="district-pdf-placeholder-copy">
+                                <h4>${district}</h4>
+                                <p>${cancerBurdenTranslate("PDF not available yet.")}</p>
+                            </div>
+                        </div>
+                    </article>
+                `;
+            }
+
+            const title = window.OSPBCRRichText?.sanitize(item.record.title) ||
+                escapeCancerBurdenHtml(item.record.title);
             const description = window.OSPBCRRichText?.sanitize(item.record.description) ||
                 escapeCancerBurdenHtml(item.record.description);
             const pdfPath = escapeCancerBurdenHtml(encodeURI(item.record.pdfPath));
@@ -74,8 +121,8 @@ async function initializeCancerBurdenPdfCarousel() {
                 <article class="district-pdf-slide">
                     <div class="district-pdf-meta">
                         <span class="district-pdf-label">${district}</span>
-                        <h4>${title}</h4>
-                        <div class="district-pdf-rich-text">${description}</div>
+                        <div class="district-pdf-rich-title rich-text-title rich-text-content" role="heading" aria-level="4">${title}</div>
+                        <div class="district-pdf-rich-text rich-text-content">${description}</div>
                         <div class="district-pdf-actions">
                             <a class="view-btn training-report-btn" href="${pdfPath}" target="_blank" rel="noopener noreferrer">${cancerBurdenTranslate("View PDF")}</a>
                             <a class="download-btn training-report-btn" href="${pdfPath}" download>${cancerBurdenTranslate("Download PDF")}</a>
@@ -85,7 +132,7 @@ async function initializeCancerBurdenPdfCarousel() {
                         <img
                             class="district-pdf-preview-image"
                             src="${previewPath}"
-                            alt="${district} ${cancerBurdenTranslate("cancer burden PDF preview")}" 
+                            alt="${escapeCancerBurdenHtml(cancerBurdenTranslate("{{district}} cancer burden PDF preview", { district: translatedDistrict }))}"
                             loading="lazy"
                         >
                     </div>
@@ -95,9 +142,10 @@ async function initializeCancerBurdenPdfCarousel() {
 
         const slides = Array.from(track.querySelectorAll(".district-pdf-slide"));
         const controls = Array.from(carousel.querySelectorAll(".gallery-nav"));
-        // Always begin with the first available district alphabetically.
         let currentIndex = 0;
         let autoSlideTimer = null;
+
+        if (slides.length === 0) return;
 
         function updateCarousel() {
             track.style.transform = `translateX(-${currentIndex * 100}%)`;
@@ -119,13 +167,10 @@ async function initializeCancerBurdenPdfCarousel() {
 
         function startAutoSlide() {
             stopAutoSlide();
-            if (slides.length > 1 && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-                autoSlideTimer = window.setInterval(() => moveCarousel(1), 4500);
-            }
+            autoSlideTimer = window.setInterval(() => moveCarousel(1), 4500);
         }
 
         controls.forEach((button) => {
-            button.disabled = slides.length < 2;
             button.addEventListener("click", () => {
                 moveCarousel(Number(button.dataset.direction));
                 startAutoSlide();
@@ -139,8 +184,6 @@ async function initializeCancerBurdenPdfCarousel() {
         });
         carousel.addEventListener("mouseenter", stopAutoSlide);
         carousel.addEventListener("mouseleave", startAutoSlide);
-        carousel.addEventListener("focusin", stopAutoSlide);
-        carousel.addEventListener("focusout", startAutoSlide);
 
         updateCarousel();
         startAutoSlide();

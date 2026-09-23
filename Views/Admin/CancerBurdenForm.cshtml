@@ -2,14 +2,14 @@
 @{
     Layout = "_CmsLayout";
     var editing = Model.Id.HasValue;
-    ViewData["Title"] = editing ? "Update Cancer Burden PDF" : "Add Cancer Burden PDF";
+    ViewData["Title"] = editing ? "Update Cancer Burden PDF" : "Add or Replace Cancer Burden PDF";
     var districts = (IReadOnlyList<string>)ViewBag.Districts;
 }
 <header class="cms-page-header">
     <div>
         <span class="cms-eyebrow">Three-language district factsheet</span>
-        <h1>@(editing ? "Update Cancer Burden PDF" : "Add Cancer Burden PDF")</h1>
-        <p>Enter the title and description in English, Hindi, and Odia. The PDF and preview image are shared across all languages.</p>
+        <h1>@(editing ? "Update Cancer Burden PDF" : "Add or Replace Cancer Burden PDF")</h1>
+        <p>Each district has one Cancer Burden PDF. Selecting a district that already has one replaces its existing record. The PDF and preview image are shared across all languages.</p>
     </div>
 </header>
 <form asp-action="@(editing ? "EditCancerBurden" : "CreateCancerBurden")" method="post" enctype="multipart/form-data" class="cms-form">
@@ -18,7 +18,7 @@
     <input asp-for="ExistingPreviewPath" type="hidden" />
     <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
     <section class="cms-card shared-photo-panel">
-    <header><div><span class="cms-eyebrow">Shared across all languages</span><h2>District and files</h2><p>PDF documents may be up to 25 MB. Preview images may be WebP, JPEG, or PNG files up to 5 MB.</p></div></header>
+    <header><div><span class="cms-eyebrow">Shared across all languages</span><h2>District and files</h2><p>PDF documents may be up to 853 MB. Preview images may be WebP, JPEG, or PNG files up to 5 MB.</p></div></header>
     <div class="form-field">
         <label asp-for="District"></label>
         <select asp-for="District">
@@ -41,12 +41,12 @@
     </div>
     </section>
     <div class="language-grid">
-        <section class="language-card"><header><span class="language-code">EN</span><div><h2>English</h2><p>English website content</p></div></header><div class="form-field"><label asp-for="English.Title">Factsheet Title</label><input asp-for="English.Title" /><span asp-validation-for="English.Title"></span></div><div class="form-field"><label asp-for="English.Description"></label><textarea asp-for="English.Description" rows="5"></textarea><span asp-validation-for="English.Description"></span></div></section>
-        <section class="language-card" lang="hi"><header><span class="language-code">HI</span><div><h2>हिन्दी</h2><p>Hindi website content</p></div></header><div class="form-field"><label asp-for="Hindi.Title">शीर्षक / Title</label><input asp-for="Hindi.Title" /><span asp-validation-for="Hindi.Title"></span></div><div class="form-field"><label asp-for="Hindi.Description">विवरण / Description</label><textarea asp-for="Hindi.Description" rows="5"></textarea><span asp-validation-for="Hindi.Description"></span></div></section>
-        <section class="language-card" lang="or"><header><span class="language-code">OR</span><div><h2>ଓଡ଼ିଆ</h2><p>Odia website content</p></div></header><div class="form-field"><label asp-for="Odia.Title">ଶୀର୍ଷକ / Title</label><input asp-for="Odia.Title" /><span asp-validation-for="Odia.Title"></span></div><div class="form-field"><label asp-for="Odia.Description">ବର୍ଣ୍ଣନା / Description</label><textarea asp-for="Odia.Description" rows="5"></textarea><span asp-validation-for="Odia.Description"></span></div></section>
+        <section class="language-card"><header><span class="language-code">EN</span><div><h2>English</h2><p>English website content</p></div></header><div class="form-field"><label asp-for="English.Title">Factsheet Title</label><textarea asp-for="English.Title" rows="3" maxlength="9999999" data-word-paste></textarea><span asp-validation-for="English.Title"></span></div><div class="form-field"><label asp-for="English.Description"></label><textarea asp-for="English.Description" rows="5" maxlength="9999999" data-word-paste></textarea><span asp-validation-for="English.Description"></span></div></section>
+        <section class="language-card" lang="hi"><header><span class="language-code">HI</span><div><h2>हिन्दी</h2><p>Hindi website content</p></div></header><div class="form-field"><label asp-for="Hindi.Title">शीर्षक / Title</label><textarea asp-for="Hindi.Title" rows="3" maxlength="9999999" data-word-paste></textarea><span asp-validation-for="Hindi.Title"></span></div><div class="form-field"><label asp-for="Hindi.Description">विवरण / Description</label><textarea asp-for="Hindi.Description" rows="5" maxlength="9999999" data-word-paste></textarea><span asp-validation-for="Hindi.Description"></span></div></section>
+        <section class="language-card" lang="or"><header><span class="language-code">OR</span><div><h2>ଓଡ଼ିଆ</h2><p>Odia website content</p></div></header><div class="form-field"><label asp-for="Odia.Title">ଶୀର୍ଷକ / Title</label><textarea asp-for="Odia.Title" rows="3" maxlength="9999999" data-word-paste></textarea><span asp-validation-for="Odia.Title"></span></div><div class="form-field"><label asp-for="Odia.Description">ବର୍ଣ୍ଣନା / Description</label><textarea asp-for="Odia.Description" rows="5" maxlength="9999999" data-word-paste></textarea><span asp-validation-for="Odia.Description"></span></div></section>
     </div>
     <div class="sticky-form-actions">
         <a class="cms-button cms-button-secondary" asp-action="CancerBurden">Cancel</a>
-        <button class="cms-button cms-button-primary" type="submit">@(editing ? "Save changes" : "Add Cancer Burden PDF")</button>
+        <button class="cms-button cms-button-primary" type="submit">@(editing ? "Save changes" : "Add or Replace PDF")</button>
     </div>
 </form>

@@ -10,7 +10,15 @@
     };
     const catalogs = new Map();
     const catalogIndexes = new Map();
-    const catalogCacheVersion = "20260831-translation-audit";
+    const catalogCacheVersion = "20260918-health-team-update";
+    const numericTemplatePlaceholders = new Set([
+        "count",
+        "current",
+        "page",
+        "siteCount",
+        "total",
+        "year"
+    ]);
     const originalText = new WeakMap();
     const originalAttributes = new WeakMap();
     let currentLanguage = getSavedLanguage();
@@ -57,13 +65,20 @@
             const match = part.match(/^{{([^{}]+)}}$/);
 
             if (!match) return escapeRegularExpression(part);
-            names.push(match[1]);
-            return "(.+?)";
+            const name = match[1];
+            names.push(name);
+            return numericTemplatePlaceholders.has(name)
+                ? "([\\d\\p{N}.,+%–-]+?)"
+                : "(.+?)";
         }).join("");
 
         return {
             names,
-            expression: new RegExp(`^${pattern}$`)
+            expression: new RegExp(`^${pattern}$`, "u"),
+            specificity: parts
+                .filter(part => !/^{{[^{}]+}}$/.test(part))
+                .join("")
+                .length
         };
     }
 
@@ -97,10 +112,17 @@
                 reverseTemplates.push({
                     key,
                     names: compiledValue.names,
-                    expression: compiledValue.expression
+                    expression: compiledValue.expression,
+                    specificity: compiledValue.specificity
                 });
             }
         });
+
+        // A generic template such as "{{current}} of {{total}}" must never
+        // win over a more descriptive match. This also prevents ordinary
+        // prose containing words like "of" from being treated as a counter.
+        forwardTemplates.sort((left, right) => right.specificity - left.specificity);
+        reverseTemplates.sort((left, right) => right.specificity - left.specificity);
 
         catalogIndexes.set(language, {
             reverseExact,
@@ -123,7 +145,9 @@
             const baseCatalog = await response.json();
             const overrides = overridesResponse.ok ? await overridesResponse.json() : {};
             const completion = completionResponse.ok ? await completionResponse.json() : {};
-            const catalog = { ...baseCatalog, ...overrides, ...completion };
+            // Curated overrides are intentional corrections and must remain the
+            // final authority when a generated completion entry uses the same key.
+            const catalog = { ...baseCatalog, ...completion, ...overrides };
             catalogs.set(language, catalog);
             indexCatalog(language, catalog);
             return catalog;

@@ -8,6 +8,7 @@
 
 @import url('./components/navbar.css?v=20260731-navbar-blue-fill');
 @import url('./components/footer.css');
+@import url('./components/rich-text.css?v=20260912-word-roundtrip-v4');
 
 :root {
 

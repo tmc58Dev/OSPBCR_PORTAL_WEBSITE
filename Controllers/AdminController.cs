@@ -15,12 +15,13 @@ public sealed class AdminController(
     ICmsRepository repository,
     IPasswordHasher<CmsUser> passwordHasher,
     IManagedFileStorage files,
-    IDistrictTrainingStore trainingStore) : Controller
+    IRichTextSanitizer richTextSanitizer) : Controller
 {
     private const int MaxNewsPhotos = 100;
     private const int MaxNewsAttachments = 5;
     private const long MaxNewsAttachmentBytes = 125L * 1024 * 1024;
     private const long MaxNewsRequestBytes = 800L * 1024 * 1024;
+    private const long MaxPdfResourceRequestBytes = 1024L * 1024 * 1024;
 
     public static readonly IReadOnlyList<string> Districts =
     [
@@ -37,7 +38,7 @@ public sealed class AdminController(
         {
             UserCount = await repository.CountUsersAsync(cancellationToken),
             NewsCount = await repository.CountNewsCardsAsync(cancellationToken),
-            TrainingPdfCount = (await trainingStore.GetAllAsync(cancellationToken)).Count,
+            TrainingPdfCount = await repository.CountDistrictTrainingRecordsAsync(cancellationToken),
             CancerBurdenPdfCount = await repository.CountCancerBurdenRecordsAsync(cancellationToken),
             OdishaCircularCount = await repository.CountOdishaCircularRecordsAsync(cancellationToken)
         };
@@ -404,7 +405,7 @@ public sealed class AdminController(
 
     [HttpGet]
     public async Task<IActionResult> Training(CancellationToken cancellationToken) =>
-        View(await trainingStore.GetAllAsync(cancellationToken));
+        View(await repository.GetDistrictTrainingRecordsAsync(cancellationToken));
 
     [HttpGet]
     public IActionResult CreateTraining()
@@ -415,7 +416,8 @@ public sealed class AdminController(
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    [RequestFormLimits(MultipartBodyLengthLimit = 35 * 1024 * 1024)]
+    [RequestSizeLimit(MaxPdfResourceRequestBytes)]
+    [RequestFormLimits(MultipartBodyLengthLimit = MaxPdfResourceRequestBytes)]
     public async Task<IActionResult> CreateTraining(DistrictTrainingFormViewModel model, CancellationToken cancellationToken)
     {
         await ValidateTrainingAsync(model, true, cancellationToken);
@@ -424,15 +426,56 @@ public sealed class AdminController(
             SetDistricts();
             return View("TrainingForm", model);
         }
-        await trainingStore.CreateAsync(model, cancellationToken);
-        TempData["Success"] = "The district training PDF was added to the public Training page.";
-        return RedirectToAction(nameof(Training));
+        string? pdfPath = null;
+        string? previewPath = null;
+        var persisted = false;
+        try
+        {
+            pdfPath = await files.SavePdfAsync(model.PdfFile!, "training", cancellationToken);
+            previewPath = await files.SavePreviewImageAsync(model.PreviewImage!, "training", cancellationToken);
+            var userId = GetCurrentUserId();
+            var replacement = new DistrictTrainingRecord
+            {
+                District = model.District.Trim(),
+                Title = model.English.Title,
+                Description = model.English.Description,
+                TitleHi = model.Hindi.Title,
+                DescriptionHi = model.Hindi.Description,
+                TitleOr = model.Odia.Title,
+                DescriptionOr = model.Odia.Description,
+                PdfPath = pdfPath,
+                PreviewPath = previewPath,
+                CreatedById = userId,
+                UpdatedById = userId
+            };
+            var existing = await repository.UpsertDistrictTrainingRecordAsync(replacement, cancellationToken);
+            persisted = true;
+
+            if (existing is not null)
+            {
+                await files.DeleteIfManagedAsync(existing.PdfPath, cancellationToken);
+                await files.DeleteIfManagedAsync(existing.PreviewPath, cancellationToken);
+            }
+            TempData["Success"] = existing is null
+                ? "The district training PDF was added to the public Training page."
+                : "The district's existing training PDF was replaced.";
+            return RedirectToAction(nameof(Training));
+        }
+        catch
+        {
+            if (!persisted)
+            {
+                await files.DeleteIfManagedAsync(pdfPath, cancellationToken);
+                await files.DeleteIfManagedAsync(previewPath, cancellationToken);
+            }
+            throw;
+        }
     }
 
     [HttpGet]
-    public async Task<IActionResult> EditTraining(Guid id, CancellationToken cancellationToken)
+    public async Task<IActionResult> EditTraining(int id, CancellationToken cancellationToken)
     {
-        var record = await trainingStore.GetAsync(id, cancellationToken);
+        var record = await repository.GetDistrictTrainingRecordAsync(id, cancellationToken);
         if (record is null)
         {
             return NotFound();
@@ -452,35 +495,101 @@ public sealed class AdminController(
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    [RequestFormLimits(MultipartBodyLengthLimit = 35 * 1024 * 1024)]
+    [RequestSizeLimit(MaxPdfResourceRequestBytes)]
+    [RequestFormLimits(MultipartBodyLengthLimit = MaxPdfResourceRequestBytes)]
     public async Task<IActionResult> EditTraining(DistrictTrainingFormViewModel model, CancellationToken cancellationToken)
     {
         if (model.Id is null)
         {
             return BadRequest();
         }
-        await ValidateTrainingAsync(model, false, cancellationToken);
-        if (!ModelState.IsValid)
-        {
-            SetDistricts();
-            return View("TrainingForm", model);
-        }
-        if (await trainingStore.UpdateAsync(model.Id.Value, model, cancellationToken) is null)
+        var existing = await repository.GetDistrictTrainingRecordAsync(model.Id.Value, cancellationToken);
+        if (existing is null)
         {
             return NotFound();
         }
-        TempData["Success"] = "The district training PDF was updated.";
-        return RedirectToAction(nameof(Training));
+
+        await ValidateTrainingAsync(model, false, cancellationToken);
+        var districtRecord = Districts.Contains(model.District)
+            ? await repository.GetDistrictTrainingRecordByDistrictAsync(model.District, cancellationToken)
+            : null;
+        if (districtRecord is not null && districtRecord.Id != existing.Id)
+        {
+            ModelState.AddModelError(
+                nameof(model.District),
+                "That district already has a Training PDF. Edit or replace its existing record instead.");
+        }
+        if (!ModelState.IsValid)
+        {
+            model.ExistingPdfPath = existing.PdfPath;
+            model.ExistingPreviewPath = existing.PreviewPath;
+            SetDistricts();
+            return View("TrainingForm", model);
+        }
+
+        string? newPdfPath = null;
+        string? newPreviewPath = null;
+        try
+        {
+            if (model.PdfFile is { Length: > 0 })
+            {
+                newPdfPath = await files.SavePdfAsync(model.PdfFile, "training", cancellationToken);
+            }
+            if (model.PreviewImage is { Length: > 0 })
+            {
+                newPreviewPath = await files.SavePreviewImageAsync(model.PreviewImage, "training", cancellationToken);
+            }
+
+            var updated = new DistrictTrainingRecord
+            {
+                Id = existing.Id,
+                District = model.District.Trim(),
+                Title = model.English.Title,
+                Description = model.English.Description,
+                TitleHi = model.Hindi.Title,
+                DescriptionHi = model.Hindi.Description,
+                TitleOr = model.Odia.Title,
+                DescriptionOr = model.Odia.Description,
+                PdfPath = newPdfPath ?? existing.PdfPath,
+                PreviewPath = newPreviewPath ?? existing.PreviewPath,
+                UpdatedById = GetCurrentUserId()
+            };
+            if (!await repository.UpdateDistrictTrainingRecordAsync(updated, cancellationToken))
+            {
+                await files.DeleteIfManagedAsync(newPdfPath, cancellationToken);
+                await files.DeleteIfManagedAsync(newPreviewPath, cancellationToken);
+                return NotFound();
+            }
+            if (newPdfPath is not null)
+            {
+                await files.DeleteIfManagedAsync(existing.PdfPath, cancellationToken);
+            }
+            if (newPreviewPath is not null)
+            {
+                await files.DeleteIfManagedAsync(existing.PreviewPath, cancellationToken);
+            }
+            TempData["Success"] = "The district training PDF was updated.";
+            return RedirectToAction(nameof(Training));
+        }
+        catch
+        {
+            await files.DeleteIfManagedAsync(newPdfPath, cancellationToken);
+            await files.DeleteIfManagedAsync(newPreviewPath, cancellationToken);
+            throw;
+        }
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> DeleteTraining(Guid id, CancellationToken cancellationToken)
+    public async Task<IActionResult> DeleteTraining(int id, CancellationToken cancellationToken)
     {
-        if (!await trainingStore.DeleteAsync(id, cancellationToken))
+        var record = await repository.GetDistrictTrainingRecordAsync(id, cancellationToken);
+        if (record is null || !await repository.DeleteDistrictTrainingRecordAsync(id, cancellationToken))
         {
             return NotFound();
         }
+        await files.DeleteIfManagedAsync(record.PdfPath, cancellationToken);
+        await files.DeleteIfManagedAsync(record.PreviewPath, cancellationToken);
         TempData["Success"] = "The district training record and its managed files were deleted.";
         return RedirectToAction(nameof(Training));
     }
@@ -498,7 +607,8 @@ public sealed class AdminController(
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    [RequestFormLimits(MultipartBodyLengthLimit = 35 * 1024 * 1024)]
+    [RequestSizeLimit(MaxPdfResourceRequestBytes)]
+    [RequestFormLimits(MultipartBodyLengthLimit = MaxPdfResourceRequestBytes)]
     public async Task<IActionResult> CreateCancerBurden(
         CancerBurdenFormViewModel model,
         CancellationToken cancellationToken)
@@ -512,6 +622,7 @@ public sealed class AdminController(
 
         string? pdfPath = null;
         string? previewPath = null;
+        var persisted = false;
         try
         {
             pdfPath = await files.SavePdfAsync(model.PdfFile!, "cancer-burden", cancellationToken);
@@ -520,27 +631,40 @@ public sealed class AdminController(
                 "cancer-burden",
                 cancellationToken);
             var userId = GetCurrentUserId();
-            await repository.CreateCancerBurdenRecordAsync(new CancerBurdenRecord
+            var replacement = new CancerBurdenRecord
             {
                 District = model.District.Trim(),
-                Title = model.English.Title.Trim(),
-                Description = model.English.Description.Trim(),
-                TitleHi = model.Hindi.Title.Trim(),
-                DescriptionHi = model.Hindi.Description.Trim(),
-                TitleOr = model.Odia.Title.Trim(),
-                DescriptionOr = model.Odia.Description.Trim(),
+                Title = model.English.Title,
+                Description = model.English.Description,
+                TitleHi = model.Hindi.Title,
+                DescriptionHi = model.Hindi.Description,
+                TitleOr = model.Odia.Title,
+                DescriptionOr = model.Odia.Description,
                 PdfPath = pdfPath,
                 PreviewPath = previewPath,
                 CreatedById = userId,
                 UpdatedById = userId
-            }, cancellationToken);
-            TempData["Success"] = "The cancer burden factsheet was added to the public Cancer Burden page.";
+            };
+            var existing = await repository.UpsertCancerBurdenRecordAsync(replacement, cancellationToken);
+            persisted = true;
+
+            if (existing is not null)
+            {
+                await files.DeleteIfManagedAsync(existing.PdfPath, cancellationToken);
+                await files.DeleteIfManagedAsync(existing.PreviewPath, cancellationToken);
+            }
+            TempData["Success"] = existing is null
+                ? "The cancer burden factsheet was added to the public Cancer Burden page."
+                : "The district's existing cancer burden factsheet was replaced.";
             return RedirectToAction(nameof(CancerBurden));
         }
         catch
         {
-            await files.DeleteIfManagedAsync(pdfPath, cancellationToken);
-            await files.DeleteIfManagedAsync(previewPath, cancellationToken);
+            if (!persisted)
+            {
+                await files.DeleteIfManagedAsync(pdfPath, cancellationToken);
+                await files.DeleteIfManagedAsync(previewPath, cancellationToken);
+            }
             throw;
         }
     }
@@ -568,7 +692,8 @@ public sealed class AdminController(
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    [RequestFormLimits(MultipartBodyLengthLimit = 35 * 1024 * 1024)]
+    [RequestSizeLimit(MaxPdfResourceRequestBytes)]
+    [RequestFormLimits(MultipartBodyLengthLimit = MaxPdfResourceRequestBytes)]
     public async Task<IActionResult> EditCancerBurden(
         CancerBurdenFormViewModel model,
         CancellationToken cancellationToken)
@@ -584,6 +709,15 @@ public sealed class AdminController(
         }
 
         await ValidateCancerBurdenAsync(model, false, cancellationToken);
+        var districtRecord = Districts.Contains(model.District)
+            ? await repository.GetCancerBurdenRecordByDistrictAsync(model.District, cancellationToken)
+            : null;
+        if (districtRecord is not null && districtRecord.Id != existing.Id)
+        {
+            ModelState.AddModelError(
+                nameof(model.District),
+                "That district already has a Cancer Burden PDF. Edit or replace its existing record instead.");
+        }
         if (!ModelState.IsValid)
         {
             model.ExistingPdfPath = existing.PdfPath;
@@ -612,12 +746,12 @@ public sealed class AdminController(
             {
                 Id = existing.Id,
                 District = model.District.Trim(),
-                Title = model.English.Title.Trim(),
-                Description = model.English.Description.Trim(),
-                TitleHi = model.Hindi.Title.Trim(),
-                DescriptionHi = model.Hindi.Description.Trim(),
-                TitleOr = model.Odia.Title.Trim(),
-                DescriptionOr = model.Odia.Description.Trim(),
+                Title = model.English.Title,
+                Description = model.English.Description,
+                TitleHi = model.Hindi.Title,
+                DescriptionHi = model.Hindi.Description,
+                TitleOr = model.Odia.Title,
+                DescriptionOr = model.Odia.Description,
                 PdfPath = newPdfPath ?? existing.PdfPath,
                 PreviewPath = newPreviewPath ?? existing.PreviewPath,
                 UpdatedById = GetCurrentUserId()
@@ -675,7 +809,8 @@ public sealed class AdminController(
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    [RequestFormLimits(MultipartBodyLengthLimit = 35 * 1024 * 1024)]
+    [RequestSizeLimit(MaxPdfResourceRequestBytes)]
+    [RequestFormLimits(MultipartBodyLengthLimit = MaxPdfResourceRequestBytes)]
     public async Task<IActionResult> CreateOdishaCircular(
         OdishaCircularFormViewModel model,
         CancellationToken cancellationToken)
@@ -700,12 +835,12 @@ public sealed class AdminController(
             await repository.CreateOdishaCircularRecordAsync(new OdishaCircularRecord
             {
                 District = model.District.Trim(),
-                Title = model.English.Title.Trim(),
-                Description = model.English.Description.Trim(),
-                TitleHi = model.Hindi.Title.Trim(),
-                DescriptionHi = model.Hindi.Description.Trim(),
-                TitleOr = model.Odia.Title.Trim(),
-                DescriptionOr = model.Odia.Description.Trim(),
+                Title = model.English.Title,
+                Description = model.English.Description,
+                TitleHi = model.Hindi.Title,
+                DescriptionHi = model.Hindi.Description,
+                TitleOr = model.Odia.Title,
+                DescriptionOr = model.Odia.Description,
                 PdfPath = pdfPath,
                 PreviewPath = previewPath,
                 CreatedById = userId,
@@ -745,7 +880,8 @@ public sealed class AdminController(
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    [RequestFormLimits(MultipartBodyLengthLimit = 35 * 1024 * 1024)]
+    [RequestSizeLimit(MaxPdfResourceRequestBytes)]
+    [RequestFormLimits(MultipartBodyLengthLimit = MaxPdfResourceRequestBytes)]
     public async Task<IActionResult> EditOdishaCircular(
         OdishaCircularFormViewModel model,
         CancellationToken cancellationToken)
@@ -789,12 +925,12 @@ public sealed class AdminController(
             {
                 Id = existing.Id,
                 District = model.District.Trim(),
-                Title = model.English.Title.Trim(),
-                Description = model.English.Description.Trim(),
-                TitleHi = model.Hindi.Title.Trim(),
-                DescriptionHi = model.Hindi.Description.Trim(),
-                TitleOr = model.Odia.Title.Trim(),
-                DescriptionOr = model.Odia.Description.Trim(),
+                Title = model.English.Title,
+                Description = model.English.Description,
+                TitleHi = model.Hindi.Title,
+                DescriptionHi = model.Hindi.Description,
+                TitleOr = model.Odia.Title,
+                DescriptionOr = model.Odia.Description,
                 PdfPath = newPdfPath ?? existing.PdfPath,
                 PreviewPath = newPreviewPath ?? existing.PreviewPath,
                 UpdatedById = GetCurrentUserId()
@@ -852,7 +988,7 @@ public sealed class AdminController(
 
     private static NewsCardFormViewModel NewNewsForm()
     {
-        var today = DateTime.Today.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
+        var today = DateTime.Today.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
         return new NewsCardFormViewModel
         {
             English = new NewsLanguageInput { PublishDate = today },
@@ -934,23 +1070,14 @@ public sealed class AdminController(
         var result = new Dictionary<string, NewsCardTranslation>(StringComparer.OrdinalIgnoreCase);
         foreach (var item in TranslationInputs(model))
         {
-            if (!DateOnly.TryParseExact(
-                    item.Input.PublishDate,
-                    "dd/MM/yyyy",
-                    CultureInfo.InvariantCulture,
-                    DateTimeStyles.None,
-                    out var publishDate))
-            {
-                ModelState.AddModelError($"{item.Property}.PublishDate", "Enter a valid date in DD/MM/YYYY format.");
-            }
             result[item.Code] = new NewsCardTranslation
             {
                 LanguageCode = item.Code,
-                Title = item.Input.Title.Trim(),
-                PublishDate = publishDate,
+                Title = richTextSanitizer.Sanitize(item.Input.Title),
+                PublishDate = ToDisplayDate(item.Input.PublishDate),
                 ImagePath = "",
-                TextNote = item.Input.TextNote.Trim(),
-                Footer = item.Input.Footer.Trim()
+                TextNote = richTextSanitizer.Sanitize(item.Input.TextNote),
+                Footer = richTextSanitizer.Sanitize(item.Input.Footer)
             };
         }
         return result;
@@ -972,7 +1099,7 @@ public sealed class AdminController(
             return new NewsLanguageInput
             {
                 Title = value.Title,
-                PublishDate = value.PublishDate.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
+                PublishDate = ToInputDate(value.PublishDate),
                 TextNote = value.TextNote,
                 Footer = value.Footer
             };
@@ -988,6 +1115,19 @@ public sealed class AdminController(
             Hindi = Map("hi"),
             Odia = Map("or")
         };
+    }
+
+    private static string ToDisplayDate(string value) =>
+        DateOnly.TryParseExact(value, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out var date)
+            ? date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)
+            : value;
+
+    private static string ToInputDate(string value)
+    {
+        string[] formats = ["dd/MM/yyyy", "yyyy-MM-dd"];
+        return DateOnly.TryParseExact(value, formats, CultureInfo.InvariantCulture, DateTimeStyles.None, out var date)
+            ? date.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)
+            : value;
     }
 
     private static string SafeAttachmentRelativePath(string value)
@@ -1077,16 +1217,17 @@ public sealed class AdminController(
         bool required,
         CancellationToken cancellationToken)
     {
+        SanitizeResourceContent(model.English, model.Hindi, model.Odia);
         if (!Districts.Contains(model.District))
         {
             ModelState.AddModelError(nameof(model.District), "Select a valid Odisha district.");
         }
-        var pdfError = await files.ValidatePdfAsync(model.PdfFile, required, cancellationToken);
+        var pdfError = await files.ValidatePdfResourceAsync(model.PdfFile, required, cancellationToken);
         if (pdfError is not null)
         {
             ModelState.AddModelError(nameof(model.PdfFile), pdfError);
         }
-        var previewError = await files.ValidateWebpAsync(model.PreviewImage, required, cancellationToken);
+        var previewError = await files.ValidatePreviewImageAsync(model.PreviewImage, required, cancellationToken);
         if (previewError is not null)
         {
             ModelState.AddModelError(nameof(model.PreviewImage), previewError);
@@ -1098,11 +1239,12 @@ public sealed class AdminController(
         bool required,
         CancellationToken cancellationToken)
     {
+        SanitizeResourceContent(model.English, model.Hindi, model.Odia);
         if (!Districts.Contains(model.District))
         {
             ModelState.AddModelError(nameof(model.District), "Select a valid Odisha district.");
         }
-        var pdfError = await files.ValidatePdfAsync(model.PdfFile, required, cancellationToken);
+        var pdfError = await files.ValidatePdfResourceAsync(model.PdfFile, required, cancellationToken);
         if (pdfError is not null)
         {
             ModelState.AddModelError(nameof(model.PdfFile), pdfError);
@@ -1122,11 +1264,12 @@ public sealed class AdminController(
         bool required,
         CancellationToken cancellationToken)
     {
+        SanitizeResourceContent(model.English, model.Hindi, model.Odia);
         if (!Districts.Contains(model.District))
         {
             ModelState.AddModelError(nameof(model.District), "Select a valid Odisha district.");
         }
-        var pdfError = await files.ValidatePdfAsync(model.PdfFile, required, cancellationToken);
+        var pdfError = await files.ValidatePdfResourceAsync(model.PdfFile, required, cancellationToken);
         if (pdfError is not null)
         {
             ModelState.AddModelError(nameof(model.PdfFile), pdfError);
@@ -1150,6 +1293,15 @@ public sealed class AdminController(
         Title = string.IsNullOrWhiteSpace(title) ? fallbackTitle ?? "" : title,
         Description = string.IsNullOrWhiteSpace(description) ? fallbackDescription ?? "" : description
     };
+
+    private void SanitizeResourceContent(params PdfResourceLanguageInput[] inputs)
+    {
+        foreach (var input in inputs)
+        {
+            input.Title = richTextSanitizer.Sanitize(input.Title);
+            input.Description = richTextSanitizer.Sanitize(input.Description);
+        }
+    }
 
     private void SetDistricts() => ViewBag.Districts = Districts;
 }

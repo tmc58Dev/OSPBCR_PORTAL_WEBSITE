@@ -6,7 +6,9 @@ using OSPBCR_PORTAL.Models;
 
 namespace OSPBCR_PORTAL.Services;
 
-public sealed class NewsDownloadService(IWebHostEnvironment environment) : INewsDownloadService
+public sealed class NewsDownloadService(
+    IWebHostEnvironment environment,
+    IManagedFileStorage managedFiles) : INewsDownloadService
 {
     private readonly string _webRoot = Path.GetFullPath(environment.WebRootPath);
 
@@ -72,7 +74,7 @@ public sealed class NewsDownloadService(IWebHostEnvironment environment) : INews
         var entries = new List<string>();
         for (var index = 0; index < paths.Count; index++)
         {
-            var sourcePath = ResolveWebRootPath(paths[index]);
+            var sourcePath = ResolveSourcePath(paths[index]);
             if (sourcePath is null || !File.Exists(sourcePath))
             {
                 continue;
@@ -94,7 +96,7 @@ public sealed class NewsDownloadService(IWebHostEnvironment environment) : INews
         var usedNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         foreach (var attachment in attachments)
         {
-            var sourcePath = ResolveWebRootPath(attachment.StoredPath);
+            var sourcePath = ResolveSourcePath(attachment.StoredPath);
             if (sourcePath is null || !File.Exists(sourcePath))
             {
                 continue;
@@ -139,6 +141,9 @@ public sealed class NewsDownloadService(IWebHostEnvironment environment) : INews
             return null;
         }
     }
+
+    private string? ResolveSourcePath(string? publicPath) =>
+        managedFiles.ResolveManagedPath(publicPath) ?? ResolveWebRootPath(publicPath);
 
     private static async Task AddFileEntryAsync(
         ZipArchive archive,
@@ -226,7 +231,7 @@ public sealed class NewsDownloadService(IWebHostEnvironment environment) : INews
               <article>
                 <section class="gallery">{{{images}}}</section>
                 <section class="content">
-                  <div class="meta"><span>{{{WebUtility.HtmlEncode(publishedLabel)}}}: {{{translation.PublishDate.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)}}}</span><span class="language">{{{languageName}}}</span></div>
+                  <div class="meta"><span>{{{WebUtility.HtmlEncode(publishedLabel)}}}: {{{WebUtility.HtmlEncode(translation.PublishDate)}}}</span><span class="language">{{{languageName}}}</span></div>
                   <h1>{{{title}}}</h1>
                   <p class="note">{{{note}}}</p>
                   <footer>{{{footer}}}</footer>
@@ -246,7 +251,7 @@ public sealed class NewsDownloadService(IWebHostEnvironment environment) : INews
         =================
         Title: {translation.Title}
         Language: {language}
-        Published: {translation.PublishDate:dd/MM/yyyy}
+        Published: {translation.PublishDate}
 
         Open index.html in a web browser to read or print the styled News Card.
         Images are stored in the images folder.

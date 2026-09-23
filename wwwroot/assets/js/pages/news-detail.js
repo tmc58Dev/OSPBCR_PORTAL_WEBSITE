@@ -73,7 +73,7 @@
         let ignoreInitialWebsiteLanguage = Boolean(requestedLanguage);
 
         document.documentElement.lang = language;
-        back.href = `trending.html?${new URLSearchParams({ language, dateOrder }).toString()}`;
+        back.href = `trending?${new URLSearchParams({ language, dateOrder }).toString()}`;
         backLabel.textContent = labels.back;
         kicker.textContent = labels.kicker;
         heading.textContent = labels.heading;
@@ -146,17 +146,18 @@
             const media = document.createElement("div");
             media.className = "trending-detail-media";
             const imagePaths = imagePathsFor(item);
+            const titleText = window.OSPBCRRichText?.toPlainText(item.title) || item.title;
             imageCount = imagePaths.length;
 
             const gallery = document.createElement("div");
             gallery.className = "trending-card-gallery";
             gallery.dataset.trendingImageTrack = "";
-            gallery.setAttribute("aria-label", `${item.title}: ${imageCount} photo${imageCount === 1 ? "" : "s"}`);
+            gallery.setAttribute("aria-label", `${titleText}: ${imageCount} photo${imageCount === 1 ? "" : "s"}`);
 
             imagePaths.forEach((path, index) => {
                 const image = document.createElement("img");
                 image.src = path;
-                image.alt = index === 0 ? item.title : `${item.title} - photo ${index + 1}`;
+                image.alt = index === 0 ? titleText : `${titleText} - photo ${index + 1}`;
                 image.loading = index === 0 ? "eager" : "lazy";
                 image.decoding = "async";
                 image.dataset.trendingCardImage = "";
@@ -269,19 +270,18 @@
             date.dateTime = toIsoDate(item.publishDate);
             meta.append(published, date);
 
-            const title = document.createElement("h2");
-            title.textContent = item.title;
             const note = document.createElement("div");
-            note.className = "trending-card-note";
+            note.className = "trending-card-note rich-text-content";
             note.innerHTML = window.OSPBCRRichText?.sanitize(item.textNote) || "";
             const footer = document.createElement("footer");
             footer.className = "trending-card-footer";
             const footerText = document.createElement("span");
+            footerText.className = "rich-text-content";
             footerText.innerHTML = window.OSPBCRRichText?.sanitize(item.footer) || "";
             footer.appendChild(footerText);
             const attachments = createAttachments(item);
 
-            detail.append(meta, title);
+            detail.append(meta);
             if (attachments) detail.appendChild(attachments);
             detail.append(note, footer);
             article.append(createMedia(item), detail);
@@ -310,8 +310,9 @@
 
                 content.replaceChildren(createArticle(selected));
                 status.hidden = true;
-                heading.textContent = selected.title;
-                document.title = `${selected.title} | OSPBCR`;
+                const plainTitle = window.OSPBCRRichText?.toPlainText(selected.title) || selected.title;
+                heading.innerHTML = window.OSPBCRRichText?.sanitize(selected.title) || "";
+                document.title = `${plainTitle} | OSPBCR`;
                 startRotation();
             } catch (error) {
                 console.error("News story could not be loaded.", error);

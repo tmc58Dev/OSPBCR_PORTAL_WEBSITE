@@ -63,6 +63,8 @@
         let loadedItems = [];
         let requestVersion = 0;
         let ignoreInitialWebsiteLanguage = Boolean(requestedLanguage);
+        let slideshowTimer = 0;
+        const slideshowDelay = 4500;
 
         function currentWebsiteLanguage() {
             const language = window.i18n?.getLanguage?.() || localStorage.getItem("ospbcr-language") || "en";
@@ -114,14 +116,8 @@
             status.hidden = false;
         }
 
-        function showCardImage(card, index) {
-            const imageTrack = card?.querySelector("[data-trending-image-track]");
-            const images = Array.from(card?.querySelectorAll("[data-trending-card-image]") || []);
-            if (!imageTrack || !images.length) return;
-
-            const activeImageIndex = (index + images.length) % images.length;
+        function updateCardImageStatus(card, activeImageIndex, images) {
             card.dataset.activeImage = String(activeImageIndex);
-            imageTrack.style.transform = `translateX(-${activeImageIndex * 100}%)`;
             images.forEach((image, imageIndex) => {
                 image.setAttribute("aria-hidden", String(imageIndex !== activeImageIndex));
             });
@@ -134,10 +130,57 @@
             }
         }
 
-        function moveCardImage(card, direction) {
+        function showCardImage(card, index, animate = true) {
+            const imageTrack = card?.querySelector("[data-trending-image-track]");
+            const images = Array.from(card?.querySelectorAll("[data-trending-card-image]") || []);
+            if (!imageTrack || !images.length || imageTrack.classList.contains("is-animating")) return;
+
+            const activeImageIndex = (index + images.length) % images.length;
+            const currentImageIndex = Number.parseInt(card.dataset.activeImage || "0", 10);
+            const currentImage = images[currentImageIndex];
+            const nextImage = images[activeImageIndex];
+            const shouldAnimate = animate && currentImage !== nextImage &&
+                !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+            updateCardImageStatus(card, activeImageIndex, images);
+
+            if (!shouldAnimate) {
+                images.forEach((image, imageIndex) => {
+                    image.classList.toggle("is-active", imageIndex === activeImageIndex);
+                    image.classList.remove("is-slider-incoming", "is-slider-outgoing");
+                });
+                return;
+            }
+
+            nextImage.classList.add("is-slider-incoming");
+            void imageTrack.offsetWidth;
+            imageTrack.classList.add("is-animating");
+            currentImage.classList.remove("is-active");
+            currentImage.classList.add("is-slider-outgoing");
+            nextImage.classList.add("is-active");
+
+            nextImage.addEventListener("transitionend", () => {
+                imageTrack.classList.remove("is-animating");
+                currentImage.classList.remove("is-slider-outgoing");
+                nextImage.classList.remove("is-slider-incoming");
+            }, { once: true });
+        }
+
+        function moveCardImage(card) {
             if (!card) return;
             const currentImage = Number.parseInt(card.dataset.activeImage || "0", 10);
-            showCardImage(card, currentImage + direction);
+            showCardImage(card, currentImage + 1);
+        }
+
+        function startSlideshows() {
+            window.clearInterval(slideshowTimer);
+            slideshowTimer = window.setInterval(() => {
+                list.querySelectorAll(".trending-card").forEach((card) => {
+                    if (!card.matches(":hover") && !card.contains(document.activeElement)) {
+                        moveCardImage(card);
+                    }
+                });
+            }, slideshowDelay);
         }
 
         function createMedia(item) {
@@ -145,22 +188,24 @@
             media.className = "trending-card-media";
 
             const imagePaths = imagePathsFor(item);
+            const titleText = window.OSPBCRRichText?.toPlainText(item.title) || item.title;
             const gallery = document.createElement("div");
-            gallery.className = "trending-card-gallery";
+            gallery.className = "trending-card-gallery is-directional-slider";
             gallery.dataset.trendingImageTrack = "";
             gallery.setAttribute(
                 "aria-label",
-                `${item.title}: ${imagePaths.length} photo${imagePaths.length === 1 ? "" : "s"}`
+                `${titleText}: ${imagePaths.length} photo${imagePaths.length === 1 ? "" : "s"}`
             );
 
             imagePaths.forEach((path, index) => {
                 const image = document.createElement("img");
                 image.src = path;
-                image.alt = index === 0 ? item.title : `${item.title} — photo ${index + 1}`;
+                image.alt = index === 0 ? titleText : `${titleText} — photo ${index + 1}`;
                 image.loading = "lazy";
                 image.decoding = "async";
                 image.dataset.trendingCardImage = "";
                 image.setAttribute("aria-hidden", String(index !== 0));
+                image.classList.toggle("is-active", index === 0);
                 gallery.appendChild(image);
             });
 
@@ -171,14 +216,6 @@
 
             if (imagePaths.length > 1) {
                 const copy = messages[item.language] || messages.en;
-                const previous = document.createElement("button");
-                previous.type = "button";
-                previous.className = "trending-image-control trending-image-previous";
-                previous.dataset.trendingImagePrevious = "";
-                previous.setAttribute("aria-label", copy.previousPhoto);
-                previous.title = copy.previousPhoto;
-                previous.innerHTML = '<span aria-hidden="true">‹</span>';
-
                 const next = document.createElement("button");
                 next.type = "button";
                 next.className = "trending-image-control trending-image-next";
@@ -187,7 +224,7 @@
                 next.title = copy.nextPhoto;
                 next.innerHTML = '<span aria-hidden="true">›</span>';
 
-                media.append(previous, next);
+                media.append(next);
 
                 const photoCount = document.createElement("span");
                 photoCount.className = "trending-card-photo-count";
@@ -223,13 +260,15 @@
             const content = document.createElement("div");
             content.className = "trending-card-content";
 
-            const title = document.createElement("h2");
-            title.textContent = item.title;
+            const title = document.createElement("div");
+            title.className = "news-story-title rich-text-title rich-text-content";
+            title.setAttribute("role", "heading");
+            title.setAttribute("aria-level", "2");
+            title.innerHTML = window.OSPBCRRichText?.sanitize(item.title) || "";
 
-            const date = document.createElement("time");
+            const date = document.createElement("span");
             date.className = "trending-card-date";
             date.textContent = item.publishDate;
-            date.dateTime = toIsoDate(item.publishDate);
 
             const viewMore = document.createElement("a");
             viewMore.className = "trending-learn-more";
@@ -238,9 +277,9 @@
                 language: item.language,
                 dateOrder: activeDateOrder
             });
-            viewMore.href = `news-detail.html?${detailQuery.toString()}`;
+            viewMore.href = `news-detail?${detailQuery.toString()}`;
             viewMore.textContent = viewMoreLabels[item.language] || viewMoreLabels.en;
-            viewMore.setAttribute("aria-label", `${viewMore.textContent}: ${item.title}`);
+            viewMore.setAttribute("aria-label", `${viewMore.textContent}: ${window.OSPBCRRichText?.toPlainText(item.title) || item.title}`);
 
             const actions = document.createElement("div");
             actions.className = "trending-card-actions";
@@ -258,7 +297,8 @@
         }
 
         function newsDateValue(value) {
-            const [day, month, year] = String(value || "").split("/").map(Number);
+            const plainText = window.OSPBCRRichText?.toPlainText(value) || String(value || "");
+            const [day, month, year] = plainText.split("/").map(Number);
             return day && month && year ? Date.UTC(year, month - 1, day) : 0;
         }
 
@@ -276,6 +316,7 @@
             status.hidden = loadedItems.length > 0;
             status.classList.remove("is-error");
             if (!loadedItems.length) setStatus(currentMessages().empty);
+            startSlideshows();
         }
 
         async function loadNews() {
@@ -331,11 +372,9 @@
         });
 
         list.addEventListener("click", (event) => {
-            const previousImage = event.target.closest?.("[data-trending-image-previous]");
             const nextImage = event.target.closest?.("[data-trending-image-next]");
-            if (previousImage || nextImage) {
-                const card = (previousImage || nextImage).closest(".trending-card");
-                moveCardImage(card, previousImage ? -1 : 1);
+            if (nextImage) {
+                moveCardImage(nextImage.closest(".trending-card"));
             }
         });
 

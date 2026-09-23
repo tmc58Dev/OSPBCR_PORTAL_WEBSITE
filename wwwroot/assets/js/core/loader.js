@@ -27,12 +27,12 @@ function syncNavbarScrollState() {
 }
 
 function syncActiveNavigation() {
-    const currentPage = window.location.pathname.split("/").pop() || "home.html";
+    const currentPage = window.location.pathname.split("/").pop() || "home";
 
     document.querySelectorAll(".nav-menu .nav-link[href]").forEach(link => {
         const linkUrl = new URL(link.getAttribute("href"), window.location.href);
-        const linkPage = linkUrl.pathname.split("/").pop();
-        const isActive = linkPage === currentPage;
+        const linkPage = linkUrl.pathname.split("/").pop() || "home";
+        const isActive = linkPage === currentPage || (linkPage === "home" && currentPage === "home.html");
 
         link.classList.toggle("active", isActive);
 

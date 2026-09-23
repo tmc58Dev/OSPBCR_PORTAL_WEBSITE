@@ -1223,7 +1223,8 @@
 
 }
 
-.district-pdf-meta h4 {
+.district-pdf-meta h4,
+.district-pdf-rich-title {
 
     margin-bottom: 12px;
     font-weight: 800;

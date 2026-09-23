@@ -11,19 +11,10 @@ namespace OSPBCR_PORTAL.Controllers;
 [Route("api/content")]
 public sealed class ContentController(
     ICmsRepository repository,
-    IDistrictTrainingStore trainingStore,
     IManagedFileStorage files,
-    IWebHostEnvironment environment,
     ILogger<ContentController> logger) : ControllerBase
 {
     private const string WebsiteVisitCookieName = "OSPBCR.WebsiteVisited";
-
-    private readonly string _cancerBurdenPdfRoot = Path.GetFullPath(Path.Combine(
-        environment.WebRootPath,
-        "assets",
-        "IMAGES_PDF_PPT_EXCEL",
-        "CANCER BURDEN",
-        "PDF"));
 
     [HttpGet("news")]
     [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
@@ -131,17 +122,30 @@ public sealed class ContentController(
     }
 
     [HttpGet("training-pdfs")]
-    [ResponseCache(Duration = 30, Location = ResponseCacheLocation.Any)]
+    [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
     public async Task<IActionResult> TrainingPdfs(
         [FromQuery] string language = "en",
-        CancellationToken cancellationToken = default) =>
-        Ok((await trainingStore.GetAllAsync(cancellationToken)).Select(record => Localize(
-            record.Id, record.District, record.Title, record.Description,
-            record.TitleHi, record.DescriptionHi, record.TitleOr, record.DescriptionOr,
-            record.PdfPath, record.PreviewPath, language)));
+        CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var records = await repository.GetDistrictTrainingRecordsAsync(cancellationToken);
+            return Ok(records.Select(record => Localize(
+                record.Id, record.District, record.Title, record.Description,
+                record.TitleHi, record.DescriptionHi, record.TitleOr, record.DescriptionOr,
+                record.PdfPath, record.PreviewPath, language)));
+        }
+        catch (Exception exception)
+        {
+            logger.LogError(exception, "District training PDF records could not be loaded.");
+            return StatusCode(
+                StatusCodes.Status503ServiceUnavailable,
+                new { message = "District training PDFs are temporarily unavailable." });
+        }
+    }
 
     [HttpGet("cancer-burden-pdfs")]
-    [ResponseCache(Duration = 30, Location = ResponseCacheLocation.Any)]
+    [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
     public async Task<IActionResult> CancerBurdenPdfs(
         [FromQuery] string language = "en",
         CancellationToken cancellationToken = default)
@@ -149,12 +153,10 @@ public sealed class ContentController(
         try
         {
             var records = await repository.GetCancerBurdenRecordsAsync(cancellationToken);
-            return Ok(records
-                .Where(record => IsCancerBurdenPdfPresent(record.PdfPath))
-                .Select(record => Localize(
-                    record.Id, record.District, record.Title, record.Description,
-                    record.TitleHi, record.DescriptionHi, record.TitleOr, record.DescriptionOr,
-                    record.PdfPath, record.PreviewPath, language)));
+            return Ok(records.Select(record => Localize(
+                record.Id, record.District, record.Title, record.Description,
+                record.TitleHi, record.DescriptionHi, record.TitleOr, record.DescriptionOr,
+                record.PdfPath, record.PreviewPath, language)));
         }
         catch (Exception exception)
         {
@@ -165,33 +167,8 @@ public sealed class ContentController(
         }
     }
 
-    private bool IsCancerBurdenPdfPresent(string publicPath)
-    {
-        if (string.IsNullOrWhiteSpace(publicPath))
-        {
-            return false;
-        }
-
-        try
-        {
-            var pathWithoutQuery = publicPath.Split('?', '#')[0];
-            var relativePath = Uri.UnescapeDataString(pathWithoutQuery)
-                .TrimStart('/', '\\')
-                .Replace('/', Path.DirectorySeparatorChar);
-            var fullPath = Path.GetFullPath(Path.Combine(environment.WebRootPath, relativePath));
-
-            return string.Equals(Path.GetExtension(fullPath), ".pdf", StringComparison.OrdinalIgnoreCase) &&
-                fullPath.StartsWith(_cancerBurdenPdfRoot + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase) &&
-                System.IO.File.Exists(fullPath);
-        }
-        catch (Exception exception) when (exception is ArgumentException or NotSupportedException or PathTooLongException or UriFormatException)
-        {
-            return false;
-        }
-    }
-
     [HttpGet("odisha-circulars")]
-    [ResponseCache(Duration = 30, Location = ResponseCacheLocation.Any)]
+    [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
     public async Task<IActionResult> OdishaCirculars(
         [FromQuery] string language = "en",
         CancellationToken cancellationToken = default)

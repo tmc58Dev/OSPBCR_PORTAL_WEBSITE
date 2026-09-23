@@ -5,13 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Full news story from the Odisha State Population-Based Cancer Registry.">
+    <link rel="canonical" href="news-detail">
     <title>OSPBCR | News</title>
 
     <link href="lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/main.css?v=20260801-site-80-percent">
+    <link rel="stylesheet" href="assets/css/main.css?v=20260912-word-paste-fields-v2">
     <link rel="stylesheet" href="assets/css/design-system.css?v=20260802-navbar-plus-3px">
-    <link rel="stylesheet" href="assets/css/pages/trending.css?v=20260909-direct-attachments">
-    <link rel="stylesheet" href="assets/css/pages/news-detail.css?v=20260909-direct-attachments">
+    <link rel="stylesheet" href="assets/css/pages/trending.css?v=20260913-cms-title-parity">
+    <link rel="stylesheet" href="assets/css/pages/news-detail.css?v=20260913-cms-title-scale-parity">
 </head>
 
 <body class="news-detail-page">
@@ -20,14 +21,18 @@
     <main>
         <section class="news-detail-section" aria-labelledby="news-detail-heading">
             <div class="container-custom">
-                <a class="news-detail-back" data-news-back href="trending.html?dateOrder=desc">
+                <a class="news-detail-back" data-news-back href="trending?dateOrder=desc">
                     <span aria-hidden="true">&larr;</span>
                     <span data-news-back-label>Back to Trending News</span>
                 </a>
 
                 <header class="news-detail-heading">
                     <span class="trending-kicker" data-news-kicker>Trending News</span>
-                    <h1 id="news-detail-heading" data-news-heading>Full News Story</h1>
+                    <div class="news-story-title rich-text-title rich-text-content"
+                         id="news-detail-heading"
+                         data-news-heading
+                         role="heading"
+                         aria-level="1">Full News Story</div>
                 </header>
 
                 <div class="trending-status news-detail-status" data-news-status role="status" aria-live="polite">
@@ -40,10 +45,10 @@
 
     <div id="footer-container"></div>
 
-    <script src="assets/js/core/i18n.js?v=20260831-translation-audit"></script>
-    <script src="assets/js/core/rich-text.js?v=20260909-wysiwyg"></script>
+    <script src="assets/js/core/i18n.js?v=20260918-odia-corrections"></script>
+    <script src="assets/js/core/rich-text.js?v=20260913-toolbar-v5"></script>
     <script src="assets/js/core/loader.js?v=20260817-news-detail-page"></script>
-    <script src="assets/js/pages/news-detail.js?v=20260909-direct-attachments"></script>
+    <script src="assets/js/pages/news-detail.js?v=20260913-canonical-title"></script>
 </body>
 
 </html>
