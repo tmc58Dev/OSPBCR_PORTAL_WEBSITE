@@ -265,7 +265,7 @@ const teamSections = [
             },
             {
                 name: "Sachin Patil",
-                designation: "Administrative Assistant, CCE, TMC",
+                designation: "Sr. Coordinator (Administration), CCE, TMC",
                 image: "assets/IMAGES_PDF_PPT_EXCEL/OUR TEAM/Sachin Patil.webp"
             }
         ]
